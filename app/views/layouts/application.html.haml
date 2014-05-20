@@ -1,0 +1,32 @@
+!!!
+%html
+  %head
+    %title Hspace
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  %body
+    %nav.navbar.navbar-default{:role => "navigation"}
+      .container-fluid
+        .navbar-header
+          %button.navbar-toggle{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.navbar-brand{:href => "#"} Minsk Hackerspace
+        .collapse.navbar-collapse
+          %ul.nav.navbar-nav
+            %li.active
+              %a{:href => "#"} О нас
+            %li
+              %a{:href => "#"} Проекты
+            %li
+              %a{:href => "#"} Календарь
+            %li
+              %a{:href => "#"} Фотографии
+
+          %ul.nav.navbar-nav.navbar-right
+            %li
+              %a{:href => "#"} Вход
+    = yield
