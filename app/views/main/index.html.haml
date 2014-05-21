@@ -1,7 +1,9 @@
 .container.marketing
   .jumbotron
-    %h1 Hello, world!
-    %p This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action.
+    %h1
+      =t 'index.hello_world', default: 'Hello World'
+    %p
+      =t 'index.hello_world_description', default: 'Description'
   .row.featurette
     .col-md-7
       %h2.featurette-heading
