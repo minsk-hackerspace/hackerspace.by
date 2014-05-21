@@ -7,9 +7,11 @@
   .row.featurette
     .col-md-7
       %h2.featurette-heading
-        Что это такое?
-        %span.text-muted It'll blow your mind.
-      %p.lead Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
+        = t 'index.what_is_it', default: 'Что это такое?'
+        %span.text-muted
+          = t 'index.what_is_it_muted', default: 'It will blow your mind.'
+      %p.lead
+        =t 'index.what_is_it_content', default: 'It will blow your mind.'
     .col-md-5
       %img.featurette-image.img-responsive{alt: "Generic placeholder image", src: "https://scontent-a-vie.xx.fbcdn.net/hphotos-ash3/t1.0-9/1457652_248205555338483_1951265567_n.png"}
   %hr.featurette-divider
@@ -18,16 +20,20 @@
         %img.featurette-image.img-responsive{alt: "Generic placeholder image", src: "https://scontent-a-vie.xx.fbcdn.net/hphotos-ash3/t1.0-9/1457652_248205555338483_1951265567_n.png"}
       .col-md-7
         %h2.featurette-heading
-          Чем мы здесь занимаемся?
-          %span.text-muted See for yourself.
-        %p.lead Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
+          = t 'index.what_we_do', default: 'Чем мы здесь занимаемся?'
+          %span.text-muted
+            = t 'index.what_we_do_muted', default: 'Чем мы здесь занимаемся?'
+        %p.lead
+          = t 'index.what_we_do_content', default: 'Чем мы здесь занимаемся?'
     %hr.featurette-divider
       .row.featurette
         .col-md-7
           %h2.featurette-heading
-            Сколько это стоит?
-            %span.text-muted Как к нам присоединиться?
-          %p.lead Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
+            = t 'index.how_to_join', default: 'Сколько это стоит?'
+            %span.text-muted
+              = t 'index.how_to_join_muted', default: 'Как к нам присоединиться?'
+          %p.lead
+            = t 'index.how_to_join_content', default: 'Как к нам присоединиться?'
         .col-md-5
           %img.featurette-image.img-responsive{alt: "Generic placeholder image", src: "https://scontent-a-vie.xx.fbcdn.net/hphotos-ash3/t1.0-9/1457652_248205555338483_1951265567_n.png"}
       %hr.featurette-divider
