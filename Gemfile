@@ -34,7 +34,7 @@ gem 'sass-rails', '~> 4.0.3'
 gem 'bootstrap-sass', '>= 3.1.1'
 gem 'haml'
 gem 'haml-rails'
-gem 'copycopter_client', '~> 2.0.1'
+#gem 'copycopter_client', '~> 2.0.1'
 
 # Use unicorn as the app server
 # gem 'unicorn'

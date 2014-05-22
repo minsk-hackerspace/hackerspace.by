@@ -1,17 +1,17 @@
 .container.marketing
   .jumbotron
     %h1
-      =t 'index.hello_world', default: 'Hello World'
+      =t 'index.hello_world'
     %p
-      =t 'index.hello_world_description', default: 'Description'
+      =t 'index.hello_world_description'
   .row.featurette
     .col-md-7
       %h2.featurette-heading
-        = t 'index.what_is_it', default: 'Что это такое?'
+        = t 'index.what_is_it'
         %span.text-muted
-          = t 'index.what_is_it_muted', default: 'It will blow your mind.'
+          = t 'index.what_is_it_muted'
       %p.lead
-        =t 'index.what_is_it_content', default: 'It will blow your mind.'
+        =t('index.what_is_it_content').html_safe
     .col-md-5
       %img.featurette-image.img-responsive{alt: "Generic placeholder image", src: "https://scontent-a-vie.xx.fbcdn.net/hphotos-ash3/t1.0-9/1457652_248205555338483_1951265567_n.png"}
   %hr.featurette-divider
@@ -20,20 +20,41 @@
         %img.featurette-image.img-responsive{alt: "Generic placeholder image", src: "https://scontent-a-vie.xx.fbcdn.net/hphotos-ash3/t1.0-9/1457652_248205555338483_1951265567_n.png"}
       .col-md-7
         %h2.featurette-heading
-          = t 'index.what_we_do', default: 'Чем мы здесь занимаемся?'
+          = t 'index.what_we_do'
           %span.text-muted
-            = t 'index.what_we_do_muted', default: 'Чем мы здесь занимаемся?'
+            = t 'index.what_we_do_muted'
         %p.lead
-          = t 'index.what_we_do_content', default: 'Чем мы здесь занимаемся?'
+          = t 'index.what_we_do_content'
     %hr.featurette-divider
       .row.featurette
         .col-md-7
           %h2.featurette-heading
-            = t 'index.how_to_join', default: 'Сколько это стоит?'
+            = t 'index.how_to_join'
             %span.text-muted
-              = t 'index.how_to_join_muted', default: 'Как к нам присоединиться?'
+              = t 'index.how_to_join_muted'
           %p.lead
-            = t 'index.how_to_join_content', default: 'Как к нам присоединиться?'
+            = t 'index.how_to_join_content'
         .col-md-5
           %img.featurette-image.img-responsive{alt: "Generic placeholder image", src: "https://scontent-a-vie.xx.fbcdn.net/hphotos-ash3/t1.0-9/1457652_248205555338483_1951265567_n.png"}
       %hr.featurette-divider
+        .row.featurette
+          .col-md-5
+            %img.featurette-image.img-responsive{alt: "Generic placeholder image", src: "https://scontent-a-vie.xx.fbcdn.net/hphotos-ash3/t1.0-9/1457652_248205555338483_1951265567_n.png"}
+          .col-md-7
+            %h2.featurette-heading
+              = t 'index.what_we_have'
+              %span.text-muted
+                = t 'index.what_we_have_muted'
+            %p.lead
+              = t 'index.what_we_have_content'
+        %hr.featurette-divider
+          .row.featurette
+            .col-md-7
+              %h2.featurette-heading
+                = t 'index.how_to_find'
+                %span.text-muted
+                  = t 'index.how_to_find_muted'
+              %p.lead
+                = t('index.how_to_find_content').html_safe
+            .col-md-5
+              %img.featurette-image.img-responsive{alt: "Generic placeholder image", src: "https://scontent-a-vie.xx.fbcdn.net/hphotos-ash3/t1.0-9/1457652_248205555338483_1951265567_n.png"}
