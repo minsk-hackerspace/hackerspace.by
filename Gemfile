@@ -44,3 +44,4 @@ gem 'faker'
 gem 'capistrano', '~> 2'
 gem 'rvm-capistrano'
 
+gem 'tail'

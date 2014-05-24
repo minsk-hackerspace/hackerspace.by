@@ -139,6 +139,8 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
+    tail (0.1.5)
+      rails (>= 4.0)
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
@@ -182,6 +184,7 @@ DEPENDENCIES
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
   spring
+  tail
   therubyracer
   thin
   turbolinks
