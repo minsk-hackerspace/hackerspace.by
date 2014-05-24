@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :projects
+
   get 'main/index'
   get 'main/projects'
   get 'main/rules'

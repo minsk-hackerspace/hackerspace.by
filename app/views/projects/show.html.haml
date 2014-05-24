@@ -1,0 +1,13 @@
+%p#notice= notice
+
+%h1
+  = @project.name
+%p.lead
+  = @project.short_desc
+%hr
+%p.lead
+  = @project.full_desc
+
+= link_to 'Edit', edit_project_path(@project), class: 'btn btn-default btn-xs'
+
+= link_to 'Back', projects_path, class: 'btn btn-default btn-xs'
