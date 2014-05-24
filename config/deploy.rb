@@ -72,14 +72,14 @@ namespace :deploy do
   %w(start stop).each do |action|
     desc "#{action} the Thin processes"
 
-    task action.to_sym do
+    task action.to_sym, :on_error => :continue do
       find_and_execute_task("thin:#{action}")
     end
   end
 
-  task :restart do
-    find_and_execute_task("thin:stop")
-    find_and_execute_task("thin:start")
+  task :restart, :on_error => :continue do
+    find_and_execute_task("deploy:stop")
+    find_and_execute_task("deploy:start")
   end
 
   # desc "Restart the application."
