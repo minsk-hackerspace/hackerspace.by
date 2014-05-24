@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  resources :projects
+  devise_for :users
 
+  resources :projects
   get 'main/index'
   get 'main/projects'
   get 'main/rules'

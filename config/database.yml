@@ -6,8 +6,13 @@
 #
 default: &default
   adapter: postgresql
+  encoding: unicode
+  host: localhost
+  database: hspace_development
   pool: 5
-  timeout: 5000
+  username: myapp
+  password: password1
+
 
 development:
   <<: *default
