@@ -38,3 +38,8 @@ gem 'haml-rails'
 
 gem 'faker'
 
+# Use Capistrano for deployment
+# gem 'capistrano-rails', group: :development
+gem 'capistrano', '~> 2'
+gem 'rvm-capistrano'
+

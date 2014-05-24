@@ -32,6 +32,12 @@ GEM
     bootstrap-sass (3.1.1.0)
       sass (~> 3.2)
     builder (3.2.2)
+    capistrano (2.15.5)
+      highline
+      net-scp (>= 1.0.0)
+      net-sftp (>= 2.0.0)
+      net-ssh (>= 2.0.14)
+      net-ssh-gateway (>= 1.1.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -56,6 +62,7 @@ GEM
       activesupport (>= 4.0.1)
       haml (>= 3.1, < 5.0)
       railties (>= 4.0.1)
+    highline (1.6.21)
     hike (1.2.3)
     i18n (0.6.9)
     jbuilder (2.0.7)
@@ -72,6 +79,13 @@ GEM
     mime-types (1.25.1)
     minitest (5.3.4)
     multi_json (1.10.1)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-sftp (2.1.2)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.9.1)
+    net-ssh-gateway (1.2.0)
+      net-ssh (>= 2.6.5)
     orm_adapter (0.5.0)
     pg (0.17.1)
     polyglot (0.3.4)
@@ -102,6 +116,8 @@ GEM
     rdoc (4.1.1)
       json (~> 1.4)
     ref (1.0.5)
+    rvm-capistrano (1.5.1)
+      capistrano (~> 2.15.4)
     sass (3.2.19)
     sass-rails (4.0.3)
       railties (>= 4.0.0, < 5.0)
@@ -145,6 +161,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootstrap-sass (>= 3.1.1)
+  capistrano (~> 2)
   coffee-rails (~> 4.0.0)
   devise
   faker
@@ -155,6 +172,7 @@ DEPENDENCIES
   pg
   rails (= 4.1.0)
   rails_12factor
+  rvm-capistrano
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
   spring
