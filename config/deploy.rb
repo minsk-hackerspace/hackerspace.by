@@ -16,6 +16,8 @@ set :hspace_group, 'hspace'
 
 set :rvm_ruby_string, :local
 set :rvm_type, :system
+set :bundle_dir, ''
+set :bundle_flags, '--system --quiet'
 
 default_run_options[:pty] = true  # Must be set for the password prompt from git to work
 ssh_options[:forward_agent] = true
@@ -93,7 +95,7 @@ namespace :thin do
   %w(start stop restart).each do |action|
     desc "#{action} the app's Thin Cluster"
     task action.to_sym, :roles => :web do
-      run "sudo /usr/sbin/service thin #{action}"
+      run "cd #{release_path} && bundle exec thin #{action} -d"
     end
   end
 end
@@ -101,7 +103,7 @@ end
 task :do_post_update_code_work do
   # install gems as needed in shared bundle folder instead of gemset
   run "rm -f #{release_path}/.rvmrc"
-  run "cd #{release_path} && bundle install --without development test --path #{shared_path}/bundle"
+  run "cd #{release_path} && bundle install --without development test"
 
   # switch cache folder to be owned by low priv process that will be running under thin
   run "mkdir -p #{release_path}/tmp/cache"
