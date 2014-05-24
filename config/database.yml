@@ -8,10 +8,10 @@ default: &default
   adapter: postgresql
   encoding: unicode
   host: localhost
-  database: hspace_development
+#  database: hspace_development
   pool: 5
-  username: myapp
-  password: password1
+#  username: myapp
+#  password: password1
 
 
 development:
