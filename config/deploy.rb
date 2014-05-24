@@ -4,6 +4,7 @@ require 'bundler/capistrano'
 require 'capistrano/ext/multistage'
 require 'rubygems'
 require 'action_view'
+require 'time'
 
 set :default_stage, 'staging'
 
