@@ -15,7 +15,7 @@ set :user, 'deployer'  # The server's user for deploys
 set :hspace_user, 'hspace'
 set :hspace_group, 'hspace'
 
-set :rvm_ruby_string, '2.1.1'
+set :rvm_ruby_string, '2.1.1@hspace'
 set :rvm_type, :system
 set :bundle_dir, ''
 set :bundle_flags, '--system --quiet'
