@@ -69,12 +69,17 @@ namespace :rvm do
 end
 
 namespace :deploy do
-  %w(start stop restart).each do |action|
+  %w(start stop).each do |action|
     desc "#{action} the Thin processes"
 
     task action.to_sym do
       find_and_execute_task("thin:#{action}")
     end
+  end
+
+  task :restart do
+    find_and_execute_task("thin:stop")
+    find_and_execute_task("thin:start")
   end
 
   # desc "Restart the application."
