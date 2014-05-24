@@ -1,0 +1,11 @@
+%h2 Вход
+= form_for(resource, :as => resource_name, :url => session_path(resource_name), role: 'form') do |f|
+  .form-group
+    = f.label :email
+    = f.email_field :email, :autofocus => true, class: 'form-control', placeholder: 'Email'
+  .form-group
+    = f.label :password
+    = f.password_field :password, class: 'form-control', placeholder: 'Password'
+  = f.submit 'Войти', class: 'btn btn-default'
+%hr
+= render 'devise/shared/links'

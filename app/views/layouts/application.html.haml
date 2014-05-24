@@ -28,8 +28,20 @@
 
           %ul.nav.navbar-nav.navbar-right.lead
             %li
-              %a{href: "#"} Вход
+              -if user_signed_in?
+                =link_to 'Выход', destroy_user_session_path, method: :delete
+              -else
+                %a{href: new_user_session_path} Вход
+
     .container
-      %p.notice #{notice}
-      %p.alert #{alert}
+      -if notice.present?
+        %br
+        .alert.alert-success.alert-dismissable
+          %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
+          %p.notice #{notice}
+      -if alert.present?
+        %br
+        .alert.alert-danger.alert-dismissable
+          %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
+          %p.alert #{alert}
       = yield

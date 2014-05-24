@@ -1,22 +1,22 @@
 = form_for @project do |f|
   - if @project.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@project.errors.count, "error")} prohibited this project from being saved:"
+      %h2= "#{pluralize(@project.errors.count, "error")} сохранить не получится:"
       %ul
         - @project.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :short_desc
-    = f.text_area :short_desc
-  .field
-    = f.label :full_desc
-    = f.text_area :full_desc
-  .field
+  .form-group
+    = f.label 'Название'
+    = f.text_field :name, class: 'form-control'
+  .form-group
+    = f.label 'Краткое описание'
+    = f.text_area :short_desc, rows: 5, class: 'form-control'
+  .form-group
+    = f.label 'Полное описание'
+    = f.text_area :full_desc, rows: 15, class: 'form-control'
+  .form-group
     = f.label :image
-    = f.text_field :image
-  .actions
-    = f.submit 'Save'
+    = f.text_field :image, class: 'form-control'
+  .form-group
+    = f.submit 'Сохранить', class: 'btn btn-default'
