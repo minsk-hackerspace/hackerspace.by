@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'main/rules'
   get 'calendar' => 'main#calendar'
 
+  mount Tail::Engine, at: '/tail'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

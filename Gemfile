@@ -45,7 +45,7 @@ gem 'rvm-capistrano'
 
 gem 'tail'
 gem 'paperclip'
-group :development do
+group :development, :staging do
   gem 'faker'
   gem 'better_errors'
   gem 'binding_of_caller'
