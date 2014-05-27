@@ -1,4 +1,4 @@
-= form_for @project do |f|
+= form_for @project, :html => { :multipart => true } do |f|
   - if @project.errors.any?
     #error_explanation
       %h2= "#{pluralize(@project.errors.count, "error")} сохранить не получится:"
@@ -16,7 +16,8 @@
     = f.label 'Полное описание'
     = f.text_area :full_desc, rows: 15, class: 'form-control'
   .form-group
-    = f.label :image
-    = f.text_field :image, class: 'form-control'
+    = f.label 'Изображение, до 3 МБ'
+    = f.file_field :photo
+
   .form-group
     = f.submit 'Сохранить', class: 'btn btn-default'

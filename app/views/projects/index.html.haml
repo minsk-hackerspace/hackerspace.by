@@ -1,17 +1,18 @@
 %h1 Наши проекты
+%hr
 
 .container
   -@projects.each do |row|
     .row
       -row.each do |project|
         .col-lg-4
-          %img.img-circle{:alt => "Generic placeholder image", src: "https://scontent-a-vie.xx.fbcdn.net/hphotos-ash3/t1.0-9/1457652_248205555338483_1951265567_n.png"}
-            %h2
-              =project.name
-            %p
-              =project.short_desc
-            %p
-              %a.btn.btn-default{href: project_path(project), role: 'button'} Читать дальше &raquo;
+          =image_tag project.photo.url(:thumb), class: 'center-block'
+          %h2
+            =project.name
+          %p
+            =project.short_desc
+          %p
+            %a.btn.btn-default{href: project_path(project), role: 'button'} Читать дальше &raquo;
 
   -if user_signed_in?
     %hr

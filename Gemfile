@@ -35,13 +35,20 @@ gem 'sass-rails', '~> 4.0.3'
 gem 'bootstrap-sass', '>= 3.1.1'
 gem 'haml'
 gem 'haml-rails'
+
 #gem 'copycopter_client', '~> 2.0.1'
-
-gem 'faker'
-
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+
 gem 'capistrano', '~> 2'
 gem 'rvm-capistrano'
 
 gem 'tail'
+gem 'paperclip'
+group :development do
+  gem 'faker'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'quiet_assets'
+  gem 'bullet'
+end
