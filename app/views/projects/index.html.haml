@@ -6,7 +6,9 @@
     .row
       -row.each do |project|
         .col-lg-4
-          =image_tag project.photo.url(:thumb), class: 'center-block'
+
+          =link_to image_tag(project.photo.url(:thumb), class: 'center-block'), project_path(project)
+
           %h2
             =project.name
           %p
