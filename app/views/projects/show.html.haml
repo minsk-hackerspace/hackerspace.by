@@ -5,7 +5,7 @@
 %p.lead
   = @project.short_desc
 %hr
-  =image_tag @project.photo.url(:full), class: 'center-block'
+  =image_tag @project.photo.url(:original), class: 'center-block'
 %hr
 %p.lead
   = @project.full_desc
