@@ -45,6 +45,8 @@ gem 'rvm-capistrano'
 
 gem 'tail'
 gem 'paperclip'
+gem 'sanitize'
+
 group :development, :staging do
   gem 'faker'
   gem 'better_errors'

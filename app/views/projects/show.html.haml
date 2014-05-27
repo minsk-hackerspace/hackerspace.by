@@ -3,12 +3,12 @@
 %h1
   = @project.name
 %p.lead
-  = @project.short_desc
+  = @project.short_desc.html_safe
 %hr
   =image_tag @project.photo.url(:original), class: 'center-block'
 %hr
 %p.lead
-  = @project.full_desc
+  = @project.full_desc.html_safe
 
 -if user_signed_in?
   = link_to 'Изменить', edit_project_path(@project), class: 'btn btn-info'

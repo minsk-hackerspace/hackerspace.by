@@ -10,7 +10,7 @@
           %h2
             =project.name
           %p
-            =project.short_desc
+            =project.short_desc.html_safe
           %p
             %a.btn.btn-default{href: project_path(project), role: 'button'} Читать дальше &raquo;
 
