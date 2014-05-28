@@ -12,9 +12,9 @@ end
 
 set :rails_env, 'staging'
 
-set :stages, %w(stage)
+set :deploy_to, '/srv/www/dev.hackerspace.by'
 
-server 'test.gcode.ws', :app, :web, :db, :primary => true
+server 'hs.gcode.ws', :app, :web, :db, :primary => true
 
 set :branch, 'master' unless exists?(:branch)
 

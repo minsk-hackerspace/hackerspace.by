@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.1'
+ruby '1.9.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.0'
 # Use sqlite3 as the database for Active Record
@@ -41,7 +41,6 @@ gem 'haml-rails'
 # gem 'capistrano-rails', group: :development
 
 gem 'capistrano', '~> 2'
-gem 'rvm-capistrano'
 
 gem 'tail'
 gem 'paperclip'

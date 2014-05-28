@@ -142,8 +142,6 @@ GEM
     rdoc (4.1.1)
       json (~> 1.4)
     ref (1.0.5)
-    rvm-capistrano (1.5.1)
-      capistrano (~> 2.15.4)
     sanitize (2.1.0)
       nokogiri (>= 1.4.4)
     sass (3.2.19)
@@ -212,7 +210,6 @@ DEPENDENCIES
   quiet_assets
   rails (= 4.1.0)
   rails_12factor
-  rvm-capistrano
   sanitize
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
