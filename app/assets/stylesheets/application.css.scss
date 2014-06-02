@@ -16,7 +16,7 @@
 @import "bootstrap";
 
 body {
-  margin-top: 50px;
+  margin-top: 76px;
   //  box-shadow: inset 0 0 600px rgba(127, 127, 196, 0.05);
   background-image: url('back.png');
 }
@@ -24,4 +24,8 @@ body {
 img {
   box-shadow: 1px 1px 5px grey;
   border-radius: 4px;
+}
+#brand{
+//  position: fixed; top: 0; left: 0; z-index: 1030;
+//  display: block;
 }
