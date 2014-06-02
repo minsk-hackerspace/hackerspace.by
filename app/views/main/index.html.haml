@@ -33,7 +33,7 @@
             %span.text-muted
               = t 'index.how_to_join_muted'
           %p.lead
-            = t 'index.how_to_join_content'
+            = t('index.how_to_join_content').html_safe
         .col-md-5
           =image_tag 'a.jpg', class: 'featurette-image img-responsive'
       %hr.featurette-divider
