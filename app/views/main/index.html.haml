@@ -46,7 +46,7 @@
               %span.text-muted
                 = t 'index.what_we_have_muted'
             %p.lead
-              = t 'index.what_we_have_content'
+              = t('index.what_we_have_content').html_safe
         %hr.featurette-divider
           .row.featurette
             .col-md-7
@@ -56,8 +56,7 @@
                   = t 'index.how_to_find_muted'
               %p.lead
                 = t('index.how_to_find_content').html_safe
-                И не забудьте почитать
-                =link_to 'правила', main_rules_path
+                ="И не забудьте почитать #{link_to('правила', main_rules_path)}.".html_safe
             .col-md-5
               =image_tag 'd.jpg', class: 'featurette-image img-responsive'
 %hr
