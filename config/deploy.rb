@@ -16,7 +16,7 @@ set :hspace_group, 'www-data'
 
 default_run_options[:pty] = true  # Must be set for the password prompt from git to work
 ssh_options[:forward_agent] = true
-set :use_sudo, true
+set :use_sudo, false
 
 set :repository, 'git@github.com:k2m30/hspace.git'
 set :scm, 'git'
