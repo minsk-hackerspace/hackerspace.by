@@ -11,8 +11,6 @@ set :default_stage, 'staging'
 
 set :application, 'hspace'
 
-set :user, 'admin'  # The server's user for deploys
-
 set :hspace_user, 'www-data'
 set :hspace_group, 'www-data'
 
@@ -100,25 +98,25 @@ namespace :deploy do
       ask_for_yes_no_input "Are you sure you want to proceed?"
 
       #Remove any existing code/directories.
-      run "sudo rm -rf #{deploy_to}/*"
+      run "rm -rf #{deploy_to}/*"
 
       #Set up the directories, ensuring correct ownership. Also create
       #an initial REVISION file with an old, but valid, github tag.
-      run "sudo mkdir -p #{deploy_to}/releases/000"
-      run "sudo chown -R #{user}:#{user} #{deploy_to}"
-      run "sudo ln -s #{deploy_to}/releases/000 #{deploy_to}/current"
-      run "sudo echo 5e22b77e7f07d585ebe9a58eea927e3b280d0e11 > #{deploy_to}/current/REVISION"
+      run "mkdir -p #{deploy_to}/releases/000"
+      run "chown -R #{user}:#{hspace_group} #{deploy_to}"
+      run "ln -s #{deploy_to}/releases/000 #{deploy_to}/current"
+      run "echo 5e22b77e7f07d585ebe9a58eea927e3b280d0e11 > #{deploy_to}/current/REVISION"
 
       #Create and set proper ownership/permissions on these as well. Be sure to do
       #this AFTER the above.
-      run "sudo mkdir -p #{shared_path}"
-      run "sudo chown #{user}:#{user} #{shared_path}"
-      run "sudo mkdir -p -m 2775 #{shared_path}/log"
-      run "sudo mkdir -p -m 2775 #{shared_path}/pids"
-      run "sudo touch #{shared_path}/log/#{rails_env}.log"
-      run "sudo touch #{shared_path}/log/#{rails_env}_delayed_jobs.log"
-      run "sudo chmod 664 #{shared_path}/log/#{rails_env}.log #{shared_path}/log/#{rails_env}_delayed_jobs.log"
-      run "sudo chown -R #{hspace_user}:#{user} #{shared_path}/log #{shared_path}/pids"
+      run "mkdir -p #{shared_path}"
+      run "chown #{user}:#{hspace_group} #{shared_path}"
+      run "mkdir -p -m 2775 #{shared_path}/log"
+      run "mkdir -p -m 2775 #{shared_path}/pids"
+      run "touch #{shared_path}/log/#{rails_env}.log"
+      run "touch #{shared_path}/log/#{rails_env}_delayed_jobs.log"
+      run "chmod 664 #{shared_path}/log/#{rails_env}.log #{shared_path}/log/#{rails_env}_delayed_jobs.log"
+      run "chown -R #{user}:#{hspace_group} #{shared_path}/log #{shared_path}/pids"
     end
   end
 end

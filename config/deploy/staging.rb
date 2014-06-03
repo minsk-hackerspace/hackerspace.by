@@ -13,6 +13,7 @@ end
 set :rails_env, 'staging'
 
 set :deploy_to, '/srv/www/dev.hackerspace.by'
+set :user, 'admin'  # The server's user for deploys
 
 server 'hs.gcode.ws', :app, :web, :db, :primary => true
 
