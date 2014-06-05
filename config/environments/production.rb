@@ -81,3 +81,7 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 end
+
+DISPLAY_GOOGLE_ANALYTICS = true
+GOOGLE_ANALYTICS_ID  = 'UA-51695715-1'
+GOOGLE_ANALYTICS_URL = 'hackerspace.by'

@@ -39,3 +39,7 @@ Rails.application.configure do
 
   Paperclip.options[:command_path] = '/usr/local/bin/'
 end
+
+DISPLAY_GOOGLE_ANALYTICS = false
+GOOGLE_ANALYTICS_ID  = 'UA-51695715-3'
+GOOGLE_ANALYTICS_URL = 'localhost'
