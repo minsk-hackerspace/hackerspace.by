@@ -2,11 +2,12 @@
 %html
   %head
     %title Открытая лаборатория технического творчества
+    %meta{name: :description, content: 'Минский хакерспейс, DIY community, 3D принтер, ЧПУ фрезер, паяльная станция, Минск, проекты, сделай сам, arduino'}
+    %meta{name: :keywords, content: 'Хакерспейс, DIY community, 3D принтер, ЧПУ фрезер, паяльная станция, Минск, проекты, сделай сам, arduino'}
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
-    -if DISPLAY_GOOGLE_ANALYTICS == true
-      = render :partial => 'shared/google_analytics'
+    = render partial: 'shared/google_analytics' unless Rails.env.development?
   %body
     %nav.navbar.navbar-inverse.navbar-fixed-top{role: 'navigation'}
       .container
@@ -40,11 +41,11 @@
       -if notice.present?
         %br
         .alert.alert-success.alert-dismissable
-          %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
+          %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", type: "button"} &times;
           %p.notice #{notice}
       -if alert.present?
         %br
         .alert.alert-danger.alert-dismissable
-          %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
+          %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", type: "button"} &times;
           %p.alert #{alert}
       = yield
