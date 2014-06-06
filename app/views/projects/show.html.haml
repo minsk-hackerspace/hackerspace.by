@@ -8,7 +8,7 @@
 %p.lead
   = @project.full_desc.html_safe
 
--if user_signed_in?
+-if user_signed_in? && @project.user == current_user
   = link_to 'Изменить', edit_project_path(@project), class: 'btn btn-info'
 
 = link_to 'Назад', projects_path, class: 'btn btn-default'

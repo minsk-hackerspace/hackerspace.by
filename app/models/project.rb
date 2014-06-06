@@ -8,4 +8,6 @@ class Project < ActiveRecord::Base
   validates :name, presence: true
   validates :short_desc, presence: true
 
+  belongs_to :user, dependent: :delete
+
 end
