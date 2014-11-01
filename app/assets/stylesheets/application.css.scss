@@ -58,3 +58,10 @@ img {
   opacity: 0.9;
   border-color: #d0e3f0;
 }
+
+.mandatory label::after {
+  content: '*';
+  color: #ff0000;
+  vertical-align: super;
+  font-size: 70%;
+}
