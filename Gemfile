@@ -30,6 +30,7 @@ gem 'spring',        group: :development
 
 gem 'rails_12factor'
 gem 'devise'
+gem 'devise-i18n'
 gem 'sass-rails', '~> 4.0.3'
 gem 'bootstrap-sass', '>= 3.1.1'
 gem 'haml'
