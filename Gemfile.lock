@@ -145,6 +145,7 @@ GEM
     rake (10.3.2)
     rdoc (4.1.1)
       json (~> 1.4)
+    redcarpet (3.2.0)
     ref (1.0.5)
     sanitize (2.1.0)
       nokogiri (>= 1.4.4)
@@ -217,6 +218,7 @@ DEPENDENCIES
   rails (= 4.1.0)
   rails-i18n
   rails_12factor
+  redcarpet
   sanitize
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)

@@ -46,6 +46,7 @@ gem 'capistrano', '~> 2'
 gem 'tail'
 gem 'paperclip'
 gem 'sanitize'
+gem 'redcarpet'
 
 group :development, :staging do
   gem 'faker'
