@@ -52,4 +52,5 @@ group :development, :staging do
   gem 'binding_of_caller'
   gem 'quiet_assets'
   gem 'bullet'
+  gem 'sqlite3'
 end
