@@ -37,11 +37,11 @@
       %p.lead
         =t('index.what_is_it_content').html_safe
     .col-md-5
-      =image_tag 'f.jpg', class: 'featurette-image img-responsive'
+      = image_tag image_path('f.jpg'), class: 'featurette-image img-responsive'
   %hr.featurette-divider
     .row.featurette
       .col-md-5
-        =image_tag 'h.jpg', class: 'featurette-image img-responsive'
+        =image_tag image_path('h.jpg'), class: 'featurette-image img-responsive'
       .col-md-7
         %h2.featurette-heading
           = t 'index.what_we_do'
@@ -59,11 +59,11 @@
           %p.lead
             = t('index.how_to_join_content').html_safe
         .col-md-5
-          =image_tag 'a.jpg', class: 'featurette-image img-responsive'
+          =image_tag image_path('a.jpg'), class: 'featurette-image img-responsive'
       %hr.featurette-divider
         .row.featurette
           .col-md-5
-            =image_tag 'b.jpg', class: 'featurette-image img-responsive'
+            =image_tag image_path('b.jpg'), class: 'featurette-image img-responsive'
           .col-md-7
             %h2.featurette-heading
               = t 'index.what_we_have'
@@ -82,5 +82,5 @@
                 = t('index.how_to_find_content').html_safe
                 ="И не забудьте почитать #{link_to('правила', main_rules_path)}.".html_safe
             .col-md-5
-              =image_tag 'd.jpg', class: 'featurette-image img-responsive'
+              =image_tag image_path('d.jpg'), class: 'featurette-image img-responsive'
 %hr
