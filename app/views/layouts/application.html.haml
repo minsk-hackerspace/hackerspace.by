@@ -4,8 +4,6 @@
     %title Открытая лаборатория технического творчества
     %meta{name: :description, content: 'Минский хакерспейс, DIY community, 3D принтер, ЧПУ фрезер, паяльная станция, Минск, проекты, сделай сам, arduino'}
     %meta{name: :keywords, content: 'Хакерспейс, DIY community, 3D принтер, ЧПУ фрезер, паяльная станция, Минск, проекты, сделай сам, arduino'}
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
     = render partial: 'shared/google_analytics' unless Rails.env.development?
   %body
@@ -49,3 +47,5 @@
           %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", type: "button"} &times;
           %p.alert #{alert}
       = yield
+  = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+  = javascript_include_tag 'application', 'data-turbolinks-track' => true
