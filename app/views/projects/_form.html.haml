@@ -6,7 +6,7 @@
         - @project.errors.full_messages.each do |msg|
           %li= msg
 
-  .form-group{:class => 'mandatory'}
+  .form-group.mandatory
     = f.label 'Название'
     = f.text_field :name, class: 'form-control'
   .form-group
@@ -18,7 +18,7 @@
   .form-group
     = f.label 'Полное описание'
     = f.text_area :full_desc, rows: 15, class: 'form-control'
-  .form-group{:class => 'mandatory'}
+  .form-group.mandatory
     = f.label 'Изображение, до 3 МБ'
     = f.file_field :photo
 

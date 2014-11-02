@@ -1,11 +1,11 @@
 %h1
   = @project.name
-%p.lead
+.lead
   = markup2html @project.short_desc, @project.markup_type
 %hr
   =image_tag @project.photo.url(:original), class: 'center-block'
 %hr
-%p.lead
+.lead
   = markup2html @project.full_desc, @project.markup_type
 
 -if user_signed_in? && @project.user == current_user
