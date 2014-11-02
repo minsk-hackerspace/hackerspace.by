@@ -14,10 +14,12 @@
  *= require_self
  */
 @import "bootstrap";
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400&subset=latin,cyrillic);
 
 body {
   margin-top: 76px;
   background-image: url(image_path('back.jpg'));
+  font-family: 'Helvetica Neue', 'Open Sans', sans-serif;
 }
 
 img {
