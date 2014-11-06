@@ -1,4 +1,6 @@
-Основной Git-репозиторий: https://github.com/minsk-hackerspace/hspace
+Проект сайта [минского хакрспейса] (http://hackerspace.by)
+
+Это основной Git-репозиторий: https://github.com/minsk-hackerspace/hspace
 
 Изменения можно предлагать через [issues] (https://github.com/minsk-hackerspace/hspace/issues), или, если вы владеете Git (а им стоит овладеть!), просто присылайте pull-request.
 
@@ -6,10 +8,15 @@
 
 Как запустить локальную копию сайта:
 
-`$ git clone https://github.com/minsk-hackerspace/hspace
-$ cd hspace
-$ bundle install
-$ bundle exec rake db:setup
-$ bundle exec rails server`
+`$ git clone https://github.com/minsk-hackerspace/hspace`
+
+`$ cd hspace`
+
+`$ bundle install`
+
+`$ bundle exec rake db:setup`
+
+`$ bundle exec rails server`
+
 
 Дождаться старта сервера, после чего идти на http://localhost:3000/. По умолчанию создаётся пользователь developer@hackerspace.by с паролем '111111'.
