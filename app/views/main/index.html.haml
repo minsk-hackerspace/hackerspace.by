@@ -39,30 +39,6 @@
           =link_to 'Facebook', 'https://www.facebook.com/hs.minsk', target: '_blank'
           =link_to 'Вконтакте', 'http://vk.com/event74253582', target: '_blank'
 
-
-  -if Time.now < Time.parse('2014-Jun-20')
-    .bs-callout.bs-callout-info.alert-dismissable
-      %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", type: "button"} &times;
-      %p.notice
-        %h2
-          Встреча сообщества 19 июня (четверг)
-        %p.lead
-          \Участники будут рассказывать о своих проектах, демонстрировать их в работе, делиться опытом и впечатлениями от процесса создания. Приглашаются все, кого интересуют темы программирования, электроники, робототехники, искуственного интеллекта, 3D печати, а также всего с приставками DIY- и CNC-.
-
-        %p.lead Вход свободный. Начало в 19:00.
-        %p
-          %h4 В программе:
-          %ul
-            %li общение в неформальной обстановке на технические и творческие темы,
-            %li демонстрации проектов и рассказ об их создании,
-            %li ответы на животрепещущие вопросы для начинающих,
-            %li чай-кофе-печеньки+
-        %hr
-        %p
-          Обсуждение, карта проезда, подробности и обновления в группе
-          =link_to 'Facebook', 'https://www.facebook.com/events/1433343033592650/', target: '_blank'
-
-
   .row.featurette
     .col-md-7
       %h2.featurette-heading
@@ -72,11 +48,11 @@
       %p.lead
         =t('index.what_is_it_content').html_safe
     .col-md-5
-      =image_tag 'f.jpg', class: 'featurette-image img-responsive'
+      = image_tag image_path('/images/f.jpg'), class: 'featurette-image img-responsive'
   %hr.featurette-divider
     .row.featurette
       .col-md-5
-        =image_tag 'h.jpg', class: 'featurette-image img-responsive'
+        =image_tag image_path('/images/h.jpg'), class: 'featurette-image img-responsive'
       .col-md-7
         %h2.featurette-heading
           = t 'index.what_we_do'
@@ -94,11 +70,11 @@
           %p.lead
             = t('index.how_to_join_content').html_safe
         .col-md-5
-          =image_tag 'a.jpg', class: 'featurette-image img-responsive'
+          =image_tag image_path('/images/a.jpg'), class: 'featurette-image img-responsive'
       %hr.featurette-divider
         .row.featurette
           .col-md-5
-            =image_tag 'b.jpg', class: 'featurette-image img-responsive'
+            =image_tag image_path('/images/b.jpg'), class: 'featurette-image img-responsive'
           .col-md-7
             %h2.featurette-heading
               = t 'index.what_we_have'
@@ -117,5 +93,5 @@
                 = t('index.how_to_find_content').html_safe
                 ="И не забудьте почитать #{link_to('правила', main_rules_path)}.".html_safe
             .col-md-5
-              =image_tag 'd.jpg', class: 'featurette-image img-responsive'
+              =image_tag image_path('/images/d.jpg'), class: 'featurette-image img-responsive'
 %hr

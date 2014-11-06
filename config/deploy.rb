@@ -1,4 +1,3 @@
-
 require 'bundler/capistrano'
 require 'capistrano/ext/multistage'
 require 'rubygems'
@@ -14,11 +13,14 @@ set :application, 'hspace'
 set :hspace_user, 'www-data'
 set :hspace_group, 'www-data'
 
-default_run_options[:pty] = true  # Must be set for the password prompt from git to work
-ssh_options[:forward_agent] = true
+default_run_options[:pty] = true # Must be set for the password prompt from git to work
+set :ssh_options, {
+    forward_agent: true,
+    auth_methods: %w(publickey password)
+}
 set :use_sudo, false
 
-set :repository, 'git@github.com:k2m30/hspace.git'
+set :repository, 'git@github.com:minsk-hackerspace/hspace.git'
 set :scm, 'git'
 #set :scm_passphrase, 'PUTPASSWORDHERE'
 set :scm_verbose, true
@@ -55,7 +57,7 @@ namespace :deploy do
 end
 
 namespace :db do
-  task :db_config, :except => { :no_release => true }, :role => :app do
+  task :db_config, :except => {:no_release => true}, :role => :app do
     run "cp -f ~/database.yml #{release_path}/config/database.yml"
   end
 end
@@ -69,9 +71,9 @@ task :do_post_update_code_work do
   if initial_deployment
     #Note that mongo must be set up and configured before the initial deployment,
     #or this will not work.
-    run "cd #{release_path} && RAILS_ENV=#{rails_env} #{rake} db:setup", :only => { :primary => true }
+    run "cd #{release_path} && RAILS_ENV=#{rails_env} #{rake} db:setup", :only => {:primary => true}
   else
-    run "cd #{release_path} && RAILS_ENV=#{rails_env} #{rake} db:migrate", :only => { :primary => true }
+    run "cd #{release_path} && RAILS_ENV=#{rails_env} #{rake} db:migrate", :only => {:primary => true}
   end
 end
 

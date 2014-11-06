@@ -6,16 +6,19 @@
         - @project.errors.full_messages.each do |msg|
           %li= msg
 
-  .form-group
+  .form-group.mandatory
     = f.label 'Название'
     = f.text_field :name, class: 'form-control'
   .form-group
+    = f.label 'Тип разметки текста'
+    = f.collection_select :markup_type, Project::SUPPORTED_MARKUPS, :to_s, :to_s
+  .form-group{:class => 'mandatory'}
     = f.label 'Краткое описание'
     = f.text_area :short_desc, rows: 5, class: 'form-control'
   .form-group
     = f.label 'Полное описание'
     = f.text_area :full_desc, rows: 15, class: 'form-control'
-  .form-group
+  .form-group.mandatory
     = f.label 'Изображение, до 3 МБ'
     = f.file_field :photo
 

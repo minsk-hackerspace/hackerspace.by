@@ -15,4 +15,8 @@ default: &default
 
 
 development:
-  <<: *default
+  adapter: sqlite3
+  database: db/hspace_development.sqlite3
+  pool: 5
+  timeout: 5000
+

@@ -1,12 +1,12 @@
 %h1
   = @project.name
-%p.lead
-  = @project.short_desc.html_safe
+.lead
+  = markup2html @project.short_desc, @project.markup_type
 %hr
   =image_tag @project.photo.url(:original), class: 'center-block'
 %hr
-%p.lead
-  = @project.full_desc.html_safe
+.lead
+  = markup2html @project.full_desc, @project.markup_type
 
 -if user_signed_in? && @project.user == current_user
   = link_to 'Изменить', edit_project_path(@project), class: 'btn btn-info'

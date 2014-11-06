@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.0'
+gem 'rails-i18n'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
 gem 'thin'
@@ -30,6 +31,7 @@ gem 'spring',        group: :development
 
 gem 'rails_12factor'
 gem 'devise'
+gem 'devise-i18n'
 gem 'sass-rails', '~> 4.0.3'
 gem 'bootstrap-sass', '>= 3.1.1'
 gem 'haml'
@@ -44,6 +46,7 @@ gem 'capistrano', '~> 2'
 gem 'tail'
 gem 'paperclip'
 gem 'sanitize'
+gem 'redcarpet'
 
 group :development, :staging do
   gem 'faker'
@@ -51,4 +54,5 @@ group :development, :staging do
   gem 'binding_of_caller'
   gem 'quiet_assets'
   gem 'bullet'
+  gem 'sqlite3'
 end
