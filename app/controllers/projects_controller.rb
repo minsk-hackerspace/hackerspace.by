@@ -73,7 +73,12 @@ class ProjectsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_project
-      @project = current_user.projects.find(params[:id])
+      @project = Project.find(params[:id])
+      if @project.public or @project.user == current_user
+        @project
+      else
+        @project = nil
+      end
     end
 
   def sanitize
@@ -83,6 +88,8 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:name, :short_desc, :full_desc, :photo, :markup_type)
+      permitted_attrs = [:name, :short_desc, :full_desc, :photo, :markup_type]
+      permitted_attrs << :public if @project.user == current_user
+      params.require(:project).permit(permitted_attrs)
     end
 end

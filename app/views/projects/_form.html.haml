@@ -10,8 +10,12 @@
     = f.label 'Название'
     = f.text_field :name, class: 'form-control'
   .form-group
-    = f.label 'Тип разметки текста'
-    = f.collection_select :markup_type, Project::SUPPORTED_MARKUPS, :to_s, :to_s
+    = f.label :public
+    = f.check_box :public
+  .row
+    .form-group.col-lg-2
+      = f.label 'Тип разметки текста'
+      = f.collection_select :markup_type, Project::SUPPORTED_MARKUPS, :to_s, :to_s, {}, class: 'form-control'
   .form-group{:class => 'mandatory'}
     = f.label 'Краткое описание'
     = f.text_area :short_desc, rows: 5, class: 'form-control'
