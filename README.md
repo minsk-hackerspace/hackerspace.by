@@ -1,4 +1,4 @@
-Проект сайта [минского хакрспейса] (http://hackerspace.by)
+Проект сайта [минского хакерспейса] (http://hackerspace.by).
 
 Это основной Git-репозиторий: https://github.com/minsk-hackerspace/hspace
 
