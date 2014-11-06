@@ -10,6 +10,6 @@ unless Rails.env.production?
                     short_desc: Faker::Lorem.paragraph(rand(2..4)),
                     full_desc: Faker::Lorem.paragraph(rand(7..20)),
                     user: User.all.sample,
-                    photo: File.open(Dir['app/assets/images/*.jpg'].sample))
+                    photo: File.open(Dir['public/images/*.jpg'].sample))
   end
 end
