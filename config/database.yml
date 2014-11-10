@@ -13,10 +13,17 @@ default: &default
 #  username: myapp
 #  password: password1
 
-
+#TODO add database.yml file in .gitignore
+#TODO use postgres here <<: *defaults
 development:
   adapter: sqlite3
   database: db/hspace_development.sqlite3
   pool: 5
   timeout: 5000
 
+#TODO use postgres here <<: *defaults
+test:
+  adapter: sqlite3
+  database: db/hspace_test.sqlite3
+  pool: 5
+  timeout: 5000

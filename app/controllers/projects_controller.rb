@@ -88,8 +88,9 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      permitted_attrs = [:name, :short_desc, :full_desc, :photo, :markup_type]
-      permitted_attrs << :public if @project.user == current_user
+      permitted_attrs = [:name, :short_desc, :full_desc, :photo, :markup_type, :public]
+      #FIXME  this logic should be refactored
+      #permitted_attrs << :public if @project.user == current_user
       params.require(:project).permit(permitted_attrs)
     end
 end
