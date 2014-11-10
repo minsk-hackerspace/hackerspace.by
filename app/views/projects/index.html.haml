@@ -2,21 +2,19 @@
 %hr
 
 .container
-  -@projects.each do |row|
+  - @projects.each_slice(3) do |project_row|
     .row
-      -row.each do |project|
+      - project_row.each do |project|
         .col-lg-4
-
-          =link_to image_tag(project.photo.url(:thumb), class: 'center-block'), project_path(project)
-
+          = link_to image_tag(project.photo.url(:thumb), class: 'center-block'), project_path(project)
           %h2
-            =link_to project.name, project_path(project)
+            = link_to project.name, project_path(project)
           %p
-            =project.short_desc.html_safe
+            = project.short_desc.html_safe
           %p
             %a.btn.btn-default{href: project_path(project), role: 'button'} Читать дальше &raquo;
 
-  -if user_signed_in?
+  - if user_signed_in?
     %hr
     = link_to 'Добавить проект', new_project_path, class: 'btn btn-info'
   %hr

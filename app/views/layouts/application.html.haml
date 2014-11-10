@@ -31,7 +31,7 @@
           %ul.nav.navbar-nav.navbar-right.lead
             %li
               -if user_signed_in?
-                =link_to 'Выход', destroy_user_session_path, method: :delete
+                = link_to 'Выход', destroy_user_session_path, method: :delete
               -else
                 %a{href: new_user_session_path} Вход
 
