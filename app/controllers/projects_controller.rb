@@ -9,9 +9,7 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = []
-    projects = Project.all
-    0.step(projects.size,3).each_with_index {|e, i| @projects[i] = projects[i*3..i*3+2]}
+    @projects = Project.all
   end
 
   # GET /projects/1
