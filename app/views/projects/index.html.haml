@@ -10,7 +10,7 @@
           %h2
             = link_to project.name, project_path(project)
           %h4
-            = "Статус: #{project.project_status.html_safe}"
+            = "Статус: #{project.project_status}"
           %p
             = project.short_desc.html_safe
           %p
