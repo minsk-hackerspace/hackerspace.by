@@ -1,5 +1,7 @@
 %h1
   = @project.name
+%h3
+  = "Статус: #{@project.project_status.html_safe}"
 .lead
   = markup2html @project.short_desc, @project.markup_type
 %hr

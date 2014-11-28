@@ -16,6 +16,7 @@
 #  user_id            :integer
 #  markup_type        :string(255)      default("html")
 #  public             :boolean          default(FALSE)
+#  project_status     :string           default("активный")
 #
 
 require 'paperclip'
@@ -31,5 +32,6 @@ class Project < ActiveRecord::Base
 
   validates :name, :short_desc, presence: true
   validates :markup_type, inclusion: SUPPORTED_MARKUPS
+  validates :project_status, presence: true
 
 end
