@@ -9,8 +9,10 @@
           = link_to image_tag(project.photo.url(:thumb), class: 'center-block'), project_path(project)
           %h2
             = link_to project.name, project_path(project)
-          %h4
-            = "Статус: #{project.project_status}"
+          %p
+            %em
+              Статус:
+              = project.project_status
           %p
             = project.short_desc.html_safe
           %p
