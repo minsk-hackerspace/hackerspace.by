@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20141128114427) do
     t.integer  "user_id"
     t.string   "markup_type",        default: "html"
     t.boolean  "public",             default: false
-    t.string   "project_status",     default: "активный"
+    t.string   "project_status",     default: "Активный"
   end
 
   add_index "projects", ["user_id"], name: "index_projects_on_user_id"

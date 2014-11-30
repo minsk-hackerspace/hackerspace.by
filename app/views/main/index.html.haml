@@ -5,16 +5,12 @@
       .small
         =t 'index.hello_world_description'
 
-  -if 0 < 1
-    .bs-callout.bs-callout-info.alert-dismissable
-      %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", type: "button"} &times;
-      %p.notice
-        %h2
-          Каждый четверг у нас вечер открытых дверей.
-          
-        %p.lead Начало в 19:00. Окончание — после 22:00.
-        %p
-          Предполагается микро-хакатон в непринуждённой обстановке и лёгкая экскурсия для неофитов.
+  .bs-callout.bs-callout-info.alert-dismissable
+    %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", type: "button"} &times;
+    %p.notice
+      %h2 Каждый четверг у нас вечер открытых дверей.
+      %p.lead Начало в 19:00. Окончание — после 22:00.
+      %p Предполагается микро-хакатон в непринуждённой обстановке и лёгкая экскурсия для неофитов.
 
   -if Time.now < Time.parse('2014-Jul-18')
     .bs-callout.bs-callout-info.alert-dismissable
@@ -59,7 +55,7 @@
           %span.text-muted
             = t 'index.what_we_do_muted'
         %p.lead
-          = t 'index.what_we_do_content'
+          = t('index.what_we_do_content').html_safe
     %hr.featurette-divider
       .row.featurette
         .col-md-7
@@ -85,7 +81,7 @@
         %hr.featurette-divider
           .row.featurette
             .col-md-7
-              %h2.featurette-heading
+              %h2.featurette-heading#contacts
                 = t 'index.how_to_find'
                 %span.text-muted
                   = t 'index.how_to_find_muted'

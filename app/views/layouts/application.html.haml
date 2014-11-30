@@ -20,7 +20,7 @@
         .collapse.navbar-collapse#navbar
           %ul.nav.navbar-nav.lead
             %li
-              %a{href: root_path} О нас
+              =link_to 'Контакты', root_path(anchor: "contacts")
             %li
               %a{href: projects_path} Проекты
             %li
