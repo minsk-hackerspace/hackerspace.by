@@ -7,5 +7,8 @@ class MainController < ApplicationController
 
   def calendar
   end
+
+  def contacts
+  end
 end
 

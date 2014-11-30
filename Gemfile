@@ -10,21 +10,18 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer',  platforms: :ruby
+gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
 group :production do
   gem 'pg'
 end
+
+# Use ActiveModel has_secure_password
+# gem 'bcrypt', '~> 3.1.7'
 
 gem 'devise'
 gem 'devise-i18n'
@@ -42,10 +39,10 @@ gem 'paperclip'
 gem 'sanitize'
 gem 'redcarpet'
 
-group :development, :staging do
+group :development do
   gem 'capistrano', '~> 2'
   gem 'faker'
-  gem 'better_errors'
+  gem 'better_errors', '1.1.0' # version >=2.0.0 needs ruby 2.0+
   gem 'pry'
   gem 'quiet_assets'
   #gem 'bullet'
