@@ -1,5 +1,7 @@
 %h1
   = @project.name
+%h3
+  = "Статус: #{@project.project_status}"
 .lead
   = markup2html @project.short_desc, @project.markup_type
 %hr
@@ -12,3 +14,5 @@
   = link_to 'Изменить', edit_project_path(@project), class: 'btn btn-info'
 
 = link_to 'Назад', projects_path, class: 'btn btn-default'
+
+%br{:class => "bottom_margin"}

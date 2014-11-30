@@ -12,6 +12,9 @@
   .form-group
     = f.label :public
     = f.check_box :public
+  .form-group
+    = f.label 'Текущее состояние проекта'
+    = f.text_field :project_status, class: 'form-control'
   .row
     .form-group.col-lg-2
       = f.label 'Тип разметки текста'

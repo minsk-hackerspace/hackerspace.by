@@ -16,6 +16,7 @@
 #  user_id            :integer
 #  markup_type        :string(255)      default("html")
 #  public             :boolean          default(FALSE)
+#  project_status     :string           default("активный")
 #
 
 require 'paperclip'
@@ -29,7 +30,7 @@ class Project < ActiveRecord::Base
   validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
   validates_attachment :photo, presence: true, size: { in: 0..3.megabytes }
 
-  validates :name, :short_desc, presence: true
+  validates :name, :short_desc, :project_status, presence: true
   validates :markup_type, inclusion: SUPPORTED_MARKUPS
 
 end
