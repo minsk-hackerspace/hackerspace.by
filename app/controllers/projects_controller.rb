@@ -37,10 +37,8 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       if @project.save
         format.html { redirect_to @project, notice: 'Проект создан.' }
-        format.json { render :show, status: :created, location: @project }
       else
         format.html { render :new }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -51,10 +49,8 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       if @project.update(project_params)
         format.html { redirect_to @project, notice: 'Проект изменен.' }
-        format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -65,7 +61,6 @@ class ProjectsController < ApplicationController
     @project.destroy
     respond_to do |format|
       format.html { redirect_to projects_url, notice: 'Проект удален.' }
-      format.json { head :no_content }
     end
   end
 
