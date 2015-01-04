@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
+
   devise_for :users
 
   resources :projects
   get '/rules', to: 'main#rules'
   get '/calendar', to: 'main#calendar'
   get '/contacts', to: 'main#contacts'
+
+  resources :events, only: [:index, :show, :create]
 
   mount Tail::Engine, at: '/tail'
   # The priority is based upon order of creation: first created -> highest priority.

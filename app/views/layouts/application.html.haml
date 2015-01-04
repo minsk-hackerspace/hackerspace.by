@@ -17,6 +17,9 @@
             %span.icon-bar
           %a.navbar-brand#brand{href: root_path}
             =image_tag 'default.png', height: '70px'
+          .big-brother{:class => "hsopen-#{@hs_open_status}"}
+            %span
+              = t "hsopen.#{@hs_open_status}"
         .collapse.navbar-collapse#navbar
           %ul.nav.navbar-nav.lead
             %li
@@ -29,13 +32,13 @@
               %a{href: 'https://www.facebook.com/hs.minsk/photos_stream?tab=photos_albums', target: '_blank'} Фотографии
             %li
               =link_to 'Контакты', contacts_path
+
           %ul.nav.navbar-nav.navbar-right.lead
             %li
               -if user_signed_in?
                 = link_to 'Выход', destroy_user_session_path, method: :delete
               -else
                 %a{href: new_user_session_path} Вход
-
     .container
       -if notice.present?
         %br

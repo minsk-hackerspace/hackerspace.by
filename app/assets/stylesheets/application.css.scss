@@ -27,6 +27,45 @@ img {
   border-radius: 4px;
 }
 
+.big-brother {
+  border-radius: 4px;
+  height: 70px;
+  max-width: 150px;
+  min-width: 100px;
+  display: block;
+  float: none;
+  text-align: center;
+  line-height: 60px;
+  font-size: 1.5em;
+  color: #999;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-top: 15px;
+  margin-bottom: -15px;
+  margin-left: 110px;
+  background-color: #222;
+}
+
+.big-brother span {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+}
+
+.hsopen-unknown {
+  box-shadow: 0px 0px 6px 3px grey;
+}
+
+.hsopen-opened {
+  box-shadow: 0px 0px 6px 3px lightgreen;
+  color: lightgreen;
+}
+
+.hsopen-closed {
+  box-shadow: 0px 0px 6px 3px red;
+  color: red;
+}
+
 /* Base callout styles (regardless of theme) */
 .bs-callout {
   margin: 20px 0;
