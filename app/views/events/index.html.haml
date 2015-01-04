@@ -1,0 +1,20 @@
+%h1
+  = t ".title"
+
+%table.table
+  %tr
+    %th
+      = t ".time"
+    %th
+      = t ".type"
+    %th
+      = t ".value"
+  - @log_events.each do |event|
+    %tr
+      %td
+        = event.timestamp
+      %td
+        = event.event_type
+      %td
+        = event.value
+

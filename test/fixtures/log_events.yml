@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  value: MyString
+  timestamp: 2015-01-04 01:24:50
+
+two:
+  type: 
+  value: MyString
+  timestamp: 2015-01-04 01:24:50
