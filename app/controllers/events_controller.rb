@@ -3,9 +3,7 @@
 class EventsController < ApplicationController
   before_action :set_log_event, only: [:update, :destroy, :show]
   before_action :authenticate_user!, only: [:create]
-  skip_before_filter :verify_authenticity_token, :if => Proc.new { |c|
-    c.request.format == 'application/json'
-  }
+  skip_before_filter :verify_authenticity_token
 
   def index
     @log_events = LogEvent.order('timestamp DESC').all
