@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  resources :events, only: [:index] do
+    collection do
+      get 'add'
+    end
+  end
+
+  devise_for :devices
   devise_for :users
 
   resources :projects

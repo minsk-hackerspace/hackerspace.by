@@ -11,7 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141128114427) do
+ActiveRecord::Schema.define(version: 20150105181440) do
+
+  create_table "devices", force: true do |t|
+    t.string   "name",               default: "", null: false
+    t.string   "encrypted_password", default: "", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "devices", ["name"], name: "index_devices_on_name", unique: true
+
+  create_table "events", force: true do |t|
+    t.string   "event_type"
+    t.string   "value"
+    t.integer  "device_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "events", ["device_id"], name: "index_events_on_device_id"
 
   create_table "projects", force: true do |t|
     t.string   "name"
