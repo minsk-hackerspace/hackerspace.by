@@ -6,15 +6,12 @@ class ApplicationController < ActionController::Base
   before_action :check_if_hs_open
 
   def check_if_hs_open
-    @event = Event.where(event_type: 'light').last
-    if @event.nil?
-      @hs_open_status = "unknown"
-    else
-      if @event.value == "on"
-        @hs_open_status = "opened"
-      else
-        @hs_open_status = "closed"
-      end
-    end
+    @event = Event.light.where("created_at >= ?", 30.minutes.ago).order(created_at: :desc).first
+
+    @hs_open_status = if @event.nil?
+                        "unknown"
+                      else
+                        @event.value == "on" ? "opened" : "closed"
+                      end
   end
 end
