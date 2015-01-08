@@ -27,6 +27,18 @@ img {
   border-radius: 4px;
 }
 
+.hsopen-unknown {
+  box-shadow: 0px 0px 6px 3px grey;
+}
+
+.hsopen-opened {
+  box-shadow: 0px 0px 10px 3px darkgreen;
+}
+
+.hsopen-closed {
+//  box-shadow: 0px 0px 1px 1px grey;
+}
+
 /* Base callout styles (regardless of theme) */
 .bs-callout {
   margin: 20px 0;

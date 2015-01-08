@@ -1,0 +1,24 @@
+%h1
+  = t ".title"
+
+%table.table
+  %thead
+    %th
+      = t ".device_name"
+    %th
+      = t ".time"
+    %th
+      = t ".type"
+    %th
+      = t ".value"
+  %tbody
+    - @events.each do |event|
+      %tr
+        %td
+          = event.device.name
+        %td
+          = event.created_at
+        %td
+          = event.event_type
+        %td
+          = event.value
