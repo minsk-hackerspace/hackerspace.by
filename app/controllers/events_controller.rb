@@ -1,14 +1,16 @@
 class EventsController < ApplicationController
   def index
     authenticate_user!
-    @events = Event.all.order(created_at: :desc)
+    @events = Event.limit(100).order(created_at: :desc)
   end
 
   def add
     begin
       device = Device.find_by(name: params[:name])
+
       if device.present? && device.valid_password?(params[:password])
-        device.events.create(event_type: params[:event_type], value: params[:value])
+        device.events.create!(event_type: params[:event_type], value: params[:value])
+
         render json: params, status: :ok
       else
         params[:status]= '401: Authorization required'
