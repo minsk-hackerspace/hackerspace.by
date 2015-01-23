@@ -5,7 +5,7 @@ ru:
         public: "Публичный"
   hsopen:
     unknown: "УПС..."
-    opened: "Сейчас у нас открыто"
+    opened: "Сейчас у нас открыто. Приходите."
     closed: "Сейчас у нас никого нет"
   index:
     hello_world: "Hello World!"
