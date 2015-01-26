@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/spaceapi', to: 'main#spaceapi', defaults: {format: 'json'}
+
   devise_for :devices
   devise_for :users
 
