@@ -13,9 +13,9 @@ class MainController < ApplicationController
 
   def spaceapi
     endpoint = SpaceAPIEndpoint.new
-    if @hs_open_status != 'unknown'
-      endpoint[:state][:open] = @hs_open_status == "opened" ? true : false
-      endpoint[:state][:lastchange] = Event.order('updated_at DESC').first.updated_at.to_i
+    if @hs_open_status != Hspace::UNKNOWN
+      endpoint[:state][:open] = @hs_open_status == Hspace::OPENED
+      endpoint[:state][:lastchange] = Event.order(updated_at: :desc).first.updated_at.to_i
     end
 
     respond_to do |format|

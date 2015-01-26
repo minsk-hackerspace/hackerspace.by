@@ -9,11 +9,16 @@ class ApplicationController < ActionController::Base
     @event = Event.light.where('created_at >= ?', 30.minutes.ago).order(created_at: :desc).first
 
     @hs_open_status = if @event.nil?
-                        'unknown'
+                        Hspace::UNKNOWN
                       else
-                        @event.value == 'on' ? 'opened' : 'closed'
+                        event_status
                       end
-    # @hs_open_status = 'opened'
+    # @hs_open_status = Hspace::OPENED
     # для отладки индикатора
+  end
+
+  private
+  def event_status
+    @event.value == 'on' ? Hspace::OPENED : Hspace::CLOSED
   end
 end

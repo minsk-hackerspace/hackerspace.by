@@ -16,7 +16,7 @@
 #  user_id            :integer
 #  markup_type        :string(255)      default("html")
 #  public             :boolean          default(FALSE)
-#  project_status     :string           default("активный")
+#  project_status     :string(255)      default("активный")
 #
 
 class Project < ActiveRecord::Base
