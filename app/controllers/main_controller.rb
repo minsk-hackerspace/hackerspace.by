@@ -18,6 +18,9 @@ class MainController < ApplicationController
       endpoint[:state][:lastchange] = Event.order(updated_at: :desc).first.updated_at.to_i
     end
 
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Cache-Control'] = 'no-cache'
+
     respond_to do |format|
       format.json { render json: endpoint }
     end
