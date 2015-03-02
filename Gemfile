@@ -40,6 +40,7 @@ gem 'tail'
 gem 'paperclip'
 gem 'sanitize'
 gem 'redcarpet'
+gem 'comma'
 
 group :development do
   gem 'capistrano', '~> 2'

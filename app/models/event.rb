@@ -17,4 +17,13 @@ class Event < ActiveRecord::Base
 
   scope :light, -> { where event_type: 'light'}
 
+  comma do
+    id
+    event_type
+    value
+    device_id
+    created_at
+    updated_at
+  end
+
 end

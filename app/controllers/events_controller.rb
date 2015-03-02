@@ -1,7 +1,18 @@
 class EventsController < ApplicationController
   def index
     authenticate_user!
-    @events = Event.limit(100).order(created_at: :desc)
+
+    respond_to do |format|
+      format.html {
+        @events = Event.limit(100).order(created_at: :desc)
+        render :index
+      }
+
+      format.csv {
+        @events = Event.order(created_at: :asc)
+        render csv: @events, filename: 'events'
+      }
+    end
   end
 
   def add

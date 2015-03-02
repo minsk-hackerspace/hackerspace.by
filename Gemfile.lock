@@ -53,6 +53,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
+    comma (3.2.1)
+      activesupport (>= 3.0.0)
     daemons (1.1.9)
     devise (3.2.4)
       bcrypt (~> 3.0)
@@ -186,6 +188,7 @@ DEPENDENCIES
   bootstrap-sass (>= 3.1.1)
   capistrano (~> 2)
   coffee-rails (~> 4.0.0)
+  comma
   devise
   devise-i18n
   faker
