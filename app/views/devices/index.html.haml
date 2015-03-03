@@ -1,0 +1,10 @@
+%h1 Список устройств
+
+%table.table
+  %thead
+    %th
+  %tbody
+    - @devices.each do |device|
+      %tr
+        %td
+          = link_to device.name, device

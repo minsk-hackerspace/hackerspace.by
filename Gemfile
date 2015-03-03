@@ -45,9 +45,8 @@ gem 'comma'
 group :development do
   gem 'capistrano', '~> 2'
   gem 'faker'
-  gem 'better_errors', '1.1.0' # version >=2.0.0 needs ruby 2.0+
+  gem 'web-console' #Rails 4.1+ recommended debug gem
   gem 'pry'
   gem 'quiet_assets'
-  #gem 'bullet'
   gem 'sqlite3'
 end
