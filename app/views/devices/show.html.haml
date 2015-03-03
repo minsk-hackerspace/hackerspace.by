@@ -1,0 +1,22 @@
+%h1
+  = @device.name
+
+%table.table
+  %thead
+    %th
+      = t ".type"
+    %th
+      = t ".value"
+    %th
+      = t ".time"
+  %tbody
+    - @events.each do |event|
+      %tr
+        %td
+          = event.event_type
+        %td
+          = event.value
+        %td
+          = event.created_at.to_s(:short)
+
+= link_to 'Назад', devices_path, class: 'btn btn-default'
