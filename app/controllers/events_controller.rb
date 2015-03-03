@@ -3,14 +3,51 @@ class EventsController < ApplicationController
     authenticate_user!
 
     respond_to do |format|
+
+      events = Event.all
+
+      # filter by device name
+      if params.has_key?(:device_name)
+        device = Device.find_by(name: params[:device_name])
+        if device.present?
+          events = events.where(device: device)
+        else
+          params[:status]= '404: Device not found'
+          render request.format.to_sym => params, status: :not_found
+          return
+        end
+      end
+
+      # filter by event_type
+      if params.has_key?(:event_type)
+        events = events.where(event_type: params[:event_type])
+      end
+
+      # order
+      events = events.order(created_at: :asc)
+
+      # fold (first events for sequences with same value)
+      if params.has_key?(:folded)
+        new_items = [events.first]
+        prev_value = events.first.value
+
+        events.each do |event|
+          if event.value != prev_value
+            new_items.append(event)
+            prev_value = event.value
+          end
+        end
+
+        events = new_items
+      end
+
       format.html {
-        @events = Event.limit(100).order(created_at: :desc)
+	@events = events.last(100)
         render :index
       }
 
-      format.csv {
-        @events = Event.order(created_at: :asc)
-        render csv: @events, filename: 'events'
+      format.any(:csv, :json) {
+        render request.format.to_sym => events, filename: 'events', status: :ok
       }
     end
   end
