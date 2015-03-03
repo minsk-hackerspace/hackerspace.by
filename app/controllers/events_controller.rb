@@ -31,7 +31,7 @@ class EventsController < ApplicationController
         new_items = [events.first]
         prev_value = events.first.value
 
-        events.each do |event|
+        events.find_each(batch_size: 1024) do |event|
           if event.value != prev_value
             new_items.append(event)
             prev_value = event.value
