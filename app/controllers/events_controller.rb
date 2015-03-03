@@ -20,9 +20,10 @@ class EventsController < ApplicationController
       device = Device.find_by(name: params[:name])
 
       if device.present? && device.valid_password?(params[:password])
-        device.events.create!(event_type: params[:event_type], value: params[:value])
+        repeated = device.check_if_repeated?(params[:event_type], params[:value])
+        event = device.events.create(event_type: params[:event_type], value: params[:value], repeated: repeated)
 
-        render json: params, status: :ok
+        render json: event, status: :ok
       else
         params[:status]= '401: Authorization required'
         render json: params, status: :unauthorized
