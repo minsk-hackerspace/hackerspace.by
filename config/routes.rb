@@ -21,7 +21,6 @@ Rails.application.routes.draw do
   resources :events, only: [:index] do
     collection do
       get 'add'
-      get 'fold'
     end
   end
 
