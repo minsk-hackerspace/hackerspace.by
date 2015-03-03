@@ -2,6 +2,8 @@
 
 Это основной Git-репозиторий: https://github.com/minsk-hackerspace/hspace
 
+Wiki: https://github.com/minsk-hackerspace/hspace/wiki
+
 Изменения можно предлагать через [issues] (https://github.com/minsk-hackerspace/hspace/issues), или, если вы владеете Git (а им стоит овладеть!), просто присылайте pull-request.
 
 Для разработки вам понадобится иметь установленный интерпретатор Ruby (версии 1.9 и выше, см. https://www.ruby-lang.org/en/installation/) и bundler (http://bundler.io/).
