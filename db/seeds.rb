@@ -20,6 +20,7 @@ unless Rails.env.production?
 
   60.times do
     Event.create(event_type: %w(light dark).sample, value: %w(on off).sample, device: Device.all.sample)
-    sleep 1
   end
+
+  Device.all.each(&:mark_repeated_events)
 end

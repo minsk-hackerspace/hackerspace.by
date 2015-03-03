@@ -10,7 +10,7 @@
     %th
       = t ".time"
   %tbody
-    - @events.each do |event|
+    - @events.first(100).each do |event|
       %tr
         %td
           = event.event_type
