@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
-  resources :events, only: [:index] do
-    collection do
-      get 'add'
-    end
-  end
 
-  get '/spaceapi', to: 'main#spaceapi', defaults: {format: 'json'}
+  mount Tail::Engine, at: '/tail'
+
+  # You can have the root of your site routed with "root"
+  root 'main#index'
+
+  # The priority is based upon order of creation: first created -> highest priority.
+  # See how all your routes lay out with "rake routes".
 
   devise_for :devices
   devise_for :users
@@ -15,12 +16,13 @@ Rails.application.routes.draw do
   get '/calendar', to: 'main#calendar'
   get '/contacts', to: 'main#contacts'
 
-  mount Tail::Engine, at: '/tail'
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+  get '/spaceapi', to: 'main#spaceapi', defaults: {format: 'json'}
 
-  # You can have the root of your site routed with "root"
-  root 'main#index'
+  resources :events, only: [:index] do
+    collection do
+      get 'add'
+    end
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

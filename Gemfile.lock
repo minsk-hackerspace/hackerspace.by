@@ -53,6 +53,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
+    comma (3.2.1)
+      activesupport (>= 3.0.0)
     daemons (1.1.9)
     devise (3.2.4)
       bcrypt (~> 3.0)
@@ -76,6 +78,9 @@ GEM
     highline (1.6.21)
     hike (1.2.3)
     i18n (0.6.11)
+    jbuilder (2.0.7)
+      activesupport (>= 3.0.0, < 5)
+      multi_json (~> 1.2)
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -183,11 +188,13 @@ DEPENDENCIES
   bootstrap-sass (>= 3.1.1)
   capistrano (~> 2)
   coffee-rails (~> 4.0.0)
+  comma
   devise
   devise-i18n
   faker
   haml
   haml-rails
+  jbuilder
   jquery-rails
   paperclip
   pg

@@ -20,6 +20,8 @@ group :production do
   gem 'pg'
 end
 
+gem 'jbuilder'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -38,6 +40,7 @@ gem 'tail'
 gem 'paperclip'
 gem 'sanitize'
 gem 'redcarpet'
+gem 'comma'
 
 group :development do
   gem 'capistrano', '~> 2'
