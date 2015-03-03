@@ -18,7 +18,7 @@ unless Rails.env.production?
   Device.create(name: 'device1', password: '111111')
   Device.create(name: 'device2', password: '111111')
 
-  11.times do
-    Event.create(event_type: Faker::Commerce.product_name, value: Faker::Commerce.product_name, device: Device.all.sample)
+  22.times do
+    Event.create(event_type: 'light', value: ['on', 'off'].sample, device: Device.all.sample)
   end
 end
