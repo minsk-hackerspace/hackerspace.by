@@ -7,7 +7,7 @@
         -header << ' ' + t("hsopen.#{@hs_open_status}") if @hs_open_status == Hspace::OPENED
         =header
 
-  -if Time.now < Time.parse('2015-Mar-18')
+  -if Time.now < Time.parse('2015-Mar-21')
     %a{href: 'https://groups.google.com/forum/?hl=ru#!topic/hackerspace-minsk/ewaHEoU0MhU', target: '_blank'}
       = image_tag(image_path('/images/lut.jpg'), width: '100%')
     %hr
