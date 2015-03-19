@@ -10,15 +10,12 @@ Wiki: https://github.com/minsk-hackerspace/hspace/wiki
 
 Как запустить локальную копию сайта:
 
-`$ git clone https://github.com/minsk-hackerspace/hspace`
-
-`$ cd hspace`
-
-`$ bundle install`
-
-`$ bundle exec rake db:setup`
-
-`$ bundle exec rails server`
-
+```
+git clone https://github.com/minsk-hackerspace/hspace
+cd hspace
+bundle install
+bundle exec rake db:setup
+bundle exec rails server
+```
 
 Дождаться старта сервера, после чего идти на http://localhost:3000/. По умолчанию создаётся пользователь developer@hackerspace.by с паролем '111111'.
