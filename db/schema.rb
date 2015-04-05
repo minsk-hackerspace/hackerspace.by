@@ -13,14 +13,14 @@
 
 ActiveRecord::Schema.define(version: 20150303223327) do
 
-  create_table "devices", force: true do |t|
+  create_table "devices", force: :cascade do |t|
     t.string   "name",               null: false
     t.string   "encrypted_password", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "events", force: true do |t|
+  create_table "events", force: :cascade do |t|
     t.string   "event_type"
     t.string   "value"
     t.integer  "device_id"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20150303223327) do
     t.boolean  "repeated",   default: false
   end
 
-  create_table "projects", force: true do |t|
+  create_table "projects", force: :cascade do |t|
     t.string   "name"
     t.text     "short_desc"
     t.text     "full_desc"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20150303223327) do
 
   add_index "projects", ["user_id"], name: "index_projects_on_user_id"
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
