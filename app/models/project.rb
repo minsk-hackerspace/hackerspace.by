@@ -38,5 +38,6 @@ class Project < ActiveRecord::Base
 
   validates :name, :short_desc, :project_status, presence: true
   validates :markup_type, inclusion: SUPPORTED_MARKUPS
+  scope :published, -> { where public: true }
 
 end

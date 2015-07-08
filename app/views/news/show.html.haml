@@ -1,0 +1,17 @@
+%h1
+  = @news.title
+
+.lead
+  = markup2html @news.short_desc, @news.markup_type
+%hr
+  =image_tag @news.photo.url(:original), class: 'center-block'
+%hr
+.lead
+  = markup2html @news.description, @news.markup_type
+
+-if user_signed_in? && (@news.user == current_user or @news.public)
+  = link_to 'Изменить', edit_news_path(@news), class: 'btn btn-info'
+
+= link_to 'Назад', news_index_path, class: 'btn btn-default'
+
+%br.bottom_margin

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :projects
+  resources :news
   resources :devices, only: [:index, :show]
   get '/rules', to: 'main#rules'
   get '/calendar', to: 'main#calendar'
