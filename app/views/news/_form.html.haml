@@ -1,0 +1,30 @@
+= form_for @news do |f|
+  - if @news.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@news.errors.count, "error")} prohibited this news from being saved:"
+      %ul
+        - @news.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group.mandatory
+    = f.label :title
+    = f.text_field :title, class: 'form-control'
+  .form-group.mandatory
+    = f.label :short_desc
+    = f.text_area :short_desc, class: 'form-control'
+  .form-group.mandatory
+    = f.label :description
+    = f.text_area :description, class: 'form-control'
+  .row
+    .form-group.col-lg-2
+      = f.label 'Тип разметки текста'
+      = f.collection_select :markup_type, Project::SUPPORTED_MARKUPS, :to_s, :to_s, {}, class: 'form-control'
+  .form-group.mandatory
+    = f.label 'Изображение, до 3 МБ'
+    = f.file_field :photo
+
+  .form-group
+    = f.label :public
+    = f.check_box :public
+  .form-group
+    = f.submit 'Сохранить', class: 'btn btn-default'

@@ -28,8 +28,11 @@
             %li
               %a{href: 'https://www.facebook.com/hs.minsk/photos_stream?tab=photos_albums', target: '_blank'} Фотографии
             %li
-              =link_to 'Контакты', contacts_path
-            -if user_signed_in?
+              = link_to 'Новости', news_index_path
+            %li
+              = link_to 'Контакты', contacts_path
+
+            - if user_signed_in?
               %li
                 =link_to 'Устройства', devices_path
           %ul.nav.navbar-nav.navbar-right.lead
