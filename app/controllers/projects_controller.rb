@@ -66,7 +66,7 @@ class ProjectsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_project
-      @project = Project.published.find(params[:id])
+      @project = Project.find(params[:id])
       if @project.public or @project.user == current_user
         @project
       else
