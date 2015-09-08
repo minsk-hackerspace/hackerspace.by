@@ -13,14 +13,14 @@
 
 ActiveRecord::Schema.define(version: 20150706142233) do
 
-  create_table "devices", force: true do |t|
+  create_table "devices", force: :cascade do |t|
     t.string   "name",               limit: nil, null: false
     t.string   "encrypted_password", limit: nil, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "events", force: true do |t|
+  create_table "events", force: :cascade do |t|
     t.string   "event_type", limit: nil
     t.string   "value",      limit: nil
     t.integer  "device_id"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20150706142233) do
     t.datetime "updated_at"
   end
 
-  create_table "projects", force: true do |t|
+  create_table "projects", force: :cascade do |t|
     t.string   "name",               limit: nil
     t.text     "short_desc"
     t.text     "full_desc"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20150706142233) do
 
   add_index "projects", ["user_id"], name: "index_projects_on_user_id"
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: nil, default: "", null: false
     t.string   "encrypted_password",     limit: nil, default: "", null: false
     t.string   "reset_password_token",   limit: nil

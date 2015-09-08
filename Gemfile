@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.8'
+gem 'rails', '4.2.4'
 gem 'rails-i18n'
 
 gem 'thin', platform: :ruby, group: :development
@@ -25,7 +25,7 @@ gem 'jbuilder'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-gem 'devise'
+gem 'devise', '~> 3.4.0'
 gem 'devise-i18n'
 gem 'sass-rails', '~> 4.0.3'
 gem 'bootstrap-sass', '>= 3.1.1'
@@ -38,6 +38,7 @@ gem 'haml-rails'
 
 gem 'tail'
 gem 'paperclip'
+gem 'responders', '~> 2.0'
 gem 'sanitize'
 gem 'redcarpet'
 gem 'comma'
@@ -45,7 +46,7 @@ gem 'comma'
 group :development do
   gem 'capistrano', '~> 2'
   gem 'faker'
-  gem 'web-console' #Rails 4.1+ recommended debug gem
+  gem 'web-console', '~> 2.0' #Rails 4.1+ recommended debug gem
   gem 'pry'
   gem 'quiet_assets'
   gem 'sqlite3'
