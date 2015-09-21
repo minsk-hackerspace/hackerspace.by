@@ -14,22 +14,22 @@
 ActiveRecord::Schema.define(version: 20150706142233) do
 
   create_table "devices", force: :cascade do |t|
-    t.string   "name",               limit: nil, null: false
-    t.string   "encrypted_password", limit: nil, null: false
+    t.string   "name",               null: false
+    t.string   "encrypted_password", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "events", force: :cascade do |t|
-    t.string   "event_type", limit: nil
-    t.string   "value",      limit: nil
+    t.string   "event_type"
+    t.string   "value"
     t.integer  "device_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "repeated",               default: false
+    t.boolean  "repeated",   default: false
   end
 
-  create_table "news", force: true do |t|
+  create_table "news", force: :cascade do |t|
     t.string   "title"
     t.text     "short_desc"
     t.text     "description"
@@ -45,35 +45,35 @@ ActiveRecord::Schema.define(version: 20150706142233) do
   end
 
   create_table "projects", force: :cascade do |t|
-    t.string   "name",               limit: nil
+    t.string   "name"
     t.text     "short_desc"
     t.text     "full_desc"
-    t.string   "image",              limit: nil
+    t.string   "image"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "photo_file_name",    limit: nil
-    t.string   "photo_content_type", limit: nil
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
     t.integer  "user_id"
-    t.string   "markup_type",        limit: nil, default: "html"
-    t.boolean  "public",                         default: false
-    t.string   "project_status",     limit: nil, default: "активный"
+    t.string   "markup_type",        default: "html"
+    t.boolean  "public",             default: false
+    t.string   "project_status",     default: "активный"
   end
 
   add_index "projects", ["user_id"], name: "index_projects_on_user_id"
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: nil, default: "", null: false
-    t.string   "encrypted_password",     limit: nil, default: "", null: false
-    t.string   "reset_password_token",   limit: nil
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",     limit: nil
-    t.string   "last_sign_in_ip",        limit: nil
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
