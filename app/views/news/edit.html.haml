@@ -4,7 +4,7 @@
 
 %hr
 
-= link_to 'Назад к списку новостей', projects_path, class: 'btn btn-info btn-sm'
+= link_to 'Назад к списку новостей', news_path, class: 'btn btn-info btn-sm'
 
-= link_to 'Удалить', project_path(@news), class: 'btn btn-danger btn-sm', data: { confirm: "Точно?" }, method: :delete
+= link_to 'Удалить', news_path(@news), class: 'btn btn-danger btn-sm', data: { confirm: "Точно?" }, method: :delete
 %hr

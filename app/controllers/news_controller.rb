@@ -58,7 +58,7 @@ class NewsController < ApplicationController
   def destroy
     @news.destroy
     respond_to do |format|
-      format.html { redirect_to news_url, notice: 'News was successfully destroyed.' }
+      format.html { redirect_to news_index_path, notice: 'News was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
