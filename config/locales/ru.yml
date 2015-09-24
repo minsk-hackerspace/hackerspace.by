@@ -43,10 +43,18 @@ ru:
     у которых всегда можно попросить совета и помощи."
     how_to_find: "Как нас найти?"
     how_to_find_muted: "Приходите."
-    how_to_find_content: "Мы находимся по адресу: ул. Беды, 45 \
+    how_to_find_content_text: "Мы находимся по адресу: ул. Беды, 45 \
     (<a target=\"_blank\" href=\"http://osm.org/go/0lrH6qujk--?m\">карта</a>). \
     Вход со двора, наш подвальчик слева от третьего подъезда. <br/> Важно! У нас нет вахтёра, \
     а, значит, попасть к нам можно только вместе с кем-нибудь или в день открытых дверей. Поэтому, прежде чем приходить \
     в первый раз, уточните время в <a href=\"/calendar\">календаре</a>, на <a href=\"https://groups.google.com/d/forum/hackerspace-minsk\">форуме</a>, \
     в группе <a href=\"https://www.facebook.com/hs.minsk\">Facebook</a> или
     <a href=\"http://vk.com/hackerspace_minsk\">Вконтакте</a>. <br/>"
+    how_to_find_content_list: "<table> \
+    <tr> <td> Maillist (форум) </td> <td> <a href=\"https://groups.google.com/d/forum/hackerspace-minsk\">groups.google.com/d/forum/hackerspace-minsk</a> </td> </tr>\
+    <tr> <td> IRC </td> <td> <a href=\"irc://irc.bynets.org/#hackerspace\">irc.bynets.org/#hackerspace</a> </td> \
+    <tr> <td> github </td> <td> <a href=\"https://github.com/minsk-hackerspace\">github.com/minsk-hackerspace</a> </td> \
+    <tr> <td> FB </td> <td> <a href=\"https://www.facebook.com/hs.minsk\">facebook.com/hs.minsk</a> </td> \
+    <tr> <td> VK </td> <td> <a href=\"http://vk.com/hackerspace_minsk\">vk.com/hackerspace_minsk</a> </td> \
+    </table>"
+
