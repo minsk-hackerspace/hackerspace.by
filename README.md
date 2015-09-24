@@ -1,18 +1,18 @@
 Проект сайта [минского хакерспейса] (http://hackerspace.by).
 
-Это основной Git-репозиторий: https://github.com/minsk-hackerspace/hspace
+Это основной Git-репозиторий: https://github.com/minsk-hackerspace/hsWEB
 
-Wiki: https://github.com/minsk-hackerspace/hspace/wiki
+Wiki: https://github.com/minsk-hackerspace/hsWEB/wiki
 
-Изменения можно предлагать через [issues] (https://github.com/minsk-hackerspace/hspace/issues), или, если вы владеете Git (а им стоит овладеть!), просто присылайте pull-request.
+Изменения можно предлагать через [issues] (https://github.com/minsk-hackerspace/hsWEB/issues), или, если вы владеете Git (а им стоит овладеть!), просто присылайте pull-request.
 
 Для разработки вам понадобится иметь установленный интерпретатор Ruby (версии 1.9 и выше, см. https://www.ruby-lang.org/en/installation/) и bundler (http://bundler.io/).
 
 Как запустить локальную копию сайта:
 
 ```
-git clone https://github.com/minsk-hackerspace/hspace
-cd hspace
+git clone https://github.com/minsk-hackerspace/hsWEB
+cd hsWEB
 bundle install
 bundle exec rake db:setup
 bundle exec rails server
