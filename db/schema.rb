@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150706142233) do
+ActiveRecord::Schema.define(version: 20150922211508) do
 
   create_table "devices", force: :cascade do |t|
     t.string   "name",               null: false
@@ -30,18 +30,21 @@ ActiveRecord::Schema.define(version: 20150706142233) do
   end
 
   create_table "news", force: :cascade do |t|
-    t.string   "title"
+    t.string   "title",                      limit: 255
     t.text     "short_desc"
     t.text     "description"
-    t.string   "photo_file_name"
-    t.string   "photo_content_type"
+    t.string   "photo_file_name",            limit: 255
+    t.string   "photo_content_type",         limit: 255
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
     t.integer  "user_id"
     t.boolean  "public"
-    t.string   "markup_type"
+    t.string   "markup_type",                limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "show_on_homepage"
+    t.datetime "show_on_homepage_till_date"
+    t.string   "url"
   end
 
   create_table "projects", force: :cascade do |t|

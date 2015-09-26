@@ -14,6 +14,8 @@ class News < ActiveRecord::Base
   validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
   validates_attachment :photo, size: { in: 0..3.megabytes }
   validates :markup_type, inclusion: SUPPORTED_MARKUPS
+  validates :show_on_homepage_till_date, presence: true, if: :show_on_homepage
 
   scope :published, -> { where public: true }
+  scope :homepage, -> { where show_on_homepage: true }
 end

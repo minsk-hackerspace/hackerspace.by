@@ -5,12 +5,11 @@
       %ul
         - @news.errors.full_messages.each do |msg|
           %li= msg
-
   .form-group.mandatory
     = f.label :title
     = f.text_field :title, class: 'form-control'
   .form-group.mandatory
-    = f.label :short_desc
+    = f.label 'Краткое описание'
     = f.text_area :short_desc, class: 'form-control'
   .form-group.mandatory
     = f.label :description
@@ -22,9 +21,17 @@
   .form-group.mandatory
     = f.label 'Изображение, до 3 МБ'
     = f.file_field :photo
-
   .form-group
     = f.label :public
     = f.check_box :public
+  .form-group
+    = f.label 'Показывать на главной'
+    = f.check_box :show_on_homepage
+  .form-group
+    = f.label 'Показывать на главной до'
+    = f.datetime_select :show_on_homepage_till_date
+  .form-group
+    = f.label 'Url'
+    = f.text_field :url, class: 'form-control'
   .form-group
     = f.submit 'Сохранить', class: 'btn btn-default'
