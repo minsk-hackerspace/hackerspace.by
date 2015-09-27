@@ -24,4 +24,16 @@ module ApplicationHelper
       text.html_safe
     end
   end
+
+  def show_afisha
+    if news = News.homepage.where("show_on_homepage_till_date > ? ", Time.now).order(created_at: :desc).first
+      url = news.url.present? ? news.url : news_path(news)
+
+      html = link_to url, target: '_blank', rel: 'no-follow', title: news.short_desc do
+        image_tag(image_path(news.photo.url(:original)), width: '50%', style: 'margin: auto 25%', alt: news.short_desc)
+      end
+      html << tag(:hr)
+      html
+    end
+  end
 end

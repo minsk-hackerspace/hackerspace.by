@@ -7,11 +7,7 @@
         -header << ' ' + t("hsopen.#{@hs_open_status}") if @hs_open_status == Hspace::OPENED
         =header
 
-  -if Time.now < Time.parse('2015-Sep-27')
-    %a{href: 'https://www.facebook.com/events/167122610293914/?__mref=message_bubble', target: '_blank'}
-      = image_tag(image_path('/images/cat_party.jpg'), width: '50%', style: 'margin: auto 25%')
-    %hr
-
+  = show_afisha
   .bs-callout.bs-callout-info.alert-dismissable
     %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", type: "button"} &times;
     %p.notice
