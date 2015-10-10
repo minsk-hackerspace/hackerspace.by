@@ -6,8 +6,8 @@
         -header = t('index.hello_world_description')
         -header << ' ' + t("hsopen.#{@hs_open_status}") if @hs_open_status == Hspace::OPENED
         =header
-
-  = show_afisha
+  .row.featurette
+    = show_afisha
   .bs-callout.bs-callout-info.alert-dismissable
     %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", type: "button"} &times;
     %p.notice

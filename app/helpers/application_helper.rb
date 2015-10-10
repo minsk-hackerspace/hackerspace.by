@@ -26,14 +26,24 @@ module ApplicationHelper
   end
 
   def show_afisha
-    if news = News.homepage.where("show_on_homepage_till_date > ? ", Time.now).order(created_at: :desc).first
-      url = news.url.present? ? news.url : news_path(news)
+    if news = News.homepage.where("show_on_homepage_till_date > ? ", Time.now).order(created_at: :desc).limit(2)
 
-      html = link_to url, target: '_blank', rel: 'no-follow', title: news.short_desc do
-        image_tag(image_path(news.photo.url(:original)), width: '50%', style: 'margin: auto 25%', alt: news.short_desc)
+      html = ""
+      image_style = news.count < 2 ? 'margin: auto 25%' : ''
+      column_class = news.count < 2 ? "col-md" : "col-md-6"
+
+      news.each do |news|
+        url = news.url.present? ? news.url : news_path(news)
+
+        html << content_tag(:div, class: column_class) do
+          link_to(url, target: '_blank', rel: 'no-follow', title: strip_tags(news.short_desc)) do
+            image_tag(image_path(news.photo.url(:original)), class: "featurette-image img-responsive center",
+                      style: "float:left; #{image_style}", alt: strip_tags(news.short_desc)
+            )
+          end
+        end
       end
-      html << tag(:hr)
-      html
+      html.html_safe
     end
   end
 end
