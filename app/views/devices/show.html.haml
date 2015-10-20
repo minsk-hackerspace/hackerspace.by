@@ -9,6 +9,8 @@
       = t ".value"
     %th
       = t ".time"
+    %th
+      = t ".last_time"
   %tbody
     - @events.first(100).each do |event|
       %tr
@@ -17,6 +19,8 @@
         %td
           = event.value
         %td
-          = event.created_at.to_s(:short)
+          = event.created_at.to_s
+        %td
+          = event.updated_at.to_s
 
 = link_to 'Назад', devices_path, class: 'btn btn-default'
