@@ -30,16 +30,16 @@ ActiveRecord::Schema.define(version: 20150922211508) do
   end
 
   create_table "news", force: :cascade do |t|
-    t.string   "title",                      limit: 255
+    t.string   "title"
     t.text     "short_desc"
     t.text     "description"
-    t.string   "photo_file_name",            limit: 255
-    t.string   "photo_content_type",         limit: 255
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
     t.integer  "user_id"
     t.boolean  "public"
-    t.string   "markup_type",                limit: 255
+    t.string   "markup_type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "show_on_homepage"
