@@ -15,5 +15,5 @@
 /log/*.log
 /tmp
 /.idea
-/public/system/projects
+/public/system
 *.swp

@@ -1,19 +1,20 @@
 %h1 Новости
-%hr
 
 .container
-  - @news.each_slice(3) do |news_row|
+  - @news.each do |news|
     .row
-      - news_row.each do |news|
-        .col-lg-4
-          = link_to image_tag(news.photo.url(:thumb), class: 'center-block'), news_path(news)
-          %h2
-            = link_to news.title, news_path(news)
-
-          %p
-            = news.short_desc.html_safe
-          %p
-            %a.btn.btn-default{href: news_path(news), role: 'button'} Читать дальше &raquo;
+      .col-lg-2
+      .col-lg-8
+        %h2
+          = link_to news.title, news_path(news)
+        %p
+          = link_to image_tag(news.photo.url(:medium), class: 'center-block'), news_path(news)
+        %p
+          = news.short_desc.html_safe
+        %p
+          %a.btn.btn-default{href: news_path(news), role: 'button'} Читать дальше &raquo;
+        %hr
+      .col-lg-2
 
   - if user_signed_in?
     %hr
