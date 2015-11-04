@@ -1,14 +1,14 @@
 %h1 Наши проекты
-%hr
 
 .container
-  - @projects.each_slice(3) do |project_row|
+  - @projects.each_slice(2) do |project_row|
     .row
       - project_row.each do |project|
-        .col-lg-4
-          = link_to image_tag(project.photo.url(:thumb), class: 'center-block'), project_path(project)
+        .col-lg-6
           %h2
             = link_to project.name, project_path(project)
+          %p
+            = link_to image_tag(project.photo.url(:medium), class: 'left-block'), project_path(project)
           %p
             %em
               Статус:

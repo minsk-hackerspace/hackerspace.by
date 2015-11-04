@@ -28,7 +28,7 @@ class Project < ActiveRecord::Base
   has_attached_file :photo,
                     styles: {
                       original: '600x600>',
-                      medium: '300x300>',
+                      medium: '400x400#',
                       thumb: '200x200>'
                     },
                     default_url: 'default.png'
