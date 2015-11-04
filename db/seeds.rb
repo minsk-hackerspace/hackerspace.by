@@ -3,6 +3,7 @@ unless Rails.env.production?
   User.destroy_all
   Device.destroy_all
   Event.destroy_all
+  News.destroy_all
 
   User.create(email: 'developer@hackerspace.by', password: '111111')
   User.create(email: 'developer2@hackerspace.by', password: '111111')
@@ -13,6 +14,14 @@ unless Rails.env.production?
                     full_desc: Faker::Lorem.paragraph(rand(7..20)),
                     user: User.all.sample,
                     photo: File.open(Dir['public/images/*.jpg'].sample))
+  end
+  7.times do
+    News.create!(title: Faker::Commerce.product_name,
+                 short_desc: Faker::Lorem.paragraph(rand(5..12)),
+                 description: Faker::Lorem.paragraph(rand(7..20)),
+                 public: true,
+                 markup_type: 'html',
+                 photo: File.open(Dir['public/images/*.jpg'].sample))
   end
 
   Device.create(name: 'device1', password: '111111')
