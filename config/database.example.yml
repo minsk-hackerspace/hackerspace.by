@@ -1,0 +1,27 @@
+# SQLite version 3.x
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+#
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+#  database: hspace_development
+  pool: 5
+#  username: myapp
+#  password: password1
+
+
+development:
+  adapter: sqlite3
+  database: db/hspace_development.sqlite3
+  pool: 5
+  timeout: 5000
+
+test:
+  adapter: sqlite3
+  database: db/hspace_test.sqlite3
+  pool: 5
+  timeout: 5000
