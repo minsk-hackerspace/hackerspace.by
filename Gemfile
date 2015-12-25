@@ -43,6 +43,8 @@ gem 'sanitize'
 gem 'redcarpet'
 gem 'comma'
 
+gem 'factory_girl_rails', require: false
+
 group :development do
   gem 'capistrano', '~> 2'
   gem 'faker'
@@ -54,4 +56,8 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
+end
+
+group :test do
+  gem 'shoulda-matchers', '2.8.0'
 end
