@@ -1,4 +1,5 @@
 ru:
+  site_title: "Открытая лаборатория технического творчества"
   activerecord:
     attributes:
       project:
