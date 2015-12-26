@@ -1,9 +1,10 @@
 !!!
 %html
   %head
-    %title Открытая лаборатория технического творчества
+    %title= page_title
     %meta{name: :description, content: 'Минский хакерспейс, DIY community, 3D принтер, ЧПУ фрезер, паяльная станция, Минск, проекты, сделай сам, arduino'}
     %meta{name: :keywords, content: 'Хакерспейс, DIY community, 3D принтер, ЧПУ фрезер, паяльная станция, Минск, проекты, сделай сам, arduino'}
+    = render partial: 'layouts/og_meta_tags'
     = csrf_meta_tags
     = render partial: 'shared/google_analytics' unless Rails.env.development?
   %body
@@ -16,7 +17,7 @@
             %span.icon-bar
             %span.icon-bar
           %a.navbar-brand#brand{href: root_path}
-            =image_tag 'default.png', height: '70px', class: "hsopen-#{@hs_open_status}", title: t("hsopen.#{@hs_open_status}").to_s
+            = image_tag 'default.png', height: '70px', class: "hsopen-#{@hs_open_status}", title: t("hsopen.#{@hs_open_status}").to_s
         .collapse.navbar-collapse#navbar
           %ul.nav.navbar-nav.lead
             %li
