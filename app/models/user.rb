@@ -24,4 +24,7 @@ class User < ActiveRecord::Base
          #:recoverable, :rememberable, :trackable, :validatable
 
   has_many :projects
+
+  validates :email, presence: true, uniqueness: true, length: {maximum: 255}
+
 end
