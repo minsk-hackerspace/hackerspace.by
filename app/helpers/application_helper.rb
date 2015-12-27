@@ -5,6 +5,11 @@ module ApplicationHelper
     @project.try(:name) || @news.try(:title) || t('site_title')
   end
 
+  #TODO
+  def page_description
+    strip_tags(t('index.what_is_it_content'))
+  end
+
   def markdown(text)
     renderer = Redcarpet::Render::HTML.new(hard_wrap: true, filter_html: true)
     options = {
