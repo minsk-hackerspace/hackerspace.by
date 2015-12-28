@@ -4,6 +4,7 @@
     %title= page_title
     %meta{name: :description, content: 'Минский хакерспейс, DIY community, 3D принтер, ЧПУ фрезер, паяльная станция, Минск, проекты, сделай сам, arduino'}
     %meta{name: :keywords, content: 'Хакерспейс, DIY community, 3D принтер, ЧПУ фрезер, паяльная станция, Минск, проекты, сделай сам, arduino'}
+    %meta{ charset: "utf-8" }
     = render partial: 'layouts/og_meta_tags'
     = csrf_meta_tags
     = render partial: 'shared/google_analytics' unless Rails.env.development?
