@@ -14,8 +14,9 @@ Rails.application.config.spaceapi_data = {
     facebook: "https://www.facebook.com/hs.minsk",
     irc: "irc://irc.bynets.org/#hackerspace",
     ml: "hackerspace-minsk@googlegroups.com",
+    email: "info@hackerspace.by",
   },
-  issue_report_channels: [:ml],
+  issue_report_channels: [:ml, :email],
   projects: [
     "http://hackerspace.by/projects/",
     "https://github.com/minsk-hackerspace/",
