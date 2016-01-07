@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :check_if_hs_open
+  before_action :check_for_present_people
 
   def check_if_hs_open
     @event = Event.light.where('created_at >= ?', 30.minutes.ago).order(created_at: :desc).first
@@ -15,6 +16,11 @@ class ApplicationController < ActionController::Base
                       end
     # @hs_open_status = Hspace::OPENED
     # для отладки индикатора
+  end
+
+  def check_for_present_people
+    d = Device.where("name=?", 'bob').first
+    @hs_present_people = d.events.where('created_at >= ?', 5.minutes.ago).group(:value).map {|e| e.value}
   end
 
   private

@@ -3,7 +3,10 @@
     %h1
       =t 'index.hello_world'
       .small
-        = t('index.hello_world_description') + (@hs_open_status == Hspace::OPENED ? ' ' + t("hsopen.#{@hs_open_status}") : '')
+        %p
+          =t('index.hello_world_description') + (@hs_open_status == Hspace::OPENED ? ' ' + t("hsopen.#{@hs_open_status}") : '')
+        %p
+          ='Сейчас в хакерспейсе: ' + @hs_present_people.join(', ') if @hs_open_status == Hspace::OPENED
 
   .row.featurette
     = show_afisha
