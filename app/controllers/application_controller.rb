@@ -20,7 +20,8 @@ class ApplicationController < ActionController::Base
 
   def check_for_present_people
     d = Device.where("name=?", 'bob').first
-    @hs_present_people = d.events.where('created_at >= ?', 5.minutes.ago).group(:value).map {|e| e.value}
+    @hs_present_people = d.events.where('created_at >= ?', 5.minutes.ago).map {|e| e.value}
+    @hs_present_people.uniq!
   end
 
   private
