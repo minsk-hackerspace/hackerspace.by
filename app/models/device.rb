@@ -23,7 +23,7 @@ class Device < ActiveRecord::Base
   end
 
   def check_if_repeated?(event_type, value)
-    events.where(event_type: event_type).last.value == value
+    events.where(event_type: event_type).last.value == value unless events.where(event_type: event_type).last.nil?
   end
 
   def mark_repeated_events
