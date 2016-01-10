@@ -29,6 +29,9 @@
 %h2 Как нас найти
 %p.lead
   = t('index.how_to_find_content_text').html_safe
+%center
+  %img{src: image_path('/images/enterance.jpg'), width: '50%'}
+
 %h2 Карта
 %center
   %iframe{width:'800', height:'600', src: 'http://www.openstreetmap.org/export/embed.html?marker=53.9430552430846%2C27.597586512565613&bbox=27.59439468383789%2C53.9418443482044%2C27.600778341293335%2C53.944266102816115', style: 'border: 1px black solid; align: center;'}

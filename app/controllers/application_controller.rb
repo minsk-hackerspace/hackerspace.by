@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_action :check_if_hs_open
-  before_action :check_for_present_people
+  before_action :check_if_hs_open if Rails.env.production?
+  before_action :check_for_present_people if Rails.env.production?
 
   def check_if_hs_open
     @event = Event.light.where('created_at >= ?', 30.minutes.ago).order(created_at: :desc).first
@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_for_present_people
-    d = Device.where("name=?", 'bob').first
+    d = Device.find_by(name: 'bob')
     @hs_present_people = d.events.where('created_at >= ?', 5.minutes.ago).map {|e| e.value}
     @hs_present_people.uniq!
   end
