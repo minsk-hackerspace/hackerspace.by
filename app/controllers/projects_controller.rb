@@ -4,7 +4,6 @@ require 'sanitize'
 class ProjectsController < ApplicationController
   before_action :authenticate_user!, only: [:edit, :update, :destroy, :new, :create]
   before_action :set_project, only: [:edit, :update, :destroy]
-  before_action :sanitize, only: [:update, :create]
 
   # GET /projects
   # GET /projects.json
@@ -74,15 +73,14 @@ class ProjectsController < ApplicationController
       end
     end
 
-  def sanitize
-    project_params[:short_desc] = Sanitize.clean(project_params[:short_desc], Sanitize::Config::RELAXED)
-    project_params[:full_desc] = Sanitize.clean(project_params[:full_desc], Sanitize::Config::RELAXED)
-  end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
       permitted_attrs = [:name, :short_desc, :full_desc, :photo, :markup_type, :project_status]
       permitted_attrs << :public if @project.present? && @project.user == current_user
-      params.require(:project).permit(permitted_attrs)
+
+      result_params = params.require(:project).permit(permitted_attrs)
+      result_params[:short_desc] = Sanitize.clean(result_params[:short_desc], Sanitize::Config::RELAXED)
+      result_params[:full_desc] = Sanitize.clean(result_params[:full_desc], Sanitize::Config::RELAXED)
+      result_params
     end
 end
