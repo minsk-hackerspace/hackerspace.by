@@ -1,12 +1,10 @@
-Проект сайта [минского хакерспейса] (http://hackerspace.by).
+Web site of Minsk Hackerspace - http://hackerspace.by/ 
 
-Это основной Git-репозиторий: https://github.com/minsk-hackerspace/hsWEB
+Документация в Wiki: https://github.com/minsk-hackerspace/hsWEB/wiki
 
-Wiki: https://github.com/minsk-hackerspace/hsWEB/wiki
+Новички могут посоздавать [issues] (https://github.com/minsk-hackerspace/hsWEB/issues), а для прокачанных, как обычно, git и pull-request'ы.
 
-Изменения можно предлагать через [issues] (https://github.com/minsk-hackerspace/hsWEB/issues), или, если вы владеете Git (а им стоит овладеть!), просто присылайте pull-request.
-
-Для разработки вам понадобится иметь установленный интерпретатор Ruby (версии 1.9 и выше, см. https://www.ruby-lang.org/en/installation/) и bundler (http://bundler.io/).
+Для разработки нужен [Ruby версии 1.9 и выше](https://www.ruby-lang.org/en/installation/), а также `bundler` (http://bundler.io/).
 
 Как запустить локальную копию сайта:
 
@@ -18,4 +16,6 @@ bundle exec rake db:setup
 bundle exec rails server
 ```
 
-Дождаться старта сервера, после чего идти на http://localhost:3000/. По умолчанию создаётся пользователь developer@hackerspace.by с паролем '111111'.
+`bundler` устанавливает библиотеки глобально, поэтому если не хочется мусорить, стоит посмотреть на RVM.
+
+После старта сайт будет доступен на http://localhost:3000/. Пользователь developer@hackerspace.by, пароль '111111'.
