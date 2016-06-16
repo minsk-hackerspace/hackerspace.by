@@ -18,4 +18,4 @@ bundle exec rails server
 
 `bundler` устанавливает библиотеки глобально, поэтому если не хочется мусорить, стоит посмотреть на RVM.
 
-После старта сайт будет доступен на http://localhost:3000/. Пользователь developer@hackerspace.by, пароль '111111'.
+После старта сайт будет доступен на [http://localhost:3000/](http://localhost:3000/). Пользователь developer@hackerspace.by, пароль '111111'.
