@@ -29,6 +29,8 @@ class MainController < ApplicationController
   end
 
   def webcam
+    authenticate_user!
+
     @snapshots = WebcamSnapshot.find_all
     @current_snapshot = nil
     if !params[:snapshot].nil?
