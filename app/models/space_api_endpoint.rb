@@ -21,9 +21,9 @@ class SpaceAPIEndpoint
       open: nil,
     },
     sensors: {
-      people_now_present: {
+      people_now_present: [{
         value: 0,
-      }
+      }]
     }
   }
 
