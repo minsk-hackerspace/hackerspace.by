@@ -5,7 +5,6 @@ Rails.application.config.spaceapi_data = {
   space: "Minsk Hackerspace",
   logo: "http://hackerspace.by/images/default.png",
   url: "http://hackerspace.by",
-  cam: ["http://hackerspace.by/webcam"],
   location: {
     address: "Basement near the entrance 3, vul. Biady 45, Minsk, Belarus",
     lon: 27.59749,
