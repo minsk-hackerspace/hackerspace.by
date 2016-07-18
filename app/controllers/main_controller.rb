@@ -16,6 +16,8 @@ class MainController < ApplicationController
     if @hs_open_status != Hspace::UNKNOWN
       endpoint[:state][:open] = @hs_open_status == Hspace::OPENED
       endpoint[:state][:lastchange] = Event.order(updated_at: :desc).first.updated_at.to_i
+      endpoint[:sensors][:people_now_present][0][:value] = @hs_present_people.count unless @hs_present_people.nil?
+      endpoint[:sensors][:people_now_present][0][:names] = @hs_present_people unless @hs_present_people.nil?
     end
 
     response.headers['Access-Control-Allow-Origin'] = '*'
