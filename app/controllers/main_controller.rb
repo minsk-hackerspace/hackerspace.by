@@ -25,5 +25,21 @@ class MainController < ApplicationController
       format.json { render json: endpoint }
     end
   end
+
+  def webcam
+    @snapshots = WebcamSnapshot.find_all
+    @current_snapshot = nil
+    if !params[:snapshot].nil?
+      @current_snapshot = @snapshots.find_index {|s| s.filename == params[:snapshot]}
+    else
+      @current_snapshot = @snapshots.size - 1 if !@snapshots.empty? and @snapshots.last.time >= 5.minutes.ago
+    end
+    logger.debug @snapshots.inspect
+    logger.debug @current_snapshot.inspect
+
+    respond_to do |format|
+      format.html
+    end
+  end
 end
 
