@@ -36,7 +36,7 @@ class MainController < ApplicationController
     if !params[:snapshot].nil?
       @current_snapshot = @snapshots.find_index {|s| s.filename == params[:snapshot]}
     else
-      @current_snapshot = @snapshots.size - 1 if !@snapshots.empty? and @snapshots.last.time >= 5.minutes.ago
+      @current_snapshot = @snapshots.size - 1 if !@snapshots.empty? and @snapshots.last.time >= Rails.application.config.webcam_timeout_mins.minutes.ago
     end
     logger.debug @snapshots.inspect
     logger.debug @current_snapshot.inspect

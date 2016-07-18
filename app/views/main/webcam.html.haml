@@ -3,7 +3,7 @@
   - unless @current_snapshot.nil?
     =image_tag @snapshots[@current_snapshot].url
   - else
-    %p За последние 5 минут ничего нет :(
+    %p За последние #{Rails.application.config.webcam_timeout_mins.minutes.ago} минут ничего нет :(
   %p Другие снимки:
   - @snapshots.reverse.each do |s|
     = link_to s.time, controller: 'main', action: 'webcam', snapshot: s.filename
