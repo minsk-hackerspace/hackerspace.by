@@ -67,6 +67,7 @@ after 'deploy:finalize_update', 'db:db_config'
 task :do_post_update_code_work do
   # install gems as needed in shared bundle folder instead of gemset
   run "cd #{release_path} && bundle install --without development test"
+  run "cd #{release_path} && ln -s /home/hswebcam public/webcam"
 
   if initial_deployment
     #Note that mongo must be set up and configured before the initial deployment,
