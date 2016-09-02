@@ -1,9 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.7.1'
 gem 'rails-i18n'
-
-gem 'thin', platform: :ruby, group: :development
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -17,6 +15,7 @@ gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 group :production do
+  gem 'puma', '~> 3.0'
   gem 'pg'
 end
 
@@ -46,7 +45,8 @@ gem 'comma'
 gem 'factory_girl_rails', require: false
 
 group :development do
-  gem 'capistrano', '~> 2'
+  gem 'thin', platform: :ruby
+  gem 'mina'
   gem 'faker'
   gem 'web-console', '~> 2.0' #Rails 4.1+ recommended debug gem
   gem 'pry'

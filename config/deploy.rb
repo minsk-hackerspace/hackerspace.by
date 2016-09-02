@@ -1,133 +1,132 @@
-require 'bundler/capistrano'
-require 'capistrano/ext/multistage'
-require 'rubygems'
-require 'action_view'
-require 'time'
+require 'mina/bundler'
+require 'mina/rails'
+require 'mina/git'
+# require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
+require 'mina/rvm'    # for rvm support. (http://rvm.io)
 
-set :stages, %w(staging production)
+# Basic settings:
+#   domain       - The hostname to SSH to.
+#   deploy_to    - Path to deploy into.
+#   repository   - Git repo to clone from. (needed by mina/git)
+#   branch       - Branch name to deploy. (needed by mina/git)
 
-set :default_stage, 'staging'
+set :domain, '93.125.30.47'
+set :deploy_to, '/home/mhs/hackerspace.by'
+set :repository, 'git://github.com/minsk-hackerspace/hsWEB'
+set :branch, 'master'
 
-set :application, 'hspace'
+# Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
+# They will be linked in the 'deploy:link_shared_paths' step.
+set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'log']
 
-set :hspace_user, 'www-data'
-set :hspace_group, 'www-data'
+# Optional settings:
+set :user, 'mhs'    # Username in the server to SSH to.
+set :port, '22'     # SSH port number.
+#   set :forward_agent, true     # SSH forward_agent.
 
-default_run_options[:pty] = true # Must be set for the password prompt from git to work
-set :ssh_options, {
-    forward_agent: true,
-    auth_methods: %w(publickey password)
-}
-set :use_sudo, false
+# This task is the environment that is loaded for most commands, such as
+# `mina deploy` or `mina rake`.
 
-set :repository, 'git@github.com:minsk-hackerspace/hspace.git'
-set :scm, 'git'
-#set :scm_passphrase, 'PUTPASSWORDHERE'
-set :scm_verbose, true
-set :deploy_via, :remote_cache
-#To do an initial deployment, specify 'cap <environment> deploy -S initial_deployment=true'
-set :initial_deployment, fetch(:initial_deployment, false)
+# Put any custom mkdir's in here for when `mina setup` is ran.
+# For Rails apps, we'll make some of the shared paths that are shared between
+# all releases.
+task :setup => :environment do
+  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/log"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/log"]
 
-# role :web, 'vhost1074.dc1.co.us.compute.ihost.com', 'vhost1270.dc1.co.us.compute.ihost.com'
+  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/config"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/config"]
 
-# If you are using Passenger mod_rails uncomment this:
-# if you're still using the script/reapear helper you will need
-# these http://github.com/rails/irs_process_scripts
-# namespace :deploy do
-#   task :start do ; end
-#   task :stop do ; end
-#   task :restart, :roles => :app, :except => { :no_release => true } do
-#     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-#   end
-# end
+  queue! %[touch "#{deploy_to}/#{shared_path}/config/database.yml"]
+  queue! %[touch "#{deploy_to}/#{shared_path}/config/secrets.yml"]
+  queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml' and 'secrets.yml'."]
 
+  queue! %[ln -s /var/log/nginx/error.log "#{deploy_to}/#{shared_path}/log/nginx_error.log"]
+  queue! %[ln -s /var/log/nginx/access.log "#{deploy_to}/#{shared_path}/log/nginx_access.log"]
+  queue! %[ln -s "#{deploy_to}/#{current_path}"]
+  queue! %[ln -s "#{deploy_to}/#{shared_path}/log"]
 
-namespace :deploy do
-  %w(start stop).each do |action|
-    desc "#{action} the Thin processes"
+  if repository
+    repo_host = repository.split(%r{@|://}).last.split(%r{:|\/}).first
+    repo_port = /:([0-9]+)/.match(repository) && /:([0-9]+)/.match(repository)[1] || '22'
 
-    task action.to_sym, :on_error => :continue do
-      # we don't need to start or stop passenger
-    end
-  end
-
-  task :restart, :on_error => :continue do
-    run "touch #{current_path}/tmp/restart.txt"
-  end
-end
-
-namespace :db do
-  task :db_config, :except => {:no_release => true}, :role => :app do
-    run "cp -f ~/database.yml #{release_path}/config/database.yml"
+    queue %[
+      if ! ssh-keygen -H  -F #{repo_host} &>/dev/null; then
+        ssh-keyscan -t rsa -p #{repo_port} -H #{repo_host} >> ~/.ssh/known_hosts
+      fi
+    ]
   end
 end
 
-after 'deploy:finalize_update', 'db:db_config'
-
-task :do_post_update_code_work do
-  # install gems as needed in shared bundle folder instead of gemset
-  run "cd #{release_path} && bundle install --without development test"
-  run "cd #{release_path} && ln -s /home/hswebcam public/webcam"
-
-  if initial_deployment
-    #Note that mongo must be set up and configured before the initial deployment,
-    #or this will not work.
-    run "cd #{release_path} && RAILS_ENV=#{rails_env} #{rake} db:setup", :only => {:primary => true}
-  else
-    run "cd #{release_path} && RAILS_ENV=#{rails_env} #{rake} db:migrate", :only => {:primary => true}
+desc 'Deploys the current version to the server.'
+task :deploy => :environment do
+  to :before_hook do
+    # Put things to run locally before ssh
   end
-end
+  deploy do
+    invoke :'git:clone'
+    invoke :'deploy:link_shared_paths'
+    invoke :'bundle:install'
+    invoke :'rails:db_migrate'
+    invoke :'rails:assets_precompile'
+    invoke :'deploy:cleanup'
+    # queue! 'rm /etc/nginx/sites-enabled/trendom.conf'
+    # queue! "ln -s #{deploy_to}/#{current_path}/config/nginx/trendom.conf /etc/nginx/sites-enabled/trendom.conf"
 
-after 'deploy:update_code', :do_post_update_code_work
-
-# ---------------------
-# fancy deploy features
-# ---------------------
-class DeployHelper
-  include ActionView::Helpers::DateHelper
-end
-
-before 'deploy', 'deploy:check_for_initial_deployment'
-
-set :branch_reference, nil
-set :fork_info, nil
-
-namespace :deploy do
-  #To do an initial deployment, specify 'cap <environment> deploy -S initial_deployment=true'
-  task :check_for_initial_deployment do
-    if initial_deployment
-      puts "WARNING: You have requested an initial deployment.\n" \
-           "If hspace is currently installed, the version installed will be removed.\n"
-      ask_for_yes_no_input "Are you sure you want to proceed?"
-
-      #Remove any existing code/directories.
-      run "rm -rf #{deploy_to}/*"
-
-      #Set up the directories, ensuring correct ownership. Also create
-      #an initial REVISION file with an old, but valid, github tag.
-      run "mkdir -p #{deploy_to}/releases/000"
-      run "chown -R #{user}:#{hspace_group} #{deploy_to}"
-      run "ln -s #{deploy_to}/releases/000 #{deploy_to}/current"
-      run "echo 5e22b77e7f07d585ebe9a58eea927e3b280d0e11 > #{deploy_to}/current/REVISION"
-
-      #Create and set proper ownership/permissions on these as well. Be sure to do
-      #this AFTER the above.
-      run "mkdir -p #{shared_path}"
-      run "chown #{user}:#{hspace_group} #{shared_path}"
-      run "mkdir -p -m 2775 #{shared_path}/log"
-      run "mkdir -p -m 2775 #{shared_path}/pids"
-      run "touch #{shared_path}/log/#{rails_env}.log"
-      run "touch #{shared_path}/log/#{rails_env}_delayed_jobs.log"
-      run "chmod 664 #{shared_path}/log/#{rails_env}.log #{shared_path}/log/#{rails_env}_delayed_jobs.log"
-      run "chown -R #{user}:#{hspace_group} #{shared_path}/log #{shared_path}/pids"
+    to :launch do
+      invoke :restart
     end
   end
 end
 
-def ask_for_yes_no_input(question)
-  set(:deploy_proceed) { Capistrano::CLI.ui.ask "#{question} (Y/N) > " }
-  unless deploy_proceed =~ /^(y|yes)$/i
-    puts "quiting ..."
-    exit
-  end
+task :start => :environment do
+  invoke :cd
+  invoke :nginx_restart
+  invoke :puma_start
 end
+
+task :restart => :environment do
+  invoke :cd
+  invoke :nginx_restart
+  invoke :puma_restart
+
+end
+
+task :stop => :environment do
+  invoke :cd
+  invoke :nginx_restart
+  invoke :puma_stop
+end
+
+task :cd => :environment do
+  queue! "cd #{deploy_to}/#{current_path}"
+end
+
+task :reboot => :environment do
+  queue! 'sudo reboot'
+end
+
+task :puma_start => :environment do
+  invoke :cd
+  queue! 'puma -C config/puma.rb'
+end
+
+task :puma_stop => :environment do
+  invoke :cd
+  queue! 'pumactl -P ~/puma.pid stop'
+end
+
+task :puma_restart => :environment do
+  queue! 'pumactl -P ~/puma.pid restart'
+end
+
+task :nginx_restart => :environment do
+  queue! 'sudo service nginx restart'
+end
+
+# For help in making your deploy script, see the Mina documentation:
+#
+#  - http://nadarei.co/mina
+#  - http://nadarei.co/mina/tasks
+#  - http://nadarei.co/mina/settings
+#  - http://nadarei.co/mina/helpers
