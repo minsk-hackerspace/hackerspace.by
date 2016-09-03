@@ -82,7 +82,7 @@ task :deploy => :environment do
     # queue! 'ln -s /etc/nginx/sites-available/hackerspace.by.conf /etc/nginx/sites-enabled/hackerspace.by.conf'
 
     to :launch do
-      # invoke :restart
+      invoke :restart
     end
   end
 end
