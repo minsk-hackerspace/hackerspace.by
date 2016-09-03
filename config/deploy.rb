@@ -37,6 +37,9 @@ task :setup => :environment do
   queue! %[mkdir -p "#{deploy_to}/#{shared_path}/config"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/config"]
 
+  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/system"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/system"]
+
   queue! %[touch "#{deploy_to}/#{shared_path}/config/database.yml"]
   queue! %[touch "#{deploy_to}/#{shared_path}/config/secrets.yml"]
   queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml' and 'secrets.yml'."]
@@ -80,7 +83,7 @@ task :deploy => :environment do
     # queue! 'rm /etc/nginx/sites-available/hackerspace.by.conf'
     # queue! "cp -f #{deploy_to}/#{current_path}/config/hackerspace.by.conf /etc/nginx/sites-available/hackerspace.by.conf"
     # queue! 'ln -s /etc/nginx/sites-available/hackerspace.by.conf /etc/nginx/sites-enabled/hackerspace.by.conf'
-
+      queue "ln -s #{deploy_to}/#{shared_path}/system/ #{deploy_to}/#{current_path}/public/system"
     to :launch do
       invoke :restart
     end
