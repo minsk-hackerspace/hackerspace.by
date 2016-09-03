@@ -2,7 +2,7 @@ require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
 # require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
-require 'mina/rvm'    # for rvm support. (http://rvm.io)
+require 'mina/rvm' # for rvm support. (http://rvm.io)
 
 # Basic settings:
 #   domain       - The hostname to SSH to.
@@ -11,17 +11,20 @@ require 'mina/rvm'    # for rvm support. (http://rvm.io)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
 set :domain, '93.125.30.47'
-set :deploy_to, '/home/mhs/hackerspace.by'
+set :user, 'mhs' # Username in the server to SSH to.
+set :port, '22' # SSH port number.
+
+set :deploy_to, "/home/#{user}/hackerspace.by"
 set :repository, 'git://github.com/minsk-hackerspace/hsWEB'
 set :branch, 'master'
+
+set :rvm_path, '/usr/local/rvm/scripts/rvm'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
 set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'log']
 
 # Optional settings:
-set :user, 'mhs'    # Username in the server to SSH to.
-set :port, '22'     # SSH port number.
 #   set :forward_agent, true     # SSH forward_agent.
 
 # This task is the environment that is loaded for most commands, such as
@@ -41,8 +44,8 @@ task :setup => :environment do
   queue! %[touch "#{deploy_to}/#{shared_path}/config/secrets.yml"]
   queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml' and 'secrets.yml'."]
 
-  queue! %[ln -s /var/log/nginx/error.log "#{deploy_to}/#{shared_path}/log/nginx_error.log"]
-  queue! %[ln -s /var/log/nginx/access.log "#{deploy_to}/#{shared_path}/log/nginx_access.log"]
+  # queue! %[ln -s /var/log/nginx/error.log "#{deploy_to}/#{shared_path}/log/nginx_error.log"]
+  # queue! %[ln -s /var/log/nginx/access.log "#{deploy_to}/#{shared_path}/log/nginx_access.log"]
   queue! %[ln -s "#{deploy_to}/#{current_path}"]
   queue! %[ln -s "#{deploy_to}/#{shared_path}/log"]
 
@@ -56,6 +59,12 @@ task :setup => :environment do
       fi
     ]
   end
+end
+
+task :environment do
+  queue! 'export GEM_HOME=/usr/local/rvm/gems/ruby-2.3.1'
+  queue! 'export PATH=/usr/local/rvm/gems/ruby-2.3.1/bin:/usr/local/rvm/gems/ruby-2.3.1@global/bin:/usr/local/rvm/rubies/ruby-2.3.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/rvm/bin:/home/mhs/.rvm/bin:/home/mhs/.rvm/bin'
+  # invoke :'rvm:use[ruby-2.3.1]'
 end
 
 desc 'Deploys the current version to the server.'
@@ -74,7 +83,7 @@ task :deploy => :environment do
     # queue! "ln -s #{deploy_to}/#{current_path}/config/nginx/trendom.conf /etc/nginx/sites-enabled/trendom.conf"
 
     to :launch do
-      invoke :restart
+      # invoke :restart
     end
   end
 end
@@ -113,11 +122,11 @@ end
 
 task :puma_stop => :environment do
   invoke :cd
-  queue! 'pumactl -P ~/puma.pid stop'
+  queue! 'pumactl -P /home/mhs/puma.pid stop'
 end
 
 task :puma_restart => :environment do
-  queue! 'pumactl -P ~/puma.pid restart'
+  queue! 'pumactl -P /home/mhs/puma.pid restart'
 end
 
 task :nginx_restart => :environment do
