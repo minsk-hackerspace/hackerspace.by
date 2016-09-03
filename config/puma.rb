@@ -34,8 +34,8 @@ environment 'production'
 #
 # The default is "false".
 #
-daemonize
-# daemonize false
+# daemonize
+daemonize false
 
 # Store the pid of the server in the file at "path".
 #
@@ -51,7 +51,7 @@ state_path '/home/mhs/puma.state'
 # "false".
 #
 # stdout_redirect '/u/apps/lolcat/log/stdout', '/u/apps/lolcat/log/stderr'
-stdout_redirect '/home/mhs/hackerspace.by/shared/log/puma_access.log', '/home/mhs/hackerspace.by/trendom.io/shared/log/puma_error.log', true
+stdout_redirect '/home/mhs/hackerspace.by/shared/log/puma_access.log', '/home/mhs/hackerspace.by/shared/log/puma_error.log', true
 plugin 'tmp_restart'
 # Disable request logging.
 #
