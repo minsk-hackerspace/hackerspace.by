@@ -64,8 +64,8 @@ end
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
 task :environment do
-  queue! 'export GEM_HOME=/usr/local/rvm/gems/ruby-2.3.1'
-  queue! 'export PATH=/usr/local/rvm/gems/ruby-2.3.1/bin:/usr/local/rvm/gems/ruby-2.3.1@global/bin:/usr/local/rvm/rubies/ruby-2.3.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/rvm/bin:/home/mhs/.rvm/bin:/home/mhs/.rvm/bin'
+  queue 'export GEM_HOME=/usr/local/rvm/gems/ruby-2.3.1'
+  queue 'export PATH=/usr/local/rvm/gems/ruby-2.3.1/bin:/usr/local/rvm/gems/ruby-2.3.1@global/bin:/usr/local/rvm/rubies/ruby-2.3.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/rvm/bin:/home/mhs/.rvm/bin:/home/mhs/.rvm/bin'
 end
 
 desc 'Deploys the current version to the server.'
@@ -80,11 +80,12 @@ task :deploy => :environment do
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
-    # queue! 'rm /etc/nginx/sites-available/hackerspace.by.conf'
-    # queue! "cp -f #{deploy_to}/#{current_path}/config/hackerspace.by.conf /etc/nginx/sites-available/hackerspace.by.conf"
-    # queue! 'ln -s /etc/nginx/sites-available/hackerspace.by.conf /etc/nginx/sites-enabled/hackerspace.by.conf'
-      queue "ln -s #{deploy_to}/#{shared_path}/system/ #{deploy_to}/#{current_path}/public/system"
+
     to :launch do
+      # queue! "cp -f #{deploy_to}/#{current_path}/config/hackerspace.by.conf /etc/nginx/sites-available/hackerspace.by.conf"
+      # queue! 'ln -s /etc/nginx/sites-available/hackerspace.by.conf /etc/nginx/sites-enabled/hackerspace.by.conf'
+      queue! "rm -rf #{deploy_to}/#{current_path}/public/system/"
+      queue! "ln -s #{deploy_to}/#{shared_path}/system/ #{deploy_to}/#{current_path}/public/system"
       invoke :restart
     end
   end
