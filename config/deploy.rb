@@ -27,9 +27,6 @@ set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'log']
 # Optional settings:
 #   set :forward_agent, true     # SSH forward_agent.
 
-# This task is the environment that is loaded for most commands, such as
-# `mina deploy` or `mina rake`.
-
 # Put any custom mkdir's in here for when `mina setup` is ran.
 # For Rails apps, we'll make some of the shared paths that are shared between
 # all releases.
@@ -44,8 +41,8 @@ task :setup => :environment do
   queue! %[touch "#{deploy_to}/#{shared_path}/config/secrets.yml"]
   queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml' and 'secrets.yml'."]
 
-  # queue! %[ln -s /var/log/nginx/error.log "#{deploy_to}/#{shared_path}/log/nginx_error.log"]
-  # queue! %[ln -s /var/log/nginx/access.log "#{deploy_to}/#{shared_path}/log/nginx_access.log"]
+  queue! %[ln -s /var/log/nginx/error.log "#{deploy_to}/#{shared_path}/log/nginx_error.log"]
+  queue! %[ln -s /var/log/nginx/access.log "#{deploy_to}/#{shared_path}/log/nginx_access.log"]
   queue! %[ln -s "#{deploy_to}/#{current_path}"]
   queue! %[ln -s "#{deploy_to}/#{shared_path}/log"]
 
@@ -61,10 +58,11 @@ task :setup => :environment do
   end
 end
 
+# This task is the environment that is loaded for most commands, such as
+# `mina deploy` or `mina rake`.
 task :environment do
   queue! 'export GEM_HOME=/usr/local/rvm/gems/ruby-2.3.1'
   queue! 'export PATH=/usr/local/rvm/gems/ruby-2.3.1/bin:/usr/local/rvm/gems/ruby-2.3.1@global/bin:/usr/local/rvm/rubies/ruby-2.3.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/rvm/bin:/home/mhs/.rvm/bin:/home/mhs/.rvm/bin'
-  # invoke :'rvm:use[ruby-2.3.1]'
 end
 
 desc 'Deploys the current version to the server.'
@@ -79,8 +77,9 @@ task :deploy => :environment do
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
-    # queue! 'rm /etc/nginx/sites-enabled/trendom.conf'
-    # queue! "ln -s #{deploy_to}/#{current_path}/config/nginx/trendom.conf /etc/nginx/sites-enabled/trendom.conf"
+    queue! 'rm /etc/nginx/sites-available/hackerspace.by.conf'
+    queue! "cp -f #{deploy_to}/#{current_path}/config/hackerspace.by.conf /etc/nginx/sites-available/hackerspace.by.conf"
+    queue! 'ln -s /etc/nginx/sites-available/hackerspace.by.conf /etc/nginx/sites-enabled/hackerspace.by.conf'
 
     to :launch do
       # invoke :restart
