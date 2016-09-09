@@ -56,5 +56,16 @@
           %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", type: "button"} &times;
           %p.alert #{alert}
       = yield
+    .container
+      .footer
+        %p
+          ПО "Мастерская инновационно-технического творчества" ОО БОИР
+          %br
+          220005, г. Минск, ул. Смолячкова, 14А-2
+          %br
+          УНП 102386174
+          %br
+          Зарегистрировано в ЕГР решением администрации Советского района г. Минска №189 от 3.03.2016.
+
   = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
   = javascript_include_tag 'application', 'data-turbolinks-track' => true
