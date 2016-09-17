@@ -4,14 +4,15 @@
       =t 'index.hello_world'
       .small
         %p
-          =t('index.hello_world_description') + (@hs_open_status == Hspace::OPENED ? ' ' + t("hsopen.#{@hs_open_status}") : '')
-        %p
-          ='Сейчас в хакерспейсе: ' + @hs_present_people.join(', ') if @hs_open_status == Hspace::OPENED
+          = t('index.hello_world_description') + (@hs_open_status == Hspace::OPENED ? ' ' + t("hsopen.#{@hs_open_status}") : '')
+        - if @hs_open_status == Hspace::OPENED && @hs_present_people.any?
+          %p
+            = 'Сейчас в хакерспейсе: ' + @hs_present_people.join(', ')
 
   .row.featurette
     = show_afisha
-  .bs-callout.bs-callout-info.alert-dismissable
-    %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", type: "button"} &times;
+  .bs-callout.bs-callout-info.alert.alert-info
+    %a{href: "#", class: "close", "data-dismiss": "alert", "aria-label": "close"} &times;
     %p.notice
       %h2 Каждый четверг у нас вечер открытых дверей.
       %p.lead Начало в 19:00. Окончание — после 22:00.
