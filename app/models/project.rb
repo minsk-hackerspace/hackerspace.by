@@ -19,7 +19,7 @@
 #  project_status     :string(255)      default("активный")
 #
 
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
 
   SUPPORTED_MARKUPS = %w(html markdown)
 

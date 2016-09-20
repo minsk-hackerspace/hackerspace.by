@@ -1,4 +1,4 @@
-class News < ActiveRecord::Base
+class News < ApplicationRecord
   SUPPORTED_MARKUPS = Project::SUPPORTED_MARKUPS
 
   belongs_to :user

@@ -10,7 +10,7 @@
 #  updated_at :datetime
 #
 
-class Event < ActiveRecord::Base
+class Event < ApplicationRecord
   belongs_to :device
 
   validates :event_type, :value, presence: true

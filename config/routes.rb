@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
 
-  mount Tail::Engine, at: '/tail'
-
   root 'main#index'
 
   devise_for :devices

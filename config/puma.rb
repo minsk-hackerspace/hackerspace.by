@@ -27,32 +27,33 @@
 #
 # The default is "development".
 #
-environment 'production'
+plugin 'tmp_restart'
+
+if ENV['RAILS_ENV']=='production'
+  environment 'production'
 
 # Daemonize the server into the background. Highly suggest that
 # this be combined with "pidfile" and "stdout_redirect".
 #
 # The default is "false".
 #
-daemonize
-# daemonize false
+  daemonize
 
 # Store the pid of the server in the file at "path".
 #
-pidfile '/home/mhs/puma.pid'
+  pidfile '/home/mhs/puma.pid'
 
 # Use "path" as the file to store the server info state. This is
 # used by "pumactl" to query and control the server.
 #
-state_path '/home/mhs/puma.state'
+  state_path '/home/mhs/puma.state'
 
 # Redirect STDOUT and STDERR to files specified. The 3rd parameter
 # ("append") specifies whether the output is appended, the default is
 # "false".
 #
 # stdout_redirect '/u/apps/lolcat/log/stdout', '/u/apps/lolcat/log/stderr'
-stdout_redirect '/home/mhs/hackerspace.by/shared/log/puma_access.log', '/home/mhs/hackerspace.by/shared/log/puma_error.log', true
-plugin 'tmp_restart'
+  stdout_redirect '/home/mhs/hackerspace.by/shared/log/puma_access.log', '/home/mhs/hackerspace.by/shared/log/puma_error.log', true
 # Disable request logging.
 #
 # The default is "false".
@@ -64,7 +65,7 @@ plugin 'tmp_restart'
 #
 # The default is "0, 16".
 #
-threads 8, 16
+  threads 8, 16
 
 # Bind the server to "url". "tcp://", "unix://" and "ssl://" are the only
 # accepted protocols.
@@ -72,7 +73,7 @@ threads 8, 16
 # The default is "tcp://0.0.0.0:9292".
 #
 # bind 'tcp://0.0.0.0:9292'
-bind 'unix:///home/mhs/hackerspace.sock'
+  bind 'unix:///home/mhs/hackerspace.sock'
 # bind 'unix:///var/run/puma.sock?umask=0111'
 # bind 'ssl://127.0.0.1:9292?key=path_to_key&cert=path_to_cert'
 
@@ -164,34 +165,5 @@ bind 'unix:///home/mhs/hackerspace.sock'
 
 # Additional text to display in process listing
 #
-tag 'Hackerspace.by server'
-#
-# If you do not specify a tag, Puma will infer it. If you do not want Puma
-# to add a tag, use an empty string.
-
-# Verifies that all workers have checked in to the master process within
-# the given timeout. If not the worker process will be restarted. Default
-# value is 60 seconds.
-#
-# worker_timeout 60
-
-# Change the default worker timeout for booting
-#
-# If unspecified, this defaults to the value of worker_timeout.
-#
-# worker_boot_timeout 60
-
-# === Puma control rack application ===
-
-# Start the puma control rack application on "url". This application can
-# be communicated with to control the main server. Additionally, you can
-# provide an authentication token, so all requests to the control server
-# will need to include that token as a query parameter. This allows for
-# simple authentication.
-#
-# Check out https://github.com/puma/puma/blob/master/lib/puma/app/status.rb
-# to see what the app has available.
-#
-# activate_control_app 'unix:///var/run/pumactl.sock'
-# activate_control_app 'unix:///var/run/pumactl.sock', { auth_token: '12345' }
-# activate_control_app 'unix:///var/run/pumactl.sock', { no_token: true }
+  tag 'Hackerspace.by server'
+end
