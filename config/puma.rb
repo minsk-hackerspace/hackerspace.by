@@ -27,11 +27,8 @@
 #
 # The default is "development".
 #
-plugin 'tmp_restart'
-require 'pp'
-pp ENV
 
-if ENV['RAILS_ENV']=='production'
+unless ENV['RAILS_ENV']=='development'
   environment 'production'
 
 # Daemonize the server into the background. Highly suggest that
