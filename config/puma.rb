@@ -28,6 +28,7 @@
 # The default is "development".
 #
 plugin 'tmp_restart'
+require 'pp'
 pp ENV
 
 if ENV['RAILS_ENV']=='production'
