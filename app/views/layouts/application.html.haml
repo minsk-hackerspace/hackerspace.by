@@ -10,9 +10,9 @@
     = render partial: 'shared/google_analytics' unless Rails.env.development?
   %body
     %nav.navbar.navbar-inverse.navbar-fixed-top{role: 'navigation'}
-      .container
+      .container-fluid
         .navbar-header
-          %button.navbar-toggle{"data-target" => "#navbar", "data-toggle" => "collapse", type: "button"}
+          %button.navbar-toggle{"data-target" => "#navbar", "data-toggle" => "collapse", type: "button", onclick: "$('#brand').fadeToggle();"}
             %span.sr-only Toggle navigation
             %span.icon-bar
             %span.icon-bar
