@@ -79,3 +79,19 @@ img {
   vertical-align: super;
   font-size: 70%;
 }
+
+ul.dash {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 1em;
+  margin-bottom: 0.3em;
+}
+ul.dash > li:before {
+  display: inline-block;
+  content: "–";
+  width: 1em;
+  margin-left: -1em;
+}
+ul.lead li p {
+margin-bottom: 0.2em;
+}
