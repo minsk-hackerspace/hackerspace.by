@@ -15,9 +15,10 @@
           irc.bynets.org/#hackerspace
     %tr
       %td
-        Telegram
+        = t('contacts.telegram')
       %td
-        Группа #Hackerspace@Minsk
+        %a{href: 'https://telegram.me/joinchat/Bxa3CQZrNMlctDcDpAJRhg', target: '_blank'}
+          Hackerspace@Minsk
     %tr
       %td
         = t('contacts.fb')
@@ -57,5 +58,9 @@
       %p
         р/с 3015015483715 в отделении №537 ОАО «Белинвестбанк», г. Минск, код 739
       %p
-        Тел.: +375 29 3444323, +375 29 7793185, +375 29 3179210
+        Телефоны:
+        %ul{style: 'list-style: none;'}
+          %li +375 29 344 43 23
+          %li +375 29 779 31 85
+          %li +375 29 317 92 10
 
