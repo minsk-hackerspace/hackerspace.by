@@ -64,8 +64,8 @@ end
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
 task :environment do
-  queue 'export GEM_HOME=/usr/local/rvm/gems/ruby-2.3.1'
-  queue 'export PATH=/usr/local/rvm/gems/ruby-2.3.1/bin:/usr/local/rvm/gems/ruby-2.3.1@global/bin:/usr/local/rvm/rubies/ruby-2.3.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/rvm/bin:/home/mhs/.rvm/bin:/home/mhs/.rvm/bin'
+  queue "export GEM_HOME=/home/#{user}/.rvm/gems/ruby-2.3.1"
+  queue "export PATH=/home/#{user}/.rvm/gems/ruby-2.3.1/bin:/home/#{user}/.rvm/gems/ruby-2.3.1@global/bin:/home/#{user}/.rvm/rubies/ruby-2.3.1/bin:/home/#{user}/.rvm/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games"
 end
 
 desc 'Deploys the current version to the server.'
@@ -74,6 +74,8 @@ task :deploy => :environment do
     # Put things to run locally before ssh
   end
   deploy do
+    queue! 'echo $PATH'
+    queue! 'echo $GEM_HOME'
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
@@ -125,11 +127,11 @@ end
 
 task :puma_stop => :environment do
   invoke :cd
-  queue! 'pumactl -P /home/mhs/puma.pid stop'
+  queue! "pumactl -P /home/#{user}/puma.pid stop"
 end
 
 task :puma_restart => :environment do
-  queue! 'pumactl -P /home/mhs/puma.pid restart'
+  queue! "pumactl -P /home/#{user}/puma.pid restart"
 end
 
 task :nginx_restart => :environment do
