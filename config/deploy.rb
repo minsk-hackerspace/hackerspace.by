@@ -33,6 +33,10 @@ set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'log']
 task :setup => :environment do
   queue! %[mkdir -p "#{deploy_to}/#{shared_path}/log"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/log"]
+  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/log/nginx"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/log/nginx"]
+  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/log/puma"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/log/puma"]
 
   queue! %[mkdir -p "#{deploy_to}/#{shared_path}/config"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/config"]
@@ -46,8 +50,8 @@ task :setup => :environment do
 
   queue! %[ln -s /var/log/nginx/error.log "#{deploy_to}/#{current_path}/log/nginx/error.log"]
   queue! %[ln -s /var/log/nginx/access.log "#{deploy_to}/#{current_path}/log/nginx/access.log"]
-  queue! %[ln -s "#{deploy_to}/#{current_path}"]
-  queue! %[ln -s "#{deploy_to}/#{shared_path}/log"]
+  #queue! %[ln -s "#{deploy_to}/#{current_path}"]
+  #queue! %[ln -s "#{deploy_to}/#{shared_path}/log"]
 
   if repository
     repo_host = repository.split(%r{@|://}).last.split(%r{:|\/}).first
