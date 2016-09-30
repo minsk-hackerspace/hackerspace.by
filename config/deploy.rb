@@ -14,11 +14,11 @@ set :domain, '93.125.30.47'
 set :user, 'mhs' # Username in the server to SSH to.
 set :port, '22' # SSH port number.
 
-set :deploy_to, "/home/#{user}/hackerspace.by"
+set :deploy_to, "/home/#{user}/www"
 set :repository, 'git://github.com/minsk-hackerspace/hsWEB'
 set :branch, 'master'
 
-set :rvm_path, '/usr/local/rvm/scripts/rvm'
+set :rvm_path, "/home/#{user}/.rvm/scripts/rvm"
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
@@ -44,8 +44,8 @@ task :setup => :environment do
   queue! %[touch "#{deploy_to}/#{shared_path}/config/secrets.yml"]
   queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml' and 'secrets.yml'."]
 
-  queue! %[ln -s /var/log/nginx/error.log "#{deploy_to}/#{shared_path}/log/nginx_error.log"]
-  queue! %[ln -s /var/log/nginx/access.log "#{deploy_to}/#{shared_path}/log/nginx_access.log"]
+  queue! %[ln -s /var/log/nginx/error.log "#{deploy_to}/#{current_path}/log/nginx/error.log"]
+  queue! %[ln -s /var/log/nginx/access.log "#{deploy_to}/#{current_path}/log/nginx/access.log"]
   queue! %[ln -s "#{deploy_to}/#{current_path}"]
   queue! %[ln -s "#{deploy_to}/#{shared_path}/log"]
 
@@ -54,7 +54,7 @@ task :setup => :environment do
     repo_port = /:([0-9]+)/.match(repository) && /:([0-9]+)/.match(repository)[1] || '22'
 
     queue %[
-      if ! ssh-keygen -H  -F #{repo_host} &>/dev/null; then
+      if ! ssh-keygen -H -F #{repo_host} &>/dev/null; then
         ssh-keyscan -t rsa -p #{repo_port} -H #{repo_host} >> ~/.ssh/known_hosts
       fi
     ]
@@ -127,11 +127,11 @@ end
 
 task :puma_stop => :environment do
   invoke :cd
-  queue! "pumactl -P /home/#{user}/puma.pid stop"
+  queue! "pumactl -P #{deploy_to}/#{current_path}/tmp/pids/puma.pid stop"
 end
 
 task :puma_restart => :environment do
-  queue! "pumactl -P /home/#{user}/puma.pid restart"
+  queue! "pumactl -P #{deploy_to}/#{current_path}/tmp/pids/puma.pid restart"
 end
 
 task :nginx_restart => :environment do
