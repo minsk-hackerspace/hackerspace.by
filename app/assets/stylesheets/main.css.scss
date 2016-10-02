@@ -1,3 +1,24 @@
 // Place all the styles related to the main controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+td.hour {
+  //background: green;
+  border: 1.5px solid darkgray;
+  border-radius: 0px;
+  width: 4%;
+  background: rgb(0, 51, 0);
+}
+
+td.day {
+  text-align: right;
+}
+
+table.heat {
+  width: 96%;
+  background-color: whitesmoke;
+  border-radius: 2px;
+  thead > tr > th {
+    border-bottom: none;
+  }
+}
