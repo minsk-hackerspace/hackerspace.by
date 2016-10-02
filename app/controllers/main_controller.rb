@@ -6,6 +6,7 @@ class MainController < ApplicationController
   end
 
   def calendar
+    @heatmap = Event.heatmap
   end
 
   def contacts

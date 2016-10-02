@@ -26,4 +26,19 @@ class Event < ApplicationRecord
     updated_at
   end
 
+  def self.heatmap
+    Rails.cache.fetch('heatmap', expires_in: 30.days) do
+      h = Heatmap.new
+      where(device_id: 1).find_in_batches(batch_size: 10000) do |events|
+        events.each do |event|
+          if event.value == 'on'
+            h.add_on_event(event.created_at)
+          else
+            h.add_off_event(event.created_at)
+          end
+        end
+      end
+      h
+    end
+  end
 end
