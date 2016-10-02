@@ -24,8 +24,6 @@ class Heatmap
     @days_of_week.each do |day|
       @heatmap[day].each_index do |hour|
         sum = (@on[day][hour] + @off[day][hour]).to_f
-        # p sum
-        p (@on[day][hour]/sum * 100.0).round(1)
         @heatmap[day][hour] = sum.zero? ? 0 : (@on[day][hour]/sum * 100.0).round(1)
       end
     end
