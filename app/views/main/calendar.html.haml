@@ -20,9 +20,9 @@
             -hours = @heatmap.heatmap[day].rotate!(-3)
             -hours.each_index do |hour|
               - c = hours[hour]
-              %td.hour{style: "opacity: #{c.round(-1)/100.0};", 'data-toggle': 'tooltip', 'data-placement': 'top', title: "#{c}%"}
+              %td.hour{style: "opacity: #{c.round(-1)/100.0 + 0.1};", 'data-toggle': 'tooltip', 'data-placement': 'top', title: "#{c.ceil}%"}
     %p.lead
-      Чем зеленее клетка, тем с большей вероятностью вы застанете кого-то в Хакерспейсе
+      Чем зеленее клетка, тем с большей вероятностью вы застанете кого-то в Хакерспейсе.
 
 %h2 Расписание занятых железок
 .row
