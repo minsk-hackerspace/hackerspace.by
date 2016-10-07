@@ -4,7 +4,7 @@ Web site of Minsk Hackerspace - http://hackerspace.by/
 
 Новички могут посоздавать [issues] (https://github.com/minsk-hackerspace/hsWEB/issues), а для прокачанных, как обычно, git и pull-request'ы.
 
-Для разработки нужен [Ruby версии 1.9 и выше](https://www.ruby-lang.org/en/installation/), а также `bundler` (http://bundler.io/).
+Для разработки нужен [Ruby версии 2.3 и выше](https://www.ruby-lang.org/en/installation/), а также `bundler` (http://bundler.io/).
 
 Как запустить локальную копию сайта:
 
@@ -12,7 +12,7 @@ Web site of Minsk Hackerspace - http://hackerspace.by/
 git clone https://github.com/minsk-hackerspace/hsWEB
 cd hsWEB
 bundle install
-bundle exec rake db:setup
+bundle exec rails db:setup
 bundle exec rails server
 ```
 
