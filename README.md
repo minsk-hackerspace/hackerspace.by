@@ -1,12 +1,16 @@
-Документация в Wiki: https://github.com/minsk-hackerspace/hackerspace.by/wiki
+Web site of Minsk Hackerspace - http://hackerspace.by/ 
 
-Сайт работает на RoR (Ruby on Rails) под nginx. Текущая конфигурация сервера складируется в `infra/`.
+Документация в Wiki: https://github.com/minsk-hackerspace/hsWEB/wiki
 
-Для запуска нужен [Ruby версии 2.3 и выше](https://www.ruby-lang.org/en/installation/), а также `bundler` (http://bundler.io/).
+Новички могут посоздавать [issues] (https://github.com/minsk-hackerspace/hsWEB/issues), а для прокачанных, как обычно, git и pull-request'ы.
+
+Для разработки нужен [Ruby версии 2.3 и выше](https://www.ruby-lang.org/en/installation/), а также `bundler` (http://bundler.io/).
+
+Как запустить локальную копию сайта:
 
 ```
-git clone https://github.com/minsk-hackerspace/hackerspace.by
-cd hackerspace.by
+git clone https://github.com/minsk-hackerspace/hsWEB
+cd hsWEB
 bundle install
 bundle exec rails db:setup
 bundle exec rails server
