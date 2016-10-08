@@ -15,7 +15,7 @@ set :user, 'mhs' # Username in the server to SSH to.
 set :port, '22' # SSH port number.
 
 set :deploy_to, "/home/#{user}/hackerspace.by"
-set :repository, 'git://github.com/minsk-hackerspace/hsWEB'
+set :repository, 'git://github.com/minsk-hackerspace/hackerspace.by'
 set :branch, 'master'
 
 set :rvm_path, '/usr/local/rvm/scripts/rvm'
@@ -84,7 +84,7 @@ task :deploy => :environment do
     invoke :'deploy:cleanup'
 
     to :launch do
-      # queue! "cp -f #{deploy_to}/#{current_path}/config/hackerspace.by.conf /etc/nginx/sites-available/hackerspace.by.conf"
+      # queue! "cp -f #{deploy_to}/#{current_path}/infra/hackerspace.by.conf /etc/nginx/sites-available/hackerspace.by.conf"
       # queue! 'ln -s /etc/nginx/sites-available/hackerspace.by.conf /etc/nginx/sites-enabled/hackerspace.by.conf'
       queue! "rm -rf #{deploy_to}/#{current_path}/public/system/"
       queue! "ln -s #{deploy_to}/#{shared_path}/system/ #{deploy_to}/#{current_path}/public/system"
