@@ -15,7 +15,7 @@ set :user, 'mhs' # Username in the server to SSH to.
 set :port, '22' # SSH port number.
 
 set :deploy_to, "/home/#{user}/hackerspace.by"
-set :repository, 'git://github.com/minsk-hackerspace/hsWEB'
+set :repository, 'git://github.com/minsk-hackerspace/hackerspace.by'
 set :branch, 'master'
 
 set :rvm_path, '/usr/local/rvm/scripts/rvm'
