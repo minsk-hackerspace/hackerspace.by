@@ -40,19 +40,19 @@ unless ENV['RAILS_ENV']=='development'
 
 # Store the pid of the server in the file at "path".
 #
-  pidfile '/home/mhs/puma.pid'
+  pidfile '/home/mhs/www/current/tmp/pids/puma.pid'
 
 # Use "path" as the file to store the server info state. This is
 # used by "pumactl" to query and control the server.
 #
-  state_path '/home/mhs/puma.state'
+  state_path '/home/mhs/www/current/tmp/pids/puma.state'
 
 # Redirect STDOUT and STDERR to files specified. The 3rd parameter
 # ("append") specifies whether the output is appended, the default is
 # "false".
 #
 # stdout_redirect '/u/apps/lolcat/log/stdout', '/u/apps/lolcat/log/stderr'
-  stdout_redirect '/home/mhs/hackerspace.by/shared/log/puma_access.log', '/home/mhs/hackerspace.by/shared/log/puma_error.log', true
+  stdout_redirect '/home/mhs/www/log/puma/access.log', '/home/mhs/www/log/puma/error.log', true
 # Disable request logging.
 #
 # The default is "false".
@@ -72,7 +72,7 @@ unless ENV['RAILS_ENV']=='development'
 # The default is "tcp://0.0.0.0:9292".
 #
 # bind 'tcp://0.0.0.0:9292'
-  bind 'unix:///home/mhs/hackerspace.sock'
+  bind 'unix:///home/mhs/www/current/tmp/sockets/puma.sock'
 # bind 'unix:///var/run/puma.sock?umask=0111'
 # bind 'ssl://127.0.0.1:9292?key=path_to_key&cert=path_to_cert'
 
