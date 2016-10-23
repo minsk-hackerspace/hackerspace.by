@@ -1,0 +1,10 @@
+%h1= @user.email
+
+
+.container
+  = @user.hacker_comment
+
+
+%hr
+
+= link_to 'Назад к списку ', users_path, class: 'btn btn-info btn-sm'

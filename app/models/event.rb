@@ -3,11 +3,12 @@
 # Table name: events
 #
 #  id         :integer          not null, primary key
-#  event_type :string(255)
-#  value      :string(255)
+#  event_type :string
+#  value      :string
 #  device_id  :integer
 #  created_at :datetime
 #  updated_at :datetime
+#  repeated   :boolean          default(FALSE)
 #
 
 class Event < ApplicationRecord

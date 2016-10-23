@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
   before_action :check_if_hs_open if Rails.env.production?
   before_action :check_for_present_people if Rails.env.production?
 
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
+
   def check_if_hs_open
     @event = Event.light.where('created_at >= ?', 30.minutes.ago).order(created_at: :desc).first
 

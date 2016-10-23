@@ -3,8 +3,8 @@
 # Table name: devices
 #
 #  id                 :integer          not null, primary key
-#  name               :string(255)      not null
-#  encrypted_password :string(255)      not null
+#  name               :string           not null
+#  encrypted_password :string           not null
 #  created_at         :datetime
 #  updated_at         :datetime
 #
