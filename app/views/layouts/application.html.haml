@@ -36,7 +36,10 @@
 
             - if user_signed_in?
               %li
-                =link_to 'Устройства', devices_path
+                = link_to 'Устройства', devices_path
+              %li
+                = link_to 'Hackers', users_path
+
           %ul.nav.navbar-nav.navbar-right.lead
             %li
               -if user_signed_in?

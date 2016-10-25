@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   resources :projects
   resources :news
   resources :devices, only: [:index, :show]
+  resources :users, path: 'hackers', controller: 'hackers', only: [:index, :show, :edit, :update]
+
   get '/rules', to: 'main#rules'
   get '/calendar', to: 'main#calendar'
   get '/contacts', to: 'main#contacts'

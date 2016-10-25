@@ -318,3 +318,10 @@ ru:
       long: "%d %B %Y, %H:%M"
       short: "%d %b, %H:%M"
     pm: вечера
+  hackers:
+    index:
+      title: Hackers
+      email: Email
+      created_at: Создан
+      last_sign_in_at: Последний логин
+  badges:

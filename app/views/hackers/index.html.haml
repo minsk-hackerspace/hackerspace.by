@@ -1,0 +1,32 @@
+%h1
+  = t(".title")
+
+.container
+  %table.table
+    %thead
+      %th
+      %th
+        = t ".email"
+      %th
+      %th
+        = t('.last_sign_in_at')
+    %tbody
+      - @users.each do |hacker|
+        %tr
+          %td
+            = image_tag hacker.photo.url(:thumb)
+          %td
+            %b
+              = "#{hacker.id}."
+
+              %br
+              = hacker.email
+          %td
+            = hacker.hacker_comment
+          %td
+            = hacker.last_sign_in_at
+          %td
+            - if can?(:edit, hacker)
+              = link_to image_tag('edit_gear_icon.png', class: 'no-shadow'), edit_user_path(hacker)
+            - else
+              = link_to image_tag('info_32x32.png', class: 'no-shadow'), user_path(hacker)
