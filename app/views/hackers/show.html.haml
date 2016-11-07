@@ -2,8 +2,19 @@
 
 
 .container
-  = @user.hacker_comment
 
+  = image_tag @user.photo.url(:medium)
+  %p
+    = @user.hacker_comment
+  %p
+    последний логин
+    = @user.last_sign_in_at
+  - if @user.projects.any?
+    %h3 Проекты
+    - @user.projects.each do |project|
+      %ul
+        %li
+          = link_to project.name, project_path(project)
 
 %hr
 
