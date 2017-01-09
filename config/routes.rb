@@ -17,6 +17,11 @@ Rails.application.routes.draw do
 
   get '/spaceapi', to: 'main#spaceapi', defaults: {format: 'json'}
 
+  namespace :admin do
+    resources :dashboard, only: :index
+    resources :users, only: [:index, :edit, :update]
+  end
+
   resources :events, only: [:index] do
     collection do
       get 'add'

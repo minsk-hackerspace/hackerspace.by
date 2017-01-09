@@ -87,6 +87,7 @@ GEM
       railties (>= 3.0.0)
     faker (1.6.6)
       i18n (~> 0.5)
+    ffaker (2.4.0)
     ffi (1.9.14)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
@@ -228,7 +229,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sqlite3 (1.3.11)
+    sqlite3 (1.3.12)
     thin (1.7.0)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -266,8 +267,9 @@ DEPENDENCIES
   comma
   devise
   devise-i18n
-  factory_girl_rails
+  factory_girl_rails (~> 4.0)
   faker
+  ffaker
   haml
   haml-rails
   jbuilder (~> 2.5)
@@ -287,7 +289,7 @@ DEPENDENCIES
   shoulda-matchers (= 2.8.0)
   spring
   spring-watcher-listen (~> 2.0.0)
-  sqlite3
+  sqlite3 (= 1.3.12)
   thin
   turbolinks (~> 5)
   tzinfo-data

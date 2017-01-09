@@ -1,0 +1,35 @@
+%h1
+  = t(".title")
+
+.container
+  %table.table
+    %thead
+      %th
+      %th
+        = t ".email"
+      %th
+        = t('.monthly_payment_amount')
+      %th
+        = t('.next_month_payment_amount')
+      %th
+        = t('.last_sign_in_at')
+    %tbody
+      - @users.each do |hacker|
+        %tr
+          %td
+            = image_tag hacker.photo.url(:thumb)
+          %td
+            %b
+              = "#{hacker.id}. #{hacker.first_name} #{hacker.last_name}"
+
+              %br
+              = hacker.email
+          %td
+            = hacker.monthly_payment_amount
+          %td
+            = hacker.next_month_payment_amount
+          %td
+            = hacker.last_sign_in_at
+          %td
+            - if can?(:edit, hacker)
+              = link_to image_tag('edit_gear_icon.png', class: 'no-shadow'), edit_admin_user_path(hacker)
