@@ -1,0 +1,47 @@
+%nav.navbar.navbar-inverse.navbar-fixed-top{role: 'navigation'}
+  .container-fluid
+    .navbar-header
+      %button.navbar-toggle{"data-target" => "#navbar", "data-toggle" => "collapse", type: "button", onclick: "$('#brand').fadeToggle();"}
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      %a.navbar-brand#brand{href: root_path}
+        = image_tag 'default.png', height: '70px', class: "hsopen-#{@hs_open_status}", title: t("hsopen.#{@hs_open_status}").to_s
+    .collapse.navbar-collapse#navbar
+      %ul.nav.navbar-nav.lead
+        %li
+          = link_to 'Главная', root_path
+        %li
+          = link_to 'Проекты', projects_path
+        %li
+          = link_to 'Календарь', calendar_path
+        %li
+          %a{href: 'https://www.facebook.com/hs.minsk/photos_stream?tab=photos_albums', target: '_blank', rel: 'nofollow'} Фотографии
+        %li
+          = link_to 'Контакты', contacts_path
+
+        - if user_signed_in?
+          %li.dropdown
+            %a{class:"dropdown-toggle", 'data-toggle': "dropdown", href: "#"}
+              For hackers
+              %span.caret
+            %ul.dropdown-menu
+              %li
+                = link_to 'Новости', news_index_path
+              %li
+                = link_to 'Устройства', devices_path
+              %li
+                = link_to 'Hackers', users_path
+              %li
+                = link_to 'Cabinet', cabinet_path
+              - if current_user.admin?
+                %li
+                  = link_to 'Admin panel', admin_dashboard_index_path
+
+      %ul.nav.navbar-nav.navbar-right.lead
+        %li
+          -if user_signed_in?
+            = link_to 'Выход', destroy_user_session_path, method: :delete
+          -else
+            %a{href: new_user_session_path} Вход

@@ -44,7 +44,7 @@ gem 'responders', '~> 2.0'
 gem 'sanitize'
 gem 'redcarpet'
 gem 'comma'
-gem 'factory_girl_rails', require: false
+gem 'factory_girl_rails', '~> 4.0', require: false
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
@@ -57,7 +57,7 @@ group :development do
   gem 'mina'
   gem 'faker'
   gem 'pry'
-  gem 'sqlite3'
+  gem 'sqlite3', '1.3.12'
   gem 'annotate'
 end
 
@@ -69,6 +69,7 @@ end
 
 group :test do
   gem 'shoulda-matchers', '2.8.0'
+  gem 'ffaker'
 end
 
 group :production do

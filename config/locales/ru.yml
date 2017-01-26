@@ -54,6 +54,8 @@ ru:
     в первый раз, уточните время в <a href=\"/calendar\">календаре</a>, <a href=\"https://groups.google.com/d/forum/hackerspace-minsk\">рассылке</a>, \
     группе <a href=\"https://www.facebook.com/hs.minsk\">Facebook</a>,
     <a href=\"http://vk.com/hackerspace_minsk\">Вконтакте</a> или в чате <a href=\"https://telegram.me/joinchat/Bxa3CT7ai59igvC1dP95Aw\">Telegram</a>.<br/>"
+  cabinet:
+    ttile: Кабинет
 
   contacts:
     maillist: "Maillist (форум)"
@@ -324,4 +326,14 @@ ru:
       email: Email
       created_at: Создан
       last_sign_in_at: Последний логин
+  admin:
+    users:
+      index:
+        title: Hackers
+        email: Email
+        monthly_payment_amount: Оплата в месяц
+        next_month_payment_amount: В следующем месяце
+        created_at: Создан
+        last_sign_in_at: Последний логин
+        current_debt: Текущий долг
   badges:

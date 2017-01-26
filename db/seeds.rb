@@ -33,3 +33,8 @@ unless Rails.env.production?
 
   Device.all.each(&:mark_repeated_events)
 end
+
+User::ROLES.each do |rolename|
+  puts "Create role: #{rolename}"
+  Role.find_or_create_by(name: rolename)
+end

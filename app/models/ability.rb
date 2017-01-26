@@ -35,5 +35,12 @@ class Ability
     can [:update, :edit], User do |hacker|
       hacker.id == user.id
     end
+
+    user ||= User.new # guest user (not logged in)
+    if user.admin?
+      can :manage, :all
+    else
+
+    end
   end
 end

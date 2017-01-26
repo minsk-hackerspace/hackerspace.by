@@ -13,9 +13,16 @@ Rails.application.routes.draw do
   get '/rules', to: 'main#rules'
   get '/calendar', to: 'main#calendar'
   get '/contacts', to: 'main#contacts'
+  get '/cabinet', to: 'main#cabinet'
+
   get '/webcam', to: 'main#webcam'
 
   get '/spaceapi', to: 'main#spaceapi', defaults: {format: 'json'}
+
+  namespace :admin do
+    resources :dashboard, only: :index
+    resources :users, only: [:index, :edit, :update]
+  end
 
   resources :events, only: [:index] do
     collection do

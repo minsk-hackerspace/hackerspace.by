@@ -1,4 +1,6 @@
 class MainController < ApplicationController
+  before_action :authenticate_user!, only: [:cabinet]
+
   def index
   end
 
@@ -10,6 +12,11 @@ class MainController < ApplicationController
   end
 
   def contacts
+  end
+
+  def cabinet
+
+
   end
 
   def spaceapi
