@@ -12,6 +12,8 @@
       %th
         = t('.next_month_payment_amount')
       %th
+        = t('.current_debt')
+      %th
         = t('.last_sign_in_at')
     %tbody
       - @users.each do |hacker|
@@ -28,6 +30,8 @@
             = hacker.monthly_payment_amount
           %td
             = hacker.next_month_payment_amount
+          %td
+            = hacker.current_debt
           %td
             = hacker.last_sign_in_at
           %td

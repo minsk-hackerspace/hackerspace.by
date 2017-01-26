@@ -24,6 +24,6 @@ class Admin::UsersController < AdminController
   end
 
   def user_params
-    params.fetch(:user, {}).permit(:next_month_payment_amount, :monthly_payment_amount)
+    params.fetch(:user, {}).permit(:next_month_payment_amount, :monthly_payment_amount, :current_debt)
   end
 end

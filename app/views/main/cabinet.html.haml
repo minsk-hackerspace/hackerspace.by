@@ -1,0 +1,16 @@
+%h1
+  = t('cabinet.ttile')
+%p
+  = t('admin.users.index.monthly_payment_amount')
+  \ :
+  = current_user.monthly_payment_amount
+%p
+  = t('admin.users.index.next_month_payment_amount')
+  \ :
+  = current_user.next_month_payment_amount
+
+%p
+  = t('admin.users.index.current_debt')
+  \ :
+  = current_user.current_debt
+

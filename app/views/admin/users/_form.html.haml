@@ -12,7 +12,9 @@
   .form-group
     = f.label :next_month_payment_amount
     = f.text_field :next_month_payment_amount, class: 'form-control'
-
+  .form-group
+    = f.label :current_debt
+    = f.text_field :current_debt, class: 'form-control'
 
   .form-group
     = f.submit 'Сохранить', class: 'btn btn-default'
