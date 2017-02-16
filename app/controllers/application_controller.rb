@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  before_action :set_locale
   before_action :check_if_hs_open if Rails.env.production?
   before_action :check_for_present_people if Rails.env.production?
 
@@ -32,4 +33,17 @@ class ApplicationController < ActionController::Base
   def event_status
     @event.value == 'on' ? Hspace::OPENED : Hspace::CLOSED
   end
+
+  def set_locale
+    if params[:locale].present? && I18n.available_locales.include?(params[:locale].to_sym)
+      I18n.locale = params[:locale].to_sym
+    else
+      I18n.locale = I18n.default_locale
+    end
+  end
+
+  def default_url_options(options = {})
+    (I18n.locale.to_sym.eql?(I18n.default_locale.to_sym) ? {locale: nil } : {locale: I18n.locale}).merge options
+  end
+
 end
