@@ -2,7 +2,7 @@ class Admin::UsersController < AdminController
   before_action :set_user, only: [:edit, :update]
 
   def index
-    @users = User.all
+    @users = User.order('last_sign_in_at desc nulls last').all
   end
 
   def edit

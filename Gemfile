@@ -34,6 +34,7 @@ gem 'devise-i18n'
 gem 'bootstrap-sass', '>= 3.1.1'
 gem 'haml'
 gem 'haml-rails'
+gem 'pg'
 
 #gem 'copycopter_client', '~> 2.0.1'
 # Use Capistrano for deployment
@@ -57,7 +58,6 @@ group :development do
   gem 'mina'
   gem 'faker'
   gem 'pry'
-  gem 'sqlite3', '1.3.12'
   gem 'annotate'
 end
 
@@ -74,5 +74,4 @@ end
 
 group :production do
   gem 'puma', '~> 3.0'
-  gem 'pg'
 end
