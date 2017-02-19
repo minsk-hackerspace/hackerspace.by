@@ -4,7 +4,7 @@ class HackersController < ApplicationController
   before_action :set_hacker, only: [:show, :edit, :update]
 
   def index
-    @users = User.all
+    @users = User.order(last_sign_in_at: :desc).all
   end
 
   def show
