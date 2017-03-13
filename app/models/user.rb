@@ -42,6 +42,23 @@ class User < ApplicationRecord
          #:recoverable, :rememberable,
          :trackable
           # :validatable
+  comma do
+    id
+    first_name
+    last_name
+    email
+    hacker_comment
+    badge_comment
+    bepaid_number
+    monthly_payment_amount
+    next_month_payment_amount
+    next_month
+    current_debt
+    sign_in_count
+    last_sign_in_at
+    created_at
+    updated_at
+  end
 
   ROLES = %w(hacker admin)
 

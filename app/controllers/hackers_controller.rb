@@ -4,7 +4,11 @@ class HackersController < ApplicationController
   before_action :set_hacker, only: [:show, :edit, :update]
 
   def index
-    @users = User.order('last_sign_in_at desc nulls last').all
+    @users = User.order("coalesce(last_sign_in_at, '1970-01-01') desc").all
+    respond_to do |format|
+      format.html
+      format.csv {render csv: @users, filename: 'hackers'}
+    end
   end
 
   def show
