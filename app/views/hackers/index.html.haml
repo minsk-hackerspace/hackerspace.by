@@ -8,6 +8,9 @@
       %th
         = t ".email"
       %th
+        = t ".name"
+      %th
+        = t ".comment"
       %th
         = t('.last_sign_in_at')
     %tbody
@@ -21,6 +24,8 @@
 
               %br
               = hacker.email
+          %td
+            = sprintf("%s %s", hacker.first_name, hacker.last_name)
           %td
             = hacker.hacker_comment
           %td

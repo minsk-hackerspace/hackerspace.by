@@ -324,6 +324,8 @@ ru:
     index:
       title: Hackers
       email: Email
+      comment: Примечание
+      name: Имя
       created_at: Создан
       last_sign_in_at: Последний логин
   admin:
