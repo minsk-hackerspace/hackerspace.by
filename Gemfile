@@ -35,6 +35,7 @@ gem 'bootstrap-sass', '>= 3.1.1'
 gem 'haml'
 gem 'haml-rails'
 gem 'pg'
+gem 'rest-client'
 
 #gem 'copycopter_client', '~> 2.0.1'
 # Use Capistrano for deployment
@@ -65,6 +66,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
+  gem 'sqlite3'
 end
 
 group :test do
