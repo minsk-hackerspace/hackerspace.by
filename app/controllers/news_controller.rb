@@ -66,7 +66,7 @@ class NewsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_news
-      @news = News.published.find(params[:id])
+      @news = News.find(params[:id])
       if @news.public or @news.user == current_user
         @news
       else
