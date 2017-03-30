@@ -1,0 +1,20 @@
+- if @news.count < 2
+  - image_style = 'margin: auto 25%'
+  - column_class = "col-lg"
+- else
+  - image_style = ''
+  - column_class = "col-lg-6"
+
+- @news.each do |news|
+  - url = news.url.present? ? news.url : news_path(news)
+  %div{class: column_class}
+    %h2
+      = news.title
+    %p
+      = link_to(url, target: '_blank', rel: 'no-follow', title: strip_tags(news.short_desc)) do
+        = image_tag(image_path(news.photo.url(:original)), class: "featurette-image img-responsive center",
+          style: "float:left; #{image_style}", alt: strip_tags(news.short_desc) )
+    %p
+      = news.short_desc.html_safe
+    %p
+      %a.btn.btn-default{href: news_path(news), role: 'button'} Читать дальше &raquo;

@@ -28,6 +28,7 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+
     alias_action :create, :read, :update, :destroy, :to => :crud
 
     can [:show, :index], User
@@ -35,8 +36,12 @@ class Ability
     can [:update, :edit], User do |hacker|
       hacker.id == user.id
     end
+    can [:index, :show, :create, :new], News
 
-    user ||= User.new # guest user (not logged in)
+    can [:update, :edit, :destroy], News do |news|
+      news.user_id == user.id
+    end
+
     if user.admin?
       can :manage, :all
     else
