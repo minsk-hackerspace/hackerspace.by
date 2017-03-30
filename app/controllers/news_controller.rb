@@ -1,6 +1,5 @@
 class NewsController < ApplicationController
   before_action :authenticate_user!, only: [:edit, :update, :destroy, :new, :create]
-  # before_action :set_news, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
 
   def index
@@ -53,9 +52,6 @@ class NewsController < ApplicationController
   end
 
   private
-    def set_news
-      @news = News.find(params[:id])
-    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def news_params
