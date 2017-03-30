@@ -18,7 +18,7 @@
           %h2
             = link_to news.title, news_path(news)
           %p
-            = link_to image_tag(news.photo.url(:original), class: 'left-block'), news_path(news)
+            = link_to image_tag(news.photo.url(:medium), class: 'left-block'), news_path(news)
           %p
             = news.short_desc.html_safe
           %p
