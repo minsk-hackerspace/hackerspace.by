@@ -4,7 +4,7 @@ class HackersController < ApplicationController
   before_action :set_hacker, only: [:show, :edit, :update]
 
   def index
-    @users = User.all
+    @users = User.order("coalesce(last_sign_in_at, '1970-01-01') desc").all
     respond_to do |format|
       format.html
       format.csv {render csv: @users, filename: 'hackers'}
@@ -35,6 +35,6 @@ class HackersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :hacker_comment, :photo, :first_name, :last_name)
+    params.require(:user).permit(:email, :hacker_comment, :photo)
   end
 end
