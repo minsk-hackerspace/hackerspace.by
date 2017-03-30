@@ -21,7 +21,4 @@ describe ApplicationHelper do
     it ""
   end
 
-  describe "#show_afisha" do
-    it ""
-  end
 end

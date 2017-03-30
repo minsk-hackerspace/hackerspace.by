@@ -1,29 +1,22 @@
 class NewsController < ApplicationController
   before_action :authenticate_user!, only: [:edit, :update, :destroy, :new, :create]
-  before_action :set_news, only: [:show, :edit, :update, :destroy]
+  # before_action :set_news, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
 
-  # GET /news
-  # GET /news.json
   def index
     @news = News.order(created_at: :desc).all
   end
 
-  # GET /news/1
-  # GET /news/1.json
   def show
   end
 
-  # GET /news/new
   def new
     @news = News.new
   end
 
-  # GET /news/1/edit
   def edit
   end
 
-  # POST /news
-  # POST /news.json
   def create
     @news = News.new(news_params)
     @news.user = current_user
@@ -39,8 +32,6 @@ class NewsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /news/1
-  # PATCH/PUT /news/1.json
   def update
     respond_to do |format|
       if @news.update(news_params)
@@ -53,8 +44,6 @@ class NewsController < ApplicationController
     end
   end
 
-  # DELETE /news/1
-  # DELETE /news/1.json
   def destroy
     @news.destroy
     respond_to do |format|
@@ -64,14 +53,8 @@ class NewsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_news
-      @news = News.published.find(params[:id])
-      if @news.public or @news.user == current_user
-        @news
-      else
-        @news = nil
-      end
+      @news = News.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
