@@ -6,7 +6,9 @@
     %thead
       %th
       %th
-        = t ".email"
+        = t '.personal_number'
+      %th
+        = t '.email'
       %th
         = t ".name"
       %th
@@ -19,17 +21,15 @@
           %td
             = image_tag hacker.photo.url(:thumb)
           %td
-            %b
-              = "#{hacker.id}."
-
-              %br
-              = hacker.email
+            = hacker.id
           %td
-            = sprintf("%s %s", hacker.first_name, hacker.last_name)
+            = hacker.email
+          %td
+            = "#{hacker.first_name} #{hacker.last_name}"
           %td
             = hacker.hacker_comment
           %td
-            = hacker.last_sign_in_at
+            = hacker.last_sign_in_at.nil? ? '' : hacker.last_sign_in_at.to_formatted_s(:long)
           %td
             - if can?(:edit, hacker)
               = link_to image_tag('edit_gear_icon.png', class: 'no-shadow'), edit_user_path(hacker)
