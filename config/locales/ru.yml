@@ -323,7 +323,6 @@ ru:
   hackers:
     index:
       title: Hackers
-      personal_number: Номер участника
       email: Email
       comment: Примечание
       name: Имя
