@@ -34,7 +34,6 @@ gem 'devise-i18n'
 gem 'bootstrap-sass', '>= 3.1.1'
 gem 'haml'
 gem 'haml-rails'
-gem 'pg'
 gem 'rest-client'
 
 #gem 'copycopter_client', '~> 2.0.1'
@@ -75,5 +74,6 @@ group :test do
 end
 
 group :production do
+  gem 'pg'
   gem 'puma', '~> 3.0'
 end

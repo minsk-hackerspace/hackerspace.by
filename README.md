@@ -12,7 +12,7 @@ Web site of Minsk Hackerspace - http://hackerspace.by/
 git clone https://github.com/minsk-hackerspace/hackerspace.by
 cd hackerspace.by
 cp config/database.example.yml config/database.yml
-bundle install
+bundle install --without production
 bundle exec rails db:setup
 bundle exec rails server
 ```
