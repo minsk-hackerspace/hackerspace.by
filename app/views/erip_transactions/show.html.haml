@@ -1,0 +1,63 @@
+%p#notice= notice
+
+%p
+  %b Status:
+  = @erip_transaction.status
+%p
+  %b Message:
+  = @erip_transaction.message
+%p
+  %b Type:
+  = @erip_transaction.type
+%p
+  %b Transaction:
+  = @erip_transaction.transaction_id
+%p
+  %b Uid:
+  = @erip_transaction.uid
+%p
+  %b Order:
+  = @erip_transaction.order_id
+%p
+  %b Amount:
+  = @erip_transaction.amount
+%p
+  %b Currency:
+  = @erip_transaction.currency
+%p
+  %b Description:
+  = @erip_transaction.description
+%p
+  %b Tracking:
+  = @erip_transaction.tracking_id
+%p
+  %b Transaction created at:
+  = @erip_transaction.transaction_created_at
+%p
+  %b Expired at:
+  = @erip_transaction.expired_at
+%p
+  %b Paid at:
+  = @erip_transaction.paid_at
+%p
+  %b Test:
+  = @erip_transaction.test
+%p
+  %b Payment method type:
+  = @erip_transaction.payment_method_type
+%p
+  %b Billing address:
+  = @erip_transaction.billing_address
+%p
+  %b Customer:
+  = @erip_transaction.customer
+%p
+  %b Payment:
+  = @erip_transaction.payment
+%p
+  %b Erip:
+  = @erip_transaction.erip
+
+= link_to 'Edit', edit_erip_transaction_path(@erip_transaction)
+\|
+= link_to 'Back', erip_transactions_path

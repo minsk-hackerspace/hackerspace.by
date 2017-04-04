@@ -1,0 +1,1 @@
+json.array! @erip_transactions, partial: 'erip_transactions/erip_transaction', as: :erip_transaction

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :erip_transactions
   root 'main#index'
 
   devise_for :devices
