@@ -1,4 +1,4 @@
-class EripTransactionsController < ApplicationController
+class Admin::EripTransactionsController < AdminController
   before_action :set_erip_transaction, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:create]
 

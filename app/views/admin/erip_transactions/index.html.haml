@@ -48,10 +48,10 @@
         %td= erip_transaction.customer
         %td= erip_transaction.payment
         %td= erip_transaction.erip
-        %td= link_to 'Show', erip_transaction
-        %td= link_to 'Edit', edit_erip_transaction_path(erip_transaction)
-        %td= link_to 'Destroy', erip_transaction, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= link_to 'Show', admin_erip_transaction_path(erip_transaction)
+        %td= link_to 'Edit', edit_admin_erip_transaction_path(erip_transaction)
+        %td= link_to 'Destroy', admin_erip_transaction_path(erip_transaction), :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
-= link_to 'New Erip transaction', new_erip_transaction_path
+-#= link_to 'New Erip transaction', new_admin_erip_transaction_path
