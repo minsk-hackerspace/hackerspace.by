@@ -10,13 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170107222639) do
+ActiveRecord::Schema.define(version: 20170325164818) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "devices", force: :cascade do |t|
     t.string   "name",               null: false
     t.string   "encrypted_password", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "erip_transactions", force: :cascade do |t|
+    t.string   "status"
+    t.string   "message"
+    t.string   "type"
+    t.string   "transaction_id"
+    t.string   "uid"
+    t.string   "order_id"
+    t.decimal  "amount"
+    t.string   "currency"
+    t.string   "description"
+    t.string   "tracking_id"
+    t.datetime "transaction_created_at"
+    t.datetime "expired_at"
+    t.datetime "paid_at"
+    t.boolean  "test"
+    t.string   "payment_method_type"
+    t.json     "billing_address"
+    t.json     "customer"
+    t.json     "payment"
+    t.json     "erip"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "events", force: :cascade do |t|
@@ -61,7 +88,14 @@ ActiveRecord::Schema.define(version: 20170107222639) do
     t.string   "markup_type",        default: "html"
     t.boolean  "public",             default: false
     t.string   "project_status",     default: "активный"
-    t.index ["user_id"], name: "index_projects_on_user_id"
+    t.index ["user_id"], name: "index_projects_on_user_id", using: :btree
+  end
+
+  create_table "resources", force: :cascade do |t|
+    t.string   "EripTransaction"
+    t.string   "status"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "roles", force: :cascade do |t|
@@ -96,16 +130,16 @@ ActiveRecord::Schema.define(version: 20170107222639) do
     t.float    "next_month_payment_amount"
     t.integer  "next_month"
     t.float    "current_debt"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
   create_table "users_roles", id: false, force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "role_id", null: false
-    t.index ["role_id"], name: "index_users_roles_on_role_id"
-    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", unique: true
-    t.index ["user_id"], name: "index_users_roles_on_user_id"
+    t.index ["role_id"], name: "index_users_roles_on_role_id", using: :btree
+    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", unique: true, using: :btree
+    t.index ["user_id"], name: "index_users_roles_on_user_id", using: :btree
   end
 
 end

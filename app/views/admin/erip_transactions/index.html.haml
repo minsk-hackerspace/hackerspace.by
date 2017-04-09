@@ -1,0 +1,57 @@
+%h1 Listing erip_transactions
+
+%table
+  %thead
+    %tr
+      %th Status
+      %th Message
+      %th Type
+      %th Transaction
+      %th Uid
+      %th Order
+      %th Amount
+      %th Currency
+      %th Description
+      %th Tracking
+      %th Transaction created at
+      %th Expired at
+      %th Paid at
+      %th Test
+      %th Payment method type
+      %th Billing address
+      %th Customer
+      %th Payment
+      %th Erip
+      %th
+      %th
+      %th
+
+  %tbody
+    - @erip_transactions.each do |erip_transaction|
+      %tr
+        %td= erip_transaction.status
+        %td= erip_transaction.message
+        %td= erip_transaction.type
+        %td= erip_transaction.transaction_id
+        %td= erip_transaction.uid
+        %td= erip_transaction.order_id
+        %td= erip_transaction.amount
+        %td= erip_transaction.currency
+        %td= erip_transaction.description
+        %td= erip_transaction.tracking_id
+        %td= erip_transaction.transaction_created_at
+        %td= erip_transaction.expired_at
+        %td= erip_transaction.paid_at
+        %td= erip_transaction.test
+        %td= erip_transaction.payment_method_type
+        %td= erip_transaction.billing_address
+        %td= erip_transaction.customer
+        %td= erip_transaction.payment
+        %td= erip_transaction.erip
+        %td= link_to 'Show', admin_erip_transaction_path(erip_transaction)
+        %td= link_to 'Edit', edit_admin_erip_transaction_path(erip_transaction)
+        %td= link_to 'Destroy', admin_erip_transaction_path(erip_transaction), :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+-#= link_to 'New Erip transaction', new_admin_erip_transaction_path

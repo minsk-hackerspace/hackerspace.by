@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+
   root 'main#index'
 
   devise_for :devices
@@ -22,6 +23,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :dashboard, only: :index
     resources :users, only: [:index, :edit, :update]
+    resources :erip_transactions
   end
 
   resources :events, only: [:index] do

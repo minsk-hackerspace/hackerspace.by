@@ -1,0 +1,67 @@
+= form_for [:admin, @erip_transaction] do |f|
+  - if @erip_transaction.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@erip_transaction.errors.count, "error")} prohibited this erip_transaction from being saved:"
+      %ul
+        - @erip_transaction.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :status
+    = f.text_field :status
+  .field
+    = f.label :message
+    = f.text_field :message
+  .field
+    = f.label :type
+    = f.text_field :type
+  .field
+    = f.label :transaction_id
+    = f.text_field :transaction_id
+  .field
+    = f.label :uid
+    = f.text_field :uid
+  .field
+    = f.label :order_id
+    = f.text_field :order_id
+  .field
+    = f.label :amount
+    = f.text_field :amount
+  .field
+    = f.label :currency
+    = f.text_field :currency
+  .field
+    = f.label :description
+    = f.text_field :description
+  .field
+    = f.label :tracking_id
+    = f.text_field :tracking_id
+  .field
+    = f.label :transaction_created_at
+    = f.datetime_select :transaction_created_at
+  .field
+    = f.label :expired_at
+    = f.datetime_select :expired_at
+  .field
+    = f.label :paid_at
+    = f.datetime_select :paid_at
+  .field
+    = f.label :test
+    = f.check_box :test
+  .field
+    = f.label :payment_method_type
+    = f.text_field :payment_method_type
+  .field
+    = f.label :billing_address
+    = f.text_field :billing_address
+  .field
+    = f.label :customer
+    = f.text_field :customer
+  .field
+    = f.label :payment
+    = f.text_field :payment
+  .field
+    = f.label :erip
+    = f.text_field :erip
+  .actions
+    = f.submit 'Save'
