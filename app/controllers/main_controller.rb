@@ -24,7 +24,7 @@ class MainController < ApplicationController
     if @hs_open_status != Hspace::UNKNOWN
       endpoint[:open] = @hs_open_status == Hspace::OPENED
       endpoint[:icon] = {}
-      endpoint[:logo] = helpers.image_path('default.png')
+      endpoint[:logo] = helpers.image_url('default.png')
       endpoint[:state][:open] = @hs_open_status == Hspace::OPENED
       endpoint[:state][:lastchange] = Event.order(updated_at: :desc).first.updated_at.to_i
       endpoint[:sensors][:people_now_present][0][:value] = @hs_present_people.count unless @hs_present_people.nil?
