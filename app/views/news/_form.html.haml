@@ -12,8 +12,8 @@
     = f.label 'Краткое описание'
     = f.text_area :short_desc, class: 'form-control'
   .form-group.mandatory
-    = f.label :description
-    = f.text_area :description, class: 'form-control'
+    = f.label 'Основной текст'
+    = f.text_area :description, class: 'form-control', rows: 40
   .row
     .form-group.col-lg-2
       = f.label 'Тип разметки текста'
