@@ -29,8 +29,10 @@ class MainController < ApplicationController
       endpoint[:state][:open] = @hs_open_status == Hspace::OPENED
       endpoint[:projects] = Project.published.map{|p| project_url(p) }
       endpoint[:state][:lastchange] = Event.order(updated_at: :desc).first.updated_at.to_i
-      endpoint[:sensors][:people_now_present][0][:value] = @hs_present_people.count unless @hs_present_people.nil?
-      endpoint[:sensors][:people_now_present][0][:names] = @hs_present_people unless @hs_present_people.nil?
+      unless @hs_present_people.nil?
+        endpoint[:sensors][:people_now_present][0][:value] = @hs_present_people.count
+        endpoint[:sensors][:people_now_present][0][:names] = @hs_present_people if @hs_present_people.count > 0
+      end
     end
 
     response.headers['Access-Control-Allow-Origin'] = '*'
