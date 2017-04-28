@@ -39,7 +39,7 @@ class Ability
     can [:index, :show, :create, :new], News
 
     can [:update, :edit, :destroy], News do |news|
-      news.user_id == user.id
+      news.user_id == user.id or news.public?
     end
 
     if user.admin?
