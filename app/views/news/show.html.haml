@@ -9,7 +9,7 @@
 .lead
   = markup2html @news.description, @news.markup_type
 
--if user_signed_in? && can?(:update, @news)
+-if user_signed_in? #&& can?(:update, @news)
   = link_to 'Изменить', edit_news_path(@news), class: 'btn btn-info'
 
 = link_to 'Назад', news_index_path, class: 'btn btn-default'
