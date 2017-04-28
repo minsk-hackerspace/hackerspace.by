@@ -23,9 +23,11 @@ class MainController < ApplicationController
     endpoint = SpaceAPIEndpoint.new
     if @hs_open_status != Hspace::UNKNOWN
       endpoint[:open] = @hs_open_status == Hspace::OPENED
-      endpoint[:icon] = {}
+      endpoint[:state] = {}
+      endpoint[:state][:icon] = {open: helpers.image_url('default.png'), closed: helpers.image_url('default.png')}
       endpoint[:logo] = helpers.image_url('default.png')
       endpoint[:state][:open] = @hs_open_status == Hspace::OPENED
+      endpoint[:projects] = Project.published.map{|p| project_url(p) }
       endpoint[:state][:lastchange] = Event.order(updated_at: :desc).first.updated_at.to_i
       endpoint[:sensors][:people_now_present][0][:value] = @hs_present_people.count unless @hs_present_people.nil?
       endpoint[:sensors][:people_now_present][0][:names] = @hs_present_people unless @hs_present_people.nil?
