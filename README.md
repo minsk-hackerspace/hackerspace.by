@@ -20,3 +20,13 @@ bundle exec rails server
 `bundler` устанавливает библиотеки глобально, поэтому если не хочется мусорить, стоит посмотреть на RVM.
 
 После старта сайт будет доступен на [http://localhost:3000/](http://localhost:3000/). Пользователь developer@hackerspace.by, пароль '111111'.
+
+
+
+Запуск тэстаў
+
+```
+rails db:test:prepare
+rspec spec/
+```
+* калі структура базы не мянялася то каманду db:test:prepare можна не запускаць
