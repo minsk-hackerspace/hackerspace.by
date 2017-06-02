@@ -1,5 +1,7 @@
 - cache :rules do
   -page_content = Net::HTTP.get(URI.parse('https://raw.githubusercontent.com/minsk-hackerspace/organisation/master/rules.md'))
-  = markup2html page_content.force_encoding("UTF-8"), 'markdown'
+  .lead
+    = markup2html page_content.force_encoding("UTF-8"), 'markdown'
 
   %hr
+
