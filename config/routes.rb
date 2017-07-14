@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     resources :dashboard, only: :index
     resources :users, only: [:index, :edit, :update]
     resources :erip_transactions
+    post "erip_transactions/bepaid_notify", to: "erip_transactions#bepaid_notify"
   end
 
   resources :events, only: [:index] do

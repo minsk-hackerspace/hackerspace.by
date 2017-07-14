@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170325164818) do
+ActiveRecord::Schema.define(version: 20170714215211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20170325164818) do
   create_table "erip_transactions", force: :cascade do |t|
     t.string   "status"
     t.string   "message"
-    t.string   "type"
+    t.string   "transaction_type"
     t.string   "transaction_id"
     t.string   "uid"
     t.string   "order_id"

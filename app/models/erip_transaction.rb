@@ -5,7 +5,7 @@
 #  id                     :integer          not null, primary key
 #  status                 :string
 #  message                :string
-#  type                   :string
+#  transaction_type       :string
 #  transaction_id         :string
 #  uid                    :string
 #  order_id               :string

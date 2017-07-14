@@ -1,6 +1,6 @@
 class Admin::EripTransactionsController < AdminController
   before_action :set_erip_transaction, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:create]
+  before_action :authenticate_user!, except: [:create, :bepaid_notify]
 
 
   # GET /erip_transactions
@@ -60,6 +60,48 @@ class Admin::EripTransactionsController < AdminController
     respond_to do |format|
       format.html { redirect_to erip_transactions_url, notice: 'Erip transaction was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def bepaid_notify
+    transaction = params[:transaction]
+    if transaction.nil?
+      respond_to do |format|
+        format.json { render json: {}, status: :unprocessable_entity }
+      end
+    end
+
+    logger.debug transaction
+
+    et = EripTransaction.new
+    et.status = transaction[:status]
+    et.message = transaction[:message]
+    et.transaction_type = transaction[:type]
+    et.transaction_id = transaction[:id]
+    et.uid = transaction[:uid]
+    et.order_id = transaction[:order_id]
+    et.amount = BigDecimal.new(transaction[:amount]) / 100 # amount is in 1/100 BYN
+    et.currency = transaction[:currency]
+    et.tracking_id = transaction[:tracking_id]
+    et.transaction_created_at = DateTime.parse(transaction[:created_at])
+    et.expired_at = DateTime.parse(transaction[:expired_at])
+    et.paid_at = DateTime.parse(transaction[:paid_at])
+    et.test = transaction[:test]
+    et.payment_method_type = transaction[:payment_method_type]
+    et.billing_address = transaction[:billing_address]
+    et.customer = transaction[:customer]
+    et.payment = transaction[:payment]
+    et.erip = transaction[:erip]
+    @erip_transaction = et
+
+    logger.debug "Parsed transaction: " + et.inspect
+
+    respond_to do |format|
+      if @erip_transaction.save
+        format.json { render :show, status: :created, location: admin_erip_transaction_url(@erip_transaction) }
+      else
+        format.json { render json: @erip_transaction.errors, status: :unprocessable_entity }
+      end
     end
   end
 
