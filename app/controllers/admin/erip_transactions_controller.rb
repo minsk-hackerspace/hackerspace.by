@@ -58,7 +58,7 @@ class Admin::EripTransactionsController < AdminController
   def destroy
     @erip_transaction.destroy
     respond_to do |format|
-      format.html { redirect_to erip_transactions_url, notice: 'Erip transaction was successfully destroyed.' }
+      format.html { redirect_to admin_erip_transactions_url, notice: 'Erip transaction was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
