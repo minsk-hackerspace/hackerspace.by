@@ -2,11 +2,12 @@
 #
 # Table name: settings
 #
-#  id         :integer          not null, primary key
-#  key        :string           not null
-#  value      :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :integer          not null, primary key
+#  key         :string           not null
+#  value       :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  description :string
 #
 # Indexes
 #

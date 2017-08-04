@@ -39,7 +39,8 @@ User::ROLES.each do |rolename|
   Role.find_or_create_by(name: rolename)
 end
 
-Setting.create(key: 'bePaid_ID', value: '')
-Setting.create(key: 'bePaid_secret', value: '')
-Setting.create(key: 'bePaid_baseURL', value: 'https://api.bepaid.by')
-Setting.create(key: 'bePaid_serviceNo', value: '248')# ID of membership fee service
+Setting.create(key: 'bePaid_ID', value: '', description: 'ID магазина из личного кабинета bePaid')
+Setting.create(key: 'bePaid_secret', value: '', description: 'Секретный ключ из личного кабинета bePaid')
+Setting.create(key: 'bePaid_baseURL', value: 'https://api.bepaid.by', description: 'Базовый адрес для запросов к API bePaid')
+Setting.create(key: 'bePaid_serviceNo', value: '248', description: 'Номер услуги в bePaid для членских взносов')
+

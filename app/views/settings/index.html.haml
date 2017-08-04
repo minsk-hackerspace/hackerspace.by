@@ -7,8 +7,7 @@
       %tr
         %th= Setting.human_attribute_name(:key)
         %th= Setting.human_attribute_name(:value)
-        %th
-        %th
+        %th= Setting.human_attribute_name(:description)
         %th
 
     %tbody
@@ -16,9 +15,8 @@
         %tr
           %td= setting.key
           %td= setting.value
-          %td= link_to 'Show', setting
+          %td= setting.description
           %td= link_to 'Edit', edit_setting_path(setting)
-          %td= link_to 'Destroy', setting, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
