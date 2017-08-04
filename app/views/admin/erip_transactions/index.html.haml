@@ -6,24 +6,18 @@
       %th Status
       %th Message
       %th Type
-      %th Transaction
       %th Uid
       %th Order
       %th Amount
       %th Currency
-      %th Description
       %th Tracking
-      %th Transaction created at
-      %th Expired at
       %th Paid at
       %th Test
-      %th Payment method type
-      %th Billing address
-      %th Customer
-      %th Payment
-      %th Erip
-      %th
-      %th
+      %th Payment method
+      %th Name
+      %th Email
+      %th Payment ID
+      %th ERIP service
       %th
 
   %tbody
@@ -32,25 +26,19 @@
         %td= erip_transaction.status
         %td= erip_transaction.message
         %td= erip_transaction.transaction_type
-        %td= erip_transaction.transaction_id
-        %td= erip_transaction.uid
+        %td= erip_transaction.uid[0..7] + '...'
         %td= erip_transaction.order_id
         %td= erip_transaction.amount
         %td= erip_transaction.currency
-        %td= erip_transaction.description
         %td= erip_transaction.tracking_id
-        %td= erip_transaction.transaction_created_at
-        %td= erip_transaction.expired_at
         %td= erip_transaction.paid_at
         %td= erip_transaction.test
         %td= erip_transaction.payment_method_type
-        %td= erip_transaction.billing_address
-        %td= erip_transaction.customer
-        %td= erip_transaction.payment
-        %td= erip_transaction.erip
+        %td= "#{erip_transaction.billing_address['first_name']} #{erip_transaction.billing_address['last_name']}"
+        %td= erip_transaction.customer['email']
+        %td= erip_transaction.payment['ref_id']
+        %td= erip_transaction.erip['servicee_no']
         %td= link_to 'Show', admin_erip_transaction_path(erip_transaction)
-        %td= link_to 'Edit', edit_admin_erip_transaction_path(erip_transaction)
-        %td= link_to 'Destroy', admin_erip_transaction_path(erip_transaction), :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
