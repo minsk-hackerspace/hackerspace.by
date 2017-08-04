@@ -35,6 +35,8 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
+require 'bepaid.rb'
+
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -80,6 +82,8 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true, length: {maximum: 255}
 
+  after_save :create_bepaid_bill
+
   def admin?
     check_role('admin')
   end
@@ -88,5 +92,53 @@ class User < ApplicationRecord
 
   def check_role(role)
     self.roles.map(&:name).include? role
+  end
+
+  #TODO: maybe place this to concerns?
+  def create_bepaid_bill
+    user = self
+
+    bp = BePaid::BePaid.new Setting['bePaid_baseURL'], Setting['bePaid_ID'], Setting['bePaid_secret']
+
+    amount = 50.00
+
+    #amount is (amoint in BYN)*100
+    bill = {
+      request: {
+        amount: (amount * 100).to_i,
+        currency: 'BYN',
+        description: 'Членский взнос',
+        email: 'jekhor@gmail.com',
+        notification_url: 'https://hackerspace.by/admin/erip_transactions/bepaid_notify',
+        ip: '127.0.0.1',
+        order_id: '4444',
+        customer: {
+          first_name: 'Cool',
+          last_name: 'Hacker',
+        },
+        payment_method: {
+          type: 'erip',
+          account_number: 444,
+          permanent: 'true',
+          editable_amount: 'true',
+          service_no: 248,
+        }
+      }
+    }
+    req = bill[:request]
+    req[:email] = user.email
+    req[:order_id] = user.id
+    req[:customer][:first_name] = user.first_name
+    req[:customer][:last_name] = user.last_name
+    req[:payment_method][:account_number] = user.id
+
+    begin
+      res = bp.post_bill bill
+      logger.debug JSON.pretty_generate res
+    rescue BePaid::BPError, RuntimeError => e
+      logger.error e.message
+      logger.error e.http_body if e.http_body
+      user.errors.add :base, "Не удалось создать счёт в bePaid, проверьте лог"
+    end
   end
 end

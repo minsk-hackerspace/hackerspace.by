@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  resources :settings
   root 'main#index'
 
   devise_for :devices

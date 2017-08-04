@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
+gem 'rails-i18n', '~> 5.0.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -71,6 +72,7 @@ end
 group :test do
   gem 'shoulda-matchers', '2.8.0'
   gem 'ffaker'
+  gem 'rails-controller-testing'
 end
 
 group :production do
