@@ -14,6 +14,7 @@ bill = {
     currency: 'BYN',
     description: 'Членский взнос',
     email: 'jekhor@gmail.com',
+    notification_url: 'https://hackerspace.by/admin/erip_transactions/bepaid_notify',
     ip: '127.0.0.1',
     order_id: '4',
     customer: {

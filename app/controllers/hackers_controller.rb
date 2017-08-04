@@ -22,6 +22,7 @@ class HackersController < ApplicationController
   def update
     if @user.update(user_params)
       flash[:notice] = 'Профиль изменен'
+      flash[:alert] = @user.errors.full_messages.join "\n"
       redirect_to users_path
     else
       render :edit
@@ -37,4 +38,5 @@ class HackersController < ApplicationController
   def user_params
     params.require(:user).permit(:email, :hacker_comment, :photo, :first_name, :last_name)
   end
+
 end

@@ -38,3 +38,8 @@ User::ROLES.each do |rolename|
   puts "Create role: #{rolename}"
   Role.find_or_create_by(name: rolename)
 end
+
+Setting.create(key: 'bePaid_ID', value: '')
+Setting.create(key: 'bePaid_secret', value: '')
+Setting.create(key: 'bePaid_baseURL', value: 'https://api.bepaid.by')
+Setting.create(key: 'bePaid_serviceNo', value: '248')# ID of membership fee service
