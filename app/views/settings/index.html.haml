@@ -1,0 +1,25 @@
+%h1
+  = t(".title")
+
+.container
+  %table.table
+    %thead
+      %tr
+        %th= Setting.human_attribute_name(:key)
+        %th= Setting.human_attribute_name(:value)
+        %th
+        %th
+        %th
+
+    %tbody
+      - @settings.each do |setting|
+        %tr
+          %td= setting.key
+          %td= setting.value
+          %td= link_to 'Show', setting
+          %td= link_to 'Edit', edit_setting_path(setting)
+          %td= link_to 'Destroy', setting, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Setting', new_setting_path
