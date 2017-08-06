@@ -100,7 +100,7 @@ class User < ApplicationRecord
 
     bp = BePaid::BePaid.new Setting['bePaid_baseURL'], Setting['bePaid_ID'], Setting['bePaid_secret']
 
-    amount = 50.00
+    amount = user.monthly_payment_amount
 
     #amount is (amoint in BYN)*100
     bill = {
