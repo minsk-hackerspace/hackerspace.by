@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 
   before_action :check_if_hs_open if Rails.env.production?
   before_action :check_for_present_people if Rails.env.production?
+  before_action :check_for_hs_balance
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
@@ -27,6 +28,14 @@ class ApplicationController < ActionController::Base
     d = Device.find_by(name: 'bob')
     @hs_present_people = d.events.where('created_at >= ?', 5.minutes.ago).map {|e| e.value}
     @hs_present_people.uniq!
+  end
+
+  def check_for_hs_balance
+    if user_signed_in?
+      @hs_balance = Rails.cache.fetch "hs_balance", expires_in: 3.hours do
+        Belinvestbank.fetch_balance
+      end
+    end
   end
 
   private

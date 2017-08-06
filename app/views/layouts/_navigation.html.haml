@@ -40,6 +40,12 @@
                   = link_to 'Админка', admin_dashboard_index_path
 
       %ul.nav.navbar-nav.navbar-right.lead
+        %li.navbar-text
+          -if user_signed_in?
+            Баланс ХС: 
+            %b
+              = @hs_balance
+            BYN
         %li
           -if user_signed_in?
             = link_to 'Выход', destroy_user_session_path, method: :delete
