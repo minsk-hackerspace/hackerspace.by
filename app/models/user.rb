@@ -121,7 +121,7 @@ class User < ApplicationRecord
           account_number: 444,
           permanent: 'true',
           editable_amount: 'true',
-          service_no: 248,
+          service_no: Setting['bePaid_serviceNo'],
         }
       }
     }
@@ -135,9 +135,9 @@ class User < ApplicationRecord
     begin
       res = bp.post_bill bill
       logger.debug JSON.pretty_generate res
-    rescue BePaid::BPError, RuntimeError => e
+    rescue  => e
       logger.error e.message
-      logger.error e.http_body if e.http_body
+      logger.error e.http_body if e.respond_to? :http_body
       user.errors.add :base, "Не удалось создать счёт в bePaid, проверьте лог"
     end
   end

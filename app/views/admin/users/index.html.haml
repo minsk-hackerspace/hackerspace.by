@@ -8,6 +8,8 @@
       %th
         = t ".email"
       %th
+        = t ".roles"
+      %th
         = t('.monthly_payment_amount')
       %th
         = t('.next_month_payment_amount')
@@ -26,6 +28,8 @@
 
               %br
               = hacker.email
+          %td
+            = hacker.roles.map {|r| r.name}.join(',')
           %td
             = hacker.monthly_payment_amount
           %td

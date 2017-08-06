@@ -1,0 +1,26 @@
+= form_for [:admin, @user], html: { multipart: true } do |f|
+  - if @user.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@user.errors.count, "error")} сохранить не получается:"
+      %ul
+        - @user.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group.mandatory
+    = f.label :email
+    = f.text_field :email, class: 'form-control'
+  .form-group
+    = f.label :first_name
+    = f.text_field :first_name, class: 'form-control'
+  .form-group
+    = f.label :last_name
+    = f.text_field :last_name, class: 'form-control'
+  .form-group
+    = f.label :password
+    = f.text_field :password, class: 'form-control'
+  /.form-group
+  /  = f.label :roles
+  /  = f.collection_check_boxes :role_ids, Role.all, :id, :name
+
+  .form-group
+    = f.submit 'Сохранить', class: 'btn btn-default'
