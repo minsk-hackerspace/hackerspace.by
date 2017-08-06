@@ -43,4 +43,7 @@ Setting.create(key: 'bePaid_ID', value: '', description: 'ID магазина и
 Setting.create(key: 'bePaid_secret', value: '', description: 'Секретный ключ из личного кабинета bePaid')
 Setting.create(key: 'bePaid_baseURL', value: 'https://api.bepaid.by', description: 'Базовый адрес для запросов к API bePaid')
 Setting.create(key: 'bePaid_serviceNo', value: '248', description: 'Номер услуги в bePaid для членских взносов')
+Setting.create(key: 'bib_baseURL', value: 'https://ibank.belinvestbank.by/', description: 'Bank API base URL')
+Setting.create(key: 'bib_login', value: '', description: 'Login for Belinvestbank')
+Setting.create(key: 'bib_password', value: '', description: 'Password for Belinvestbank')
 
