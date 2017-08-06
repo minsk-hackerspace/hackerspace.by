@@ -68,6 +68,7 @@ class User < ApplicationRecord
 
   has_many :roles, through: :users_roles
   has_many :users_roles
+  has_many :erip_transactions
 
   has_attached_file :photo,
                     styles: {
@@ -81,11 +82,20 @@ class User < ApplicationRecord
   validates_attachment :photo, size: { in: 0..3.megabytes }
 
   validates :email, presence: true, uniqueness: true, length: {maximum: 255}
+  validates :monthly_payment_amount, numericality: { greater_than_or_equal_to: 0 }
 
   after_save :create_bepaid_bill
 
   def admin?
     check_role('admin')
+  end
+
+  def last_payment
+    self.erip_transactions.where(status: 'successful', transaction_type: 'payment').order(paid_at: :desc).first
+  end
+
+  def payments
+    self.erip_transactions.where(status: 'successful', transaction_type: 'payment').order(paid_at: :desc)
   end
 
   private
@@ -100,7 +110,7 @@ class User < ApplicationRecord
 
     bp = BePaid::BePaid.new Setting['bePaid_baseURL'], Setting['bePaid_ID'], Setting['bePaid_secret']
 
-    amount = 50.00
+    amount = user.monthly_payment_amount
 
     #amount is (amoint in BYN)*100
     bill = {

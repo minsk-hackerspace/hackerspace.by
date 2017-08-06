@@ -92,6 +92,12 @@ class Admin::EripTransactionsController < AdminController
     et.customer = transaction[:customer]
     et.payment = transaction[:payment]
     et.erip = transaction[:erip]
+
+    if et.erip['service_no'].to_i == Setting['bePaid_serviceNo'].to_i
+      u = User.find et.erip['account_number'].to_i
+      et.user = u
+    end
+
     @erip_transaction = et
 
     logger.debug "Parsed transaction: " + et.inspect

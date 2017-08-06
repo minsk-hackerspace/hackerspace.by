@@ -16,6 +16,10 @@
       %th
         = t('.current_debt')
       %th
+        = t('.last_payment')
+      %th
+        = t('.last_payment_at')
+      %th
         = t('.last_sign_in_at')
     %tbody
       - @users.each do |hacker|
@@ -36,6 +40,10 @@
             = hacker.next_month_payment_amount
           %td
             = hacker.current_debt
+          %td
+            = hacker.last_payment.amount if hacker.last_payment
+          %td
+            = hacker.last_payment.paid_at if hacker.last_payment
           %td
             = hacker.last_sign_in_at
           %td
