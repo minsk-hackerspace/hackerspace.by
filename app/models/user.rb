@@ -81,6 +81,7 @@ class User < ApplicationRecord
   validates_attachment :photo, size: { in: 0..3.megabytes }
 
   validates :email, presence: true, uniqueness: true, length: {maximum: 255}
+  validates :monthly_payment_amount, numericality: { greater_than_or_equal_to: 0 }
 
   after_save :create_bepaid_bill
 
