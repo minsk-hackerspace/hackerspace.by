@@ -16,8 +16,6 @@
       %th
         = t('.last_payment')
       %th
-        = t('.last_payment_at')
-      %th
         = t('.last_sign_in_at')
       %th
       %th
@@ -35,9 +33,7 @@
           %td
             = hacker.hacker_comment
           %td
-            = hacker.last_payment.amount if hacker.last_payment
-          %td
-            = hacker.last_payment.paid_at if hacker.last_payment
+            = "#{hacker.last_payment.amount} BYN #{time_ago_in_words(hacker.last_payment.paid_at.to_datetime)} назад" if hacker.last_payment
           %td
             = hacker.last_sign_in_at.nil? ? '' : hacker.last_sign_in_at.to_formatted_s(:long)
           %td
