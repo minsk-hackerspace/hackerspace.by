@@ -337,6 +337,7 @@ ru:
       index:
         title: Hackers
         email: Email
+        roles: Роли
         monthly_payment_amount: Оплата в месяц
         next_month_payment_amount: В следующем месяце
         created_at: Создан

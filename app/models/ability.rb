@@ -45,6 +45,7 @@ class Ability
     if user.admin?
       can :manage, :all
       can :crud, EripTransaction
+      can :crud, User
     else
 
     end

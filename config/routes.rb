@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :dashboard, only: :index
-    resources :users, only: [:index, :edit, :update]
+    resources :users, only: [:index, :edit, :update, :new, :create]
     resources :erip_transactions
     post "erip_transactions/bepaid_notify", to: "erip_transactions#bepaid_notify"
   end
