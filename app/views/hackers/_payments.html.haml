@@ -1,0 +1,14 @@
+%table.table
+  %thead
+    %th
+      = t('.date')
+    %th
+      = t('.amount')
+  %tbody
+    - payments.each do |payment|
+      %tr
+        %td
+          = payment.paid_at
+        %td
+          = payment.amount
+

@@ -90,6 +90,14 @@ class User < ApplicationRecord
     check_role('admin')
   end
 
+  def last_payment
+    self.erip_transactions.where(status: 'successful', transaction_type: 'payment').order(paid_at: :desc).first
+  end
+
+  def payments
+    self.erip_transactions.where(status: 'successful', transaction_type: 'payment').order(paid_at: :desc)
+  end
+
   private
 
   def check_role(role)
