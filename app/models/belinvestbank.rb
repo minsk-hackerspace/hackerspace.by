@@ -16,7 +16,7 @@ class Belinvestbank
     end
     balance = 0
     accounts.each_value do |acc|
-      balance += acc[:balance].to_f
+      balance += acc[:balance].to_d
     end
     balance
   end
