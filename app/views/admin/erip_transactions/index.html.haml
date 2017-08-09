@@ -6,7 +6,7 @@
       %th Status
       %th Message
       %th Type
-      %th Uid
+      -#%th Uid
       %th Order
       %th Amount
       %th Currency
@@ -16,8 +16,8 @@
       %th Payment method
       %th Name
       %th Email
-      %th Payment ID
-      %th ERIP service
+      -#%th Payment ID
+      -#%th ERIP service
       %th
 
   %tbody
@@ -26,18 +26,18 @@
         %td= erip_transaction.status
         %td= erip_transaction.message
         %td= erip_transaction.transaction_type
-        %td= erip_transaction.uid[0..7] + '...'
+        -#%td= erip_transaction.uid[0..7] + '...'
         %td= erip_transaction.order_id
         %td= erip_transaction.amount
         %td= erip_transaction.currency
         %td= erip_transaction.tracking_id
-        %td= erip_transaction.paid_at
+        %td= erip_transaction.paid_at.to_formatted_s(:short)
         %td= erip_transaction.test
         %td= erip_transaction.payment_method_type
         %td= "#{erip_transaction.billing_address['first_name']} #{erip_transaction.billing_address['last_name']}"
         %td= erip_transaction.customer['email']
-        %td= erip_transaction.payment['ref_id']
-        %td= erip_transaction.erip['servicee_no']
+        -#%td= erip_transaction.payment['ref_id']
+        -#%td= erip_transaction.erip['servicee_no']
         %td= link_to 'Show', admin_erip_transaction_path(erip_transaction)
 
 %br
