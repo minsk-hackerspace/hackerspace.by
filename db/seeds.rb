@@ -1,9 +1,17 @@
+User::ROLES.each do |rolename|
+  puts "Create role: #{rolename}"
+  Role.find_or_create_by(name: rolename)
+end
+
 unless Rails.env.production?
   Project.destroy_all
   User.destroy_all
   Device.destroy_all
   Event.destroy_all
   News.destroy_all
+
+  admin = User.create(email: 'admin@hackerspace.by', password: '111111')
+  admin.roles << Role.find_by(name: 'admin')
 
   User.create(email: 'developer@hackerspace.by', password: '111111')
   User.create(email: 'developer2@hackerspace.by', password: '111111')
@@ -34,10 +42,6 @@ unless Rails.env.production?
   Device.all.each(&:mark_repeated_events)
 end
 
-User::ROLES.each do |rolename|
-  puts "Create role: #{rolename}"
-  Role.find_or_create_by(name: rolename)
-end
 
 Setting.create(key: 'bePaid_ID', value: '', description: 'ID магазина из личного кабинета bePaid')
 Setting.create(key: 'bePaid_secret', value: '', description: 'Секретный ключ из личного кабинета bePaid')
