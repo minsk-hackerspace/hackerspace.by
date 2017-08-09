@@ -99,9 +99,9 @@ ActiveRecord::Schema.define(version: 20170806215549) do
   create_table "settings", force: :cascade do |t|
     t.string   "key",         null: false
     t.string   "value"
+    t.string   "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.string   "description"
     t.index ["key"], name: "index_settings_on_key"
   end
 

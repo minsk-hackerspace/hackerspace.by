@@ -1,6 +1,5 @@
 class AddDescriptionToSettings < ActiveRecord::Migration[5.0]
   def up
-    add_column :settings, :description, :string
     Setting.where(key: 'bePaid_ID').update(description: 'ID магазина из личного кабинета bePaid')
     Setting.where(key: 'bePaid_secret').update(description: 'Секретный ключ из личного кабинета bePaid')
     Setting.where(key: 'bePaid_serviceNo').update(description: 'Номер услуги в bePaid для членских взносов')
@@ -8,6 +7,5 @@ class AddDescriptionToSettings < ActiveRecord::Migration[5.0]
   end
 
   def down
-    remove_column :settings, :description
   end
 end
