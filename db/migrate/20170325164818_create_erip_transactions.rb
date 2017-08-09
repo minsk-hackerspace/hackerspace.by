@@ -16,11 +16,10 @@ class CreateEripTransactions < ActiveRecord::Migration[5.0]
       t.datetime :paid_at
       t.boolean :test
       t.string :payment_method_type
-      t.json :billing_address
-      t.json :customer
-      t.json :payment
-      t.json :erip
-
+      t.string :billing_address
+      t.string :customer
+      t.string :payment
+      t.string :erip
       t.timestamps
     end
   end

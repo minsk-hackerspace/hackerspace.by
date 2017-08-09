@@ -18,10 +18,10 @@
 #  paid_at                :datetime
 #  test                   :boolean
 #  payment_method_type    :string
-#  billing_address        :json
-#  customer               :json
-#  payment                :json
-#  erip                   :json
+#  billing_address        :string
+#  customer               :string
+#  payment                :string
+#  erip                   :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  user_id                :integer
@@ -33,4 +33,8 @@
 
 class EripTransaction < ApplicationRecord
   belongs_to :user
+  serialize :billing_address, JSON
+  serialize :customer, JSON
+  serialize :payment, JSON
+  serialize :erip, JSON
 end
