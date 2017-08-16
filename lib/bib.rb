@@ -84,10 +84,13 @@ module BelinvestbankApi
       accounts
     end
 
-    def fetch_log(account_id)
-      r = query :post, '/corporate/accounts/history', { account_id: account_id}
+    def fetch_log(account_id, start_date=nil, end_date=nil)
+      start_date = start_date.strftime('%d.%m.%y') if start_date.respond_to? :strftime
+      end_date = end_date.strftime('%d.%m.%y') if end_date.respond_to? :strftime
+
+      r = query :post, '/corporate/accounts/history', { account_id: account_id, dateFrom: start_date, dateTo: end_date}
       r = query :post, '/corporate/accounts/history/csv'
-      r.body
+      r.body.force_encoding('windows-1251').encode('utf-8')
     end
 
     private
