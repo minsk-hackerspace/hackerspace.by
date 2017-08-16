@@ -41,6 +41,9 @@ module BelinvestbankApi
       begin
         r = query :post, '/signin', {login: @login, password: encode_password(@password, keyLang), typeSessionKey: 0}
 
+        if r.code == 200
+          raise "Bank auth failed"
+        end
       rescue RestClient::Exception => e
         if e.http_code == 302
 
@@ -69,15 +72,22 @@ module BelinvestbankApi
       accounts = {}
 
       doc = Nokogiri::HTML(r.body)
-      doc.css('.main-table-item-container').each do |item|
+      doc.css('.accounts-wrapper').each do |item|
         acc = item.css('.accountNumber').text
         balance = item.css('.accountBalance').text.delete(' ')
         type = item.css('.accountType').text
         currency = item.css('.accountCurrency').text
+        acc_id = item['data-row-id']
 
-        accounts[acc] = {balance: balance, type: type, currency: currency}
+        accounts[acc] = {balance: balance, type: type, currency: currency, id: acc_id}
       end
       accounts
+    end
+
+    def fetch_log(account_id)
+      r = query :post, '/corporate/accounts/history', { account_id: account_id}
+      r = query :post, '/corporate/accounts/history/csv'
+      r.body
     end
 
     private
