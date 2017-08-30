@@ -19,6 +19,10 @@ class MainController < ApplicationController
 
   end
 
+  def join_us
+
+  end
+
   def spaceapi
     endpoint = SpaceAPIEndpoint.new
     if @hs_open_status != Hspace::UNKNOWN

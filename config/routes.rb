@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get '/calendar', to: 'main#calendar'
   get '/contacts', to: 'main#contacts'
   get '/cabinet', to: 'main#cabinet'
+  get '/join_us', to: 'main#join_us'
 
   get '/webcam', to: 'main#webcam'
 
