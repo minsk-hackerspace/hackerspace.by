@@ -19,7 +19,15 @@ class MainController < ApplicationController
 
   end
 
-  def join_us
+  def procedure
+
+  end
+
+  def tariffs
+
+  end
+
+  def payment
 
   end
 

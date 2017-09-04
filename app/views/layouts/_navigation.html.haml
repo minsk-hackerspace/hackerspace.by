@@ -15,13 +15,22 @@
         %li
           = link_to 'Проекты', projects_path
         %li
-          = link_to 'Календарь', calendar_path
-        %li
-          %a{href: 'https://www.facebook.com/hs.minsk/photos_stream?tab=photos_albums', target: '_blank', rel: 'nofollow'} Фотографии
-        %li
           = link_to 'Контакты', contacts_path
-        %li
-          = link_to t('join_us.title'), join_us_path
+        %li.dropdown
+          %a{class:"dropdown-toggle", 'data-toggle': "dropdown", href: "#"}
+            Присоединиться
+            %span.caret
+          %ul.dropdown-menu
+            %li
+              = link_to 'Наши короткие правила', rules_path
+            %li
+              = link_to 'Тарифы', tariffs_path
+            %li
+              = link_to 'Как оплатить', payment_path
+            %li
+              = link_to 'Как присоединиться', procedure_path
+            %li
+              = link_to 'Время работы', calendar_path
 
         - if user_signed_in?
           %li.dropdown
