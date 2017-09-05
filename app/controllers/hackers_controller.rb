@@ -4,7 +4,8 @@ class HackersController < ApplicationController
   before_action :set_hacker, only: [:show, :edit, :update]
 
   def index
-    @users = User.where.not(last_sign_in_at: nil).or(User.where.not(erip_transactions: [])).order(:id)
+    @users = User.all
+    @users = (@users.where.not(last_sign_in_at: nil) | @users.where.not(erip_transactions: {id: nil}))
     respond_to do |format|
       format.html
       format.csv {render csv: @users, filename: 'hackers'}
