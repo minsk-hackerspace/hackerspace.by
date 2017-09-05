@@ -21,7 +21,11 @@
       %th
     %tbody
       - @users.each do |hacker|
-        %tr
+        - if hacker.last_payment.present? and hacker.last_payment.paid_at < 1.month.ago
+          - row_class = 'danger'
+        - else
+          - row_class = ''
+        %tr{class: row_class}
           %td
             = image_tag hacker.photo.url(:thumb)
           %td
