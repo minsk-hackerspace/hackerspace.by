@@ -4,7 +4,7 @@ class HackersController < ApplicationController
   before_action :set_hacker, only: [:show, :edit, :update]
 
   def index
-    @users = User.all
+    @users = User.left_outer_joins(:erip_transactions).all
     @users = (@users.where.not(last_sign_in_at: nil) | @users.where.not(erip_transactions: {id: nil}))
     respond_to do |format|
       format.html
