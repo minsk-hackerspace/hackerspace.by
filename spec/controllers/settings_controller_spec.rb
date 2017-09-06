@@ -86,9 +86,9 @@ RSpec.describe SettingsController, type: :controller do
         expect(assigns(:setting)).to be_persisted
       end
 
-      it "redirects to the created setting" do
+      it "redirects to the setting index" do
         post :create, params: {setting: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Setting.last)
+        expect(response).to redirect_to(settings_url)
       end
     end
 
@@ -124,10 +124,10 @@ RSpec.describe SettingsController, type: :controller do
         expect(assigns(:setting)).to eq(setting)
       end
 
-      it "redirects to the setting" do
+      it "redirects to the settings index" do
         setting = Setting.create! valid_attributes
         put :update, params: {id: setting.to_param, setting: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(setting)
+        expect(response).to redirect_to(settings_url)
       end
     end
 
