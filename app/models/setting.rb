@@ -20,7 +20,7 @@ class Setting < ApplicationRecord
 
   def self.[](key)
     s = Setting.where(key: key).first
-    nil if s.nil?
+    return nil if s.nil?
     s.value
   end
 

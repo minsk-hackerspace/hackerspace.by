@@ -97,6 +97,7 @@ module BePaid
 
     def query_api(method, path, body = nil)
       body = body.to_json unless body.nil?
+      raise RuntimeError.new "No credentials for bePaid" if @auth[:username].nil? or @auth[:username] == ''
       begin
         r = RestClient::Request.execute method: method,
           url: @base_url + path,
@@ -107,7 +108,7 @@ module BePaid
           headers: {content_type: :json, accept: :json}
       rescue => e
         log e.message
-        log r.body if r
+        log e.http_.body if e.respond_to? :http_body
         raise e
       end
       r
