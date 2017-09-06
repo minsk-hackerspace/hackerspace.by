@@ -13,6 +13,10 @@
  *= require_tree .
  *= require_self
  */
+
+$state-warning-bg:	rgba(252, 248, 227, 0.5);
+$state-danger-bg:	rgba(242, 222, 222, 0.5);
+
 @import "bootstrap";
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400&subset=latin,cyrillic);
 
