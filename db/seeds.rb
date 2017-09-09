@@ -48,5 +48,53 @@ unless Rails.env.production?
   end
 
   Device.all.each(&:mark_repeated_events)
+
+  EripTransaction.destroy_all
+  60.times do
+    time = Faker::Time.between(1.year.ago, Date.today)
+    user = User.all.sample
+    user.erip_transactions.create(
+        status: 'successful',
+        message: 'Операция успешно завершена.',
+        transaction_type: 'payment',
+        transaction_id: 'fddc5ffd-3e64-49bd-af67-2e1dc2e7ba8f',
+        uid: 'fddc5ffd-3e64-49bd-af67-2e1dc2e7ba8f',
+        order_id: user.id,
+        amount: 50,
+        currency: 'BYN',
+        description: nil,
+        tracking_id: user.id,
+        transaction_created_at: time,
+        expired_at: time + 30.minutes,
+        paid_at: time + 10.seconds,
+        test: nil,
+        payment_method_type: 'erip',
+        billing_address:
+            {'first_name': Faker::Name.first_name,
+             'last_name': Faker::Name.last_name,
+             'country': nil,
+             'city': nil,
+             'address': nil,
+             'zip': nil,
+             'phone': nil},
+        customer: {'email': user.email, 'ip': '127.0.0.1'},
+        payment:
+            {'ref_id': 1664038138,
+             'message': 'Операция успешно завершена.',
+             'status': 'successful',
+             'gateway_id': 2073},
+        erip:
+            {'request_id': Faker::Number.number(10),
+             'service_no': 248,
+             'account_number': user.id,
+             'transaction_id': Faker::Number.number(10),
+             'instruction':
+                 ['г. Минск -> Общественные объединения, Профсоюзы -> Мастерская ИТТ ОО «БОИР»'],
+             'service_info': ['Введите Ваш номер членского билета'],
+             'receipt': ['Спасибо за оплату!'],
+             'agent_code': 739,
+             'agent_name': 'ОАО БЕЛИНВЕСТБАНК'},
+    )
+  end
 end
 
