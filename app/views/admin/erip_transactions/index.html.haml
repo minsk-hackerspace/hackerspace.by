@@ -3,14 +3,14 @@
 %table.table
   %thead
     %tr
-      %th Status
+      %th Personal number
+      -#%th Status
       %th Message
-      %th Type
+      -#%th Type
       -#%th Uid
-      %th Order
+      -#%th Order
       %th Amount
-      %th Currency
-      %th Tracking
+      -#%th Currency
       %th Paid at
       %th Test
       %th Payment method
@@ -23,14 +23,15 @@
   %tbody
     - @erip_transactions.each do |erip_transaction|
       %tr
-        %td= erip_transaction.status
-        %td= erip_transaction.message
-        %td= erip_transaction.transaction_type
-        -#%td= erip_transaction.uid[0..7] + '...'
-        %td= erip_transaction.order_id
-        %td= erip_transaction.amount
-        %td= erip_transaction.currency
         %td= erip_transaction.tracking_id
+        -#%td= erip_transaction.status
+        %td= erip_transaction.message
+        -#%td= erip_transaction.transaction_type
+        -#%td= erip_transaction.uid[0..7] + '...'
+        -#%td= erip_transaction.order_id
+        %td= erip_transaction.amount
+        -#%td= erip_transaction.currency
+
         %td= erip_transaction.paid_at.to_formatted_s(:short)
         %td= erip_transaction.test
         %td= erip_transaction.payment_method_type
@@ -40,6 +41,7 @@
         -#%td= erip_transaction.erip['servicee_no']
         %td= link_to 'Show', admin_erip_transaction_path(erip_transaction)
 
+= will_paginate @erip_transaction
 %br
 
 -#= link_to 'New Erip transaction', new_admin_erip_transaction_path
