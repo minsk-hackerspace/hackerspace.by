@@ -8,6 +8,8 @@
     = render partial: 'layouts/og_meta_tags'
     = csrf_meta_tags
     = render partial: 'shared/google_analytics' unless Rails.env.development?
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload', 'data-turbolinks-eval': 'false'
   %body
     = render 'layouts/navigation'
 
@@ -23,5 +25,3 @@
           %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", type: "button"} &times;
           %p.alert #{alert}
       = yield
-  = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
-  = javascript_include_tag 'application', 'data-turbolinks-track': 'reload', 'data-turbolinks-eval': 'false'

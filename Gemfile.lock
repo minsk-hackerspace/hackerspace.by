@@ -51,6 +51,7 @@ GEM
     builder (3.2.2)
     byebug (9.0.5)
     cancancan (1.15.0)
+    chartkick (2.2.4)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.8)
@@ -283,6 +284,7 @@ DEPENDENCIES
   bootstrap-sass (>= 3.1.1)
   byebug
   cancancan (~> 1.10)
+  chartkick
   coffee-rails
   comma
   devise

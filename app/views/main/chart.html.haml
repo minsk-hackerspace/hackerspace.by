@@ -1,0 +1,2 @@
+-#= javascript_include_tag 'https://www.gstatic.com/charts/loader.js'
+= area_chart @balances.pluck(:created_at, :state), height: '700px', curve: true, points: false, min: 0, max: Balance.last.state.round(2) + 300

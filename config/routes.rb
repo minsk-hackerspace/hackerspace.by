@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get '/procedure', to: 'main#procedure'
   get '/tariffs', to: 'main#tariffs'
   get '/payment', to: 'main#payment'
+  get '/chart', to: 'main#chart'
 
   get '/webcam', to: 'main#webcam'
 
