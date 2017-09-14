@@ -1,0 +1,2 @@
+class Balance < ApplicationRecord
+end
