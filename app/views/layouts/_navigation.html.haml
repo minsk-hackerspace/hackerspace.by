@@ -53,7 +53,7 @@
       %ul.nav.navbar-nav.navbar-right.lead
         %li
           -if user_signed_in?
-            %a{href: '#'}
+            %a{href: chart_path}
               Баланс ХС:
               %b
                 = @hs_balance

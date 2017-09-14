@@ -1,5 +1,5 @@
 class MainController < ApplicationController
-  before_action :authenticate_user!, only: [:cabinet]
+  before_action :authenticate_user!, only: [:cabinet, :chart]
 
   def index
     @news = News.homepage.where("show_on_homepage_till_date > ? ", Time.now).order(created_at: :desc).limit(2)
@@ -17,6 +17,10 @@ class MainController < ApplicationController
 
   def cabinet
 
+  end
+
+  def chart
+    @balances = Balance.all #where(created_at: [(Time.now - 144.days)..Time.now])
   end
 
   def procedure

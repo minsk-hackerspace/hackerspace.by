@@ -48,6 +48,7 @@ gem 'redcarpet'
 gem 'comma'
 gem 'factory_girl_rails', '~> 4.0', require: false
 gem 'will_paginate', '~> 3.1.0'
+gem 'chartkick'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
