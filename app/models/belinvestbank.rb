@@ -19,6 +19,7 @@ class Belinvestbank
     accounts.each_value do |acc|
       balance += acc[:balance].to_d
     end
+    Balance.create(state: balance)
     balance
   end
 end
