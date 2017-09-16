@@ -41,9 +41,9 @@
           %td
             = hacker.current_debt
           %td
-            = hacker.last_payment.amount if hacker.last_payment
+            = hacker.last_fee.amount if hacker.last_fee
           %td
-            = hacker.last_payment.paid_at if hacker.last_payment
+            = hacker.last_fee.paid_at if hacker.last_fee
           %td
             = hacker.last_sign_in_at
           %td

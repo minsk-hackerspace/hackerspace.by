@@ -4,6 +4,8 @@
       = t('.date')
     %th
       = t('.amount')
+    %th
+      = t('.purpose')
   %tbody
     - payments.each do |payment|
       %tr
@@ -11,4 +13,6 @@
           = payment.paid_at
         %td
           = payment.amount
+        %td
+          = payment.purpose
 
