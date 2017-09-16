@@ -25,7 +25,6 @@ class MainController < ApplicationController
     @balances = Balance.where(created_at: [ds..de])
     @graph = []
     (ds..de).to_a.each do |date|
-      # state = @balances.where(created_at: [date.beginning_of_day..date.end_of_day]).last.try(:state)
       state = @balances.select {|b| b.created_at >= date.beginning_of_day and b.created_at <= date.end_of_day}.last.try(:state)
       @graph << [date.to_formatted_s(:short), state || @graph.last.try(:last) || 0]
     end

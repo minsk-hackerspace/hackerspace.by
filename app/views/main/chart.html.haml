@@ -1,6 +1,3 @@
--#= javascript_include_tag 'https://www.gstatic.com/charts/loader.js'
--#= column_chart @graph, height: '700px', curve: true, points: false, min: 0, max: Balance.last.state.round(2) + 300
--#= area_chart @balances.pluck(:created_at, :state), height: '700px', curve: true, points: false, min: 0, max: Balance.last.state.round(2) + 300
 = area_chart @graph, height: '700px', curve: false, points: false, min: 0, max: @balances.last.state.round(2) + 300
 
 = link_to 'За месяц', chart_path(start: Time.now - 1.month, end: Time.now), class: 'btn btn-info'
