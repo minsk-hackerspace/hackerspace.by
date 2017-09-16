@@ -20,7 +20,14 @@ class MainController < ApplicationController
   end
 
   def chart
-    @balances = Balance.all #where(created_at: [(Time.now - 144.days)..Time.now])
+    ds = params[:start].try(:to_date) || Balance.first.created_at.to_date
+    de = params[:end].try(:to_date) || Time.now.to_date
+    @balances = Balance.where(created_at: [ds..de])
+    @graph = []
+    (ds..de).to_a.each do |date|
+      state = @balances.select {|b| b.created_at >= date.beginning_of_day and b.created_at <= date.end_of_day}.last.try(:state)
+      @graph << [date.to_formatted_s(:short), state || @graph.last.try(:last) || 0]
+    end
   end
 
   def procedure
@@ -43,7 +50,7 @@ class MainController < ApplicationController
       endpoint[:state][:icon] = {open: helpers.image_url('default.png'), closed: helpers.image_url('default.png')}
       endpoint[:logo] = helpers.image_url('default.png')
       endpoint[:state][:open] = @hs_open_status == Hspace::OPENED
-      endpoint[:projects] = Project.published.map{|p| project_url(p) }
+      endpoint[:projects] = Project.published.map {|p| project_url(p)}
       endpoint[:state][:lastchange] = Event.order(updated_at: :desc).first.updated_at.to_i
       unless @hs_present_people.nil?
         endpoint[:sensors][:people_now_present][0][:value] = @hs_present_people.count
@@ -55,7 +62,7 @@ class MainController < ApplicationController
     response.headers['Cache-Control'] = 'no-cache'
 
     respond_to do |format|
-      format.json { render json: endpoint }
+      format.json {render json: endpoint}
     end
   end
 
