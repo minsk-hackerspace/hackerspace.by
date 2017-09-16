@@ -21,7 +21,7 @@ class MainController < ApplicationController
 
   def chart
     ds = params[:start].try(:to_date) || Balance.first.created_at.to_date
-    de = params[:end].try(:to_date) || Balance.last.created_at.to_date
+    de = params[:end].try(:to_date) || Time.now.to_date
     @balances = Balance.where(created_at: [ds..de])
     @graph = []
     (ds..de).to_a.each do |date|
