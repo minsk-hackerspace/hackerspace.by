@@ -92,10 +92,14 @@ class Admin::EripTransactionsController < AdminController
     et.customer = transaction[:customer]
     et.payment = transaction[:payment]
     et.erip = transaction[:erip]
+    et.user = User.find et.erip['account_number'].to_i
 
     if et.erip['service_no'].to_i == Setting['bePaid_serviceNo'].to_i
-      u = User.find et.erip['account_number'].to_i
-      et.user = u
+      et.purpose = 'fee'
+    elsif et.erip['service_no'].to_i == Setting['bePaid_donationNo'].to_i
+      et.purpose = 'donate'
+    else
+      et.purpose = 'unclassified'
     end
 
     @erip_transaction = et

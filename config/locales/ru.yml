@@ -324,18 +324,20 @@ ru:
   hackers:
     index:
       title: Hackers
-      personal_number: Номер участника
+      personal_number: № участника
       email: Email
       comment: Примечание
       name: Имя
       created_at: Создан
       last_payment: Последний платёж
+      karma: Карма
       last_payment_at: Дата платежа
       last_sign_in_at: Последний логин
     payments:
       payments_for: Платежи
       date: Дата
       amount: Сумма
+      purpose: Тип
   settings:
     index:
       title: Настройки сайта

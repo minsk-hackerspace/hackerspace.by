@@ -53,6 +53,7 @@ unless Rails.env.production?
   60.times do
     time = Faker::Time.between(1.year.ago, Date.today)
     user = User.all.sample
+    donate = Faker::Boolean.boolean(0.1)
     user.erip_transactions.create(
         status: 'successful',
         message: 'Операция успешно завершена.',
@@ -69,6 +70,7 @@ unless Rails.env.production?
         paid_at: time + 10.seconds,
         test: nil,
         payment_method_type: 'erip',
+        purpose: donate ? 'donate' : 'fee',
         billing_address:
             {'first_name': Faker::Name.first_name,
              'last_name': Faker::Name.last_name,
@@ -85,7 +87,7 @@ unless Rails.env.production?
              'gateway_id': 2073},
         erip:
             {'request_id': Faker::Number.number(10),
-             'service_no': 248,
+             'service_no': donate ? 249 : 248,
              'account_number': user.id,
              'transaction_id': Faker::Number.number(10),
              'instruction':

@@ -16,13 +16,15 @@
       %th
         = t('.last_payment')
       %th
+        = t('.karma')
+      %th
         = t('.last_sign_in_at')
       %th
       %th
     %tbody
       - @users.each do |hacker|
-        - if hacker.last_payment.present?
-          - if hacker.last_payment.paid_at < 1.month.ago
+        - if hacker.last_fee.present?
+          - if hacker.last_fee.paid_at < 1.month.ago
             - row_class = 'danger'
           - else
             - row_class = ''
@@ -40,7 +42,9 @@
           %td
             = hacker.hacker_comment
           %td
-            = "#{hacker.last_payment.amount} BYN #{time_ago_in_words(hacker.last_payment.paid_at.to_datetime)} назад" if hacker.last_payment
+            = "#{hacker.last_fee.amount} BYN #{time_ago_in_words(hacker.last_fee.paid_at.to_datetime)} назад" if hacker.last_fee
+          %td
+            = hacker.karma
           %td
             = hacker.last_sign_in_at.nil? ? '' : hacker.last_sign_in_at.to_formatted_s(:long)
           %td

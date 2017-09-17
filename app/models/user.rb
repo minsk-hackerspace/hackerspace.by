@@ -90,12 +90,23 @@ class User < ApplicationRecord
     check_role('admin')
   end
 
-  def last_payment
-    self.erip_transactions.where(status: 'successful', transaction_type: 'payment').order(paid_at: :desc).first
+  def last_fee
+    self.erip_transactions
+        .where(status: 'successful', transaction_type: 'payment', purpose: 'fee')
+        .order(paid_at: :desc).first
   end
 
   def payments
-    self.erip_transactions.where(status: 'successful', transaction_type: 'payment').order(paid_at: :desc)
+    self.erip_transactions
+        .where(status: 'successful', transaction_type: 'payment')
+        .order(paid_at: :desc)
+  end
+
+  def karma
+    self.erip_transactions
+        .where(status: 'successful', transaction_type: 'payment', purpose: 'donate')
+        .where('paid_at > ?', -90.days.from_now)
+        .sum(:amount)
   end
 
   private
