@@ -5,7 +5,7 @@ class HackersController < ApplicationController
 
   def index
     @users = User.left_outer_joins(:erip_transactions).all
-    @users = (@users.where.not(last_sign_in_at: nil) | @users.where.not(erip_transactions: {id: nil})).sort_by{|u| u.id}
+    @users = (@users.where.not(last_sign_in_at: nil) | @users.where.not(erip_transactions: {id: nil})).sort_by {|u| u.id}
     respond_to do |format|
       format.html
       format.csv {render csv: @users, filename: 'hackers'}
@@ -18,6 +18,15 @@ class HackersController < ApplicationController
 
   def edit
 
+  end
+
+  def useful
+    @page_content =
+        if Rails.env.production?
+          Net::HTTP.get(URI.parse('https://raw.githubusercontent.com/minsk-hackerspace/hackerspace.by/master/app/views/hackers/useful.md'))
+        else
+          File.read(Rails.root.join('app', 'views', 'hackers', 'useful.md'))
+        end
   end
 
   def update

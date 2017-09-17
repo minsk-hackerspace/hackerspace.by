@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get '/tariffs', to: 'main#tariffs'
   get '/payment', to: 'main#payment'
   get '/chart', to: 'main#chart'
+  get '/useful', to: 'hackers#useful'
 
   get '/webcam', to: 'main#webcam'
 
