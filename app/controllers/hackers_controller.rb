@@ -1,6 +1,6 @@
 class HackersController < ApplicationController
   before_action :authenticate_user!
-  authorize_resource class: User
+  authorize_resource class: User, except: [:useful]
   before_action :set_hacker, only: [:show, :edit, :update]
 
   def index
