@@ -22,12 +22,12 @@ class MainController < ApplicationController
   def chart
     ds = params[:start].try(:to_date) || Balance.first.created_at.to_date
     de = params[:end].try(:to_date) || Time.now.to_date
-    @balances = Balance.where(created_at: [ds..de])
-    @graph = []
-    (ds..de).to_a.each do |date|
-      state = @balances.select {|b| b.created_at >= date.beginning_of_day and b.created_at <= date.end_of_day}.last.try(:state)
-      @graph << [date.to_formatted_s(:short), state || @graph.last.try(:last) || 0]
-    end
+
+    @graph = Balance.graph(ds, de)
+    @transactions = BankTransaction.where(created_at: [ds..de]).order(created_at: :desc)
+    @expences = [{name: 'Поступления', data: @transactions.group_by_month(:created_at).sum(:plus)},
+                 {name: 'Затраты', data: @transactions.group_by_month(:created_at).sum(:minus)}
+    ]
   end
 
   def procedure

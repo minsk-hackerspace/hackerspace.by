@@ -1,12 +1,13 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-#  protect_from_forgery with: :exception
+  #  protect_from_forgery with: :exception
   protect_from_forgery with: :null_session
 
   before_action :check_if_hs_open if Rails.env.production?
   before_action :check_for_present_people if Rails.env.production?
   before_action :check_for_hs_balance
+  before_action :get_transactions
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
@@ -33,7 +34,15 @@ class ApplicationController < ActionController::Base
   def check_for_hs_balance
     if user_signed_in?
       @hs_balance = Rails.cache.fetch "hs_balance", expires_in: 3.hours do
-        Belinvestbank.fetch_balance
+        Belinvestbank.fetch_balance unless Rails.env.development?
+      end
+    end
+  end
+
+  def get_transactions
+    if user_signed_in?
+      Rails.cache.fetch "bank_transactions", expires_in: 24.hours do
+        BankTransaction.get_transactions Rails.env.development?
       end
     end
   end
