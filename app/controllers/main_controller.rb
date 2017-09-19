@@ -24,7 +24,7 @@ class MainController < ApplicationController
     de = params[:end].try(:to_date) || Time.now.to_date
 
     @graph = Balance.graph(ds, de)
-    @transactions = BankTransaction.where(created_at: [ds..de]).order(created_at: :desc)
+    @transactions = BankTransaction.where(created_at: [ds..de])
     @expences = [{name: 'Поступления', data: @transactions.group_by_month(:created_at).sum(:plus)},
                  {name: 'Затраты', data: @transactions.group_by_month(:created_at).sum(:minus)}
     ]

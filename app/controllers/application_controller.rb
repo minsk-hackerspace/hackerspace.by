@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
   def get_transactions
     if user_signed_in?
       Rails.cache.fetch "bank_transactions", expires_in: 24.hours do
-        BankTransaction.get_transactions Rails.env.development?
+        BankTransaction.get_transactions unless Rails.env.development?
       end
     end
   end
