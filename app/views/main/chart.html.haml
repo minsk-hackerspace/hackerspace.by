@@ -1,5 +1,49 @@
-= area_chart @graph, height: '700px', curve: false, points: false, min: 0, max: @balances.last.state.round(2) + 300
+%h2 Баланс
+= area_chart @graph, height: '700px', curve: false, points: false, min: 0, max: @graph.pluck(1).max + 100, id: :chart_balance
+
+%h2 Поступления и затраты по месяцам
+= column_chart @expences.map do |bars|
+  = {name: bars.name, data: bars}
 
 = link_to 'За месяц', chart_path(start: Time.now - 1.month, end: Time.now), class: 'btn btn-info'
 = link_to 'За три месяца', chart_path(start: Time.now - 3.month, end: Time.now), class: 'btn btn-info'
 = link_to 'За все время', chart_path, class: 'btn btn-info'
+
+%h2 Список расходов
+
+%table.table
+  %thead
+    %th
+      Дата
+    %th
+      Приход
+    %th
+      Расход
+    %th
+      Кому платили
+  %tbody
+    - @transactions.select{|t| t.minus > 0}.each do |t|
+      %tr
+        %td
+          =t.created_at.to_formatted_s(:short)
+        %td
+          =t.plus if t.minus.zero?
+        %td
+          =t.minus if t.plus.zero?
+        %td
+          =Setting[t.their_account] || t.their_account if t.minus > 0
+    %tr
+      %td
+        %strong
+          Итого:
+      %td
+        %strong
+          - sum_plus = @transactions.sum(:plus).round(2)
+          = sum_plus
+      %td
+        %strong
+          - sum_minus = @transactions.sum(:minus).round(2)
+          = sum_minus
+      %td
+        %strong
+          = "Баланс за период: #{(sum_plus - sum_minus).round(2)}"

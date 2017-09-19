@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170914090039) do
+ActiveRecord::Schema.define(version: 20170919151001) do
 
   create_table "balances", force: :cascade do |t|
     t.float    "state",      null: false
@@ -18,6 +18,19 @@ ActiveRecord::Schema.define(version: 20170914090039) do
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_balances_on_created_at"
     t.index ["updated_at"], name: "index_balances_on_updated_at"
+  end
+
+  create_table "bank_transactions", force: :cascade do |t|
+    t.float    "plus"
+    t.float    "minus"
+    t.string   "unp"
+    t.string   "their_account"
+    t.string   "our_account"
+    t.string   "document_number"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["created_at"], name: "index_bank_transactions_on_created_at"
+    t.index ["updated_at"], name: "index_bank_transactions_on_updated_at"
   end
 
   create_table "devices", force: :cascade do |t|
