@@ -2,6 +2,8 @@
 
 #### Телефоны сантехника и электрика
 
++375 29 322 48 62 Виталий - Электрик
+
 ![](https://trello-attachments.s3.amazonaws.com/596d08436e098177e555e45e/59ad0ad2cae805f74f8ce718/3329ae0b220abf9a24793afc98519a83/pervijdom.jpg)
 ___
 #### Телефоны шлагбаумов
