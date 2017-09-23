@@ -25,9 +25,10 @@ class MainController < ApplicationController
 
     @graph = Balance.graph(ds, de)
     @transactions = BankTransaction.where(created_at: [ds..de])
-    @expences = [{name: 'Поступления', data: @transactions.group_by_month(:created_at).sum(:plus)},
-                 {name: 'Затраты', data: @transactions.group_by_month(:created_at).sum(:minus)}
+    @expenses = [{name: 'Поступления', data: @transactions.group_by_month(:created_at, format: '%m.%Y').sum(:plus)},
+                 {name: 'Затраты', data: @transactions.group_by_month(:created_at, format: '%m.%Y').sum(:minus)}
     ]
+    @paid_users = User.get_paid_users_graph(ds,de)
   end
 
   def procedure
