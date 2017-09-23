@@ -104,6 +104,28 @@ class User < ApplicationRecord
     self.roles.map(&:name).include? role
   end
 
+  def self.paid_within_period(start_date, end_date)
+    Rails.cache.fetch [start_date, end_date, :paid_within_period] do
+      left_outer_joins(:erip_transactions).where(erip_transactions: {status: 'successful', created_at: [start_date..end_date]})
+    end
+  end
+
+  def self.get_paid_users_graph(start_date, end_date)
+    Rails.cache.fetch [start_date, end_date, :get_paid_users_graph] do
+      graph = []
+      start_date = start_date.beginning_of_month
+      end_date = end_date.end_of_month
+      dates = (start_date..end_date).to_a.select {|d| d == d.beginning_of_month}
+      dates << end_date unless dates.include? end_date
+
+
+      dates.each_index do |i|
+        graph << [dates[i], self.paid_within_period(dates[i], dates[i+1]).count] unless i >= dates.size - 1
+      end
+      graph
+    end
+  end
+
   #TODO: maybe place this to concerns?
   def create_bepaid_bill
     user = self

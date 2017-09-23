@@ -2,9 +2,13 @@
 = area_chart @graph, height: '700px', curve: false, points: false, min: 0, max: @graph.pluck(1).max + 100, id: :chart_balance
 
 %h2 Поступления и затраты по месяцам
-= column_chart @expences.map do |bars|
+= column_chart @expenses.map do |bars|
   = {name: bars.name, data: bars}
 
+%h2 Количество платящих участников
+= column_chart @paid_users
+
+%hr
 = link_to 'За месяц', chart_path(start: Time.now - 1.month, end: Time.now), class: 'btn btn-info'
 = link_to 'За три месяца', chart_path(start: Time.now - 3.month, end: Time.now), class: 'btn btn-info'
 = link_to 'За все время', chart_path, class: 'btn btn-info'
