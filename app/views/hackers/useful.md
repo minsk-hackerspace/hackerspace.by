@@ -64,3 +64,6 @@ ___
 
 #### Лого
 
+#### Как редактировать эту страницу?
+https://github.com/minsk-hackerspace/hackerspace.by/blob/master/app/views/hackers/useful.md
+Fork&edit - через 12 часов обновится
