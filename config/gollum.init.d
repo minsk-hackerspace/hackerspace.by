@@ -15,7 +15,7 @@ set -e
 
 # Edit these settings to your liking:
 GOLLUM_USER=mhs
-GOLLUM_BASE=/mhs/hackerspace.by/wiki/.git
+GOLLUM_BASE=/home/mhs/hackerspace.by/wiki/
 GOLLUM_OPTS="--live-preview -b wiki -h 127.0.0.1"
 
 NAME=mhs
