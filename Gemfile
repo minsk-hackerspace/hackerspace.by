@@ -59,7 +59,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'thin', platform: :ruby
-  gem 'mina'
+  gem 'mina', '~> 0.3'
   gem 'faker'
   gem 'pry'
   gem 'annotate'
