@@ -1,3 +1,4 @@
+require_relative '../lib/wiki_gateway'
 Rails.application.routes.draw do
 
 
@@ -25,6 +26,10 @@ Rails.application.routes.draw do
   get '/webcam', to: 'main#webcam'
 
   get '/spaceapi', to: 'main#spaceapi', defaults: {format: 'json'}
+
+  authenticate :user do
+    mount WikiGateway, at: 'wiki'
+  end
 
   namespace :admin do
     resources :dashboard, only: :index
