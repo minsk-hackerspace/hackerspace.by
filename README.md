@@ -1,4 +1,4 @@
-Web site of Minsk Hackerspace - http://hackerspace.by/ 
+Web site of Minsk Hackerspace - https://hackerspace.by/
 
 Документация в Wiki: https://github.com/minsk-hackerspace/hackerspace.by/wiki
 
