@@ -10,12 +10,6 @@
       %th
         = t ".roles"
       %th
-        = t('.monthly_payment_amount')
-      %th
-        = t('.next_month_payment_amount')
-      %th
-        = t('.current_debt')
-      %th
         = t('.last_payment')
       %th
         = t('.last_payment_at')
@@ -34,12 +28,6 @@
               = hacker.email
           %td
             = hacker.roles.map {|r| r.name}.join(',')
-          %td
-            = hacker.monthly_payment_amount
-          %td
-            = hacker.next_month_payment_amount
-          %td
-            = hacker.current_debt
           %td
             = hacker.last_payment.amount if hacker.last_payment
           %td

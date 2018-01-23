@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-class SpaceAPIEndpoint
+class SpaceApiEndpoint
   DEFAULT_DATA = {
     api: "0.13",
     space: "Example Hackerspace",

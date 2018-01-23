@@ -44,7 +44,7 @@ class MainController < ApplicationController
   end
 
   def spaceapi
-    endpoint = SpaceAPIEndpoint.new
+    endpoint = SpaceApiEndpoint.new
     if @hs_open_status != Hspace::UNKNOWN
       endpoint[:open] = @hs_open_status == Hspace::OPENED
       endpoint[:state] = {}

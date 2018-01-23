@@ -38,7 +38,8 @@
           %td
             = "#{hacker.first_name} #{hacker.last_name}"
           %td
-            = hacker.hacker_comment
+
+            = simple_format hacker.hacker_comment
           %td
             = "#{hacker.last_payment.amount} BYN #{time_ago_in_words(hacker.last_payment.paid_at.to_datetime)} назад" if hacker.last_payment
           %td

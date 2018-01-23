@@ -7,8 +7,6 @@ en:
         title: Hackers
         email: Email
         roles: Roles
-        monthly_payment_amount: Оплата в месяц
-        next_month_payment_amount: В следующем месяце
         created_at: Создан
         last_sign_in_at: Последний логин
 
