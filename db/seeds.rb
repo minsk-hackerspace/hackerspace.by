@@ -11,7 +11,7 @@ User::ROLES.each do |rolename|
   Role.find_or_create_by(name: rolename)
 end
 
-unless Rails.env.production?
+unless Rails.env.production? or Rails.env.test?
   Project.destroy_all
   User.destroy_all
   Device.destroy_all
