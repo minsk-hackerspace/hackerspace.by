@@ -5,10 +5,10 @@ class HackersController < ApplicationController
 
   def index
     @users = User.left_outer_joins(:erip_transactions).all
-    @users = (@users.where.not(last_sign_in_at: nil) | @users.where.not(erip_transactions: {id: nil})).sort_by {|u| u.id}
+    @users = (@users.where.not(last_sign_in_at: nil) | @users.where.not(erip_transactions: {id: nil})).sort_by { |u| u.id }
     respond_to do |format|
       format.html
-      format.csv {render csv: @users, filename: 'hackers'}
+      format.csv { render csv: @users, filename: 'hackers' }
     end
   end
 
@@ -17,7 +17,7 @@ class HackersController < ApplicationController
   end
 
   def edit
-
+    redirect_to root_path, alert: 'Ошибка' unless @user == current_user or current_user.admin?
   end
 
   def useful

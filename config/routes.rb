@@ -16,7 +16,6 @@ Rails.application.routes.draw do
   get '/rules', to: 'main#rules'
   get '/calendar', to: 'main#calendar'
   get '/contacts', to: 'main#contacts'
-  get '/cabinet', to: 'main#cabinet'
   get '/procedure', to: 'main#procedure'
   get '/tariffs', to: 'main#tariffs'
   get '/payment', to: 'main#payment'
