@@ -43,6 +43,7 @@ class ApplicationController < ActionController::Base
     if user_signed_in?
       Rails.cache.fetch "bank_transactions", expires_in: 24.hours do
         BankTransaction.get_transactions unless Rails.env.development?
+        Balance.where(state: 0).ids.each{|i| Balance.find(i).update(state: Balance.find(i-1).state)} unless Rails.env.development?
       end
     end
   end
