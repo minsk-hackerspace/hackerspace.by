@@ -1,7 +1,7 @@
 class HackersController < ApplicationController
   before_action :authenticate_user!
   authorize_resource class: User, except: [:useful]
-  before_action :set_hacker, only: [:show, :edit, :update]
+  before_action :set_hacker, only: [:show, :edit, :update, :add_mac, :remove_mac]
 
   def index
     @users = User.left_outer_joins(:erip_transactions).all
@@ -14,6 +14,20 @@ class HackersController < ApplicationController
 
   def show
 
+  end
+
+  def add_mac
+    if params[:mac].present? and params[:mac][/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/].present?
+      @user.macs << Mac.create(address: params[:mac])
+      redirect_to edit_user_path(@user)
+    else
+      redirect_to edit_user_path(@user), alert: 'Ошибка формата mac ареса'
+    end
+  end
+
+  def remove_mac
+    @user.macs.delete(Mac.find(params[:mac]))
+    redirect_to edit_user_path(@user)
   end
 
   def edit
@@ -46,7 +60,7 @@ class HackersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :hacker_comment, :photo, :first_name, :last_name)
+    params.require(:user).permit(:email, :hacker_comment, :photo, :first_name, :last_name, :telegram_username, :alice_greeting, :account_suspended, :account_banned)
   end
 
 end

@@ -1,13 +1,6 @@
 class Admin::UsersController < AdminController
-  before_action :set_user, only: [:edit, :update]
+  before_action :set_user, only: [:edit, :update, :add_mac]
   authorize_resource class: User
-
-  def index
-    @users = User.order('last_sign_in_at desc nulls last').all
-  end
-
-  def edit
-  end
 
   def new
     @user = User.new

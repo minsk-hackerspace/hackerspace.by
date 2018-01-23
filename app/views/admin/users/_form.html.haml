@@ -1,9 +1,0 @@
-= form_for [:admin, @user], html: { multipart: true } do |f|
-  - if @user.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@user.errors.count, "error")} сохранить не получится:"
-      %ul
-        - @user.errors.full_messages.each do |msg|
-          %li= msg
-  .form-group
-    = f.submit 'Сохранить', class: 'btn btn-default'

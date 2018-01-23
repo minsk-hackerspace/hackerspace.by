@@ -62,23 +62,5 @@ class MainController < ApplicationController
       format.json {render json: endpoint}
     end
   end
-
-  def webcam
-    authenticate_user!
-
-    @snapshots = WebcamSnapshot.find_all
-    @current_snapshot = nil
-    if !params[:snapshot].nil?
-      @current_snapshot = @snapshots.find_index {|s| s.filename == params[:snapshot]}
-    else
-      @current_snapshot = @snapshots.size - 1 if !@snapshots.empty? and @snapshots.last.time >= Rails.application.config.webcam_timeout_mins.minutes.ago
-    end
-    logger.debug @snapshots.inspect
-    logger.debug @current_snapshot.inspect
-
-    respond_to do |format|
-      format.html
-    end
-  end
 end
 

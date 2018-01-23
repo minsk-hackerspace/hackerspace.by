@@ -2,50 +2,53 @@
   = t(".title")
 
 .container
-  %table.table
-    %thead
-      %th
-      %th
-        = t '.personal_number'
-      %th
-        = t '.email'
-      %th
-        = t ".name"
-      %th
-        = t ".comment"
-      %th
-        = t('.last_payment')
-      %th
-        = t('.last_sign_in_at')
-      %th
-      %th
-    %tbody
-      - @users.each do |hacker|
-        - if hacker.last_payment.present?
-          - if hacker.last_payment.paid_at < 1.month.ago
-            - row_class = 'danger'
-          - else
-            - row_class = ''
-        - else
-          - row_class = 'warning'
-        %tr{class: row_class}
-          %td
-            = image_tag hacker.photo.url(:thumb)
-          %td
-            = hacker.id
-          %td
-            = hacker.email
-          %td
-            = "#{hacker.first_name} #{hacker.last_name}"
-          %td
-
-            = simple_format hacker.hacker_comment
-          %td
-            = "#{hacker.last_payment.amount} BYN #{time_ago_in_words(hacker.last_payment.paid_at.to_datetime)} назад" if hacker.last_payment
-          %td
-            = hacker.last_sign_in_at.nil? ? '' : hacker.last_sign_in_at.to_formatted_s(:long)
-          %td
-            = link_to image_tag('info_32x32.png', class: 'no-shadow'), user_path(hacker)
-          %td
-            - if can?(:edit, hacker)
-              = link_to image_tag('edit_gear_icon.png', class: 'no-shadow'), edit_user_path(hacker)
+  .row
+    .col-lg-12
+      %table.table
+        %thead
+          %th
+          %th
+            = t '.personal_number'
+          %th
+            = t '.email'
+          %th
+            = t ".name"
+          %th
+            = t ".comment"
+          %th
+            = t('.last_payment')
+          %th
+            = t('.last_sign_in_at')
+          %th
+            = t('.last_seen_in_hackerspace')
+          %th
+          %th
+        %tbody
+          - @users.each do |hacker|
+            - if hacker.last_payment.present?
+              - if hacker.last_payment.paid_at < 1.month.ago
+                - row_class = 'danger'
+              - else
+                - row_class = ''
+            - else
+              - row_class = 'warning'
+            %tr{class: row_class}
+              %td
+                = image_tag hacker.photo.url(:thumb)
+              %td
+                = hacker.id
+              %td
+                = hacker.email
+              %td
+                = "#{hacker.first_name} #{hacker.last_name}"
+              %td
+                = simple_format hacker.hacker_comment
+              %td
+                = "#{hacker.last_payment.amount} BYN #{time_ago_in_words(hacker.last_payment.paid_at.to_datetime)} назад" if hacker.last_payment
+              %td
+                = hacker.last_seen_in_hackerspace.nil? ? '' : hacker.last_seen_in_hackerspace.to_formatted_s(:long)
+              %td
+                = link_to image_tag('info_32x32.png', class: 'no-shadow'), user_path(hacker)
+              %td
+                - if can?(:edit, hacker)
+                  = link_to image_tag('edit_gear_icon.png', class: 'no-shadow'), edit_user_path(hacker)

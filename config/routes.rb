@@ -11,7 +11,12 @@ Rails.application.routes.draw do
   resources :projects
   resources :news
   resources :devices, only: [:index, :show]
-  resources :users, path: 'hackers', controller: 'hackers', only: [:index, :show, :edit, :update]
+  resources :users, path: 'hackers', controller: 'hackers', only: [:index, :show, :edit, :update] do
+    member do
+      post 'add_mac', to: 'hackers#add_mac'
+      delete 'remove_mac', to: 'hackers#remove_mac'
+    end
+  end
 
   get '/rules', to: 'main#rules'
   get '/calendar', to: 'main#calendar'

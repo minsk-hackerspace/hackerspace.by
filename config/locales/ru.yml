@@ -332,6 +332,7 @@ ru:
       last_payment: Последний платёж
       last_payment_at: Дата платежа
       last_sign_in_at: Последний логин
+      last_seen_in_hackerspace: Видели в ХС
     payments:
       payments_for: Платежи
       date: Дата
