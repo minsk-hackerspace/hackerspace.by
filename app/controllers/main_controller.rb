@@ -1,5 +1,5 @@
 class MainController < ApplicationController
-  before_action :authenticate_user!, only: [:chart]
+  before_action :authenticate_user!, only: [ :chart]
 
   def index
     @news = News.homepage.where("show_on_homepage_till_date > ? ", Time.now).order(created_at: :desc).limit(2)
