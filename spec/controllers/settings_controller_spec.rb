@@ -41,13 +41,13 @@ RSpec.describe SettingsController, type: :controller do
   # SettingsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET #index" do
-    it "assigns all settings as @settings" do
-      setting = Setting.create! valid_attributes
-      get :index, params: {}, session: valid_session
-      expect(assigns(:settings)).to eq([setting])
-    end
-  end
+#  describe "GET #index" do
+#    it "assigns all settings as @settings" do
+#      setting = Setting.create! valid_attributes
+#      get :index, params: {}, session: valid_session
+#      expect(assigns(:settings)).to eq([setting])
+#    end
+#  end
 
   describe "GET #show" do
     it "assigns the requested setting as @setting" do

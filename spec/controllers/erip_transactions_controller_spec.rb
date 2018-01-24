@@ -54,6 +54,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
 
   describe "GET #new" do
     it "assigns a new erip_transaction as @erip_transaction" do
+      sign_in FactoryGirl.create(:admin_user)
       get :new, params: {}, session: valid_session
       expect(assigns(:erip_transaction)).to be_a_new(EripTransaction)
     end
