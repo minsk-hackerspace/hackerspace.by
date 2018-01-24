@@ -19,7 +19,7 @@ class Belinvestbank
     accounts.each_value do |acc|
       balance += acc[:balance].to_d
     end
-    Balance.create(state: balance) unless Balance.last.state == balance
+    Balance.create(state: balance) unless !Balance.last.nil? and Balance.last.state == balance
     balance
   end
 end
