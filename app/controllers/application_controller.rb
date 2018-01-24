@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
   def check_for_hs_balance
     if user_signed_in?
       @hs_balance = Rails.cache.fetch "hs_balance", expires_in: 3.hours do
-        Belinvestbank.fetch_balance unless Rails.env.development?
+        Belinvestbank.fetch_balance unless Rails.env.development? or Rails.env.test?
       end
     end
   end
@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
   def get_transactions
     if user_signed_in?
       Rails.cache.fetch "bank_transactions", expires_in: 24.hours do
-        BankTransaction.get_transactions unless Rails.env.development?
+        BankTransaction.get_transactions unless Rails.env.development? or Rails.env.test?
       end
     end
   end

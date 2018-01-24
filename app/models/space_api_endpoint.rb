@@ -1,4 +1,5 @@
 # encoding: utf-8
+# -*- SkipSchemaAnnotations
 
 class SpaceAPIEndpoint
   DEFAULT_DATA = {
