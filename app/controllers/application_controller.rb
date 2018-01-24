@@ -10,7 +10,9 @@ class ApplicationController < ActionController::Base
   before_action :get_transactions
 
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
+    message = "Cannot #{exception.action} on #{exception.subject}"
+    Rails.logger.error message
+    redirect_to root_url, alert: message
   end
 
   def check_if_hs_open

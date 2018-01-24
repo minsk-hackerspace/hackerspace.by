@@ -33,9 +33,9 @@ class Ability
 
     can [:show, :index], User
 
-    can [:update, :edit], User do |hacker|
-      hacker.id == user.id
-    end
+    can [:update, :edit, :add_mac, :remove_mac], User, id: user.id
+    can :manage, Mac, user_id: user.id
+
     can [:index, :show, :create, :new], News
 
     can [:update, :edit, :destroy], News do |news|

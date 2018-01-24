@@ -1,6 +1,7 @@
 class HackersController < ApplicationController
   before_action :authenticate_user!
   authorize_resource class: User, except: [:useful]
+  load_and_authorize_resource :mac
   before_action :set_hacker, only: [:show, :edit, :update, :add_mac, :remove_mac]
 
   def index
