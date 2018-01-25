@@ -41,7 +41,7 @@ gem 'rest-client'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'paperclip', '~> 5.1.0'
+gem 'paperclip', '~> 5.2.0'
 gem 'responders', '~> 2.0'
 gem 'sanitize'
 gem 'redcarpet'
