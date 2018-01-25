@@ -1,28 +1,66 @@
-= form_for @user, :html => { :multipart => true } do |f|
-  - if @user.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@user.errors.count, "error")} сохранить не получится:"
-      %ul
-        - @user.errors.full_messages.each do |msg|
-          %li= msg
+.row
+  .col-lg-6
+    = form_for @user, :html => { :multipart => true } do |f|
+      - if @user.errors.any?
+        #error_explanation
+          %h2= "#{pluralize(@user.errors.count, "error")} сохранить не получится:"
+          %ul
+            - @user.errors.full_messages.each do |msg|
+              %li= msg
 
-  .form-group.mandatory
-    = f.label 'Email'
-    = f.text_field :email, class: 'form-control'
-  -#.form-group{:class => 'mandatory'}
-  -#  = f.label 'Краткое описание'
-  -#  = f.text_area :badge_comment, rows: 5, class: 'form-control'
-  .form-group
-    = f.label 'Имя'
-    = f.text_field :first_name, class: 'form-control'
-    = f.label 'Фамилия'
-    = f.text_field :last_name, class: 'form-control'
-  .form-group
-    = f.label 'Слоган'
-    = f.text_area :hacker_comment, rows: 2, class: 'form-control'
-  .form-group.mandatory
-    = f.label 'Изображение, до 3 МБ'
-    = f.file_field :photo
+      .form-group.mandatory
+        = f.label 'Email'
+        = f.text_field :email, class: 'form-control'
+      .form-group
+        = f.label 'Имя'
+        = f.text_field :first_name, class: 'form-control'
+        = f.label 'Фамилия'
+        = f.text_field :last_name, class: 'form-control'
+      .form-group
+        = f.label 'Примечание'
+        = f.text_area :hacker_comment, rows: 2, class: 'form-control'
+      .form-group.mandatory
+        = f.label 'Изображение, до 3 МБ'
+        = f.file_field :photo
 
-  .form-group
-    = f.submit 'Сохранить', class: 'btn btn-default'
+      .form-group
+        = f.label 'Ник в Телеграме'
+        = f.text_field :telegram_username, class: 'form-control', value: @user.telegram_username
+
+      .form-group
+        = f.label 'Приветствие для Алисы'
+        = f.text_field :alice_greeting, class: 'form-control', value: @user.alice_greeting
+
+      - if current_user.admin?
+        .row
+          .col-lg-3
+            .form-group
+              = f.label 'Suspended'
+              = f.check_box :account_suspended, class: 'form-control', value: @user.account_suspended
+          .col-lg-3
+            .form-group
+              = f.label 'Banned'
+              = f.check_box :account_banned, class: 'form-control', value: @user.account_banned
+
+      .form-group
+        = f.submit 'Сохранить', class: 'btn btn-default'
+%hr
+.row
+  .col-lg-6
+    - unless @user.macs.empty?
+      %h3 Мак адреса пользователя
+      - @user.macs.each do |mac|
+        .row
+          .col-lg-4
+            %p
+              = mac.address
+          .col-lg-1
+            %p
+              = link_to 'Удалить', remove_mac_user_path(@user, mac: mac.id), method: :delete
+.row
+  .col-lg-6
+    = form_tag("/hackers/#{@user.id}/add_mac") do
+      .form-group
+        = text_field_tag(:mac, nil, class: 'form-control')
+      .form-group
+        = submit_tag('Добавить Mac адрес', class: 'btn btn-default')

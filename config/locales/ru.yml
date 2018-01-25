@@ -332,6 +332,7 @@ ru:
       last_payment: Последний платёж
       last_payment_at: Дата платежа
       last_sign_in_at: Последний логин
+      last_seen_in_hackerspace: Видели в ХС
     payments:
       payments_for: Платежи
       date: Дата
@@ -345,11 +346,8 @@ ru:
         title: Hackers
         email: Email
         roles: Роли
-        monthly_payment_amount: Оплата в месяц
-        next_month_payment_amount: В следующем месяце
         created_at: Создан
         last_payment: Последний платёж
         last_payment_at: Дата платежа
         last_sign_in_at: Последний логин
-        current_debt: Текущий долг
   badges:

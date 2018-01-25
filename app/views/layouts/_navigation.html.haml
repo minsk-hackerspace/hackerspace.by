@@ -45,7 +45,7 @@
               %li
                 = link_to 'Полезная информация', wiki_gateway_path
               %li
-                = link_to t('cabinet.title'), cabinet_path
+                = link_to t('cabinet.title'), edit_user_path(current_user)
               - if current_user.admin?
                 %li
                   = link_to 'Админка', admin_dashboard_index_path

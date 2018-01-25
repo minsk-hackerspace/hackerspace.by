@@ -1,13 +1,6 @@
 class Admin::UsersController < AdminController
-  before_action :set_user, only: [:edit, :update]
+  before_action :set_user, only: [:edit, :update, :add_mac]
   authorize_resource class: User
-
-  def index
-    @users = User.order('last_sign_in_at desc nulls last').all
-  end
-
-  def edit
-  end
 
   def new
     @user = User.new
@@ -41,6 +34,6 @@ class Admin::UsersController < AdminController
   end
 
   def user_params
-    params.fetch(:user, {}).permit(:next_month_payment_amount, :monthly_payment_amount, :current_debt, :email, :first_name, :last_name, :password)
+    params.fetch(:user, {}).permit(:email, :first_name, :last_name, :password)
   end
 end

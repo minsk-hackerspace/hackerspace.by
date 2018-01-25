@@ -2,32 +2,32 @@
 #
 # Table name: users
 #
-#  id                        :integer          not null, primary key
-#  email                     :string           default(""), not null
-#  encrypted_password        :string           default(""), not null
-#  reset_password_token      :string
-#  reset_password_sent_at    :datetime
-#  remember_created_at       :datetime
-#  sign_in_count             :integer          default(0), not null
-#  current_sign_in_at        :datetime
-#  last_sign_in_at           :datetime
-#  current_sign_in_ip        :string
-#  last_sign_in_ip           :string
-#  created_at                :datetime
-#  updated_at                :datetime
-#  hacker_comment            :string
-#  badge_comment             :string
-#  photo_file_name           :string
-#  photo_content_type        :string
-#  photo_file_size           :integer
-#  photo_updated_at          :datetime
-#  first_name                :string
-#  last_name                 :string
-#  bepaid_number             :integer
-#  monthly_payment_amount    :float            default(0.0)
-#  next_month_payment_amount :float
-#  next_month                :integer
-#  current_debt              :float
+#  id                       :integer          not null, primary key
+#  email                    :string           default(""), not null
+#  encrypted_password       :string           default(""), not null
+#  reset_password_token     :string
+#  reset_password_sent_at   :datetime
+#  remember_created_at      :datetime
+#  sign_in_count            :integer          default(0), not null
+#  current_sign_in_at       :datetime
+#  last_sign_in_at          :datetime
+#  current_sign_in_ip       :string
+#  last_sign_in_ip          :string
+#  created_at               :datetime
+#  updated_at               :datetime
+#  hacker_comment           :string
+#  photo_file_name          :string
+#  photo_content_type       :string
+#  photo_file_size          :integer
+#  photo_updated_at         :datetime
+#  first_name               :string
+#  last_name                :string
+#  bepaid_number            :integer
+#  telegram_username        :string
+#  alice_greeting           :string
+#  last_seen_in_hackerspace :datetime
+#  account_suspended        :boolean
+#  account_banned           :boolean
 #
 # Indexes
 #
@@ -65,7 +65,7 @@ class User < ApplicationRecord
   ROLES = %w(hacker admin)
 
   has_many :projects
-
+  has_many :macs
   has_many :roles, through: :users_roles
   has_many :users_roles
   has_many :erip_transactions
@@ -82,7 +82,6 @@ class User < ApplicationRecord
   validates_attachment :photo, size: { in: 0..3.megabytes }
 
   validates :email, presence: true, uniqueness: true, length: {maximum: 255}
-  validates :monthly_payment_amount, numericality: { greater_than_or_equal_to: 0 }
 
   after_save :create_bepaid_bill
 
@@ -132,7 +131,7 @@ class User < ApplicationRecord
 
     bp = BePaid::BePaid.new Setting['bePaid_baseURL'], Setting['bePaid_ID'], Setting['bePaid_secret']
 
-    amount = user.monthly_payment_amount
+    amount = 50
 
     #amount is (amoint in BYN)*100
     bill = {

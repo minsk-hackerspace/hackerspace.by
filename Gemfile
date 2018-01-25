@@ -29,7 +29,7 @@ gem 'jbuilder', '~> 2.5'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-gem 'cancancan', '~> 1.10'
+gem 'cancancan', '~> 2.0'
 gem 'devise'
 gem 'devise-i18n'
 gem 'bootstrap-sass', '>= 3.1.1'
@@ -41,7 +41,7 @@ gem 'rest-client'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'paperclip'
+gem 'paperclip', '~> 5.1.0'
 gem 'responders', '~> 2.0'
 gem 'sanitize'
 gem 'redcarpet'

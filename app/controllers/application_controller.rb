@@ -10,7 +10,9 @@ class ApplicationController < ActionController::Base
   before_action :get_transactions
 
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
+    message = "Cannot #{exception.action} on #{exception.subject}"
+    Rails.logger.error message
+    redirect_to root_url, alert: message
   end
 
   def check_if_hs_open
@@ -42,7 +44,10 @@ class ApplicationController < ActionController::Base
   def get_transactions
     if user_signed_in?
       Rails.cache.fetch "bank_transactions", expires_in: 24.hours do
-        BankTransaction.get_transactions unless Rails.env.development? or Rails.env.test?
+        unless Rails.env.development? or Rails.env.test?
+          BankTransaction.get_transactions
+          Balance.where(state: 0).ids.each{|i| Balance.find(i).update(state: Balance.find(i-1).state)}
+        end
       end
     end
   end

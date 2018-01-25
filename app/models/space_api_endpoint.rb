@@ -1,7 +1,7 @@
 # encoding: utf-8
 # -*- SkipSchemaAnnotations
 
-class SpaceAPIEndpoint
+class SpaceApiEndpoint
   DEFAULT_DATA = {
     api: "0.13",
     space: "Example Hackerspace",

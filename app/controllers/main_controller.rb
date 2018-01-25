@@ -1,5 +1,5 @@
 class MainController < ApplicationController
-  before_action :authenticate_user!, only: [:cabinet, :chart]
+  before_action :authenticate_user!, only: [ :chart]
 
   def index
     @news = News.homepage.where("show_on_homepage_till_date > ? ", Time.now).order(created_at: :desc).limit(2)
@@ -13,10 +13,6 @@ class MainController < ApplicationController
   end
 
   def contacts
-  end
-
-  def cabinet
-
   end
 
   def chart
@@ -49,7 +45,7 @@ class MainController < ApplicationController
   end
 
   def spaceapi
-    endpoint = SpaceAPIEndpoint.new
+    endpoint = SpaceApiEndpoint.new
     if @hs_open_status != Hspace::UNKNOWN
       endpoint[:open] = @hs_open_status == Hspace::OPENED
       endpoint[:state] = {}
@@ -69,24 +65,6 @@ class MainController < ApplicationController
 
     respond_to do |format|
       format.json {render json: endpoint}
-    end
-  end
-
-  def webcam
-    authenticate_user!
-
-    @snapshots = WebcamSnapshot.find_all
-    @current_snapshot = nil
-    if !params[:snapshot].nil?
-      @current_snapshot = @snapshots.find_index {|s| s.filename == params[:snapshot]}
-    else
-      @current_snapshot = @snapshots.size - 1 if !@snapshots.empty? and @snapshots.last.time >= Rails.application.config.webcam_timeout_mins.minutes.ago
-    end
-    logger.debug @snapshots.inspect
-    logger.debug @current_snapshot.inspect
-
-    respond_to do |format|
-      format.html
     end
   end
 end
