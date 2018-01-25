@@ -16,7 +16,12 @@ class MainController < ApplicationController
   end
 
   def chart
-    ds = params[:start].try(:to_date) || Balance.first.created_at.to_date
+    ds = params[:start].try(:to_date)
+    unless Balance.first.nil?
+      ds = Balance.first.created_at.to_date 
+    else
+      ds = Date.new(1970, 1 ,1)
+    end
     de = params[:end].try(:to_date) || Time.now.to_date
 
     @graph = Balance.graph(ds, de)
