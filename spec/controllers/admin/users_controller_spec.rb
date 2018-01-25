@@ -6,7 +6,7 @@ RSpec.describe Admin::UsersController, type: :controller do
   before do
     sign_in user
   end
-  
+
   describe "PUT #update" do
     it "returns redirect" do
       process :update, method: :put, params: {id: user.id, user: {}}

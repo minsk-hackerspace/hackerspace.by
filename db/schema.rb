@@ -12,15 +12,12 @@
 
 ActiveRecord::Schema.define(version: 20180123132423) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "balances", force: :cascade do |t|
     t.float    "state",      null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["created_at"], name: "index_balances_on_created_at", using: :btree
-    t.index ["updated_at"], name: "index_balances_on_updated_at", using: :btree
+    t.index ["created_at"], name: "index_balances_on_created_at"
+    t.index ["updated_at"], name: "index_balances_on_updated_at"
   end
 
   create_table "bank_transactions", force: :cascade do |t|
@@ -32,8 +29,8 @@ ActiveRecord::Schema.define(version: 20180123132423) do
     t.string   "document_number"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.index ["created_at"], name: "index_bank_transactions_on_created_at", using: :btree
-    t.index ["updated_at"], name: "index_bank_transactions_on_updated_at", using: :btree
+    t.index ["created_at"], name: "index_bank_transactions_on_created_at"
+    t.index ["updated_at"], name: "index_bank_transactions_on_updated_at"
   end
 
   create_table "devices", force: :cascade do |t|
@@ -59,14 +56,14 @@ ActiveRecord::Schema.define(version: 20180123132423) do
     t.datetime "paid_at"
     t.boolean  "test"
     t.string   "payment_method_type"
-    t.json     "billing_address"
-    t.json     "customer"
-    t.json     "payment"
-    t.json     "erip"
+    t.string   "billing_address"
+    t.string   "customer"
+    t.string   "payment"
+    t.string   "erip"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.integer  "user_id"
-    t.index ["user_id"], name: "index_erip_transactions_on_user_id", using: :btree
+    t.index ["user_id"], name: "index_erip_transactions_on_user_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -78,16 +75,11 @@ ActiveRecord::Schema.define(version: 20180123132423) do
     t.boolean  "repeated",   default: false
   end
 
-  create_table "linkedin_raw", id: :bigint, force: :cascade do |t|
-    t.string "email",  limit: 255, null: false
-    t.string "domain", limit: 255, null: false
-  end
-
   create_table "macs", force: :cascade do |t|
     t.string  "address"
     t.integer "user_id"
-    t.index ["address"], name: "index_macs_on_address", using: :btree
-    t.index ["user_id"], name: "index_macs_on_user_id", using: :btree
+    t.index ["address"], name: "index_macs_on_address"
+    t.index ["user_id"], name: "index_macs_on_user_id"
   end
 
   create_table "news", force: :cascade do |t|
@@ -123,7 +115,7 @@ ActiveRecord::Schema.define(version: 20180123132423) do
     t.string   "markup_type",        default: "html"
     t.boolean  "public",             default: false
     t.string   "project_status",     default: "активный"
-    t.index ["user_id"], name: "index_projects_on_user_id", using: :btree
+    t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -138,7 +130,7 @@ ActiveRecord::Schema.define(version: 20180123132423) do
     t.string   "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.index ["key"], name: "index_settings_on_key", using: :btree
+    t.index ["key"], name: "index_settings_on_key"
   end
 
   create_table "users", force: :cascade do |t|
@@ -167,16 +159,16 @@ ActiveRecord::Schema.define(version: 20180123132423) do
     t.datetime "last_seen_in_hackerspace"
     t.boolean  "account_suspended"
     t.boolean  "account_banned"
-    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   create_table "users_roles", id: false, force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "role_id", null: false
-    t.index ["role_id"], name: "index_users_roles_on_role_id", using: :btree
-    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", unique: true, using: :btree
-    t.index ["user_id"], name: "index_users_roles_on_user_id", using: :btree
+    t.index ["role_id"], name: "index_users_roles_on_role_id"
+    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", unique: true
+    t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
 end
