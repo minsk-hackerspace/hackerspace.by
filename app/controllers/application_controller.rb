@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
 
   def check_for_present_people
     d = Device.find_by(name: 'bob')
-    @hs_present_people = d.events.where('created_at >= ?', 5.minutes.ago).map {|e| e.value}
+    @hs_present_people = d.events.where('created_at >= ?', 5.minutes.ago).map { |e| e.value }
     @hs_present_people.uniq!
   end
 
@@ -45,8 +45,15 @@ class ApplicationController < ActionController::Base
     if user_signed_in?
       Rails.cache.fetch "bank_transactions", expires_in: 24.hours do
         unless Rails.env.development? or Rails.env.test?
-          BankTransaction.get_transactions
-          Balance.where(state: 0).ids.each{|i| Balance.find(i).update(state: Balance.find(i-1).state)}
+          begin
+            BankTransaction.get_transactions
+            Balance.where(state: 0).ids.each { |i| Balance.find(i).update(state: Balance.find(i-1).state) }
+          rescue => e
+            Rails.logger.error(e.message)
+            Rails.logger.error(e.backtrace)
+            flash[:alert] = 'Не получилось забрать данные из банка'
+            nil
+          end
         end
       end
     end
