@@ -48,7 +48,9 @@ class ApplicationController < ActionController::Base
           begin
             BankTransaction.get_transactions
             Balance.where(state: 0).ids.each { |i| Balance.find(i).update(state: Balance.find(i-1).state) }
-          rescue
+          rescue => e
+            Rails.logger.error(e.message)
+            Rails.logger.error(e.backtrace)
             flash[:alert] = 'Не получилось забрать данные из банка'
             nil
           end
