@@ -26,6 +26,7 @@ class BankTransaction < ApplicationRecord
     login = Setting['bib_login']
     password = Setting['bib_password']
     base_url = Setting['bib_baseURL']
+    login_base_url = Setting['bib_loginBaseURL']
 
     bib = BelinvestbankApi::Bib.new(base_url, login, password)
     accounts = nil
