@@ -3,7 +3,7 @@ require 'bib.rb'
 class Belinvestbank
   def self.fetch_balance
     return nil if Setting['bib_login'].blank? or Setting['bib_password'].blank?
-    bib = BelinvestbankApi::Bib.new(Setting['bib_baseURL'], Setting['bib_login'], Setting['bib_password'])
+    bib = BelinvestbankApi::Bib.new(Setting['bib_baseURL'], Setting[:bib_loginBaseURL], Setting['bib_login'], Setting['bib_password'])
     accounts = nil
     begin
       bib.login
