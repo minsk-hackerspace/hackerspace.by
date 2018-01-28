@@ -70,12 +70,31 @@ module BelinvestbankApi
               raise e unless e.http_code == 302
             end
             r = self.login # restart auth process only if we got 302 after POST /confirmationCloseSession
+            return r
           else
             if e.http_headers[:location].include? 'auth-callback'
               r = query_common e.http_headers[:location], :get, ''
             end
           end
         end
+      end
+
+      r = query :get, '/toggle-corporate-version'
+      doc = Nokogiri::HTML(r.body)
+      ownerId = nil
+      doc.css('#list-organizations .organization').each do |org|
+        next if org['onclick'].nil?
+        if org['onclick'] =~ /name=\\'ownerId\\' value=\\'([0-9]+)\\'/
+          ownerId = $1.to_i
+          break
+        end
+      end
+
+      begin
+        r = query :post, '/corporate/set-current-organization', {ownerId: ownerId}
+      rescue RestClient::Exception => e
+        raise e unless e.http_code == 302 and e.http_headers[:location] == '/corporate'
+        r = e.response
       end
       r
     end
