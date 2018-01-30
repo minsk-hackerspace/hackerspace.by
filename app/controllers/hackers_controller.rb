@@ -6,7 +6,8 @@ class HackersController < ApplicationController
 
   def index
     @users = User.left_outer_joins(:erip_transactions).all
-    @users = (@users.where.not(last_sign_in_at: nil) | @users.where.not(erip_transactions: {id: nil})).sort_by { |u| u.id }
+    @users_visible_for_all = (@users.where.not(last_sign_in_at: nil) | @users.where.not(erip_transactions: {id: nil})).select{|u| !u.account_suspended? and !u.account_banned? }.sort_by { |u| u.id }
+    @suspended_banned_and_forgotten = (@users.uniq - @users_visible_for_all).sort_by{|u| u.id}
     respond_to do |format|
       format.html
       format.csv { render csv: @users, filename: 'hackers' }

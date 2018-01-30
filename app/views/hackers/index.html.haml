@@ -24,7 +24,7 @@
           %th
           %th
         %tbody
-          - @users.each do |hacker|
+          - @users_visible_for_all.each do |hacker|
             - if hacker.last_payment.present?
               - if hacker.last_payment.paid_at < 1.month.ago
                 - row_class = 'danger'
@@ -52,3 +52,30 @@
               %td
                 - if can?(:edit, hacker)
                   = link_to image_tag('edit_gear_icon.png', class: 'no-shadow'), edit_user_path(hacker)
+
+  - if current_user.admin?
+    %h1 Suspended, banned and forgotten
+    .row
+      .col-lg-12
+        %table.table
+          %thead
+          %tbody
+            - @suspended_banned_and_forgotten.each do |hacker|
+              %tr
+                %td
+                  = image_tag hacker.photo.url(:thumb)
+                %td
+                  = hacker.id
+                %td
+                  = hacker.email
+                %td
+                  = "#{hacker.first_name} #{hacker.last_name}"
+                %td
+                  = simple_format hacker.hacker_comment
+                %td
+                  = hacker.last_seen_in_hackerspace.nil? ? '' : hacker.last_seen_in_hackerspace.to_formatted_s(:long)
+                %td
+                  = link_to image_tag('info_32x32.png', class: 'no-shadow'), user_path(hacker)
+                %td
+                  - if can?(:edit, hacker)
+                    = link_to image_tag('edit_gear_icon.png', class: 'no-shadow'), edit_user_path(hacker)
