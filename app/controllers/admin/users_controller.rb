@@ -11,19 +11,9 @@ class Admin::UsersController < AdminController
 
     if @user.save
       flash[:alert] = @user.errors.full_messages.join "\n"
-      redirect_to admin_users_path, notice: 'Пользователь создан успешно'
+      redirect_to users_path, notice: 'Пользователь создан успешно'
     else
       render :new
-    end
-  end
-
-  def update
-    if @user.update(user_params)
-      flash[:notice] = 'Профиль изменен'
-      flash[:alert] = @user.errors.full_messages.join "\n"
-      redirect_to admin_users_path
-    else
-      render :edit
     end
   end
 
