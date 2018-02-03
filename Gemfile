@@ -59,7 +59,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'thin', platform: :ruby
-  gem 'mina', '~> 0.3'
+  gem 'mina', '~> 1.2'
   gem 'faker'
   gem 'pry'
   gem 'annotate'
@@ -79,6 +79,6 @@ group :test do
 end
 
 group :production do
-  gem 'pg'
+  gem 'pg', '< 1.0'
   gem 'puma', '~> 3.0'
 end
