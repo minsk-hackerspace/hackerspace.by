@@ -12,9 +12,9 @@ require 'mina/rvm' # for rvm support. (http://rvm.io)
 
 set :domain, '93.125.30.47'
 set :user, 'mhs' # Username in the server to SSH to.
-set :port, '22' # SSH port number.
+set :repo_port, '22' # SSH port number.
 
-set :deploy_to, "/home/#{user}/hackerspace.by"
+set :deploy_to, "/home/#{fetch(:user)}/hackerspace.by"
 set :repository, 'git://github.com/minsk-hackerspace/hackerspace.by'
 set :branch, 'master'
 
@@ -22,7 +22,9 @@ set :rvm_path, '/usr/local/rvm/scripts/rvm'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'log']
+#set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'log']
+set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/secrets.yml')
+set :shared_dirs, fetch(:shared_dirs, []).push('log')
 
 # Optional settings:
 #   set :forward_agent, true     # SSH forward_agent.
@@ -30,32 +32,32 @@ set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'log']
 # Put any custom mkdir's in here for when `mina setup` is ran.
 # For Rails apps, we'll make some of the shared paths that are shared between
 # all releases.
-task :setup => :environment do
-  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/log"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/log"]
+task :setup do
+  command %[mkdir -p "#{fetch(:shared_path)}/log"]
+  command %[chmod g+rx,u+rwx "#{fetch(:shared_path)}/log"]
 
-  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/config"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/config"]
+  command %[mkdir -p "#{fetch(:shared_path)}/config"]
+  command %[chmod g+rx,u+rwx "#{fetch(:shared_path)}/config"]
 
-  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/system"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/system"]
+  command %[mkdir -p "#{fetch(:shared_path)}/system"]
+  command %[chmod g+rx,u+rwx "#{fetch(:shared_path)}/system"]
 
-  queue! %[touch "#{deploy_to}/#{shared_path}/config/database.yml"]
-  queue! %[touch "#{deploy_to}/#{shared_path}/config/secrets.yml"]
-  queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml' and 'secrets.yml'."]
+  command %[touch "#{fetch(:shared_path)}/config/database.yml"]
+  command %[touch "#{fetch(:shared_path)}/config/secrets.yml"]
+  command  %[echo "-----> Be sure to edit '#{fetch(:shared_path)}/config/database.yml' and 'secrets.yml'."]
 
-  queue! %[ln -s /var/log/nginx/error.log "#{deploy_to}/#{shared_path}/log/nginx_error.log"]
-  queue! %[ln -s /var/log/nginx/access.log "#{deploy_to}/#{shared_path}/log/nginx_access.log"]
-  queue! %[ln -s "#{deploy_to}/#{current_path}"]
-  queue! %[ln -s "#{deploy_to}/#{shared_path}/log"]
+  command %[ln -s /var/log/nginx/error.log "#{fetch(:shared_path)}/log/nginx_error.log"]
+  command %[ln -s /var/log/nginx/access.log "#{fetch(:shared_path)}/log/nginx_access.log"]
+  command %[ln -s "#{fetch(:current_path)}"]
+  command %[ln -s "#{fetch(:shared_path)}/log"]
 
-  if repository
-    repo_host = repository.split(%r{@|://}).last.split(%r{:|\/}).first
-    repo_port = /:([0-9]+)/.match(repository) && /:([0-9]+)/.match(repository)[1] || '22'
+  if fetch(:repository)
+    repo_host = fetch(:repository).split(%r{@|://}).last.split(%r{:|\/}).first
+    repo_port = /:([0-9]+)/.match(fetch(:repository)) && /:([0-9]+)/.match(fetch(:repository))[1] || '22'
 
-    queue %[
-      if ! ssh-keygen -H  -F #{repo_host} &>/dev/null; then
-        ssh-keyscan -t rsa -p #{repo_port} -H #{repo_host} >> ~/.ssh/known_hosts
+    command %[
+      if ! ssh-keygen -H  -F #{fetch(:repo_host)} &>/dev/null; then
+        ssh-keyscan -t rsa -p #{fetch(:repo_port)} -H #{fetch(:repo_host)} >> ~/.ssh/known_hosts
       fi
     ]
   end
@@ -63,19 +65,20 @@ end
 
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
-task :environment do
-  queue "export GEM_HOME=/home/#{user}/.rvm/gems/ruby-2.3.1"
-  queue "export PATH=/home/#{user}/.rvm/gems/ruby-2.3.1/bin:/home/#{user}/.rvm/gems/ruby-2.3.1@global/bin:/home/#{user}/.rvm/rubies/ruby-2.3.1/bin:/home/#{user}/.rvm/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games"
+task :remote_environment do
+  invoke :'rvm:use', 'ruby-2.5.0'
+#  command "export GEM_HOME=/home/#{fetch(:user)}/.rvm/gems/ruby-2.5.0"
+#  command "export PATH=/home/#{fetch(:user)}/.rvm/gems/ruby-2.5.0/bin:/home/#{fetch(:user)}/.rvm/gems/ruby-2.5.0@global/bin:/home/#{fetch(:user)}/.rvm/rubies/ruby-2.5.0/bin:/home/#{fetch(:user)}/.rvm/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games"
 end
 
 desc 'Deploys the current version to the server.'
-task :deploy => :environment do
-  to :before_hook do
+task :deploy do
+  on :before_hook do
     # Put things to run locally before ssh
   end
   deploy do
-    queue! 'echo $PATH'
-    queue! 'echo $GEM_HOME'
+    command 'echo $PATH'
+    command 'echo $GEM_HOME'
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
@@ -83,59 +86,61 @@ task :deploy => :environment do
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
 
-    to :launch do
-      # queue! "cp -f #{deploy_to}/#{current_path}/config/hackerspace.by.conf /etc/nginx/sites-available/hackerspace.by.conf"
-      # queue! 'ln -s /etc/nginx/sites-available/hackerspace.by.conf /etc/nginx/sites-enabled/hackerspace.by.conf'
-      queue! "rm -rf #{deploy_to}/#{current_path}/public/system/"
-      queue! "ln -s #{deploy_to}/#{shared_path}/system/ #{deploy_to}/#{current_path}/public/system"
+    on :launch do
+      # command "cp -f #{deploy_to}/#{current_path}/config/hackerspace.by.conf /etc/nginx/sites-available/hackerspace.by.conf"
+      # command 'ln -s /etc/nginx/sites-available/hackerspace.by.conf /etc/nginx/sites-enabled/hackerspace.by.conf'
+      command "rm -rf #{fetch(:current_path)}/public/system/"
+      command "ln -s #{fetch(:shared_path)}/system/ #{fetch(:current_path)}/public/system"
       invoke :restart
     end
   end
 end
 
-task :start => :environment do
+task :start do
   invoke :cd
   invoke :nginx_restart
   invoke :puma_start
 end
 
-task :restart => :environment do
+task :restart do
   invoke :cd
   invoke :nginx_restart
   invoke :puma_restart
 
 end
 
-task :stop => :environment do
+task :stop do
   invoke :cd
   invoke :nginx_restart
   invoke :puma_stop
 end
 
-task :cd => :environment do
-  queue! "cd #{deploy_to}/#{current_path}"
+task :cd do
+  command "cd #{fetch(:current_path)}"
 end
 
-task :reboot => :environment do
-  queue! 'sudo reboot'
+task :reboot do
+  command 'sudo reboot'
 end
 
-task :puma_start => :environment do
+task :puma_start => :remote_environment do
   invoke :cd
-  queue! 'puma -C config/puma.rb'
+  command 'puma -C config/puma.rb'
 end
 
-task :puma_stop => :environment do
+task :puma_stop => :remote_environment do
   invoke :cd
-  queue! "pumactl -P /home/#{user}/puma.pid stop"
+  command "pumactl -P /home/#{fetch(:user)}/puma.pid stop"
 end
 
-task :puma_restart => :environment do
-  queue! "pumactl -P /home/#{user}/puma.pid restart"
+task :puma_restart => :remote_environment do
+  command 'echo $PATH'
+  command 'echo $GEM_HOME'
+  command "pumactl -P /home/#{fetch(:user)}/puma.pid restart"
 end
 
-task :nginx_restart => :environment do
-  queue! 'sudo service nginx restart'
+task :nginx_restart => :remote_environment do
+  command 'sudo service nginx restart'
 end
 
 # For help in making your deploy script, see the Mina documentation:
