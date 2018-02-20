@@ -5,8 +5,8 @@ class HackersController < ApplicationController
   before_action :set_hacker, only: [:show, :edit, :update, :add_mac, :remove_mac]
 
   def index
-    @users = User.left_outer_joins(:erip_transactions).all
-    @users_visible_for_all = (@users.where.not(last_sign_in_at: nil) | @users.where.not(erip_transactions: {id: nil})).select{|u| !u.account_suspended? and !u.account_banned? }.sort_by { |u| u.id }
+    @users = User.left_outer_joins(:payments).all
+    @users_visible_for_all = (@users.where.not(last_sign_in_at: nil) | @users.where.not(payments: {id: nil})).select{|u| !u.account_suspended? and !u.account_banned? }.sort_by { |u| u.id }
     @suspended_banned_and_forgotten = (@users.uniq - @users_visible_for_all).sort_by{|u| u.id}
     respond_to do |format|
       format.html
@@ -62,7 +62,7 @@ class HackersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :hacker_comment, :photo, :first_name, :last_name, :telegram_username, :alice_greeting, :account_suspended, :account_banned)
+    params.require(:user).permit(:email, :hacker_comment, :photo, :first_name, :last_name, :telegram_username, :alice_greeting, :account_suspended, :account_banned, :monthly_payment_amount)
   end
 
 end

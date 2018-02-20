@@ -2,4 +2,5 @@ language: ruby
 
 script:
   - cp config/database.example.yml config/database.yml
+  - bundle exec rake db:setup RAILS_ENV=test
   - bundle exec rails spec

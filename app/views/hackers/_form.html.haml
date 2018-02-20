@@ -32,6 +32,10 @@
         = f.text_field :alice_greeting, class: 'form-control', value: @user.alice_greeting
 
       - if current_user.admin?
+        .form-group
+          = f.label :monthly_payment_amount
+          = f.text_field :monthly_payment_amount, class: 'form-control'
+
         .row
           .col-lg-3
             .form-group

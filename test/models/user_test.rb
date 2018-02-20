@@ -28,6 +28,7 @@
 #  last_seen_in_hackerspace :datetime
 #  account_suspended        :boolean
 #  account_banned           :boolean
+#  monthly_payment_amount   :float            default(50.0)
 #
 # Indexes
 #

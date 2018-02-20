@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   get '/contacts', to: 'main#contacts'
   get '/procedure', to: 'main#procedure'
   get '/tariffs', to: 'main#tariffs'
-  get '/payment', to: 'main#payment'
+  get '/howtopay', to: 'main#howtopay'
   get '/chart', to: 'main#chart'
   get '/useful', to: 'hackers#useful'
 
@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :dashboard, only: :index
     resources :users, only: [:new, :create]
+    resources :payments
     resources :erip_transactions
     post "erip_transactions/bepaid_notify", to: "erip_transactions#bepaid_notify"
   end

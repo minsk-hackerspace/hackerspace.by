@@ -4,6 +4,8 @@ ru:
     attributes:
       project:
         public: "Публичный"
+      user:
+        monthly_payment_amount: "Сумма ежемесячного платежа, BYN"
   hsopen:
     unknown: "УПС..."
     opened: "Сейчас у нас открыто. Приходите."
@@ -331,12 +333,15 @@ ru:
       created_at: Создан
       last_payment: Последний платёж
       last_payment_at: Дата платежа
+      last_payment_ended_at: Платёж действителен до
       last_sign_in_at: Последний логин
       last_seen_in_hackerspace: Видели в ХС
     payments:
       payments_for: Платежи
       date: Дата
       amount: Сумма
+      start_date: Начало действия
+      end_date: Конец действия
   settings:
     index:
       title: Настройки сайта

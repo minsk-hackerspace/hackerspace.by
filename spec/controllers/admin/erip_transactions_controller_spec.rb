@@ -20,7 +20,13 @@ require 'rails_helper'
 
 RSpec.describe Admin::EripTransactionsController, type: :controller do
 
-  # This should return the minimal set of attributes required to create a valid
+  let(:user) { FactoryGirl.create(:admin_user) }
+
+  before do
+    sign_in user
+  end
+
+ # This should return the minimal set of attributes required to create a valid
   # EripTransaction. As you add validations to EripTransaction, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
@@ -29,6 +35,57 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
 
   let(:invalid_attributes) {
     skip("Add a hash of attributes invalid for your model")
+  }
+
+  let(:bepaid_notification) {
+    {
+      "transaction":{
+        "status":"successful",
+        "type":"payment",
+        "message":"",
+        "id":"8759cf84-e56d-44b7-a8ae-62640f6402c4",
+        "uid":"8759cf84-e56d-44b7-a8ae-62640f6402c4",
+        "order_id":"100000003495",
+        "amount":1000,
+        "currency":"USD",
+        "description":"Order #123",
+        "tracking_id":"AB8923",
+        "created_at":"2015-12-07T14:21:24.420Z",
+        "expired_at":"2016-12-07T14:21:24.010Z",
+        "paid_at":"2016-12-07T14:40:12.010Z",
+        "test":true,
+        "payment_method_type":"skrill",
+        "billing_address":{
+          "first_name": "Ivan",
+          "middle_name": "M",
+          "last_name": "Doe",
+          "country": "LV",
+          "city": "Riga",
+          "zip": "LV1024",
+          "address": "Brivibas str, 123",
+          "phone": "+372500000000"
+        },
+        "customer":{
+          "email":"ivan@example.com",
+          "ip":"127.0.0.7"
+        },
+        "payment":{
+          "ref_id":"1830288398",
+          "message":"",
+          "status":"pending",
+          "gateway_id":1
+        },
+        "erip":{
+          "request_id":"00000001",
+          "service_no":248,
+          "account_number":"2",
+          "transaction_id":"0000001",
+          "service_info":["Оплата заказа 123"],
+          "instruction": ["'Расчёт' ЕРИП-> Интернет-магазины/сервисы-> B -> bePaid.by"],
+          "receipt":["Спасибо за оплату заказа 123"]
+        }
+      }
+    }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -154,6 +211,27 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
       erip_transaction = EripTransaction.create! valid_attributes
       delete :destroy, params: {id: erip_transaction.to_param}, session: valid_session
       expect(response).to redirect_to(erip_transactions_url)
+    end
+  end
+
+  describe "POST #bepaid_notify" do
+    it "handles a valid notification from bePaid" do
+      expect {
+        post :bepaid_notify, params: bepaid_notification, format: :json
+      }.to change(EripTransaction, :count).by(1)
+
+      et = EripTransaction.last
+      expect(response).to have_http_status(:created)
+      expect(EripTransaction.last.amount).to eq(10)
+      expect(EripTransaction.last.hs_payment).not_to be_nil
+      expect(et.hs_payment).to be_a(Payment)
+      expect(et.hs_payment.amount).to eq(10)
+      expect(et.hs_payment.payment_form).to eq("erip")
+      expect(et.hs_payment.payment_type).to eq("membership")
+      expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
+      expect(et.hs_payment.start_date).to eq(Time.now.to_date)
+      expect(et.hs_payment.end_date).to eq(Time.now.to_date + (10.0 / 50.0 * 30).to_i.days)
+
     end
   end
 

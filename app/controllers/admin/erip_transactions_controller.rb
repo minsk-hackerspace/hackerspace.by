@@ -1,6 +1,7 @@
 class Admin::EripTransactionsController < AdminController
   before_action :set_erip_transaction, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:create, :bepaid_notify]
+  before_action :check_if_admin, only: [:edit, :update, :create, :destroy]
 
 
   # GET /erip_transactions
@@ -30,7 +31,7 @@ class Admin::EripTransactionsController < AdminController
 
     respond_to do |format|
       if @erip_transaction.save
-        format.html { redirect_to @erip_transaction, notice: 'Erip transaction was successfully created.' }
+        format.html { redirect_to [:admin, @erip_transaction], notice: 'Erip transaction was successfully created.' }
         format.json { render :show, status: :created, location: @erip_transaction }
       else
         format.html { render :new }
@@ -44,7 +45,7 @@ class Admin::EripTransactionsController < AdminController
   def update
     respond_to do |format|
       if @erip_transaction.update(erip_transaction_params)
-        format.html { redirect_to @erip_transaction, notice: 'Erip transaction was successfully updated.' }
+        format.html { redirect_to [:admin, @erip_transaction], notice: 'Erip transaction was successfully updated.' }
         format.json { render :show, status: :ok, location: @erip_transaction }
       else
         format.html { render :edit }
@@ -94,8 +95,34 @@ class Admin::EripTransactionsController < AdminController
     et.erip = transaction[:erip]
 
     if et.erip['service_no'].to_i == Setting['bePaid_serviceNo'].to_i
-      u = User.find et.erip['account_number'].to_i
+      begin
+        u = User.find et.erip['account_number'].to_i
+      rescue
+        u = nil
+      end
       et.user = u
+    end
+
+    p = Payment.new
+    p.erip_transaction = et
+    et.hs_payment = p
+    p.amount = et.amount
+    p.paid_at = et.paid_at
+    p.user = et.user
+    p.payment_type = et.erip['service_no'].to_i == Setting['bePaid_serviceNo'].to_i ? 'membership' : 'donation'
+    p.payment_form = 'erip'
+    if p.payment_type == 'membership' then
+      last_payment = nil
+      last_payment = p.user.last_payment unless p.user.nil?
+      unless last_payment.nil?
+        p.start_date = last_payment.end_date + 1.day
+      else
+        p.start_date = Time.now.to_date
+      end
+
+      m_amount = p.user.nil? ? 50.0 :  p.user.monthly_payment_amount
+
+      p.end_date = p.start_date + (p.amount / m_amount * 30).to_i.days
     end
 
     @erip_transaction = et
@@ -115,6 +142,11 @@ class Admin::EripTransactionsController < AdminController
     # Use callbacks to share common setup or constraints between actions.
     def set_erip_transaction
       @erip_transaction = EripTransaction.find(params[:id])
+    end
+
+    def check_if_admin
+      flash[:alert] = "У вас нет прав на это действие"
+      redirect_to admin_erip_transactions_path unless current_user.admin?
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
