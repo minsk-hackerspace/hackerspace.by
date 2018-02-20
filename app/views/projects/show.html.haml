@@ -1,7 +1,9 @@
 %h1
-  = @project.name
+  = @project.name_with_id
 %h3
   = "Статус: #{@project.project_status}"
+%h3
+  = "Собрано денег: #{@project.payments_sum} BYN"
 .lead
   = markup2html @project.short_desc, @project.markup_type
 %hr

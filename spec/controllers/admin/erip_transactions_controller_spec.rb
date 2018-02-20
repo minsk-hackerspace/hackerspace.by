@@ -88,6 +88,58 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
     }
   }
 
+  let(:bepaid_notification_donation) {
+    {
+      "transaction":{
+        "status":"successful",
+        "type":"payment",
+        "message":"",
+        "id":"8759cf84-e56d-44b7-a8ae-62640f6402c4",
+        "uid":"8759cf84-e56d-44b7-a8ae-62640f6402c4",
+        "order_id":"100000003495",
+        "amount":1000,
+        "currency":"USD",
+        "description":"Order #123",
+        "tracking_id":"AB8923",
+        "created_at":"2015-12-07T14:21:24.420Z",
+        "expired_at":"2016-12-07T14:21:24.010Z",
+        "paid_at":"2016-12-07T14:40:12.010Z",
+        "test":true,
+        "payment_method_type":"skrill",
+        "billing_address":{
+          "first_name": "Ivan",
+          "middle_name": "M",
+          "last_name": "Doe",
+          "country": "LV",
+          "city": "Riga",
+          "zip": "LV1024",
+          "address": "Brivibas str, 123",
+          "phone": "+372500000000"
+        },
+        "customer":{
+          "email":"ivan@example.com",
+          "ip":"127.0.0.7"
+        },
+        "payment":{
+          "ref_id":"1830288398",
+          "message":"",
+          "status":"pending",
+          "gateway_id":1
+        },
+        "erip":{
+          "request_id":"00000001",
+          "service_no":249,
+          "account_number":"2",
+          "transaction_id":"0000001",
+          "service_info":["Оплата заказа 123"],
+          "instruction": ["'Расчёт' ЕРИП-> Интернет-магазины/сервисы-> B -> bePaid.by"],
+          "receipt":["Спасибо за оплату заказа 123"]
+        }
+      }
+    }
+  }
+
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # EripTransactionsController. Be sure to keep this updated too.
@@ -216,14 +268,17 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
 
   describe "POST #bepaid_notify" do
     it "handles a valid notification from bePaid" do
+      EripTransaction.destroy_all
+      Payment.destroy_all
       expect {
         post :bepaid_notify, params: bepaid_notification, format: :json
       }.to change(EripTransaction, :count).by(1)
 
-      et = EripTransaction.last
+      et = assigns(:erip_transaction)
       expect(response).to have_http_status(:created)
-      expect(EripTransaction.last.amount).to eq(10)
-      expect(EripTransaction.last.hs_payment).not_to be_nil
+      expect(et.erip['service_no'].to_i).to eq(248)
+      expect(et.amount).to eq(10)
+      expect(et.hs_payment).not_to be_nil
       expect(et.hs_payment).to be_a(Payment)
       expect(et.hs_payment.amount).to eq(10)
       expect(et.hs_payment.payment_form).to eq("erip")
@@ -234,5 +289,30 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
 
     end
   end
+
+  describe "POST #bepaid_notify for donation" do
+    it "handles a valid notification about donation from bePaid" do
+      EripTransaction.destroy_all
+      Payment.destroy_all
+      expect {
+        post :bepaid_notify, params: bepaid_notification_donation, format: :json
+      }.to change(EripTransaction, :count).by(1)
+
+      et = assigns(:erip_transaction)
+      expect(response).to have_http_status(:created)
+      expect(et.amount).to eq(10)
+      expect(et.hs_payment).not_to be_nil
+      expect(et.hs_payment).to be_a(Payment)
+      expect(et.hs_payment.amount).to eq(10)
+      expect(et.hs_payment.payment_form).to eq("erip")
+      expect(et.hs_payment.payment_type).to eq("donation")
+      expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
+      expect(et.hs_payment.start_date).to be_nil
+      expect(et.hs_payment.end_date).to be_nil
+      expect(et.hs_payment.project.id).to eq(2)
+      expect(et.hs_payment.project.name).to eq(Project.find(2).name)
+    end
+  end
+
 
 end

@@ -12,6 +12,9 @@
   .form-group
     = f.label :erip_transaction
     = f.collection_select :erip_transaction_id, EripTransaction.order(:paid_at).all, :id, :to_human_s, include_blank: true
+  .form-group
+    = f.label :project
+    = f.collection_select :project_id, Project.order(:id).all, :id, :name_with_id, include_blank: true
   .form-group.mandatory
     = f.label :paid_at
     = f.datetime_select :paid_at

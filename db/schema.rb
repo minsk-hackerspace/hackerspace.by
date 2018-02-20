@@ -10,10 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180219000825) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20180220202610) do
 
   create_table "balances", force: :cascade do |t|
     t.float "state", null: false
@@ -115,7 +112,9 @@ ActiveRecord::Schema.define(version: 20180219000825) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "project_id"
     t.index ["erip_transaction_id"], name: "index_payments_on_erip_transaction_id"
+    t.index ["project_id"], name: "index_payments_on_project_id"
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
