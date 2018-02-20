@@ -28,8 +28,8 @@ class Admin::PaymentsController < AdminController
 
     respond_to do |format|
       if @payment.save
-        format.html { redirect_to @payment, notice: 'Payment was successfully created.' }
-        format.json { render :show, status: :created, location: @payment }
+        format.html { redirect_to [:admin, @payment], notice: 'Payment was successfully created.' }
+        format.json { render :show, status: :created, location: [:admin, @payment] }
       else
         format.html { render :new }
         format.json { render json: @payment.errors, status: :unprocessable_entity }
@@ -42,8 +42,8 @@ class Admin::PaymentsController < AdminController
   def update
     respond_to do |format|
       if @payment.update(payment_params)
-        format.html { redirect_to @payment, notice: 'Payment was successfully updated.' }
-        format.json { render :show, status: :ok, location: @payment }
+        format.html { redirect_to [:admin, @payment], notice: 'Payment was successfully updated.' }
+        format.json { render :show, status: :ok, location: [:admin, @payment] }
       else
         format.html { render :edit }
         format.json { render json: @payment.errors, status: :unprocessable_entity }
@@ -56,7 +56,7 @@ class Admin::PaymentsController < AdminController
   def destroy
     @payment.destroy
     respond_to do |format|
-      format.html { redirect_to payments_url, notice: 'Payment was successfully destroyed.' }
+      format.html { redirect_to admin_payments_url, notice: 'Payment was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
