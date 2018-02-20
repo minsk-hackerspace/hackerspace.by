@@ -28,6 +28,7 @@
 #  last_seen_in_hackerspace :datetime
 #  account_suspended        :boolean
 #  account_banned           :boolean
+#  monthly_payment_amount   :float            default(50.0)
 #
 # Indexes
 #
@@ -69,6 +70,7 @@ class User < ApplicationRecord
   has_many :users_roles
   has_many :roles, through: :users_roles
   has_many :erip_transactions
+  has_many :payments
 
   has_attached_file :photo,
                     styles: {
@@ -82,6 +84,7 @@ class User < ApplicationRecord
   validates_attachment :photo, size: { in: 0..3.megabytes }
 
   validates :email, presence: true, uniqueness: true, length: {maximum: 255}
+  validates :monthly_payment_amount, numericality: true
 
   after_save :create_bepaid_bill
 
@@ -90,11 +93,21 @@ class User < ApplicationRecord
   end
 
   def last_payment
-    self.erip_transactions.where(status: 'successful', transaction_type: 'payment').order(paid_at: :desc).first
+    self.payments.order(paid_at: :desc).first
   end
 
-  def payments
-    self.erip_transactions.where(status: 'successful', transaction_type: 'payment').order(paid_at: :desc)
+  # last day with valid payment for this user
+  def paid_until
+    p = self.payments.order(end_date: :desc).first
+    p.nil? ? nil : p.end_date
+  end
+
+  def full_name
+    "#{self.last_name} #{self.first_name}"
+  end
+
+  def full_name_with_id
+    "#{self.id}. #{self.last_name} #{self.first_name}"
   end
 
   private

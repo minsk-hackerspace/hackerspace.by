@@ -40,7 +40,7 @@ class MainController < ApplicationController
 
   end
 
-  def payment
+  def howtopay
 
   end
 

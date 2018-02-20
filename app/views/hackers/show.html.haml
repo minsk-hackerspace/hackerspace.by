@@ -12,7 +12,10 @@
     = @user.last_sign_in_at
 
   %h3 Платежи
-  = render partial: 'payments', locals: {payments: @user.payments}
+  %p
+    Тариф: #{@user.monthly_payment_amount} BYN в месяц
+
+  = render partial: 'payments', locals: {payments: @user.payments.order(paid_at: :desc)}
 
   - if @user.projects.any?
     %h3 Проекты
