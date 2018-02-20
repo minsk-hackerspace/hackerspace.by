@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 20180219000825) do
     t.string "url"
   end
 
-  create_table "payments", id: :serial, force: :cascade do |t|
+  create_table "payments", force: :cascade do |t|
     t.integer "user_id"
     t.integer "erip_transaction_id"
     t.datetime "paid_at", null: false
