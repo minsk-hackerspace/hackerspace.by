@@ -1,6 +1,7 @@
 class Admin::EripTransactionsController < AdminController
   before_action :set_erip_transaction, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:create, :bepaid_notify]
+  before_action :check_if_admin, only: [:edit, :update, :create, :destroy]
 
 
   # GET /erip_transactions
@@ -115,6 +116,11 @@ class Admin::EripTransactionsController < AdminController
     # Use callbacks to share common setup or constraints between actions.
     def set_erip_transaction
       @erip_transaction = EripTransaction.find(params[:id])
+    end
+
+    def check_if_admin
+      flash[:alert] = "У вас нет прав на это действие"
+      redirect_to admin_erip_transactions_path unless current_user.admin?
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
