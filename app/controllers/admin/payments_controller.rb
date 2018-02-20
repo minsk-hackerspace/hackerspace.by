@@ -4,7 +4,7 @@ class Admin::PaymentsController < AdminController
   # GET /payments
   # GET /payments.json
   def index
-    @payments = Payment.all
+    @payments = Payment.order(paid_at: :desc).all
   end
 
   # GET /payments/1
