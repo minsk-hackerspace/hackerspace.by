@@ -31,7 +31,7 @@ class Admin::EripTransactionsController < AdminController
 
     respond_to do |format|
       if @erip_transaction.save
-        format.html { redirect_to @erip_transaction, notice: 'Erip transaction was successfully created.' }
+        format.html { redirect_to [:admin, @erip_transaction], notice: 'Erip transaction was successfully created.' }
         format.json { render :show, status: :created, location: @erip_transaction }
       else
         format.html { render :new }
@@ -45,7 +45,7 @@ class Admin::EripTransactionsController < AdminController
   def update
     respond_to do |format|
       if @erip_transaction.update(erip_transaction_params)
-        format.html { redirect_to @erip_transaction, notice: 'Erip transaction was successfully updated.' }
+        format.html { redirect_to [:admin, @erip_transaction], notice: 'Erip transaction was successfully updated.' }
         format.json { render :show, status: :ok, location: @erip_transaction }
       else
         format.html { render :edit }
