@@ -60,7 +60,6 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'thin', platform: :ruby
   gem 'mina', '~> 1.2'
-  gem 'faker'
   gem 'pry'
   gem 'annotate'
 end
@@ -70,6 +69,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
   gem 'sqlite3'
+  gem 'faker'
 end
 
 group :test do

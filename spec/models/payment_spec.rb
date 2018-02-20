@@ -14,10 +14,12 @@
 #  description         :string
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  project_id          :integer
 #
 # Indexes
 #
 #  index_payments_on_erip_transaction_id  (erip_transaction_id)
+#  index_payments_on_project_id           (project_id)
 #  index_payments_on_user_id              (user_id)
 #
 

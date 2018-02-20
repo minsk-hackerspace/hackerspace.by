@@ -5,6 +5,10 @@
   = @payment.user.full_name_with_id unless @payment.user.nil?
 
 %p
+  %b Project:
+  = @payment.project.name_with_id unless @payment.project.nil?
+
+%p
   %b Erip Transaction:
   = @payment.erip_transaction.to_human_s unless @payment.erip_transaction.nil?
 %p

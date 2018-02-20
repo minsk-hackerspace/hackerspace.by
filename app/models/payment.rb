@@ -14,16 +14,19 @@
 #  description         :string
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  project_id          :integer
 #
 # Indexes
 #
 #  index_payments_on_erip_transaction_id  (erip_transaction_id)
+#  index_payments_on_project_id           (project_id)
 #  index_payments_on_user_id              (user_id)
 #
 
 class Payment < ApplicationRecord
   belongs_to :user
   belongs_to :erip_transaction
+  belongs_to :project
 
   validates :paid_at, presence: true
   validates :amount, presence: true
@@ -39,8 +42,8 @@ class Payment < ApplicationRecord
 
   def start_date_before_of_end_date
     return if self.start_date.nil? or self.end_date.nil?
-    if self.start_date >= self.end_date
-      errors.add(:end_date, "should be after of start date")
+    if self.start_date > self.end_date
+      errors.add(:end_date, "should be after or equal to start date")
     end
   end
 end
