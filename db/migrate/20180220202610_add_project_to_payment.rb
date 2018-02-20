@@ -3,6 +3,7 @@ class AddProjectToPayment < ActiveRecord::Migration[5.1]
     add_belongs_to :payments, :project
 
     EripTransaction.all.each do |et|
+      next if et.hs_payment.nil?
       next unless et.hs_payment.payment_type == 'donation'
       
       begin
