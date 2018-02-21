@@ -333,7 +333,7 @@ ru:
       created_at: Создан
       last_payment: Последний платёж
       last_payment_at: Дата платежа
-      last_payment_ended_at: Платёж действителен до
+      last_payment_ended_at: Оплачено по
       last_sign_in_at: Последний логин
       last_seen_in_hackerspace: Видели в ХС
     payments:
