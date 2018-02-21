@@ -284,9 +284,73 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
       expect(et.hs_payment.payment_form).to eq("erip")
       expect(et.hs_payment.payment_type).to eq("membership")
       expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
-      expect(et.hs_payment.start_date).to eq(Time.now.to_date)
-      expect(et.hs_payment.end_date).to eq(Time.now.to_date + (10.0 / 50.0 * 30).to_i.days)
+      expect(et.hs_payment.start_date).to eq(et.hs_payment.paid_at.to_date)
+      expect(et.hs_payment.end_date).to eq(et.hs_payment.paid_at.to_date + (10.0 / 50.0 * 30).to_i.days)
 
+    end
+  end
+
+  describe "POST #bepaid_notify for old user" do
+    it "handles a valid notification from bePaid, last payment was > 2 weeks ago" do
+      EripTransaction.destroy_all
+      Payment.destroy_all
+      p = Payment.create(paid_at: DateTime.parse('2016-12-07T14:40:12.010Z').to_date - 5.weeks,
+                    amount: 10,
+                    start_date: DateTime.parse('2016-12-07T14:40:12.010Z').to_date - 5.weeks,
+                    end_date: DateTime.parse('2016-12-07T14:40:12.010Z').to_date - 4.weeks,
+                    payment_type: 'membership',
+                    payment_form: 'cash',
+                    user_id: 2)
+      expect(p.errors).to be_empty
+      
+      expect {
+        post :bepaid_notify, params: bepaid_notification, format: :json
+      }.to change(EripTransaction, :count).by(1)
+
+      et = assigns(:erip_transaction)
+      expect(response).to have_http_status(:created)
+      expect(et.erip['service_no'].to_i).to eq(248)
+      expect(et.amount).to eq(10)
+      expect(et.hs_payment).not_to be_nil
+      expect(et.hs_payment).to be_a(Payment)
+      expect(et.hs_payment.amount).to eq(10)
+      expect(et.hs_payment.payment_form).to eq("erip")
+      expect(et.hs_payment.payment_type).to eq("membership")
+      expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
+      expect(et.hs_payment.start_date).to eq(et.hs_payment.paid_at.to_date)
+      expect(et.hs_payment.end_date).to eq(et.hs_payment.paid_at.to_date + (10.0 / 50.0 * 30).to_i.days)
+    end
+  end
+
+  describe "POST #bepaid_notify for old user" do
+    it "handles a valid notification from bePaid, last payment was less than 2 weeks ago" do
+      EripTransaction.destroy_all
+      Payment.destroy_all
+      p = Payment.create(paid_at: DateTime.parse('2016-12-07T14:40:12.010Z').to_date - 2.weeks,
+                    amount: 10,
+                    start_date: DateTime.parse('2016-12-07T14:40:12.010Z').to_date - 2.weeks,
+                    end_date: DateTime.parse('2016-12-07T14:40:12.010Z').to_date - 1.weeks,
+                    payment_type: 'membership',
+                    payment_form: 'cash',
+                    user_id: 2)
+      expect(p.errors).to be_empty
+      
+      expect {
+        post :bepaid_notify, params: bepaid_notification, format: :json
+      }.to change(EripTransaction, :count).by(1)
+
+      et = assigns(:erip_transaction)
+      expect(response).to have_http_status(:created)
+      expect(et.erip['service_no'].to_i).to eq(248)
+      expect(et.amount).to eq(10)
+      expect(et.hs_payment).not_to be_nil
+      expect(et.hs_payment).to be_a(Payment)
+      expect(et.hs_payment.amount).to eq(10)
+      expect(et.hs_payment.payment_form).to eq("erip")
+      expect(et.hs_payment.payment_type).to eq("membership")
+      expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
+      expect(et.hs_payment.start_date).to eq(et.hs_payment.paid_at.to_date - 1.week + 1.day)
+      expect(et.hs_payment.end_date).to eq(et.hs_payment.start_date + (10.0 / 50.0 * 30).to_i.days)
     end
   end
 

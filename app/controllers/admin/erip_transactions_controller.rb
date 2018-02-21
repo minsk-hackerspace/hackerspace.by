@@ -114,10 +114,10 @@ class Admin::EripTransactionsController < AdminController
     if p.payment_type == 'membership' then
       last_payment = nil
       last_payment = p.user.last_payment unless p.user.nil?
-      unless last_payment.nil?
+      unless last_payment.nil? or last_payment.end_date < et.paid_at.to_date - 14.days
         p.start_date = last_payment.end_date + 1.day
       else
-        p.start_date = Time.now.to_date
+        p.start_date = et.paid_at.to_date
       end
 
       m_amount = p.user.nil? ? 50.0 :  p.user.monthly_payment_amount
