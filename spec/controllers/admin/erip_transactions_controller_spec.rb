@@ -285,7 +285,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
       expect(et.hs_payment.payment_type).to eq("membership")
       expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
       expect(et.hs_payment.start_date).to eq(et.hs_payment.paid_at.to_date)
-      expect(et.hs_payment.end_date).to eq(et.hs_payment.paid_at.to_date + (10.0 / 50.0 * 30).to_i.days)
+      expect(et.hs_payment.end_date).to eq(et.hs_payment.paid_at.to_date + (10.0 / 50.0 * 30 - 1).to_i.days)
 
     end
   end
@@ -318,7 +318,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
       expect(et.hs_payment.payment_type).to eq("membership")
       expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
       expect(et.hs_payment.start_date).to eq(et.hs_payment.paid_at.to_date)
-      expect(et.hs_payment.end_date).to eq(et.hs_payment.paid_at.to_date + (10.0 / 50.0 * 30).to_i.days)
+      expect(et.hs_payment.end_date).to eq(et.hs_payment.paid_at.to_date + (10.0 / 50.0 * 30 - 1).to_i.days)
     end
   end
 
@@ -350,7 +350,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
       expect(et.hs_payment.payment_type).to eq("membership")
       expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
       expect(et.hs_payment.start_date).to eq(et.hs_payment.paid_at.to_date - 1.week + 1.day)
-      expect(et.hs_payment.end_date).to eq(et.hs_payment.start_date + (10.0 / 50.0 * 30).to_i.days)
+      expect(et.hs_payment.end_date).to eq(et.hs_payment.start_date + (10.0 / 50.0 * 30 - 1).to_i.days)
     end
   end
 
