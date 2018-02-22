@@ -122,7 +122,11 @@ class Admin::EripTransactionsController < AdminController
 
       m_amount = p.user.nil? ? 50.0 :  p.user.monthly_payment_amount
 
-      p.end_date = p.start_date + (p.amount / m_amount * 30 - 1).to_i.days
+      if p.amount != m_amount
+        p.end_date = p.start_date + (p.amount / m_amount * 30 - 1).to_i.days
+      else
+        p.end_date = p.start_date + 1.month - 1.day
+      end
     else
       begin
         project = Project.find et.erip['account_number'].to_i
