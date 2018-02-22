@@ -40,9 +40,13 @@ class Payment < ApplicationRecord
 
   private 
 
+
+  # end_date – last day of paid period. If payment amount is less
+  # than (monthly amount / 30), end_date will be one day before the last day.
+  #
   def start_date_before_of_end_date
     return if self.start_date.nil? or self.end_date.nil?
-    if self.start_date > self.end_date
+    if self.start_date - 1 > self.end_date
       errors.add(:end_date, "should be after or equal to start date")
     end
   end

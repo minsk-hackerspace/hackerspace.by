@@ -26,5 +26,32 @@
 require 'rails_helper'
 
 RSpec.describe Payment, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  let (:valid_payment_attrs) {
+    {
+      amount: 1.0,
+      paid_at: DateTime.parse('2018-02-07T14:40:12.010Z'),
+      start_date: Date.parse('2018-02-10'),
+      end_date: Date.parse('2018-02-20'),
+      payment_form: 'cash',
+      payment_type: 'membership'
+    }
+  }
+
+  it "should validate if (start_date - 1) is before or equal to end_date" do
+    payment = Payment.new(valid_payment_attrs)
+    expect(payment).to be_valid
+
+    payment = Payment.new(valid_payment_attrs)
+    payment.end_date = payment.start_date
+    expect(payment).to be_valid
+
+    payment = Payment.new(valid_payment_attrs)
+    payment.end_date = payment.start_date - 1
+    expect(payment).to be_valid
+
+    payment = Payment.new(valid_payment_attrs)
+    payment.end_date = payment.start_date - 2
+    expect(payment).to_not be_valid
+  end
 end
