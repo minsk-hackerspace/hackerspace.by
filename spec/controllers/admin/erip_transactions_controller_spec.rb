@@ -316,6 +316,55 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
   end
 
   describe "POST #bepaid_notify" do
+    it "handles a valid notification from bePaid with big (two months and few days) amount" do
+      EripTransaction.destroy_all
+      Payment.destroy_all
+      bp_notification_m = bepaid_notification.dup
+      bp_notification_m[:transaction][:amount] = 11000
+      expect {
+        post :bepaid_notify, params: bp_notification_m, format: :json
+      }.to change(EripTransaction, :count).by(1)
+
+      et = assigns(:erip_transaction)
+      expect(response).to have_http_status(:created)
+      expect(et.erip['service_no'].to_i).to eq(248)
+      expect(et.amount).to eq(110)
+      expect(et.hs_payment).not_to be_nil
+      expect(et.hs_payment).to be_a(Payment)
+      expect(et.hs_payment.amount).to eq(110)
+      expect(et.hs_payment.payment_form).to eq("erip")
+      expect(et.hs_payment.payment_type).to eq("membership")
+      expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
+      expect(et.hs_payment.start_date).to eq(et.hs_payment.paid_at.to_date)
+      expect(et.hs_payment.end_date).to eq(et.hs_payment.start_date + 2.month + 6.days - 1.day)
+    end
+  end
+
+  describe "POST #bepaid_notify" do
+    it "handles a valid notification from bePaid with big (two months exactly) amount" do
+      EripTransaction.destroy_all
+      Payment.destroy_all
+      bp_notification_m = bepaid_notification.dup
+      bp_notification_m[:transaction][:amount] = 10000
+      expect {
+        post :bepaid_notify, params: bp_notification_m, format: :json
+      }.to change(EripTransaction, :count).by(1)
+
+      et = assigns(:erip_transaction)
+      expect(response).to have_http_status(:created)
+      expect(et.erip['service_no'].to_i).to eq(248)
+      expect(et.amount).to eq(100)
+      expect(et.hs_payment).not_to be_nil
+      expect(et.hs_payment).to be_a(Payment)
+      expect(et.hs_payment.amount).to eq(100)
+      expect(et.hs_payment.payment_form).to eq("erip")
+      expect(et.hs_payment.payment_type).to eq("membership")
+      expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
+      expect(et.hs_payment.start_date).to eq(et.hs_payment.paid_at.to_date)
+      expect(et.hs_payment.end_date).to eq(et.hs_payment.start_date + 2.month - 1.day)
+    end
+  end
+  describe "POST #bepaid_notify" do
     it "handles a valid notification from bePaid with too small amount" do
       EripTransaction.destroy_all
       Payment.destroy_all
