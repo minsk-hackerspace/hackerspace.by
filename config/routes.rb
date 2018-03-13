@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get '/calendar', to: 'main#calendar'
   get '/contacts', to: 'main#contacts'
   get '/procedure', to: 'main#procedure'
+  get '/board', to: 'main#board'
   get '/tariffs', to: 'main#tariffs'
   get '/howtopay', to: 'main#howtopay'
   get '/chart', to: 'main#chart'
