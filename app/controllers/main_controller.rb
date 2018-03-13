@@ -8,6 +8,9 @@ class MainController < ApplicationController
   def rules
   end
 
+  def board
+  end
+
   def calendar
     @heatmap = Event.heatmap
   end
