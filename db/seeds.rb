@@ -132,5 +132,23 @@ unless Rails.env.production?
     puts "Payment created: #{p.inspect} #{p.errors.inspect}"
   end 
 
+    BankTransaction.destroy_all
+    BankTransaction.create(
+          plus: 10,
+          minus: 0,
+          unp: 'unp',
+          their_account: '000',
+          our_account: '111',
+          document_number: '123'
+    )
+    BankTransaction.create(
+          plus: 0,
+          minus: 2340,
+          unp: 'unp',
+          their_account: '000',
+          our_account: '111',
+          document_number: '1234'
+    )
+
 end
 

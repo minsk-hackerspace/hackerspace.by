@@ -60,6 +60,8 @@
               %b
                 = @hs_balance
               BYN
+              %span{title:"Число Дорофея (100% - баланс хороший)"}
+                (#{@hs_kitty_number}%)
         %li
           -if user_signed_in?
             = link_to 'Выход', destroy_user_session_path, method: :delete
