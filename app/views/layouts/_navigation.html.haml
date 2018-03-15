@@ -60,7 +60,7 @@
               %b
                 = @hs_balance
               BYN
-              %span{title:"Число Дорофея (100% - баланс хороший)"}
+              %meter{value:@hs_kitty_number, min:0, max:100, low:25, high:75, optimum:100}
                 (#{@hs_kitty_number}%)
         %li
           -if user_signed_in?
