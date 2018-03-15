@@ -22,6 +22,19 @@ bundle exec rails server
 После старта сайт будет доступен на [http://localhost:3000/](http://localhost:3000/). Пользователь developer@hackerspace.by, пароль '111111'.
 
 
+Как запустить в виртуалке под Vagrant:
+
+```
+git clone https://github.com/minsk-hackerspace/hackerspace.by
+cd hackerspace.by
+vagrant up
+vagrant provision
+
+# запуск сервера (который можно убить и опять запустить)
+vagrant ssh -c "cd /vagrant_share && bundle exec rails server --binding=0.0.0.0"
+
+```
+
 
 Запуск тэстаў
 
