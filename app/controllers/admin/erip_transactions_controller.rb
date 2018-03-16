@@ -103,35 +103,37 @@ class Admin::EripTransactionsController < AdminController
       et.user = u
     end
 
-    p = Payment.new
-    p.erip_transaction = et
-    et.hs_payment = p
-    p.amount = et.amount
-    p.paid_at = et.paid_at
-    p.user = et.user
-    p.payment_type = et.erip['service_no'].to_i == Setting['bePaid_serviceNo'].to_i ? 'membership' : 'donation'
-    p.payment_form = 'erip'
-    if p.payment_type == 'membership' then
-      last_payment = nil
-      last_payment = p.user.last_payment unless p.user.nil?
-      unless last_payment.nil? or last_payment.end_date < et.paid_at.to_date - 14.days
-        p.start_date = last_payment.end_date + 1.day
+    if et.status == 'successful'
+      p = Payment.new
+      p.erip_transaction = et
+      et.hs_payment = p
+      p.amount = et.amount
+      p.paid_at = et.paid_at
+      p.user = et.user
+      p.payment_type = et.erip['service_no'].to_i == Setting['bePaid_serviceNo'].to_i ? 'membership' : 'donation'
+      p.payment_form = 'erip'
+      if p.payment_type == 'membership' then
+        last_payment = nil
+        last_payment = p.user.last_payment unless p.user.nil?
+        unless last_payment.nil? or last_payment.end_date < et.paid_at.to_date - 14.days
+          p.start_date = last_payment.end_date + 1.day
+        else
+          p.start_date = et.paid_at.to_date
+        end
+
+        m_amount = p.user.nil? ? 50.0 :  p.user.monthly_payment_amount
+
+        m = p.amount.div m_amount
+        d = ((p.amount - m * m_amount) / m_amount * 30).floor
+        p.end_date = p.start_date + m.months + d.days - 1.day
       else
-        p.start_date = et.paid_at.to_date
+        begin
+          project = Project.find et.erip['account_number'].to_i
+        rescue
+          project = nil
+        end
+        p.project = project
       end
-
-      m_amount = p.user.nil? ? 50.0 :  p.user.monthly_payment_amount
-
-      m = p.amount.div m_amount
-      d = ((p.amount - m * m_amount) / m_amount * 30).floor
-      p.end_date = p.start_date + m.months + d.days - 1.day
-    else
-      begin
-        project = Project.find et.erip['account_number'].to_i
-      rescue
-        project = nil
-      end
-      p.project = project
     end
 
     @erip_transaction = et
