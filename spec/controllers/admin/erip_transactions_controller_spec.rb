@@ -291,6 +291,24 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
   end
 
   describe "POST #bepaid_notify" do
+    it "handles a valid notification from bePaid with failed transaction" do
+      EripTransaction.destroy_all
+      Payment.destroy_all
+      expect {
+        bp = bepaid_notification.dup
+        bp[:transaction][:status] = 'failed'
+        post :bepaid_notify, params: bepaid_notification, format: :json
+      }.to change(EripTransaction, :count).by(1)
+
+      et = assigns(:erip_transaction)
+      expect(response).to have_http_status(:created)
+      expect(et.erip['service_no'].to_i).to eq(248)
+      expect(et.amount).to eq(10)
+      expect(et.hs_payment).to be_nil
+    end
+  end
+
+  describe "POST #bepaid_notify" do
     it "handles a valid notification from bePaid with monthly amount" do
       EripTransaction.destroy_all
       Payment.destroy_all
