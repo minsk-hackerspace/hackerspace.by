@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
     def calc_kitty_number
     if user_signed_in?
         @hs_kitty_number = Rails.cache.fetch "hs_kitty_number", expires_in: 3.hours do
-            three_months_ago_date = Time.now - 3.months.ago
+            three_months_ago_date = Time.now - 3.months
             transactions = BankTransaction.where('created_at > ?', three_months_ago_date)
             the_sum = transactions.sum(:minus)
             (100 * @hs_balance / the_sum).round(1)
