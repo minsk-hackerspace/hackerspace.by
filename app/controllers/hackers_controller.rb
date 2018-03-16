@@ -6,8 +6,8 @@ class HackersController < ApplicationController
 
   def index
     @users = User.left_outer_joins(:payments).all
-    @users_visible_for_all = (@users.where.not(last_sign_in_at: nil) | @users.where.not(payments: {id: nil})).select{|u| !u.account_suspended? and !u.account_banned? }.sort_by { |u| u.id }
-    @suspended_banned_and_forgotten = (@users.uniq - @users_visible_for_all).sort_by{|u| u.id}
+    @users_visible_for_all = (@users.where.not(last_sign_in_at: nil) | @users.where.not(payments: {id: nil})).select { |u| !u.account_suspended? and !u.account_banned? }.sort_by { |u| u.id }
+    @suspended_banned_and_forgotten = (@users.uniq - @users_visible_for_all).sort_by { |u| u.id }
     respond_to do |format|
       format.html
       format.csv { render csv: @users, filename: 'hackers' }
@@ -18,12 +18,31 @@ class HackersController < ApplicationController
 
   end
 
+  def find_by_mac
+    @hacker = Mac.find_by(address: params[:mac]).try(&:user)
+    if @hacker.nil?
+      render json: {}, status: :not_found
+    else
+      render json: @hacker, status: :ok
+    end
+  end
+
+  def detected_at_hackerspace
+    @hacker = Mac.find_by(address: params[:mac]).try(&:user)
+    if @hacker.nil?
+      render json: {}, status: :not_found
+    else
+      @hacker.update(last_seen_in_hackerspace: Time.now)
+      render json: @hacker, status: :ok
+    end
+  end
+
   def add_mac
     if params[:mac].present? and params[:mac][/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/].present?
       @user.macs << Mac.create(address: params[:mac])
       redirect_to edit_user_path(@user)
     else
-      redirect_to edit_user_path(@user), alert: 'Ошибка формата mac ареса'
+      redirect_to edit_user_path(@user), alert: 'Ошибка формата mac адреса'
     end
   end
 
