@@ -63,7 +63,7 @@ class User < ApplicationRecord
     updated_at
   end
 
-  ROLES = %w(hacker admin)
+  ROLES = %w(hacker admin device)
 
   has_many :projects
   has_many :macs
@@ -90,6 +90,10 @@ class User < ApplicationRecord
 
   def admin?
     check_role('admin')
+  end
+
+  def device?
+    check_role('device')
   end
 
   def last_payment
