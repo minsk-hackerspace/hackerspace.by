@@ -1,5 +1,5 @@
 #encoding: UTF-8
-class CreateNews < ActiveRecord::Migration[4.2]
+class CreateNews < ActiveRecord::Migration
   def change
     create_table :news do |t|
       t.string :title

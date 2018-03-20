@@ -1,4 +1,4 @@
-class AddRepeatedToEvents < ActiveRecord::Migration[4.2]
+class AddRepeatedToEvents < ActiveRecord::Migration
   def change
     add_column :events, :repeated, :boolean, default: false
   end

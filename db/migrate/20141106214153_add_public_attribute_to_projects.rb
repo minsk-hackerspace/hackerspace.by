@@ -1,4 +1,4 @@
-class AddPublicAttributeToProjects < ActiveRecord::Migration[4.2]
+class AddPublicAttributeToProjects < ActiveRecord::Migration
   def change
     add_column :projects, :public, :boolean, default: false
   end

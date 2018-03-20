@@ -1,4 +1,4 @@
-class AddUserToProjects < ActiveRecord::Migration[4.2]
+class AddUserToProjects < ActiveRecord::Migration
   def change
     add_belongs_to :projects, :user, index: true
   end

@@ -1,4 +1,4 @@
-class AddPhotoToProjects < ActiveRecord::Migration[4.2]
+class AddPhotoToProjects < ActiveRecord::Migration
   def self.up
     add_attachment :projects, :photo
   end
