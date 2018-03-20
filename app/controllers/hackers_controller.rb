@@ -10,7 +10,8 @@ class HackersController < ApplicationController
     @suspended_banned_and_forgotten = (@users.uniq - @users_visible_for_all).sort_by { |u| u.id }
     respond_to do |format|
       format.html
-      format.csv { render csv: @users, filename: 'hackers' }
+      format.csv { render csv: @users_visible_for_all, filename: 'hackers' }
+      format.json { render json: @users_visible_for_all}
     end
   end
 

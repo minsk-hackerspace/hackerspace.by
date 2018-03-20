@@ -51,16 +51,14 @@ class User < ApplicationRecord
     last_name
     email
     hacker_comment
-    badge_comment
     bepaid_number
     monthly_payment_amount
-    next_month_payment_amount
-    next_month
-    current_debt
     sign_in_count
     last_sign_in_at
     created_at
-    updated_at
+    last_seen_in_hackerspace
+    telegram_username
+    alice_greeting
   end
 
   ROLES = %w(hacker admin device)
