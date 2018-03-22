@@ -156,8 +156,10 @@ class Admin::EripTransactionsController < AdminController
     end
 
     def check_if_admin
-      flash[:alert] = "У вас нет прав на это действие"
-      redirect_to admin_erip_transactions_path unless current_user.admin?
+      unless current_user.admin?
+        flash[:alert] = "У вас нет прав на это действие"
+        redirect_to admin_erip_transactions_path
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
