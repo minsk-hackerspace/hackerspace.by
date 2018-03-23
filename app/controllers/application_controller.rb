@@ -54,7 +54,14 @@ class ApplicationController < ActionController::Base
         if Rails.env.development? or Rails.env.test? then
             7777
         else
+          begin
             Belinvestbank.fetch_balance unless Rails.env.development? or Rails.env.test?
+          rescue => e
+            Rails.logger.error(e.message)
+            Rails.logger.error(e.backtrace)
+            flash[:alert] = 'Не получилось забрать данные из банка'
+            nil
+          end
         end
       end
     end
