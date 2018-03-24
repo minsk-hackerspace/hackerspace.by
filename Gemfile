@@ -43,7 +43,7 @@ gem 'rest-client'
 
 gem 'paperclip', '~> 5.2.0'
 gem 'responders', '~> 2.0'
-gem 'sanitize'
+gem 'sanitize', '~> 4.6.3'
 gem 'redcarpet'
 gem 'comma'
 gem 'factory_girl_rails', '~> 4.0', require: false

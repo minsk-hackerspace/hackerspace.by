@@ -42,6 +42,10 @@ class Ability
       news.user_id == user.id or news.public?
     end
 
+    if user.device?
+      can [:find_by_mac, :detected_at_hackerspace], User
+    end
+
     if user.admin?
       can :manage, :all
       can :crud, EripTransaction
