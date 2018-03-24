@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180220202610) do
+ActiveRecord::Schema.define(version: 20180317101433) do
 
   create_table "balances", force: :cascade do |t|
     t.float "state", null: false
@@ -149,6 +149,23 @@ ActiveRecord::Schema.define(version: 20180220202610) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_settings_on_key"
+  end
+
+  create_table "thanks", force: :cascade do |t|
+    t.string "name"
+    t.text "short_desc"
+    t.text "full_desc"
+    t.string "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "photo_file_name"
+    t.string "photo_content_type"
+    t.integer "photo_file_size"
+    t.datetime "photo_updated_at"
+    t.integer "user_id"
+    t.string "markup_type", default: "html"
+    t.boolean "public", default: false
+    t.index ["user_id"], name: "index_thanks_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

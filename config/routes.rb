@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       delete 'remove_mac', to: 'hackers#remove_mac'
     end
   end
+  resources :thanks
 
   get '/rules', to: 'main#rules'
   get '/calendar', to: 'main#calendar'

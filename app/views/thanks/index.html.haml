@@ -1,0 +1,20 @@
+%h1 Благодарности
+
+.container
+  - @thanks.each_slice(2) do |thanks_row|
+    .row
+      - thanks_row.each do |thank|
+        .col-lg-6
+          %h2
+            = link_to thank.name_with_id, thank_path(thank)
+          %p
+            = link_to image_tag(thank.photo.url(:medium), class: 'left-block'), thank_path(thank)
+          %p
+            = thank.short_desc.html_safe
+          %p
+            %a.btn.btn-default{href: thank_path(thank), role: 'button'} Читать дальше &raquo;
+
+  - if user_signed_in?
+    %hr
+    = link_to 'Добавить благодарность', new_thank_path, class: 'btn btn-info'
+  %hr
