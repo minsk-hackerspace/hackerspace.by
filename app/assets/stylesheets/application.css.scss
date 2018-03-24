@@ -19,6 +19,7 @@ $state-danger-bg:	rgba(242, 222, 222, 0.5);
 
 @import "bootstrap";
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400&subset=latin,cyrillic);
+@import 'font-awesome';
 
 body {
   margin-top: 76px;
@@ -103,4 +104,21 @@ ul.dash > li:before {
 }
 ul.lead li p {
 margin-bottom: 0.2em;
+}
+
+.footer {
+  background-color: black;
+  color: white;
+}
+
+.footer a {
+  color: white;
+}
+
+.footer .nav > li > a:hover {
+  color: green;
+}
+
+.contacts .text {
+  padding: 15px;
 }
