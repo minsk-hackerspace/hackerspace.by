@@ -22,8 +22,16 @@ unless Rails.env.production?
   admin = User.create(email: 'admin@hackerspace.by', password: '111111')
   admin.roles << Role.find_by(name: 'admin')
 
-  User.create(email: 'developer@hackerspace.by', password: '111111')
-  User.create(email: 'developer2@hackerspace.by', password: '111111')
+  user1 = User.create(email: 'developer@hackerspace.by', password: '111111')
+  user1.macs << Mac.create(address: 'a0:a0:a0:a0:a1:a1')
+  user1.macs << Mac.create(address: 'a0:a0:a0:a0:a1:a2')
+
+  user2 = User.create(email: 'developer2@hackerspace.by', password: '111111')
+  user2.macs << Mac.create(address: 'a0:a0:a0:a0:a2:a1')
+  user2.macs << Mac.create(address: 'a0:a0:a0:a0:a2:a2')
+
+  device = User.create(email: 'device@hackerspace.by', password: '111111')
+  device.roles << Role.find_by(name: 'device')
 
   7.times do
     Project.create!(name: Faker::Commerce.product_name,

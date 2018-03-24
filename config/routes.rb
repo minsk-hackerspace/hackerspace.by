@@ -16,6 +16,11 @@ Rails.application.routes.draw do
       post 'add_mac', to: 'hackers#add_mac'
       delete 'remove_mac', to: 'hackers#remove_mac'
     end
+
+    collection do
+      get 'find', to: 'hackers#find_by_mac'
+      post 'detected', to: 'hackers#detected_at_hackerspace'
+    end
   end
   resources :thanks
 
