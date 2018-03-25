@@ -58,14 +58,14 @@ RSpec.describe ThanksController, type: :controller do
   end
 
   describe "GET #new" do
-    it "returns a success response" do
+    xit "returns a success response" do
       get :new, params: {}, session: valid_session
       expect(response).to be_success
     end
   end
 
   describe "GET #edit" do
-    it "returns a success response" do
+    xit "returns a success response" do
       thank = Thank.create! valid_attributes
       get :edit, params: {id: thank.to_param}, session: valid_session
       expect(response).to be_success
@@ -74,20 +74,20 @@ RSpec.describe ThanksController, type: :controller do
 
   describe "POST #create" do
     context "with valid params" do
-      it "creates a new Thank" do
+      xit "creates a new Thank" do
         expect {
           post :create, params: {thank: valid_attributes}, session: valid_session
         }.to change(Thank, :count).by(1)
       end
 
-      it "redirects to the created thank" do
+      xit "redirects to the created thank" do
         post :create, params: {thank: valid_attributes}, session: valid_session
         expect(response).to redirect_to(Thank.last)
       end
     end
 
     context "with invalid params" do
-      it "returns a success response (i.e. to display the 'new' template)" do
+      xit "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: {thank: invalid_attributes}, session: valid_session
         expect(response).to be_success
       end
@@ -100,14 +100,14 @@ RSpec.describe ThanksController, type: :controller do
         skip("Add a hash of attributes valid for your model")
       }
 
-      it "updates the requested thank" do
+      xit "updates the requested thank" do
         thank = Thank.create! valid_attributes
         put :update, params: {id: thank.to_param, thank: new_attributes}, session: valid_session
         thank.reload
         skip("Add assertions for updated state")
       end
 
-      it "redirects to the thank" do
+      xit "redirects to the thank" do
         thank = Thank.create! valid_attributes
         put :update, params: {id: thank.to_param, thank: valid_attributes}, session: valid_session
         expect(response).to redirect_to(thank)
@@ -115,7 +115,7 @@ RSpec.describe ThanksController, type: :controller do
     end
 
     context "with invalid params" do
-      it "returns a success response (i.e. to display the 'edit' template)" do
+      xit "returns a success response (i.e. to display the 'edit' template)" do
         thank = Thank.create! valid_attributes
         put :update, params: {id: thank.to_param, thank: invalid_attributes}, session: valid_session
         expect(response).to be_success
@@ -124,14 +124,14 @@ RSpec.describe ThanksController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested thank" do
+    xit "destroys the requested thank" do
       thank = Thank.create! valid_attributes
       expect {
         delete :destroy, params: {id: thank.to_param}, session: valid_session
       }.to change(Thank, :count).by(-1)
     end
 
-    it "redirects to the thanks list" do
+    xit "redirects to the thanks list" do
       thank = Thank.create! valid_attributes
       delete :destroy, params: {id: thank.to_param}, session: valid_session
       expect(response).to redirect_to(thanks_url)
