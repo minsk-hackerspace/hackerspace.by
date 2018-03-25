@@ -118,11 +118,9 @@ class User < ApplicationRecord
       self.photo.url(style)
     else
       hash = Digest::MD5.hexdigest(self.email.to_s.downcase)
-      size = if style == :thumb
-        '60x60'
-      else
-        style == :medium ? '200x200' : ''
-      end
+      geometry = User.new.photo.styles[style].try(:geometry)
+      size = geometry ? geometry.split('x').first : ''
+
       "https://gravatar.com/avatar/#{hash}?d=robohash&size=#{size}"
     end
   end
