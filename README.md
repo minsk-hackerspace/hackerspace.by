@@ -37,6 +37,10 @@ vagrant ssh -c "cd /vagrant_share && bundle exec rails server --binding=0.0.0.0"
 
 ```
 
+Запуск с помощью docker-compose:
+```
+docker-compose up
+```
 
 Запуск тэстаў
 

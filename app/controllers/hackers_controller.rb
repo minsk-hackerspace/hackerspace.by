@@ -1,8 +1,9 @@
 class HackersController < ApplicationController
   before_action :authenticate_user!
-  authorize_resource class: User, except: [:useful]
+  load_and_authorize_resource :user, parent: false,
+                              except: [:useful, :find_by_mac, :detected_at_hackerspace]
   load_and_authorize_resource :mac
-  before_action :set_hacker, only: [:show, :edit, :update, :add_mac, :remove_mac]
+  # before_action :set_hacker, only: [:show, :edit, :update, :add_mac, :remove_mac]
 
   def index
     @users = User.left_outer_joins(:payments).all
@@ -10,7 +11,8 @@ class HackersController < ApplicationController
     @suspended_banned_and_forgotten = (@users.uniq - @users_visible_for_all).sort_by { |u| u.id }
     respond_to do |format|
       format.html
-      format.csv { render csv: @users, filename: 'hackers' }
+      format.csv { render csv: @users_visible_for_all, filename: 'hackers' }
+      format.json { render json: @users_visible_for_all}
     end
   end
 

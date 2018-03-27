@@ -37,6 +37,7 @@
 #
 
 require 'bepaid.rb'
+require 'digest/md5'
 
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
@@ -51,16 +52,14 @@ class User < ApplicationRecord
     last_name
     email
     hacker_comment
-    badge_comment
     bepaid_number
     monthly_payment_amount
-    next_month_payment_amount
-    next_month
-    current_debt
     sign_in_count
     last_sign_in_at
     created_at
-    updated_at
+    last_seen_in_hackerspace
+    telegram_username
+    alice_greeting
   end
 
   ROLES = %w(hacker admin device)
@@ -112,6 +111,18 @@ class User < ApplicationRecord
 
   def full_name_with_id
     "#{self.id}. #{self.last_name} #{self.first_name}"
+  end
+
+  def avatar_url(style)
+    if self.photo?
+      self.photo.url(style)
+    else
+      hash = Digest::MD5.hexdigest(self.email.to_s.downcase)
+      geometry = User.new.photo.styles[style].try(:geometry)
+      size = geometry ? geometry.split('x').first : ''
+
+      "https://gravatar.com/avatar/#{hash}?d=robohash&size=#{size}"
+    end
   end
 
   private

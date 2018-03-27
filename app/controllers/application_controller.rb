@@ -35,15 +35,17 @@ class ApplicationController < ActionController::Base
   end
 
     def calc_kitty_number
-    if user_signed_in?
+      if user_signed_in? and !@hs_balance.nil?
         @hs_kitty_number = Rails.cache.fetch "hs_kitty_number", expires_in: 3.hours do
-            three_months_ago_date = Time.now - 3.months
-            transactions = BankTransaction.where('created_at > ?', three_months_ago_date)
-            the_sum = transactions.sum(:minus)
-            (100 * @hs_balance / the_sum).round(1)
+          three_months_ago_date = Time.now - 3.months
+          transactions = BankTransaction.where('created_at > ?', three_months_ago_date)
+          the_sum = transactions.sum(:minus)
+          (100 * @hs_balance / the_sum).round(1)
 
         end
-    end
+      else
+        @hs_kitty_number = 0
+      end
     end
 
   def check_for_hs_balance
@@ -52,7 +54,14 @@ class ApplicationController < ActionController::Base
         if Rails.env.development? or Rails.env.test? then
             7777
         else
+          begin
             Belinvestbank.fetch_balance unless Rails.env.development? or Rails.env.test?
+          rescue => e
+            Rails.logger.error(e.message)
+            Rails.logger.error(e.backtrace)
+            flash[:alert] = 'Не получилось забрать данные из банка'
+            nil
+          end
         end
       end
     end
