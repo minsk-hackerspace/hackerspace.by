@@ -1,0 +1,15 @@
+version: '2'
+services:
+  site:
+    build: '.'
+    stdin_open: true
+    volumes:
+      - ./config.ru:/app/config.ru
+      - ./app:/app/app
+      - ./bin:/app/bin
+      - ./config:/app/config
+      - ./db:/app/db
+      - ./lib:/app/lib
+      - ./public:/app/public
+    ports:
+      - 3000:3000
