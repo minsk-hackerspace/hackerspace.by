@@ -23,6 +23,8 @@ $state-danger-bg:	rgba(242, 222, 222, 0.5);
 
 body {
   margin-top: 76px;
+  // update margin-bottom in case footer height changes
+  margin-bottom: 60px;
   background-image: url('../../images/back.jpg');
   font-family: 'Helvetica Neue', 'Open Sans', sans-serif;
 }
@@ -106,9 +108,17 @@ ul.lead li p {
 margin-bottom: 0.2em;
 }
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 .footer {
   background-color: black;
   color: white;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
 }
 
 .footer a {
