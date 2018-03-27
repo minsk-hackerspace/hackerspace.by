@@ -32,7 +32,7 @@
               - row_class = 'warning'
             %tr{class: row_class}
               %td
-                = image_tag hacker.photo.url(:thumb)
+                = image_tag hacker.avatar_url(:thumb)
               %td
                 = hacker.id
               %td
@@ -61,7 +61,7 @@
             - @suspended_banned_and_forgotten.each do |hacker|
               %tr
                 %td
-                  = image_tag hacker.photo.url(:thumb)
+                  = image_tag hacker.avatar_url(:thumb)
                 %td
                   = hacker.id
                 %td
