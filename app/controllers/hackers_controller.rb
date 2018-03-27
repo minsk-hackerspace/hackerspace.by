@@ -53,7 +53,7 @@ class HackersController < ApplicationController
   end
 
   def edit
-    redirect_to root_path, alert: 'Ошибка' unless @user == current_user or current_user.admin?
+    authorize! :edit, @user
   end
 
   def useful
@@ -66,6 +66,7 @@ class HackersController < ApplicationController
   end
 
   def update
+    authorize! :update, @user
     if @user.update(user_params)
       flash[:notice] = 'Профиль изменен'
       flash[:alert] = @user.errors.full_messages.join "\n"
