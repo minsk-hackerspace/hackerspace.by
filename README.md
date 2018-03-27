@@ -21,7 +21,7 @@ bundle exec rails server
 
 После старта сайт будет доступен на [http://localhost:3000/](http://localhost:3000/). 
 
-Пользователь developer@hackerspace.by, developer2@hackerspace.by, admin@hackerspace.by, device@hackerspace.by пароль '111111'.
+Тестовые пользователи: developer@hackerspace.by, developer2@hackerspace.by, admin@hackerspace.by, device@hackerspace.by пароль '111111'.
 
 
 Как запустить в виртуалке под Vagrant:
