@@ -32,6 +32,7 @@ class Ability
     alias_action :create, :read, :update, :destroy, :to => :crud
 
     can [:show, :index], User
+    can [:show, :index], Thank
 
     can [:update, :edit, :add_mac, :remove_mac], User, id: user.id
     can :manage, Mac, user_id: user.id
@@ -50,6 +51,7 @@ class Ability
       can :manage, :all
       can :crud, EripTransaction
       can :crud, User
+      can :crud, Thank
     else
 
     end

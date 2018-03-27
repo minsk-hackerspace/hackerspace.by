@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       post 'detected', to: 'hackers#detected_at_hackerspace'
     end
   end
+  resources :thanks
 
   get '/rules', to: 'main#rules'
   get '/calendar', to: 'main#calendar'
