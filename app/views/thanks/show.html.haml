@@ -1,0 +1,16 @@
+%h1
+  = @thank.name_with_id
+.lead
+  = markup2html @thank.short_desc, @thank.markup_type
+%hr
+  =image_tag @thank.photo.url(:original), class: 'center-block'
+%hr
+.lead
+  = markup2html @thank.full_desc, @thank.markup_type
+
+-if user_signed_in? && (@thank.user == current_user or @thank.public)
+  = link_to 'Изменить', edit_thank_path(@thank), class: 'btn btn-info'
+= link_to 'Назад', thanks_path, class: 'btn btn-default'
+
+%br.bottom_margin
+
