@@ -29,6 +29,8 @@
 #  account_suspended        :boolean
 #  account_banned           :boolean
 #  monthly_payment_amount   :float            default(50.0)
+#  github_username          :string
+#  ssh_public_key           :text
 #
 # Indexes
 #
