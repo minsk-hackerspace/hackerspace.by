@@ -16,6 +16,9 @@
     %p
       %strong Email:
       = @user.email
+    %p
+      %strong Номер участника:
+      = @user.id
     - if @user.first_name.present?
       %p
         %strong Имя:
