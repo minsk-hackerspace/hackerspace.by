@@ -13,14 +13,18 @@ en:
     back: Back
     edit: Edit
   users:
+    title: Hackers
     last_sign_in_at: Last sign in at
     email: Email
-    id: Member id
+    personal_number: Member id
     first_name:  First name
+    comment: Hacker's comment
     last_name: Last name
     telegram_username: Telegram
     github_username: Github
     ssh_public_key: SSH public key
+    last_payment_ended_at: Paid to
+    last_seen_in_hackerspace: Last seen
     projects:
       title: Projects
     payments:
@@ -31,4 +35,3 @@ en:
       amount: Amount
       start_date: Start date
       end_date: End date
-

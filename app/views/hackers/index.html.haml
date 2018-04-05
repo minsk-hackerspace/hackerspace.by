@@ -1,5 +1,4 @@
-%h1
-  = t(".title")
+%h1= t('users.title')
 
 .container
   .row
@@ -7,18 +6,12 @@
       %table.table
         %thead
           %th
-          %th
-            = t '.personal_number'
-          %th
-            = t '.email'
-          %th
-            = t ".name"
-          %th
-            = t ".comment"
-          %th
-            = t('.last_payment_ended_at')
-          %th
-            = t('.last_seen_in_hackerspace')
+          %th= t('users.personal_number')
+          %th= t('users.email')
+          %th= t('users.first_name')
+          %th= t('users.comment')
+          %th= t('users.last_payment_ended_at')
+          %th= t('users.last_seen_in_hackerspace')
           %th
           %th
         %tbody
