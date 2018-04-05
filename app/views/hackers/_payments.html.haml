@@ -1,15 +1,14 @@
 .row.payments
   .col-md-10
-    %h3 Платежи
-    %p
-      Тариф: #{@user.monthly_payment_amount} BYN в месяц
+    %h3= t('users.payments.title')
+    %p= t('users.payments.title') + ": #{@user.monthly_payment_amount} " + t('users.payments.rate')
 
     %table.table
       %thead
-        %th= t('.date')
-        %th= t('.amount')
-        %th= t('.start_date')
-        %th= t('.end_date')
+        %th= t('users.payments.date')
+        %th= t('users.payments.amount')
+        %th= t('users.payments.start_date')
+        %th= t('users.payments.end_date')
       %tbody
         - payments.each do |payment|
           %tr

@@ -1,8 +1,8 @@
 .row.links
   .col-md-8
-    = link_to 'Назад к списку', users_path, class: 'btn btn-default'
+    = link_to t('common.back'), users_path, class: 'btn btn-default'
     - if can?(:edit, @user)
-      = link_to 'Редактировать', edit_user_path(@user), class: 'btn btn-default'
+      = link_to t('common.edit'), edit_user_path(@user), class: 'btn btn-default'
 
 .row.user
   .col-md-4
@@ -10,31 +10,31 @@
     %p
       = @user.hacker_comment
     %p.last-login
-      Последний логин
+      = t('users.last_sign_in_at')
       = @user.last_sign_in_at
   .col-md-8
     %p
-      %strong Email:
+      %strong= t('users.email') + ':'
       = @user.email
     %p
-      %strong Номер участника:
+      %strong= t('users.id') + ':'
       = @user.id
     - if @user.first_name.present?
       %p
-        %strong Имя:
+        %strong= t('users.first_name') + ':'
         = @user.first_name
     - if @user.last_name.present?
       %p
-        %strong Фамилия:
+        %strong= t('users.last_name') + ':'
         = @user.last_name
     - if @user.telegram_username.present?
       %p
-        %strong Telegram:
+        %strong= t('users.telegram_username') + ':'
         %a{href: 'https://t.me/' + @user.telegram_username, target: '_blank'}
           = @user.telegram_username
     - if @user.github_username.present?
       %p
-        %strong Github:
+        %strong= t('users.github_username') + ':'
         %a{href: 'https://github.com/' + @user.github_username, target: '_blank'}
           = @user.github_username
 
@@ -45,5 +45,5 @@
 -if @user.ssh_public_key.present?
   .row.additional_info
     .col-md-8
-      %h4 SSH public key:
+      %h4= t('users.ssh_public_key') + ':'
       .ssh-public-key= @user.ssh_public_key

@@ -9,4 +9,26 @@ en:
         roles: Roles
         created_at: Создан
         last_sign_in_at: Последний логин
+  common:
+    back: Back
+    edit: Edit
+  users:
+    last_sign_in_at: Last sign in at
+    email: Email
+    id: Member id
+    first_name:  First name
+    last_name: Last name
+    telegram_username: Telegram
+    github_username: Github
+    ssh_public_key: SSH public key
+    projects:
+      title: Projects
+    payments:
+      title: Payments
+      tariff: Tariff
+      rate: BYN monthly
+      date: Date
+      amount: Amount
+      start_date: Start date
+      end_date: End date
 
