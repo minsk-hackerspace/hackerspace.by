@@ -149,7 +149,7 @@ class User < ApplicationRecord
 
 
       dates.each_index do |i|
-        graph << [dates[i], self.paid_within_period(dates[i], dates[i+1]).count] unless i >= dates.size - 1
+        graph << [dates[i], self.paid_within_period(dates[i], dates[i+1]).group(:id).count.count] unless i >= dates.size - 1
       end
       graph
     end
