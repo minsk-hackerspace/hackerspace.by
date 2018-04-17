@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180317101433) do
+ActiveRecord::Schema.define(version: 20180403222343) do
 
   create_table "balances", force: :cascade do |t|
     t.float "state", null: false
@@ -195,6 +195,8 @@ ActiveRecord::Schema.define(version: 20180317101433) do
     t.boolean "account_suspended"
     t.boolean "account_banned"
     t.float "monthly_payment_amount", default: 50.0
+    t.string "github_username"
+    t.text "ssh_public_key"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

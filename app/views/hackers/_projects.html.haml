@@ -1,0 +1,8 @@
+- if projects.any?
+  .row.projects
+    .col-md-10
+      %h3= t('users.projects.title')
+      - projects.each do |project|
+        %ul
+          %li
+            = link_to project.name, project_path(project)
