@@ -24,7 +24,7 @@
           .row
             .col-md-1
               = link_to_if current_user.admin?, payment.amount, admin_payment_path(payment)
-            .col-md-2
+            .col-md-3
               - if payment.user.present?
                 = link_to_if current_user.admin?, payment.user.email, user_path(payment.user)
             .col-md-2

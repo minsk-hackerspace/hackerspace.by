@@ -52,6 +52,6 @@ class Project < ApplicationRecord
   end
 
   def payments_sum
-    payments.sum(:amount).to_s
+    payments.sum(:amount)
   end
 end
