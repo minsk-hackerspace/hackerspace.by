@@ -16,10 +16,6 @@ class HackersController < ApplicationController
     end
   end
 
-  def show
-
-  end
-
   def find_by_mac
     @hacker = Mac.find_by(address: params[:mac]).try(&:user)
     if @hacker.nil?
@@ -83,7 +79,20 @@ class HackersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :hacker_comment, :photo, :first_name, :last_name, :telegram_username, :alice_greeting, :account_suspended, :account_banned, :monthly_payment_amount)
+    params.require(:user).permit(
+      :email,
+      :hacker_comment,
+      :photo,
+      :first_name,
+      :last_name,
+      :telegram_username,
+      :alice_greeting,
+      :account_suspended,
+      :account_banned,
+      :monthly_payment_amount,
+      :github_username,
+      :ssh_public_key
+    )
   end
 
 end

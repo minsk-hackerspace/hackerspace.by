@@ -24,12 +24,20 @@
         = f.file_field :photo
 
       .form-group
-        = f.label 'Ник в Телеграме'
+        = f.label 'Никнейм в Telegram'
         = f.text_field :telegram_username, class: 'form-control', value: @user.telegram_username
 
       .form-group
         = f.label 'Приветствие для Алисы'
         = f.text_field :alice_greeting, class: 'form-control', value: @user.alice_greeting
+
+      .form-group
+        = f.label 'Никнейм в Github'
+        = f.text_field :github_username, class: 'form-control', value: @user.github_username
+
+      .form-group
+        = f.label 'Публичный ключ ssh'
+        = f.text_area :ssh_public_key, class: 'form-control', value: @user.ssh_public_key
 
       - if current_user.admin?
         .form-group
