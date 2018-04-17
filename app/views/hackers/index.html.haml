@@ -1,81 +1,12 @@
-%h1
-  = t(".title")
+%h2= t('users.title')
 
 .container
   .row
     .col-lg-12
-      %table.table
-        %thead
-          %th
-          %th
-            = t '.personal_number'
-          %th
-            = t '.email'
-          %th
-            = t ".name"
-          %th
-            = t ".comment"
-          %th
-            = t('.last_payment_ended_at')
-          %th
-            = t('.last_seen_in_hackerspace')
-          %th
-          %th
-        %tbody
-          - @users_visible_for_all.each do |hacker|
-            - if hacker.last_payment.present?
-              - if hacker.last_payment.end_date < Time.now.to_date
-                - row_class = 'danger'
-              - else
-                - row_class = ''
-            - else
-              - row_class = 'warning'
-            %tr{class: row_class}
-              %td
-                = image_tag hacker.avatar_url(:thumb)
-              %td
-                = hacker.id
-              %td
-                = hacker.email
-              %td
-                = "#{hacker.first_name} #{hacker.last_name}"
-              %td
-                = simple_format hacker.hacker_comment
-              %td
-                = "#{hacker.last_payment.end_date.to_formatted_s(:long)}" if hacker.last_payment
-              %td
-                = hacker.last_seen_in_hackerspace.nil? ? '' : hacker.last_seen_in_hackerspace.to_formatted_s(:long)
-              %td
-                = link_to image_tag('info_32x32.png', class: 'no-shadow'), user_path(hacker)
-              %td
-                - if can?(:edit, hacker)
-                  = link_to image_tag('edit_gear_icon.png', class: 'no-shadow'), edit_user_path(hacker)
+      = render 'hackers', hackers: @users_visible_for_all
 
   - if current_user.admin?
-    %h1 Suspended, banned and forgotten
+    %h2 Suspended, banned and forgotten
     .row
       .col-lg-12
-        %table.table
-          %thead
-          %tbody
-            - @suspended_banned_and_forgotten.each do |hacker|
-              %tr
-                %td
-                  = image_tag hacker.avatar_url(:thumb)
-                %td
-                  = hacker.id
-                %td
-                  = hacker.email
-                %td
-                  = "#{hacker.first_name} #{hacker.last_name}"
-                %td
-                  = simple_format hacker.hacker_comment
-                %td
-                  = "#{hacker.last_payment.end_date}" if hacker.last_payment
-                %td
-                  = hacker.last_seen_in_hackerspace.nil? ? '' : hacker.last_seen_in_hackerspace.to_formatted_s(:long)
-                %td
-                  = link_to image_tag('info_32x32.png', class: 'no-shadow'), user_path(hacker)
-                %td
-                  - if can?(:edit, hacker)
-                    = link_to image_tag('edit_gear_icon.png', class: 'no-shadow'), edit_user_path(hacker)
+        = render 'hackers', hackers: @suspended_banned_and_forgotten
