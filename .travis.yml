@@ -4,3 +4,4 @@ script:
   - cp config/database.example.yml config/database.yml
   - bundle exec rake db:setup RAILS_ENV=test
   - bundle exec rails spec
+  - bundle exec brakeman -z
