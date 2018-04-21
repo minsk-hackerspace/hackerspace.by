@@ -3,8 +3,8 @@
 %td= hacker.email
 %td= "#{hacker.first_name} #{hacker.last_name}"
 %td= simple_format hacker.hacker_comment
-%td= "#{hacker.last_payment.end_date.to_formatted_s(:long)}" if hacker.last_payment
-%td= hacker.last_seen_in_hackerspace.nil? ? '' : hacker.last_seen_in_hackerspace.to_formatted_s(:long)
+%td= hacker.paid_until&.to_formatted_s(:long)
+%td= hacker.last_seen_in_hackerspace&.to_formatted_s(:long)
 %td= link_to image_tag('info_32x32.png', class: 'no-shadow'), user_path(hacker)
 %td
   - if can?(:edit, hacker)

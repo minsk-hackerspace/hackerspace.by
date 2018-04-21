@@ -108,8 +108,7 @@ class User < ApplicationRecord
 
   # last day with valid payment for this user
   def paid_until
-    p = self.payments.order(end_date: :desc).first
-    p.nil? ? nil : p.end_date
+    last_payment&.end_date
   end
 
   def full_name

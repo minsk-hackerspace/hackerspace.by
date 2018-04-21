@@ -6,8 +6,8 @@ class HackersController < ApplicationController
   # before_action :set_hacker, only: [:show, :edit, :update, :add_mac, :remove_mac]
 
   def index
-    @users_visible_for_all = User.active
-    @suspended_banned_and_forgotten = User.where.not(id: @users_visible_for_all.map(&:id))
+    @active_users = User.active
+    @non_active_users = User.where.not(id: @active_users.map(&:id))
     respond_to do |format|
       format.html
       format.csv { render csv: @users_visible_for_all, filename: 'hackers' }
