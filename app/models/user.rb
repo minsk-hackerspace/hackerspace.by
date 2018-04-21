@@ -72,6 +72,7 @@ class User < ApplicationRecord
   has_many :roles, through: :users_roles
   has_many :erip_transactions
   has_many :payments
+  has_one :last_payment, -> { order('paid_at DESC') }, class_name: 'Payment'
 
   has_attached_file :photo,
                     styles: {
@@ -89,16 +90,20 @@ class User < ApplicationRecord
 
   after_save :create_bepaid_bill
 
+  def self.active
+    (allowed.paid + allowed.signed_in).uniq
+  end
+
+  scope :signed_in, -> { where.not(last_sign_in_at: nil) }
+  scope :paid, -> { includes(:last_payment).where.not(payments: {paid_at: nil}) }
+  scope :allowed, -> { where(account_suspended: [false, nil]).where(account_banned: [false, nil]) }
+
   def admin?
     check_role('admin')
   end
 
   def device?
     check_role('device')
-  end
-
-  def last_payment
-    self.payments.order(paid_at: :desc).first
   end
 
   # last day with valid payment for this user

@@ -6,9 +6,8 @@ class HackersController < ApplicationController
   # before_action :set_hacker, only: [:show, :edit, :update, :add_mac, :remove_mac]
 
   def index
-    @users = User.left_outer_joins(:payments).all
-    @users_visible_for_all = (@users.where.not(last_sign_in_at: nil) | @users.where.not(payments: {id: nil})).select { |u| !u.account_suspended? and !u.account_banned? }.sort_by { |u| u.id }
-    @suspended_banned_and_forgotten = (@users.uniq - @users_visible_for_all).sort_by { |u| u.id }
+    @users_visible_for_all = User.active
+    @suspended_banned_and_forgotten = User.where.not(id: @users_visible_for_all.map(&:id))
     respond_to do |format|
       format.html
       format.csv { render csv: @users_visible_for_all, filename: 'hackers' }
