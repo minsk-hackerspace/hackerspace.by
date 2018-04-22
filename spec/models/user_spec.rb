@@ -42,9 +42,40 @@ require 'rails_helper'
 
 describe User do
   describe "relations and validations" do
-
     it { should validate_presence_of(:email) }
     it { should validate_length_of(:email).is_at_most(255) }
+  end
 
+  describe '#last_payment' do
+    let(:user) { create :user }
+    let!(:first_payment) { create :payment, paid_at: Date.parse('21-05-2018'), user: user }
+    let!(:second_payment) { create :payment, paid_at: Date.parse('21-06-2018'), user: user }
+
+    it 'is expected to return last paid payment' do
+      expect(user.last_payment).to eq(second_payment)
+    end
+  end
+
+  describe '.active' do
+    let!(:blocked_user) { create :user, :banned }
+    let!(:suspended_user) { create :user, :suspended }
+    let!(:user_without_sign_in) { create :user, last_sign_in_at: nil }
+    let!(:user_with_payment) { create :user, :with_payment }
+
+    it 'is expected not to return blocked users' do
+      expect(described_class.active).not_to include(blocked_user)
+    end
+
+    it 'is expected not to return suspended users' do
+      expect(described_class.active).not_to include(suspended_user)
+    end
+
+    it 'is expected not to return users that never logged in' do
+      expect(described_class.active).not_to include(user_without_sign_in)
+    end
+
+    it 'is expected to return users with payments' do
+      expect(described_class.active).to include(user_with_payment)
+    end
   end
 end
