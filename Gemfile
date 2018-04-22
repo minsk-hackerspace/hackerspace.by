@@ -73,7 +73,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'faker'
   gem 'brakeman', require: false
-  gem 'bundle-audit', require: false
+  gem 'bundler-audit', require: false
 end
 
 group :test do
