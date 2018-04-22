@@ -3,6 +3,7 @@ class Admin::EripTransactionsController < AdminController
   before_action :authenticate_user!, except: [:create, :bepaid_notify]
   before_action :check_if_admin, only: [:edit, :update, :create, :destroy, :index]
 
+  skip_before_action :verify_authenticity_token, only: :bepaid_notify
 
   # GET /erip_transactions
   # GET /erip_transactions.json
