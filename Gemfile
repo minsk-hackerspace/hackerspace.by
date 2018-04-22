@@ -62,13 +62,12 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'thin', platform: :ruby
   gem 'mina', '~> 1.2'
-  gem 'pry'
   gem 'annotate'
 end
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'pry'
   gem 'rspec-rails'
   gem 'sqlite3'
   gem 'faker'
