@@ -52,6 +52,6 @@ class Project < ApplicationRecord
   end
 
   def payments_sum
-    self.payments.map {|p| p.amount}.sum
+    payments.sum(:amount)
   end
 end

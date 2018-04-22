@@ -107,9 +107,17 @@ ul.lead li p {
 margin-bottom: 0.2em;
 }
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 .footer {
   background-color: black;
   color: white;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
 }
 
 .footer a {
@@ -123,6 +131,7 @@ margin-bottom: 0.2em;
 .contacts .text {
   padding: 15px;
 }
+
 footer ul.nav.navbar-nav.navbar-right > li > a {
   padding: 5px 15px;
 }

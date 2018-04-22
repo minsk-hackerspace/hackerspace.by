@@ -1,0 +1,15 @@
+%table.table
+  %thead
+    %th
+    %th= t('users.personal_number')
+    %th= t('users.email')
+    %th= t('users.first_name')
+    %th= t('users.comment')
+    %th= t('users.last_payment_ended_at')
+    %th= t('users.last_seen_in_hackerspace')
+    %th
+    %th
+  %tbody
+    - hackers.each do |hacker|
+      %tr{class: row_class(hacker)}
+        = render 'hacker', hacker: hacker
