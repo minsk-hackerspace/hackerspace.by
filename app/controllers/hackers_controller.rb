@@ -6,7 +6,7 @@ class HackersController < ApplicationController
   # before_action :set_hacker, only: [:show, :edit, :update, :add_mac, :remove_mac]
 
   def index
-    @active_users = User.active
+    @active_users = ActiveUsersQuery.perform(index_params)
     @non_active_users = User.where.not(id: @active_users.map(&:id))
     respond_to do |format|
       format.html
@@ -94,4 +94,7 @@ class HackersController < ApplicationController
     )
   end
 
+  def index_params
+    params.slice(:order)
+  end
 end
