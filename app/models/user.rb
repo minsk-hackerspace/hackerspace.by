@@ -91,7 +91,7 @@ class User < ApplicationRecord
   after_save :create_bepaid_bill
 
   def self.active
-    (allowed.paid.sort_by {|u| u.last_payment.end_date } + allowed.signed_in).uniq
+    (allowed.paid + allowed.signed_in).uniq
   end
 
   scope :signed_in, -> { where.not(last_sign_in_at: nil) }
