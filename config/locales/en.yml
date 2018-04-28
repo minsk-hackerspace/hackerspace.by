@@ -25,11 +25,6 @@ en:
     ssh_public_key: SSH public key
     last_payment_ended_at: Paid to
     last_seen_in_hackerspace: Last seen
-    order:
-      id: Id
-      title: Sort by
-      payments: Payments
-      last_seen: Last seen date
     projects:
       title: Projects
     payments:

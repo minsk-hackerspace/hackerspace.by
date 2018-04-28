@@ -6,8 +6,9 @@ class HackersController < ApplicationController
   # before_action :set_hacker, only: [:show, :edit, :update, :add_mac, :remove_mac]
 
   def index
-    @active_users = ActiveUsersQuery.perform(index_params)
-    @non_active_users = User.where.not(id: @active_users.map(&:id))
+    @users = User.left_outer_joins(:payments).all
+    @users_visible_for_all = (@users.where.not(last_sign_in_at: nil) | @users.where.not(payments: {id: nil})).select { |u| !u.account_suspended? and !u.account_banned? }.sort_by { |u| u.id }
+    @suspended_banned_and_forgotten = (@users.uniq - @users_visible_for_all).sort_by { |u| u.id }
     respond_to do |format|
       format.html
       format.csv { render csv: @users_visible_for_all, filename: 'hackers' }
@@ -94,7 +95,4 @@ class HackersController < ApplicationController
     )
   end
 
-  def index_params
-    params.slice(:order)
-  end
 end
