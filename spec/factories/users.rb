@@ -48,19 +48,6 @@ FactoryGirl.define do
     # confirmed_at Time.now
     sign_in_count 0
 
-    trait :banned do
-      account_banned true
-    end
-
-    trait :suspended do
-      account_suspended true
-    end
-
-    trait :with_payment do
-      after(:create) do |user|
-        user.payments << create(:payment)
-      end
-    end
 
     factory :admin_user do
       after(:create) do |post|
