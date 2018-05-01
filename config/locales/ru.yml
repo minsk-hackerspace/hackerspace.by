@@ -8,7 +8,7 @@ ru:
         monthly_payment_amount: "Сумма ежемесячного платежа, BYN"
   hsopen:
     unknown: "УПС..."
-    opened: "Сейчас у нас открыто. Приходите."
+    opened: "Сейчас у нас открыто."
     closed: "Сейчас у нас никого нет"
   index:
     hello_world: "Hello World!"
