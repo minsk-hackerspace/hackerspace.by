@@ -38,8 +38,11 @@ class Payment < ApplicationRecord
   validates :end_date, presence: true, if: Proc.new {|p| p.payment_type == 'membership'}
   validates :description, presence: true, if: Proc.new {|p| p.payment_form == 'natural'}
 
-  private 
+  def self.user_ids
+    distinct.pluck(:user_id).compact
+  end
 
+  private
 
   # end_date – last day of paid period. If payment amount is less
   # than (monthly amount / 30), end_date will be one day before the last day.

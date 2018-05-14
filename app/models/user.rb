@@ -72,7 +72,6 @@ class User < ApplicationRecord
   has_many :roles, through: :users_roles
   has_many :erip_transactions
   has_many :payments
-  has_one :last_payment, -> { order('paid_at DESC') }, class_name: 'Payment'
 
   has_attached_file :photo,
                     styles: {
@@ -95,7 +94,7 @@ class User < ApplicationRecord
   end
 
   scope :signed_in, -> { where.not(last_sign_in_at: nil) }
-  scope :paid, -> { includes(:last_payment).where.not(payments: {paid_at: nil}) }
+  scope :paid, -> { where(id: Payment.user_ids) }
   scope :allowed, -> { where(account_suspended: [false, nil]).where(account_banned: [false, nil]) }
 
   def admin?
@@ -104,6 +103,10 @@ class User < ApplicationRecord
 
   def device?
     check_role('device')
+  end
+
+  def last_payment
+    @last_payment ||= payments.order(paid_at: :desc).first
   end
 
   # last day with valid payment for this user
