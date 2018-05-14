@@ -353,6 +353,11 @@ ru:
     ssh_public_key: SSH public key
     last_payment_ended_at: Оплачено по
     last_seen_in_hackerspace: Видели в ХС
+    order:
+      title: Сортировать
+      id: По порядку
+      payments: По платежам
+      last_seen: По дате присутствия
     projects:
       title: Проекты
     payments:
