@@ -89,6 +89,14 @@ class User < ApplicationRecord
 
   after_save :create_bepaid_bill
 
+  def self.active
+    (allowed.paid + allowed.signed_in).uniq
+  end
+
+  scope :signed_in, -> { where.not(last_sign_in_at: nil) }
+  scope :paid, -> { where(id: Payment.user_ids) }
+  scope :allowed, -> { where(account_suspended: [false, nil]).where(account_banned: [false, nil]) }
+
   def admin?
     check_role('admin')
   end
@@ -98,13 +106,12 @@ class User < ApplicationRecord
   end
 
   def last_payment
-    self.payments.order(paid_at: :desc).first
+    @last_payment ||= payments.order(paid_at: :desc).first
   end
 
   # last day with valid payment for this user
   def paid_until
-    p = self.payments.order(end_date: :desc).first
-    p.nil? ? nil : p.end_date
+    last_payment&.end_date
   end
 
   def full_name
