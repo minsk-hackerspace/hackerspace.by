@@ -30,6 +30,7 @@ en:
       title: Sort by
       payments: Payments
       last_seen: Last seen date
+      course: Course learner
     projects:
       title: Projects
     payments:

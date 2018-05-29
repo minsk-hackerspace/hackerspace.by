@@ -41,6 +41,14 @@
 
       - if current_user.admin?
         .form-group
+          = f.label 'Курсант'
+          = f.check_box :is_learner, class: 'form-control', value: @user.is_learner
+
+        .form-group
+          = f.label 'Проект'
+          = f.select :project_id, Project.all.map{|p| [p.name, p.id]}, {include_blank: true}, class: 'form-control', value: @user.project_id
+
+        .form-group
           = f.label :monthly_payment_amount
           = f.text_field :monthly_payment_amount, class: 'form-control'
 

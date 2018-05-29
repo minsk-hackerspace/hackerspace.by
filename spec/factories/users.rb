@@ -31,6 +31,8 @@
 #  monthly_payment_amount   :float            default(50.0)
 #  github_username          :string
 #  ssh_public_key           :text
+#  is_learner               :boolean          default(FALSE)
+#  project_id               :integer
 #
 # Indexes
 #

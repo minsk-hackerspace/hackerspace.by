@@ -90,7 +90,9 @@ class HackersController < ApplicationController
       :account_banned,
       :monthly_payment_amount,
       :github_username,
-      :ssh_public_key
+      :ssh_public_key,
+      :is_learner,
+      :project_id
     )
   end
 

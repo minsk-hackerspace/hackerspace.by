@@ -358,6 +358,7 @@ ru:
       id: По порядку
       payments: По платежам
       last_seen: По дате присутствия
+      course: По участию в курсе
     projects:
       title: Проекты
     payments:
