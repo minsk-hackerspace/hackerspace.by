@@ -16,8 +16,8 @@ class ActiveUsersQuery
     when 'last_seen'
       User.active.sort_by { |u| u.last_seen_in_hackerspace.to_i }.reverse
     when 'course'
-      User.active.sort_by { |u| u.is_learner.to_s }.reverse
-      else
+      User.sort_by { |u| u.is_learner }
+    else
       User.active.sort_by { |u| u.id }
     end
   end
