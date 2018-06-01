@@ -353,6 +353,7 @@ ru:
     ssh_public_key: SSH public key
     last_payment_ended_at: Оплачено по
     last_seen_in_hackerspace: Видели в ХС
+    learner: Курсант
     order:
       title: Сортировать
       id: По порядку

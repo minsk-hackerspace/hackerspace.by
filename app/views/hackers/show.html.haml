@@ -16,6 +16,11 @@
     %p
       %strong= t('users.email') + ':'
       = @user.email
+      - if @user.is_learner?
+        %strong
+          (
+          = t('users.learner')
+          )
     %p
       %strong= t('users.personal_number') + ':'
       = @user.id
