@@ -92,7 +92,9 @@ class HackersController < ApplicationController
       :github_username,
       :ssh_public_key,
       :is_learner,
-      :project_id
+      :project_id,
+      :guarantor1_id,
+      :guarantor2_id
     )
   end
 

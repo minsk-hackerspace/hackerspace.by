@@ -19,14 +19,14 @@ unless Rails.env.production?
   Event.destroy_all
   News.destroy_all
 
-  admin = User.create(email: 'admin@hackerspace.by', password: '111111')
+  admin = User.create(email: 'admin@hackerspace.by', password: '111111', last_name: 'Бердымухаммедов', first_name: 'Гурбангулы')
   admin.roles << Role.find_by(name: 'admin')
 
-  user1 = User.create(email: 'developer@hackerspace.by', password: '111111')
+  user1 = User.create(email: 'developer@hackerspace.by', password: '111111', last_name: 'Рабинович', first_name: 'Давид')
   user1.macs << Mac.create(address: 'a0:a0:a0:a0:a1:a1')
   user1.macs << Mac.create(address: 'a0:a0:a0:a0:a1:a2')
 
-  user2 = User.create(email: 'developer2@hackerspace.by', password: '111111')
+  user2 = User.create(email: 'developer2@hackerspace.by', password: '111111', last_name: 'Ковалёв', first_name: 'Иван')
   user2.macs << Mac.create(address: 'a0:a0:a0:a0:a2:a1')
   user2.macs << Mac.create(address: 'a0:a0:a0:a0:a2:a2')
 
