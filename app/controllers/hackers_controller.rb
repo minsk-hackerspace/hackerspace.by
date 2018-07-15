@@ -10,8 +10,8 @@ class HackersController < ApplicationController
     @non_active_users = User.where.not(id: @active_users.map(&:id))
     respond_to do |format|
       format.html
-      format.csv { render csv: @users_visible_for_all, filename: 'hackers' }
-      format.json { render json: @users_visible_for_all}
+      format.csv { render csv: User.all, filename: 'hackers' }
+      format.json { render json: User.all}
     end
   end
 
