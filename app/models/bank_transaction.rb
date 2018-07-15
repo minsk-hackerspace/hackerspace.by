@@ -12,6 +12,8 @@
 #  document_number :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  irregular       :boolean          default(FALSE)
+#  note            :string
 #
 # Indexes
 #
