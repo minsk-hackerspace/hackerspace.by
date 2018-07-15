@@ -25,6 +25,8 @@
       Расход
     %th
       Кому платили
+    %th
+      Примечания
   %tbody
     - @transactions.order(created_at: :desc).select{|t| t.minus > 0}.each do |t|
       %tr
@@ -36,6 +38,11 @@
           =t.minus if t.plus.zero?
         %td
           =Setting[t.their_account] || t.their_account if t.minus > 0
+        %td
+          - if t.irregular?
+            = "Нерегулярный"
+            %br
+          = t.note if t.note.present?
     %tr
       %td
         %strong
