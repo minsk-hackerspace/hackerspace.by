@@ -24,6 +24,13 @@
         = f.file_field :photo
 
       .form-group
+        = f.label 'Поручители:'
+        %br
+        = f.collection_select :guarantor1_id, User.order(:last_name).all, :id, :full_name_with_id, include_blank: true
+        %br
+        = f.collection_select :guarantor2_id, User.order(:last_name).all, :id, :full_name_with_id, include_blank: true
+
+      .form-group
         = f.label 'Никнейм в Telegram'
         = f.text_field :telegram_username, class: 'form-control', value: @user.telegram_username
 

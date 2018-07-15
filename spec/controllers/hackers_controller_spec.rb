@@ -13,6 +13,13 @@ RSpec.describe HackersController, type: :controller do
     end
   end
 
+  describe "GET #index (CSV)" do
+    it "returns http success" do
+      get :index, {format: :csv}
+      expect(response).to have_http_status(:success)
+    end
+  end
+
   describe "GET #edit" do
     it "returns http success" do
       process :edit, params: {id: user.id}
