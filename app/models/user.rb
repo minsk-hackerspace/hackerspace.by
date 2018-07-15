@@ -74,6 +74,7 @@ class User < ApplicationRecord
     is_learner
     guarantor1
     guarantor2
+    paid_until
   end
 
   ROLES = %w(hacker admin device)
