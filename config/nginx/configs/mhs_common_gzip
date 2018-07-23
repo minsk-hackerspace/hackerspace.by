@@ -2,7 +2,7 @@ gzip on;
 gzip_static on;
 gzip_comp_level 6;
 gzip_disable "msie6";
-gzip_types text/plain text/css application/json image/svg+xml svg svgz application/vnd.oasis.opendocument.text application/pdf application/x-tex application/x-latex application/postscript text/markdown;
+gzip_types text/plain text/css application/json image/png image/gif image/jpeg image/svg+xml svg svgz application/vnd.oasis.opendocument.text application/pdf application/x-tex application/x-latex application/postscript text/markdown;
 gzip_vary on;
 expires max;
 etag on;
