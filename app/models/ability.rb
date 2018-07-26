@@ -32,7 +32,7 @@ class Ability
     alias_action :create, :read, :update, :destroy, :to => :crud
 
     can [:show, :index], User
-    can [:show, :index], Thank
+    can [:show, :index, :create, :new], Thank
 
     can [:update, :edit, :add_mac, :remove_mac], User, id: user.id
     can :manage, Mac, user_id: user.id
