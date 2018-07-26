@@ -7,6 +7,8 @@
     %meta{ charset: "utf-8" }
     = render partial: 'layouts/og_meta_tags'
     = render partial: 'layouts/gplus_meta_tags'
+    = render partial: 'layouts/vk_meta_tags'
+    = render partial: 'layouts/icons'
     = csrf_meta_tags
     = render partial: 'shared/google_analytics' unless Rails.env.development?
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
