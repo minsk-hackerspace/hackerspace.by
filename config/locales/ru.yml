@@ -354,8 +354,8 @@ ru:
     last_payment_ended_at: Оплачено по
     last_seen_in_hackerspace: Видели в ХС
     learner: Курсант
-    guarantor1: Поручитель 1
-    guarantor2: Поручитель 2
+    guarantor1: Рекомендатель 1
+    guarantor2: Рекомендатель 2
     order:
       title: Сортировать
       id: По порядку
