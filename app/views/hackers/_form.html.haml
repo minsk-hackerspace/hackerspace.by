@@ -24,7 +24,7 @@
         = f.file_field :photo
 
       .form-group
-        = f.label 'Поручители:'
+        = f.label 'Рекомендатели:'
         %br
         = f.collection_select :guarantor1_id, User.order(:last_name).all, :id, :full_name_with_id, include_blank: true
         %br
