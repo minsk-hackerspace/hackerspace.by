@@ -144,6 +144,7 @@ class Admin::EripTransactionsController < AdminController
     respond_to do |format|
       if @erip_transaction.save
         format.json { render :show, status: :created, location: admin_erip_transaction_url(@erip_transaction) }
+        NotificationsMailer.with(transaction: @erip_transaction).notify_about_payment.deliver_now
       else
         format.json { render json: @erip_transaction.errors, status: :unprocessable_entity }
       end
