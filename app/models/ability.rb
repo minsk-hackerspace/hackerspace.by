@@ -52,6 +52,7 @@ class Ability
       can :crud, EripTransaction
       can :crud, User
       can :crud, Thank
+      can :crud, Setting
     else
 
     end
