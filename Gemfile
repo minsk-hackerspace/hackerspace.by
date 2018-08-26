@@ -63,6 +63,7 @@ group :development do
   gem 'thin', platform: :ruby
   gem 'mina', '~> 1.2'
   gem 'annotate'
+  gem 'letter_opener'
 end
 
 group :development, :test do
