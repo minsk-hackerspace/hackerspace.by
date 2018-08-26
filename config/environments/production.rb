@@ -71,9 +71,7 @@ Rails.application.configure do
     domain: 'yandex.com',
     authentication: 'plain',
     enable_starttls_auto: true,
-    user_name: 'info@hackerspace.by',
-    password: ENV['hs_email_password'],
-    tls: true,
+    tls: true
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
