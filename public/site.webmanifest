@@ -1,6 +1,6 @@
 {
-    "name": "MHS",
-    "short_name": "MHS",
+    "name": "Minsk Hackerspace",
+    "short_name": "Minsk Hackerspace",
     "icons": [
         {
             "src": "/android-chrome-36x36.png",
@@ -48,8 +48,8 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
+    "theme_color": "#eeeeee",
+    "background_color": "#eeeeee",
     "start_url": "https://hackerspace.by",
     "display": "standalone"
 }

@@ -9,16 +9,16 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="180"
-   height="135"
+   width="112"
+   height="84"
    id="mhs_logo_black"
    version="1.1"
    inkscape:version="0.92.1 r15371"
    sodipodi:docname="logo_site.svg"
-   inkscape:export-filename="hackerspace.png"
+   inkscape:export-filename="logo_site.png"
    inkscape:export-xdpi="68.437508"
    inkscape:export-ydpi="68.437508"
-   viewBox="0 0 180 135">
+   viewBox="0 0 112 84">
   <defs
      id="defs4">
     <inkscape:perspective
@@ -688,8 +688,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.27"
-     inkscape:cx="47.817768"
-     inkscape:cy="46.501278"
+     inkscape:cx="65.752429"
+     inkscape:cy="44.508868"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -721,19 +721,18 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(4.1293829e-6,-917.36214)">
-    <rect
-       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect4703"
-       width="180"
-       height="135"
-       x="-1.8490945e-06"
-       y="917.36218" />
+     transform="translate(4.1293829e-6,-968.36214)">
     <g
-       id="g4701"
-       transform="matrix(0.91999426,0,0,0.91999999,19.999999,91.777229)">
+       id="g4599">
+      <rect
+         y="968.36218"
+         x="-2.0379834e-06"
+         height="84"
+         width="112"
+         id="rect4703"
+         style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <g
-         transform="matrix(1.4726262,0,0,1.4726262,1.5823815e-6,-488.33843)"
+         transform="matrix(0.75397994,0,0,0.7539846,16.792998,263.3117)"
          id="g4618">
         <path
            style="fill:#141414;fill-opacity:1;stroke:none;stroke-width:0.40784317"
@@ -751,28 +750,6 @@
            id="path2898-9-5"
            inkscape:connector-curvature="0" />
       </g>
-      <text
-         id="text3269"
-         y="923.33154"
-         x="59.997711"
-         style="font-style:normal;font-weight:normal;font-size:7.20721054px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#009966;fill-opacity:1;stroke:none;stroke-width:0.60060042"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.16347027px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;stroke-width:0.60060042"
-           y="923.33154"
-           x="59.997711"
-           id="tspan3271"
-           sodipodi:role="line">MINSK</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:7.20721054px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#009966;fill-opacity:1;stroke:none;stroke-width:0.60060042"
-         x="59.997711"
-         y="923.33154"
-         id="text4691"><tspan
-           sodipodi:role="line"
-           id="tspan4689"
-           x="59.997711"
-           y="923.33154"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.16347027px;line-height:1.25;font-family:FreeSans;-inkscape-font-specification:FreeSans;stroke-width:0.60060042">MINSK</tspan></text>
     </g>
   </g>
 </svg>
