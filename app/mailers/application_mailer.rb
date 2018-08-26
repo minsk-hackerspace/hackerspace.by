@@ -1,7 +1,7 @@
 class ApplicationMailer < ActionMailer::Base
   before_action :set_smtp_settings
 
-  default from: Setting['mailer_from']
+  default from: Setting['mailer_from'] || 'info@hackerspace.by'
   layout 'mailer'
 
   private
