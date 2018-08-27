@@ -1,5 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  before_action :set_smtp_settings
+  after_action :set_smtp_settings
 
   default from: Setting['mailer_from'] || 'info@hackerspace.by'
   layout 'mailer'
@@ -7,7 +7,7 @@ class ApplicationMailer < ActionMailer::Base
   private
 
   def set_smtp_settings
-    smtp_settings.merge({
+    mail.delivery_method.settings.merge!({
       user_name: Setting['mailer_from'],
       password: Setting['mailer_password']
     })
