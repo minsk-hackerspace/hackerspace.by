@@ -67,7 +67,9 @@ class Admin::EripTransactionsController < AdminController
 
   def bepaid_notify
     transaction = params[:transaction]
-    if transaction.nil?
+    if transaction.nil? ||
+        (transaction[:id].present? && EripTransaction.where(transaction_id: transaction[:id]).exists?)
+
       respond_to do |format|
         format.json { render json: {}, status: :unprocessable_entity }
       end
@@ -96,12 +98,7 @@ class Admin::EripTransactionsController < AdminController
     et.erip = transaction[:erip]
 
     if et.erip['service_no'].to_i == Setting['bePaid_serviceNo'].to_i
-      begin
-        u = User.find et.erip['account_number'].to_i
-      rescue
-        u = nil
-      end
-      et.user = u
+      et.user = User.find_by(id: et.erip['account_number'].to_i)
     end
 
     if et.status == 'successful'
@@ -128,15 +125,9 @@ class Admin::EripTransactionsController < AdminController
         d = ((p.amount - m * m_amount) / m_amount * 30).floor
         p.end_date = p.start_date + m.months + d.days - 1.day
       else
-        begin
-          project = Project.find et.erip['account_number'].to_i
-        rescue
-          project = nil
-        end
-        p.project = project
+        p.project = Project.find_by(id: et.erip['account_number'].to_i)
       end
     end
-
     @erip_transaction = et
 
     logger.debug "Parsed transaction: " + et.inspect

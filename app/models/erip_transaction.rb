@@ -34,10 +34,13 @@
 class EripTransaction < ApplicationRecord
   has_one :hs_payment, class_name: "Payment"
   belongs_to :user
+
   serialize :billing_address, JSON
   serialize :customer, JSON
   serialize :payment, JSON
   serialize :erip, JSON
+
+  validates :transaction_id, uniqueness: true
 
   def to_human_s
     "...#{self.uid[-5..-1]}, status: #{self.status}, date: #{self.paid_at}, order: #{self.order_id}, amount: #{self.amount}"
