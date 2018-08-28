@@ -62,12 +62,13 @@ unless Rails.env.production?
   60.times do
     time = Faker::Time.between(1.year.ago, Date.today)
     user = User.all.sample
+    uid = SecureRandom.uuid
     user.erip_transactions.create(
         status: 'successful',
         message: 'Операция успешно завершена.',
         transaction_type: 'payment',
-        transaction_id: 'fddc5ffd-3e64-49bd-af67-2e1dc2e7ba8f',
-        uid: 'fddc5ffd-3e64-49bd-af67-2e1dc2e7ba8f',
+        transaction_id: uid,
+        uid: uid,
         order_id: user.id,
         amount: 50,
         currency: 'BYN',

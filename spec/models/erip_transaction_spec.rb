@@ -28,7 +28,8 @@
 #
 # Indexes
 #
-#  index_erip_transactions_on_user_id  (user_id)
+#  index_erip_transactions_on_transaction_id  (transaction_id) UNIQUE
+#  index_erip_transactions_on_user_id         (user_id)
 #
 
 require 'rails_helper'
