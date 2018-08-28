@@ -73,6 +73,7 @@ class Admin::EripTransactionsController < AdminController
       respond_to do |format|
         format.json { render json: {}, status: :unprocessable_entity }
       end
+      return
     end
 
     logger.debug transaction
