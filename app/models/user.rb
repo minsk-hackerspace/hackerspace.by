@@ -111,7 +111,7 @@ class User < ApplicationRecord
 
   # to be optimized
   def self.with_debt
-    User.all.select do |user|
+    User.active.select do |user|
       user.last_payment.present? && user.paid_until < Time.now.to_date
     end
   end
