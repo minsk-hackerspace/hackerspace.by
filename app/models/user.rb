@@ -109,6 +109,13 @@ class User < ApplicationRecord
     (allowed.paid + allowed.signed_in).uniq
   end
 
+  # to be optimized
+  def self.with_debt
+    User.all.select do |user|
+      user.last_payment.present? && user.paid_until < Time.now.to_date
+    end
+  end
+
   scope :signed_in, -> { where.not(last_sign_in_at: nil) }
   scope :paid, -> { where(id: Payment.user_ids) }
   scope :allowed, -> { where(account_suspended: [false, nil]).where(account_banned: [false, nil]) }

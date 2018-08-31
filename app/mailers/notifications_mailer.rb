@@ -6,4 +6,10 @@ class NotificationsMailer < ApplicationMailer
 
     mail(to: @user.email, subject: 'Хакерспейс: Получена оплата')
   end
+
+  def notify_about_debt
+    @user = params[:user]
+
+    mail(to: @user.email, subject: 'Хакерспейс: членские взносы')
+  end
 end
