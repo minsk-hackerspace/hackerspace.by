@@ -157,6 +157,12 @@ class User < ApplicationRecord
     end
   end
 
+  def expected_payment_amount
+    unpaid_days_amount = (Date.today - paid_until).to_i
+    missing_payment_amount = (monthly_payment_amount * unpaid_days_amount.to_f / 30).round
+    missing_payment_amount + monthly_payment_amount
+  end
+
   private
 
   def validate_guarantors
