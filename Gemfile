@@ -63,7 +63,6 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'thin', platform: :ruby
   gem 'mina', '~> 1.2'
-  gem 'mina-whenever'
   gem 'annotate'
   gem 'letter_opener'
 end
