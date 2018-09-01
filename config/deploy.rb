@@ -73,7 +73,7 @@ task :remote_environment do
 end
 
 desc 'Deploys the current version to the server.'
-task :deploy do
+task :deploy => :environment do
   on :before_hook do
     # Put things to run locally before ssh
   end
