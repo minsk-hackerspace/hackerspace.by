@@ -68,6 +68,12 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_valid_payment do
+      after(:create) do |user|
+        user.payments << create(:payment, end_date: Date.tomorrow)
+      end
+    end
+
     factory :admin_user do
       after(:create) do |post|
         post.roles << FactoryGirl.create(:admin_role)

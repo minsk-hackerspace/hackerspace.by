@@ -84,4 +84,22 @@ describe User do
       expect(described_class.active).to include(user_with_payment)
     end
   end
+
+  describe '.with_debt' do
+    let!(:user_without_payment) { create :user }
+    let!(:user_with_outdated_payment) { create :user, :with_payment }
+    let!(:user_with_valid_payment) { create :user, :with_valid_payment }
+
+    it 'is expected not to return users without payments' do
+      expect(described_class.with_debt).not_to include(user_without_payment)
+    end
+
+    it 'is expected to return users with outdated payments' do
+      expect(described_class.with_debt).to include(user_with_outdated_payment)
+    end
+
+    it 'is expected not to return users with valid payments' do
+      expect(described_class.with_debt).not_to include(user_with_valid_payment)
+    end
+  end
 end
