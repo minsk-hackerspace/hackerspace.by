@@ -20,5 +20,5 @@
 # Learn more: http://github.com/javan/whenever
 
 every 1.day, at: '7:00 am' do
-  runner 'NotificationService.notify_debitors'
+  runner 'NotificationsService.notify_debitors'
 end
