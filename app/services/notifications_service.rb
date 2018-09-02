@@ -11,7 +11,7 @@ class NotificationsService
 
   def notify_debitors
     debitors.each do |debitor|
-      NotificationsMailer.with(user: debitor).notify_about_debt.deliver_later
+      NotificationsMailer.with(user: debitor).notify_about_debt.deliver_now
     end
   end
 end
