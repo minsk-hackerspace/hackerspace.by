@@ -159,7 +159,11 @@ class User < ApplicationRecord
 
   def expected_payment_amount
     unpaid_days_amount = (Date.today - paid_until).to_i
-    missing_payment_amount = (monthly_payment_amount * unpaid_days_amount.to_f / 30).round
+    missing_payment_amount = if unpaid_days_amount < 14
+      (monthly_payment_amount * unpaid_days_amount.to_f / 30).round
+    else
+      0
+    end
     missing_payment_amount + monthly_payment_amount
   end
 

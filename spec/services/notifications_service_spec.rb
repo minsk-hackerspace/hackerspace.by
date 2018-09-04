@@ -20,7 +20,7 @@ describe NotificationsService do
       expect(debitors).not_to include(suspended_user)
     end
 
-    xit 'sends notification email to debitors' do
+    it 'sends notification email to debitors' do
       described_class.notify_debitors
 
       expect(notified_emails).to include(user_with_outdated_payment.email)
