@@ -9,8 +9,8 @@ class NotificationsMailer < ApplicationMailer
 
   def notify_about_debt
     @user = params[:user]
+    email = Setting['test_notifications_email'].blank? ? @user.email : Setting['test_notifications_email']
 
-    # mail(to: @user.email, subject: 'Хакерспейс: членские взносы')
-    mail(to: "aliaksei.leanovich@gmail.com", subject: 'Хакерспейс: членские взносы')
+    mail(to: email, subject: 'Хакерспейс: членские взносы')
   end
 end
