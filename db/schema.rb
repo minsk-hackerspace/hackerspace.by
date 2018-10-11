@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180828091205) do
+ActiveRecord::Schema.define(version: 20181011110504) do
 
   create_table "balances", force: :cascade do |t|
     t.float "state", null: false
