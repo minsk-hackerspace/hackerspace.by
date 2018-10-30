@@ -37,9 +37,9 @@
         %td
           =t.minus if t.plus.zero?
         %td
-          %i=Setting[t.their_account] || t.their_account if t.minus > 0
-          %p{'data-toggle' => 'tooltip', :title => t.purpose}
-            =t.contractor
+          %i=Setting[t.their_account] || t.their_account if t.minus > 0 and t.contractor.blank?
+          %p{'data-toggle' => 'tooltip', :title => t.contractor}
+            =t.purpose
         %td
           - if t.irregular?
             = "Нерегулярный"
