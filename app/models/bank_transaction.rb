@@ -14,6 +14,8 @@
 #  updated_at      :datetime         not null
 #  irregular       :boolean          default(FALSE)
 #  note            :string
+#  contractor      :string
+#  purpose         :string
 #
 # Indexes
 #
@@ -40,14 +42,16 @@ class BankTransaction < ApplicationRecord
         records = bib.fetch_log accounts[id][:id], from, to
         transactions = cleanup_input records
         transactions.each do |t|
-          t = t.split(';')
+          t = t.split(';', 10)
           self.find_or_create_by our_account: id,
                                  their_account: t[1].gsub(/[=]?"/, ''),
                                  document_number: t[2].gsub(/[=]?"/, ''),
                                  minus: t[3].gsub(',', '.').to_f,
                                  plus: t[4].gsub(',', '.').to_f,
                                  unp: t[6],
-                                 created_at: DateTime.parse(t[7])
+                                 created_at: DateTime.parse(t[7]),
+                                 contractor: t[8],
+                                 purpose: t[9]
         end
       end
 
