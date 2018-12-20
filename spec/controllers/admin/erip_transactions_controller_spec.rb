@@ -291,6 +291,24 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
   end
 
   describe "POST #bepaid_notify" do
+    it "rejects duplicated notification from bePaid" do
+      EripTransaction.destroy_all
+      Payment.destroy_all
+      expect {
+        post :bepaid_notify, params: bepaid_notification, format: :json
+      }.to change(EripTransaction, :count).by(1)
+
+      expect(response).to have_http_status(:created)
+
+      expect {
+        post :bepaid_notify, params: bepaid_notification, format: :json
+      }.to_not change(EripTransaction, :count)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
+  describe "POST #bepaid_notify" do
     it "handles a valid notification from bePaid with failed transaction" do
       EripTransaction.destroy_all
       Payment.destroy_all
