@@ -12,6 +12,14 @@ location = /robots.txt {
     access_log off;
 }
 
+location ^~ /(assets|images|system/projects/photos)/ {
+    include conf.d/mhs_common_headers;
+
+    include conf.d/mhs_common_gzip;
+
+    include conf.d/mhs_common_proxy;
+}
+
 resolver 8.8.8.8 8.8.4.4 valid=300s;
 resolver_timeout 10s;
 
