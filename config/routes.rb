@@ -1,7 +1,6 @@
 require_relative '../lib/wiki_gateway'
 Rails.application.routes.draw do
 
-
   resources :settings
   root 'main#index'
 
@@ -45,6 +44,8 @@ Rails.application.routes.draw do
     resources :users, only: [:new, :create]
     resources :payments
     resources :erip_transactions
+    resources :bank_transactions
+    post "bank_transactions/mass_update", to: "bank_transactions#mass_update"
     post "erip_transactions/bepaid_notify", to: "erip_transactions#bepaid_notify"
   end
 
