@@ -1,4 +1,5 @@
 class DevicesController < ApplicationController
+  load_and_authorize_resource
   def index
     @devices = Device.all
   end
