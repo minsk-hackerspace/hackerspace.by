@@ -2,7 +2,8 @@
 require 'sanitize'
 
 class ProjectsController < ApplicationController
-  before_action :authenticate_user!, only: [:edit, :update, :destroy, :new, :create]
+#  before_action :authenticate_user!, only: [:edit, :update, :destroy, :new, :create]
+  load_and_authorize_resource
   before_action :set_project, only: [:edit, :update, :destroy]
 
   # GET /projects
@@ -67,11 +68,6 @@ class ProjectsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_project
       @project = Project.find(params[:id])
-      if @project.public or @project.user == current_user
-        @project
-      else
-        @project = nil
-      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

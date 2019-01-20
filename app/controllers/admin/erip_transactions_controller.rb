@@ -1,7 +1,8 @@
 class Admin::EripTransactionsController < AdminController
   before_action :set_erip_transaction, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:create, :bepaid_notify]
-  before_action :check_if_admin, only: [:edit, :update, :create, :destroy, :index]
+#  before_action :authenticate_user!, except: [:create, :bepaid_notify]
+#  before_action :check_if_admin, only: [:edit, :update, :create, :destroy, :index]
+  load_and_authorize_resource
 
   skip_before_action :verify_authenticity_token, only: :bepaid_notify
 

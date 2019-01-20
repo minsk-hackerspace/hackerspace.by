@@ -1,7 +1,6 @@
 class EventsController < ApplicationController
+  load_and_authorize_resource
   def index
-    authenticate_user!
-
     respond_to do |format|
       format.html {
         @events = Event.limit(100).order(created_at: :desc)
