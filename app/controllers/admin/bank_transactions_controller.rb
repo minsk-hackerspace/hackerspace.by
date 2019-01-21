@@ -3,7 +3,18 @@ class Admin::BankTransactionsController < ApplicationController
   before_action :set_bank_transaction, only: [:show, :edit, :update, :destroy]
 
   def index
-    @bank_transactions = BankTransaction.order(created_at: :desc)
+    @filter = params[:filter]
+
+    case params[:filter]
+    when 'expenses'
+      bts = BankTransaction.where('minus > 0')
+    when 'inpayments'
+      bts = BankTransaction.where('plus > 0')
+    else
+      bts = BankTransaction.all
+    end
+
+    @bank_transactions = bts.order(created_at: :desc)
   end
 
   def mass_update
@@ -12,9 +23,9 @@ class Admin::BankTransactionsController < ApplicationController
     respond_to do |format|
       logger.debug bts.inspect
       if not bts.nil? and BankTransaction.update(bts.keys, bts.values)
-        format.html { redirect_to admin_bank_transactions_url, notice: "Bank transactions have been successfully updated" }
+        format.html { redirect_to request.referrer, notice: "Bank transactions have been successfully updated" }
       else
-        format.html { redirect_to admin_bank_transactions_url, alert: "Bank transactions update failed" }
+        format.html { redirect_to request.referrer, alert: "Bank transactions update failed" }
       end
     end
   end
