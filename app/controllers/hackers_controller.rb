@@ -11,7 +11,7 @@ class HackersController < ApplicationController
     respond_to do |format|
       format.html
       format.csv { render csv: User.all, filename: 'hackers' }
-      format.json { render json: User.all}
+      format.json
     end
   end
 
