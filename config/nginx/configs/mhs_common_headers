@@ -5,7 +5,7 @@ add_header X-Frame-Options "sameorigin";
 #add_header X-Content-Type-Options "nosniff";
 add_header X-XSS-Protection "1; mode=block";
 add_header Pragma "no-cache";
-add_header Referrer-Policy "no-referrer";
+add_header Referrer-Policy "no-referrer-when-downgrade";
 add_header Access-Control-Allow-Methods "GET, HEAD, POST, PUT, DELETE, OPTIONS, CONNECT";
 add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";
 add_header Upgrade-Insecure-Requests "1";
