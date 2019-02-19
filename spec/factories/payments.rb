@@ -25,11 +25,16 @@
 
 FactoryGirl.define do
   factory :payment do
-    paid_at DateTime.parse('21-04-2018 11:43:00 +03:00').utc
+    paid_at Time.now - 1.second
     amount 50
     payment_type 'membership'
     payment_form 'erip'
-    start_date Date.parse('21-04-2018')
-    end_date Date.parse('21-05-2018')
+    start_date Time.now
+    end_date Time.now + 30.days
+
+    trait :outdated do
+      start_date (Time.now - 46.days)
+      end_date (Time.now - 16.days)
+    end
   end
 end

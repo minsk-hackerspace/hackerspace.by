@@ -86,7 +86,6 @@ class HackersController < ApplicationController
       :last_name,
       :telegram_username,
       :alice_greeting,
-      :account_suspended,
       :account_banned,
       :monthly_payment_amount,
       :github_username,

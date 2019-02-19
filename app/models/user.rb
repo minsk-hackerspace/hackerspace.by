@@ -103,7 +103,7 @@ class User < ApplicationRecord
   validates :monthly_payment_amount, numericality: true
   validate :validate_guarantors
 
-  after_save :create_bepaid_bill
+  after_save :create_bepaid_bill, :set_as_suspended
 
   def self.active
     (allowed.paid + allowed.signed_in).uniq
@@ -165,6 +165,21 @@ class User < ApplicationRecord
       0
     end
     missing_payment_amount + monthly_payment_amount
+  end
+
+  def inactive?
+    account_suspended? || account_banned? || last_sign_in_at.nil?
+  end
+
+  def active?
+    !inactive?
+  end
+
+  def set_as_suspended
+    if active? && last_payment && (last_payment.end_date < Time.now - 15.days)
+      #simple update without callbacks
+      update_column(:account_suspended, true)
+    end
   end
 
   private

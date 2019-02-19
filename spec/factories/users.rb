@@ -68,6 +68,13 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_outdated_payment do
+      last_sign_in_at Time.now - 2.days
+      after(:create) do |user|
+        user.payments << create(:payment, :outdated)
+      end
+    end
+
     trait :with_valid_payment do
       after(:create) do |user|
         user.payments << create(:payment, end_date: Date.tomorrow)

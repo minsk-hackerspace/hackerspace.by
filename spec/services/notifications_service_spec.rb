@@ -3,7 +3,7 @@ require 'rails_helper'
 describe NotificationsService do
   describe '.notify_debitors' do
     let!(:user_without_payment) { create :user }
-    let!(:user_with_outdated_payment) { create :user, :with_payment }
+    let!(:user_with_outdated_payment) { create :user, :with_outdated_payment   }
     let!(:user_with_valid_payment) { create :user, :with_valid_payment }
     let!(:suspended_user) { create :user, :suspended, :with_payment }
 
