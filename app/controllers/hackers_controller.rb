@@ -1,18 +1,17 @@
 class HackersController < ApplicationController
-  before_action :authenticate_user!
+#  before_action :authenticate_user!
   load_and_authorize_resource :user, parent: false,
                               except: [:useful, :find_by_mac, :detected_at_hackerspace]
   load_and_authorize_resource :mac
   # before_action :set_hacker, only: [:show, :edit, :update, :add_mac, :remove_mac]
 
   def index
-    @users = User.left_outer_joins(:payments).all
-    @users_visible_for_all = (@users.where.not(last_sign_in_at: nil) | @users.where.not(payments: {id: nil})).select { |u| !u.account_suspended? and !u.account_banned? }.sort_by { |u| u.id }
-    @suspended_banned_and_forgotten = (@users.uniq - @users_visible_for_all).sort_by { |u| u.id }
+    @active_users = ActiveUsersQuery.perform(index_params)
+    @non_active_users = User.where.not(id: @active_users.map(&:id))
     respond_to do |format|
       format.html
-      format.csv { render csv: @users_visible_for_all, filename: 'hackers' }
-      format.json { render json: @users_visible_for_all}
+      format.csv { render csv: User.all, filename: 'hackers' }
+      format.json
     end
   end
 
@@ -91,8 +90,15 @@ class HackersController < ApplicationController
       :account_banned,
       :monthly_payment_amount,
       :github_username,
-      :ssh_public_key
+      :ssh_public_key,
+      :is_learner,
+      :project_id,
+      :guarantor1_id,
+      :guarantor2_id
     )
   end
 
+  def index_params
+    params.slice(:order)
+  end
 end

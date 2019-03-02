@@ -3,6 +3,7 @@ require 'mina/rails'
 require 'mina/git'
 # require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
 require 'mina/rvm' # for rvm support. (http://rvm.io)
+require './config/deploy/mina-whenever/tasks.rb'
 
 # Basic settings:
 #   domain       - The hostname to SSH to.
@@ -91,6 +92,7 @@ task :deploy do
       # command 'ln -s /etc/nginx/sites-available/hackerspace.by.conf /etc/nginx/sites-enabled/hackerspace.by.conf'
       command "rm -rf #{fetch(:current_path)}/public/system/"
       command "ln -s #{fetch(:shared_path)}/system/ #{fetch(:current_path)}/public/system"
+      invoke :'whenever:update'
       invoke :restart
     end
   end

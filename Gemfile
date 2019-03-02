@@ -32,10 +32,11 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'cancancan', '~> 2.0'
 gem 'devise'
 gem 'devise-i18n'
-gem 'bootstrap-sass', '>= 3.1.1'
+gem 'bootstrap-sass', '>= 3.4.1'
 gem 'haml'
 gem 'haml-rails'
 gem 'rest-client'
+gem 'whenever', require: false
 
 #gem 'copycopter_client', '~> 2.0.1'
 # Use Capistrano for deployment
@@ -63,6 +64,7 @@ group :development do
   gem 'thin', platform: :ruby
   gem 'mina', '~> 1.2'
   gem 'annotate'
+  gem 'letter_opener'
 end
 
 group :development, :test do

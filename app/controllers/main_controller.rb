@@ -1,5 +1,6 @@
 class MainController < ApplicationController
-  before_action :authenticate_user!, only: [ :chart]
+#  before_action :authenticate_user!, only: [ :chart]
+  authorize_resource :class => false
 
   def index
     @news = News.homepage.where("show_on_homepage_till_date > ? ", Time.now).order(created_at: :desc).limit(2)
@@ -26,6 +27,7 @@ class MainController < ApplicationController
       ds = Date.new(1970, 1 ,1)
     end
     de = params[:end].try(:to_date) || Time.now.to_date
+    de += 1.day - 1.second
 
     @graph = Balance.graph(ds, de)
     @transactions = BankTransaction.where(created_at: [ds..de])

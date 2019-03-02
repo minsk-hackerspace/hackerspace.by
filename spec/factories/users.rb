@@ -31,10 +31,16 @@
 #  monthly_payment_amount   :float            default(50.0)
 #  github_username          :string
 #  ssh_public_key           :text
+#  is_learner               :boolean          default(FALSE)
+#  project_id               :integer
+#  guarantor1_id            :integer
+#  guarantor2_id            :integer
 #
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_guarantor1_id         (guarantor1_id)
+#  index_users_on_guarantor2_id         (guarantor2_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
@@ -48,6 +54,25 @@ FactoryGirl.define do
     # confirmed_at Time.now
     sign_in_count 0
 
+    trait :banned do
+      account_banned true
+    end
+
+    trait :suspended do
+      account_suspended true
+    end
+
+    trait :with_payment do
+      after(:create) do |user|
+        user.payments << create(:payment)
+      end
+    end
+
+    trait :with_valid_payment do
+      after(:create) do |user|
+        user.payments << create(:payment, end_date: Date.tomorrow)
+      end
+    end
 
     factory :admin_user do
       after(:create) do |post|

@@ -1,7 +1,8 @@
 class Admin::EripTransactionsController < AdminController
   before_action :set_erip_transaction, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:create, :bepaid_notify]
-  before_action :check_if_admin, only: [:edit, :update, :create, :destroy, :index]
+#  before_action :authenticate_user!, except: [:create, :bepaid_notify]
+#  before_action :check_if_admin, only: [:edit, :update, :create, :destroy, :index]
+  load_and_authorize_resource
 
   skip_before_action :verify_authenticity_token, only: :bepaid_notify
 
@@ -67,10 +68,13 @@ class Admin::EripTransactionsController < AdminController
 
   def bepaid_notify
     transaction = params[:transaction]
-    if transaction.nil?
+    if transaction.nil? ||
+        (transaction[:id].present? && EripTransaction.where(transaction_id: transaction[:id]).exists?)
+
       respond_to do |format|
         format.json { render json: {}, status: :unprocessable_entity }
       end
+      return
     end
 
     logger.debug transaction
@@ -96,12 +100,7 @@ class Admin::EripTransactionsController < AdminController
     et.erip = transaction[:erip]
 
     if et.erip['service_no'].to_i == Setting['bePaid_serviceNo'].to_i
-      begin
-        u = User.find et.erip['account_number'].to_i
-      rescue
-        u = nil
-      end
-      et.user = u
+      et.user = User.find_by(id: et.erip['account_number'].to_i)
     end
 
     if et.status == 'successful'
@@ -128,15 +127,9 @@ class Admin::EripTransactionsController < AdminController
         d = ((p.amount - m * m_amount) / m_amount * 30).floor
         p.end_date = p.start_date + m.months + d.days - 1.day
       else
-        begin
-          project = Project.find et.erip['account_number'].to_i
-        rescue
-          project = nil
-        end
-        p.project = project
+        p.project = Project.find_by(id: et.erip['account_number'].to_i)
       end
     end
-
     @erip_transaction = et
 
     logger.debug "Parsed transaction: " + et.inspect
@@ -144,6 +137,9 @@ class Admin::EripTransactionsController < AdminController
     respond_to do |format|
       if @erip_transaction.save
         format.json { render :show, status: :created, location: admin_erip_transaction_url(@erip_transaction) }
+        unless @erip_transaction.user.nil? or @erip_transaction.status != "successful"
+          NotificationsMailer.with(transaction: @erip_transaction).notify_about_payment.deliver_later 
+        end
       else
         format.json { render json: @erip_transaction.errors, status: :unprocessable_entity }
       end

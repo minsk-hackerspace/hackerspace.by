@@ -1,12 +1,23 @@
 %h2= t('users.title')
 
+.filters.pull-right
+  .dropdown
+    %a#sort_hackers.btn.btn-default.btn-sm.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#"}
+      = t('users.order.title')
+      %i.fa.fa-chevron-down
+    %ul.dropdown-menu.dropdown-menu-right{"aria-labelledby" => "sort_hackers"}
+      %li= link_to t('users.order.id'), users_path
+      %li= link_to t('users.order.payments'), users_path(order: 'payments')
+      %li= link_to t('users.order.last_seen'), users_path(order: 'last_seen')
+      %li= link_to t('users.order.course'), users_path(order: 'course')
+
 .container
   .row
     .col-lg-12
-      = render 'hackers', hackers: @users_visible_for_all
+      = render 'hackers', hackers: @active_users
 
   - if current_user.admin?
     %h2 Suspended, banned and forgotten
     .row
       .col-lg-12
-        = render 'hackers', hackers: @suspended_banned_and_forgotten
+        = render 'hackers', hackers: @non_active_users

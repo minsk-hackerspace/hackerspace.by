@@ -16,6 +16,11 @@
     %p
       %strong= t('users.email') + ':'
       = @user.email
+      - if @user.is_learner?
+        %strong
+          (
+          = t('users.learner')
+          )
     %p
       %strong= t('users.personal_number') + ':'
       = @user.id
@@ -27,6 +32,17 @@
       %p
         %strong= t('users.last_name') + ':'
         = @user.last_name
+
+    - if @user.guarantor1.present?
+      %p
+        %strong= t('users.guarantor1') + ':'
+        = @user.guarantor1.full_name
+
+    - if @user.guarantor2.present?
+      %p
+        %strong= t('users.guarantor2') + ':'
+        = @user.guarantor2.full_name
+
     - if @user.telegram_username.present?
       %p
         %strong= t('users.telegram_username') + ':'

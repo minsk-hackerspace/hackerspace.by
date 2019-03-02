@@ -82,7 +82,7 @@ module BelinvestbankApi
       r = query :get, '/toggle-corporate-version'
       doc = Nokogiri::HTML(r.body)
       ownerId = nil
-      doc.css('#list-organizations .organization').each do |org|
+      doc.css('.ChoiceOrganization').each do |org|
         next if org['onclick'].nil?
         if org['onclick'] =~ /name=\\'ownerId\\' value=\\'([0-9]+)\\'/
           ownerId = $1.to_i
@@ -109,7 +109,7 @@ module BelinvestbankApi
       accounts = {}
 
       doc = Nokogiri::HTML(r.body)
-      doc.css('.accounts-wrapper').each do |item|
+      doc.css('.blockAccount').each do |item|
         acc = item.css('.accountNumber').text
         balance = item.css('.accountBalance').text.delete(' ')
         type = item.css('.accountType').text

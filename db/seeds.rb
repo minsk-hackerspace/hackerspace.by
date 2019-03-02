@@ -19,14 +19,14 @@ unless Rails.env.production?
   Event.destroy_all
   News.destroy_all
 
-  admin = User.create(email: 'admin@hackerspace.by', password: '111111')
+  admin = User.create(email: 'admin@hackerspace.by', password: '111111', last_name: 'Бердымухаммедов', first_name: 'Гурбангулы')
   admin.roles << Role.find_by(name: 'admin')
 
-  user1 = User.create(email: 'developer@hackerspace.by', password: '111111')
+  user1 = User.create(email: 'developer@hackerspace.by', password: '111111', last_name: 'Рабинович', first_name: 'Давид')
   user1.macs << Mac.create(address: 'a0:a0:a0:a0:a1:a1')
   user1.macs << Mac.create(address: 'a0:a0:a0:a0:a1:a2')
 
-  user2 = User.create(email: 'developer2@hackerspace.by', password: '111111')
+  user2 = User.create(email: 'developer2@hackerspace.by', password: '111111', last_name: 'Ковалёв', first_name: 'Иван')
   user2.macs << Mac.create(address: 'a0:a0:a0:a0:a2:a1')
   user2.macs << Mac.create(address: 'a0:a0:a0:a0:a2:a2')
 
@@ -62,12 +62,13 @@ unless Rails.env.production?
   60.times do
     time = Faker::Time.between(1.year.ago, Date.today)
     user = User.all.sample
+    uid = SecureRandom.uuid
     user.erip_transactions.create(
         status: 'successful',
         message: 'Операция успешно завершена.',
         transaction_type: 'payment',
-        transaction_id: 'fddc5ffd-3e64-49bd-af67-2e1dc2e7ba8f',
-        uid: 'fddc5ffd-3e64-49bd-af67-2e1dc2e7ba8f',
+        transaction_id: uid,
+        uid: uid,
         order_id: user.id,
         amount: 50,
         currency: 'BYN',

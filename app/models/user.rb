@@ -31,10 +31,16 @@
 #  monthly_payment_amount   :float            default(50.0)
 #  github_username          :string
 #  ssh_public_key           :text
+#  is_learner               :boolean          default(FALSE)
+#  project_id               :integer
+#  guarantor1_id            :integer
+#  guarantor2_id            :integer
 #
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_guarantor1_id         (guarantor1_id)
+#  index_users_on_guarantor2_id         (guarantor2_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
@@ -62,6 +68,13 @@ class User < ApplicationRecord
     last_seen_in_hackerspace
     telegram_username
     alice_greeting
+    account_suspended
+    account_banned
+    github_username
+    is_learner
+    guarantor1
+    guarantor2
+    paid_until
   end
 
   ROLES = %w(hacker admin device)
@@ -72,6 +85,8 @@ class User < ApplicationRecord
   has_many :roles, through: :users_roles
   has_many :erip_transactions
   has_many :payments
+  belongs_to :guarantor1, class_name: 'User' 
+  belongs_to :guarantor2, class_name: 'User' 
 
   has_attached_file :photo,
                     styles: {
@@ -86,8 +101,24 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true, length: {maximum: 255}
   validates :monthly_payment_amount, numericality: true
+  validate :validate_guarantors
 
   after_save :create_bepaid_bill
+
+  def self.active
+    (allowed.paid + allowed.signed_in).uniq
+  end
+
+  # to be optimized
+  def self.with_debt
+    User.active.select do |user|
+      user.last_payment.present? && user.paid_until < Time.now.to_date
+    end
+  end
+
+  scope :signed_in, -> { where.not(last_sign_in_at: nil) }
+  scope :paid, -> { where(id: Payment.user_ids) }
+  scope :allowed, -> { where(account_suspended: [false, nil]).where(account_banned: [false, nil]) }
 
   def admin?
     check_role('admin')
@@ -98,13 +129,12 @@ class User < ApplicationRecord
   end
 
   def last_payment
-    self.payments.order(paid_at: :desc).first
+    @last_payment ||= payments.order(paid_at: :desc).first
   end
 
   # last day with valid payment for this user
   def paid_until
-    p = self.payments.order(end_date: :desc).first
-    p.nil? ? nil : p.end_date
+    last_payment&.end_date
   end
 
   def full_name
@@ -127,7 +157,23 @@ class User < ApplicationRecord
     end
   end
 
+  def expected_payment_amount
+    unpaid_days_amount = (Date.today - paid_until).to_i
+    missing_payment_amount = if unpaid_days_amount < 14
+      (monthly_payment_amount * unpaid_days_amount.to_f / 30).round
+    else
+      0
+    end
+    missing_payment_amount + monthly_payment_amount
+  end
+
   private
+
+  def validate_guarantors
+    errors.add(:guarantor1_id, "is invalid") if self.guarantor1_id.present? and self.guarantor1_id == self.id
+    errors.add(:guarantor2_id, "is invalid") if self.guarantor2_id.present? and self.guarantor2_id == self.id
+    errors.add(:guarantor1_id, "shouldn't be same as Guarantor2") if self.guarantor1_id.present? and self.guarantor1_id == self.guarantor2_id
+  end
 
   def check_role(role)
     self.roles.map(&:name).include? role

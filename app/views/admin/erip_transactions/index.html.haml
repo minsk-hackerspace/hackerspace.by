@@ -35,8 +35,8 @@
         %td= erip_transaction.paid_at.to_formatted_s(:short)
         %td= erip_transaction.test
         %td= erip_transaction.payment_method_type
-        %td= "#{erip_transaction.billing_address['first_name']} #{erip_transaction.billing_address['last_name']}"
-        %td= erip_transaction.customer['email']
+        %td= "#{erip_transaction.billing_address['first_name']} #{erip_transaction.billing_address['last_name']}" unless erip_transaction.billing_address.nil?
+        %td= erip_transaction.customer['email'] unless erip_transaction.customer.nil?
         %td= link_to 'Show', admin_erip_transaction_path(erip_transaction)
 
 = will_paginate @erip_transaction

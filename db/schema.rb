@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180403222343) do
+ActiveRecord::Schema.define(version: 20181030093131) do
 
   create_table "balances", force: :cascade do |t|
     t.float "state", null: false
@@ -29,6 +29,10 @@ ActiveRecord::Schema.define(version: 20180403222343) do
     t.string "document_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "irregular", default: false
+    t.string "note"
+    t.string "contractor"
+    t.string "purpose"
     t.index ["created_at"], name: "index_bank_transactions_on_created_at"
     t.index ["updated_at"], name: "index_bank_transactions_on_updated_at"
   end
@@ -63,6 +67,7 @@ ActiveRecord::Schema.define(version: 20180403222343) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.index ["transaction_id"], name: "index_erip_transactions_on_transaction_id", unique: true
     t.index ["user_id"], name: "index_erip_transactions_on_user_id"
   end
 
@@ -197,7 +202,13 @@ ActiveRecord::Schema.define(version: 20180403222343) do
     t.float "monthly_payment_amount", default: 50.0
     t.string "github_username"
     t.text "ssh_public_key"
+    t.boolean "is_learner", default: false
+    t.integer "project_id"
+    t.integer "guarantor1_id"
+    t.integer "guarantor2_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["guarantor1_id"], name: "index_users_on_guarantor1_id"
+    t.index ["guarantor2_id"], name: "index_users_on_guarantor2_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
