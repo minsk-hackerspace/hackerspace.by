@@ -39,6 +39,9 @@ class Ability
     can :read, Project
     can :read, News
 
+    # device events use its own authorization, skip devise
+    can :add, Event
+
     # for bepaid notifications
     can [:create, :bepaid_notify], EripTransaction
 
