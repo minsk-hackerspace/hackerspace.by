@@ -44,6 +44,8 @@ class Ability
 
     # for bepaid notifications
     can [:create, :bepaid_notify], EripTransaction
+    # double previous line until fully understanding how cancancan works
+    can [:create, :bepaid_notify], :erip_transaction
 
     if user.present?
       can :chart, :main
