@@ -1,0 +1,38 @@
+%p#notice= notice
+
+%p
+  %b User:
+  = @payment.user.full_name_with_id unless @payment.user.nil?
+
+%p
+  %b Project:
+  = @payment.project.name_with_id unless @payment.project.nil?
+
+%p
+  %b Erip Transaction:
+  = @payment.erip_transaction.to_human_s unless @payment.erip_transaction.nil?
+%p
+  %b Paid at:
+  = @payment.paid_at
+%p
+  %b Amount:
+  = @payment.amount
+%p
+  %b Start date:
+  = @payment.start_date
+%p
+  %b End date:
+  = @payment.end_date
+%p
+  %b Payment type:
+  = @payment.payment_type
+%p
+  %b Payment form:
+  = @payment.payment_form
+%p
+  %b Description:
+  = @payment.description
+
+= link_to 'Edit', edit_admin_payment_path(@payment)
+\|
+= link_to 'Back', admin_payments_path

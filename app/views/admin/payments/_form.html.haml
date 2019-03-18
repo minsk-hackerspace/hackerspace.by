@@ -1,0 +1,40 @@
+= form_for [:admin, @payment] do |f|
+  - if @payment.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@payment.errors.count, "error")} prohibited this payment from being saved:"
+      %ul
+        - @payment.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :user
+    = f.collection_select :user_id, User.order(:last_name).all, :id, :full_name_with_id, include_blank: true
+  .form-group
+    = f.label :erip_transaction
+    = f.collection_select :erip_transaction_id, EripTransaction.order(:paid_at).all, :id, :to_human_s, include_blank: true
+  .form-group
+    = f.label :project
+    = f.collection_select :project_id, Project.order(:id).all, :id, :name_with_id, include_blank: true
+  .form-group.mandatory
+    = f.label :paid_at
+    = f.datetime_select :paid_at
+  .form-group
+    = f.label :amount
+    = f.text_field :amount
+  .form-group
+    = f.label :start_date
+    = f.date_select :start_date
+  .form-group
+    = f.label :end_date
+    = f.date_select :end_date
+  .form-group.mandatory
+    = f.label :payment_type
+    = f.select :payment_type, ["membership", "donation"]
+  .form-group.mandatory
+    = f.label :payment_form
+    = f.select :payment_form, ["erip", "cash", "natural"]
+  .form-group
+    = f.label :description
+    = f.text_field :description
+  .form-group
+    = f.submit 'Save'

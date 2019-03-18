@@ -1,26 +1,65 @@
-%h1
-  = "#{@user.email} (#{@user.first_name} #{@user.last_name})"
+.row.links
+  .col-md-8
+    = link_to t('common.back'), users_path, class: 'btn btn-default'
+    - if can?(:edit, @user)
+      = link_to t('common.edit'), edit_user_path(@user), class: 'btn btn-default'
 
+.row.user
+  .col-md-4
+    = image_tag @user.avatar_url(:medium)
+    %p
+      = @user.hacker_comment
+    %p.last-login
+      = t('users.last_sign_in_at')
+      = @user.last_sign_in_at
+  .col-md-8
+    %p
+      %strong= t('users.email') + ':'
+      = @user.email
+      - if @user.is_learner?
+        %strong
+          (
+          = t('users.learner')
+          )
+    %p
+      %strong= t('users.personal_number') + ':'
+      = @user.id
+    - if @user.first_name.present?
+      %p
+        %strong= t('users.first_name') + ':'
+        = @user.first_name
+    - if @user.last_name.present?
+      %p
+        %strong= t('users.last_name') + ':'
+        = @user.last_name
 
-.container
+    - if @user.guarantor1.present?
+      %p
+        %strong= t('users.guarantor1') + ':'
+        = @user.guarantor1.full_name
 
-  = image_tag @user.photo.url(:medium)
-  %p
-    = @user.hacker_comment
-  %p
-    Последний логин
-    = @user.last_sign_in_at
+    - if @user.guarantor2.present?
+      %p
+        %strong= t('users.guarantor2') + ':'
+        = @user.guarantor2.full_name
 
-  %h3 Платежи
-  = render partial: 'payments', locals: {payments: @user.payments}
+    - if @user.telegram_username.present?
+      %p
+        %strong= t('users.telegram_username') + ':'
+        %a{href: 'https://t.me/' + @user.telegram_username, target: '_blank'}
+          = @user.telegram_username
+    - if @user.github_username.present?
+      %p
+        %strong= t('users.github_username') + ':'
+        %a{href: 'https://github.com/' + @user.github_username, target: '_blank'}
+          = @user.github_username
 
-  - if @user.projects.any?
-    %h3 Проекты
-    - @user.projects.each do |project|
-      %ul
-        %li
-          = link_to project.name, project_path(project)
+= render 'projects', projects: @user.projects
 
-%hr
+= render 'payments', payments: @user.payments.order(paid_at: :desc)
 
-= link_to 'Назад к списку ', users_path, class: 'btn btn-info btn-sm'
+-if @user.ssh_public_key.present?
+  .row.additional_info
+    .col-md-8
+      %h4= t('users.ssh_public_key') + ':'
+      .ssh-public-key= @user.ssh_public_key

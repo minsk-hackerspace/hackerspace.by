@@ -1,5 +1,5 @@
 %h1
-  = @project.name
+  = @project.name_with_id
 %h3
   = "Статус: #{@project.project_status}"
 .lead
@@ -13,6 +13,23 @@
 -if user_signed_in? && (@project.user == current_user or @project.public)
   = link_to 'Изменить', edit_project_path(@project), class: 'btn btn-info'
 
+%h3
+  = "Собрано денег: #{@project.payments_sum} BYN"
+
+- if user_signed_in?
+  .container
+    .row
+      .col-md-12
+        - @payments.each do |payment|
+          .row
+            .col-md-1
+              = link_to_if current_user.admin?, payment.amount, admin_payment_path(payment)
+            .col-md-3
+              - if payment.user.present?
+                = link_to_if current_user.admin?, payment.user.email, user_path(payment.user)
+            .col-md-2
+              = payment.paid_at.strftime('%d-%m-%Y %H:%M')
+%br
 = link_to 'Назад', projects_path, class: 'btn btn-default'
 
 %br.bottom_margin

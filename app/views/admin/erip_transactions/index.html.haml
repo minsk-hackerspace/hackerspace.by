@@ -37,8 +37,6 @@
         %td= erip_transaction.payment_method_type
         %td= "#{erip_transaction.billing_address['first_name']} #{erip_transaction.billing_address['last_name']}"
         %td= erip_transaction.customer['email']
-        -#%td= erip_transaction.payment['ref_id']
-        -#%td= erip_transaction.erip['servicee_no']
         %td= link_to 'Show', admin_erip_transaction_path(erip_transaction)
 
 = will_paginate @erip_transaction

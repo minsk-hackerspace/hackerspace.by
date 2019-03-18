@@ -7,15 +7,17 @@
         %span.icon-bar
         %span.icon-bar
       %a.navbar-brand#brand{href: root_path}
-        = image_tag 'default.png', height: '70px', class: "hsopen-#{@hs_open_status}", title: t("hsopen.#{@hs_open_status}").to_s
+        = image_tag 'logo_site.svg', height: '70px', class: "hsopen-#{@hs_open_status}", title: t("hsopen.#{@hs_open_status}").to_s
     .collapse.navbar-collapse#navbar
       %ul.nav.navbar-nav.lead
-        %li
-          = link_to 'Главная', root_path
         %li
           = link_to 'Проекты', projects_path
         %li
           = link_to 'Контакты', contacts_path
+        - if Thank.any?
+          %li
+            = link_to 'Благодарности', thanks_path
+
         %li.dropdown
           %a{class:"dropdown-toggle", 'data-toggle': "dropdown", href: "#"}
             Присоединиться
@@ -26,12 +28,13 @@
             %li
               = link_to 'Тарифы', tariffs_path
             %li
-              = link_to 'Как оплатить', payment_path
+              = link_to 'Как оплатить', howtopay_path
             %li
               = link_to 'Как присоединиться', procedure_path
             %li
               = link_to 'Время работы', calendar_path
-
+            %li
+              = link_to 'Совет хакерспейса', board_path
         - if user_signed_in?
           %li.dropdown
             %a{class:"dropdown-toggle", 'data-toggle': "dropdown", href: "#"}
@@ -47,7 +50,7 @@
               %li
                 = link_to 'Полезная информация', wiki_gateway_path
               %li
-                = link_to t('cabinet.title'), cabinet_path
+                = link_to t('cabinet.title'), edit_user_path(current_user)
               - if current_user.admin?
                 %li
                   = link_to 'Админка', admin_dashboard_index_path
@@ -56,10 +59,11 @@
         %li
           -if user_signed_in?
             %a{href: chart_path}
-              Баланс ХС:
+              Баланс:
               %b
                 = @hs_balance
-              BYN
+              %meter{value:@hs_kitty_number, min:0, max:100, low:25, high:75, optimum:100}
+                (#{@hs_kitty_number}%)
         %li
           -if user_signed_in?
             = link_to 'Выход', destroy_user_session_path, method: :delete

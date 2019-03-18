@@ -32,20 +32,27 @@ class Ability
     alias_action :create, :read, :update, :destroy, :to => :crud
 
     can [:show, :index], User
+    can [:show, :index, :create, :new], Thank
 
-    can [:update, :edit], User do |hacker|
-      hacker.id == user.id
-    end
+    can [:update, :edit, :add_mac, :remove_mac], User, id: user.id
+    can :manage, Mac, user_id: user.id
+
     can [:index, :show, :create, :new], News
 
     can [:update, :edit, :destroy], News do |news|
       news.user_id == user.id or news.public?
     end
 
+    if user.device?
+      can [:find_by_mac, :detected_at_hackerspace], User
+    end
+
     if user.admin?
       can :manage, :all
       can :crud, EripTransaction
       can :crud, User
+      can :crud, Thank
+      can :crud, Setting
     else
 
     end

@@ -3,6 +3,7 @@ Setting.create(key: 'bePaid_secret', value: '', description: 'Секретный
 Setting.create(key: 'bePaid_baseURL', value: 'https://api.bepaid.by', description: 'Базовый адрес для запросов к API bePaid')
 Setting.create(key: 'bePaid_serviceNo', value: '248', description: 'Номер услуги в bePaid для членских взносов')
 Setting.create(key: 'bib_baseURL', value: 'https://ibank.belinvestbank.by/', description: 'Bank API base URL')
+Setting.create(key: 'bib_loginBaseURL', value: 'https://login.belinvestbank.by/', description: 'Bank API base URL for login')
 Setting.create(key: 'bib_login', value: '', description: 'Login for Belinvestbank')
 Setting.create(key: 'bib_password', value: '', description: 'Password for Belinvestbank')
 
@@ -18,11 +19,19 @@ unless Rails.env.production?
   Event.destroy_all
   News.destroy_all
 
-  admin = User.create(email: 'admin@hackerspace.by', password: '111111')
+  admin = User.create(email: 'admin@hackerspace.by', password: '111111', last_name: 'Бердымухаммедов', first_name: 'Гурбангулы')
   admin.roles << Role.find_by(name: 'admin')
 
-  User.create(email: 'developer@hackerspace.by', password: '111111')
-  User.create(email: 'developer2@hackerspace.by', password: '111111')
+  user1 = User.create(email: 'developer@hackerspace.by', password: '111111', last_name: 'Рабинович', first_name: 'Давид')
+  user1.macs << Mac.create(address: 'a0:a0:a0:a0:a1:a1')
+  user1.macs << Mac.create(address: 'a0:a0:a0:a0:a1:a2')
+
+  user2 = User.create(email: 'developer2@hackerspace.by', password: '111111', last_name: 'Ковалёв', first_name: 'Иван')
+  user2.macs << Mac.create(address: 'a0:a0:a0:a0:a2:a1')
+  user2.macs << Mac.create(address: 'a0:a0:a0:a0:a2:a2')
+
+  device = User.create(email: 'device@hackerspace.by', password: '111111')
+  device.roles << Role.find_by(name: 'device')
 
   7.times do
     Project.create!(name: Faker::Commerce.product_name,
@@ -53,12 +62,13 @@ unless Rails.env.production?
   60.times do
     time = Faker::Time.between(1.year.ago, Date.today)
     user = User.all.sample
+    uid = SecureRandom.uuid
     user.erip_transactions.create(
         status: 'successful',
         message: 'Операция успешно завершена.',
         transaction_type: 'payment',
-        transaction_id: 'fddc5ffd-3e64-49bd-af67-2e1dc2e7ba8f',
-        uid: 'fddc5ffd-3e64-49bd-af67-2e1dc2e7ba8f',
+        transaction_id: uid,
+        uid: uid,
         order_id: user.id,
         amount: 50,
         currency: 'BYN',
@@ -85,7 +95,7 @@ unless Rails.env.production?
              'gateway_id': 2073},
         erip:
             {'request_id': Faker::Number.number(10),
-             'service_no': 248,
+             'service_no': Faker::Number.between(248, 249),
              'account_number': user.id,
              'transaction_id': Faker::Number.number(10),
              'instruction':
@@ -96,5 +106,58 @@ unless Rails.env.production?
              'agent_name': 'ОАО БЕЛИНВЕСТБАНК'},
     )
   end
+
+  def get_payment_type(et)
+    case et.erip['service_no']
+    when 248
+      'membership'
+    when 249
+      'donation'
+    end
+  end
+
+  Payment.destroy_all
+  EripTransaction.all.each do |et|
+    next unless et.status == 'successful'
+    start_date = end_date = nil
+    u = nil
+    if et.erip['service_no'] == 248
+      start_date = et.paid_at
+      end_date = et.paid_at + 1.month
+        begin
+          u = User.find(et.erip['account_number'])
+        rescue
+          u = nil
+        end
+    end
+    p = Payment.create(erip_transaction: et,
+                       amount: et.amount,
+                       paid_at: et.paid_at,
+                       payment_type: get_payment_type(et),
+                       payment_form: 'erip',
+                       start_date: start_date,
+                       end_date: end_date,
+                       user: u)
+    puts "Payment created: #{p.inspect} #{p.errors.inspect}"
+  end 
+
+    BankTransaction.destroy_all
+    BankTransaction.create(
+          plus: 10,
+          minus: 0,
+          unp: 'unp',
+          their_account: '000',
+          our_account: '111',
+          document_number: '123'
+    )
+    BankTransaction.create(
+          plus: 0,
+          minus: 2340,
+          unp: 'unp',
+          their_account: '000',
+          our_account: '111',
+          document_number: '1234'
+    )
+
 end
 

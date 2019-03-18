@@ -16,22 +16,35 @@ module BelinvestbankApi
 
   class Bib
 
-    def initialize(base_url, login, password)
+    def initialize(base_url, login_base_url, login, password)
       @base_url = base_url
       @base_url = @base_url[0..-2] if @base_url[-1] == '/'
+      @login_base_url = login_base_url
+      @login_base_url = @login_base_url[0..-2] if @login_base_url[-1] == '/'
       @login = login
       @password = password
       @cookies = {}
       RestClient.log = STDERR
     end
 
+    # Success path:
+    # 1. GET https://login.belinvestbank.by/signin -> extract keyLang for password encoding
+    # 2. POST https://login.belinvestbank.by/signin <- send login/password
+    # 3. (2) returns code 302 (redirect) to https://ibank.belinvestbank.by/auth-callback?auth_code=<code>&type=simple_session -> go to it
+    # 4. (3) returns code 302 to / -> auth success
+    #
+    # Errors:
+    # 3a. (2) returns redirect to https://login.belinvestbank.by/signin and this page contains string 'showDialog' -> reset session (POST /confirmationCloseSession) and restart from (1)
+    # 3b. (2) returns 200 -> auth failed
+
+
     def login
-      r = query :get, '/signin'
+      r = query_login :get, '/signin'
 
       doc = Nokogiri::HTML(r.body)
 
       keyLang = ''
-      doc.css('.authLayout #data script').each do |data|
+      doc.css('script').each do |data|
         if data.to_s =~ /var keyLang =\s*(.*);/ then
           str = $1
           keyLang = str[1..-2].split(',').map {|e| e[1..-2].to_i}
@@ -39,7 +52,7 @@ module BelinvestbankApi
       end
 
       begin
-        r = query :post, '/signin', {login: @login, password: encode_password(@password, keyLang), typeSessionKey: 0}
+        r = query_login :post, '/signin', {login: @login, password: encode_password(@password, keyLang), typeSessionKey: 0}
 
         if r.code == 200
           raise "Bank auth failed"
@@ -47,23 +60,47 @@ module BelinvestbankApi
       rescue RestClient::Exception => e
         if e.http_code == 302
 
-          r = query :get, e.http_headers[:location]
-
-          if e.http_headers[:location] == '/signin' and r.body.include?('showDialog')
+          if e.http_headers[:location] == '/signin'
+            r = query_login :get, e.http_headers[:location]
+            raise e unless r.body.include?('showDialog')
             begin
-              r = query :post, '/confirmationCloseSession'
+              r = query_login :post, '/confirmationCloseSession'
             rescue RestClient::Exception => e
               r = e.response
               raise e unless e.http_code == 302
             end
+            r = self.login # restart auth process only if we got 302 after POST /confirmationCloseSession
+            return r
+          else
+            if e.http_headers[:location].include? 'auth-callback'
+              r = query_common e.http_headers[:location], :get, ''
+            end
           end
         end
+      end
+
+      r = query :get, '/toggle-corporate-version'
+      doc = Nokogiri::HTML(r.body)
+      ownerId = nil
+      doc.css('.ChoiceOrganization').each do |org|
+        next if org['onclick'].nil?
+        if org['onclick'] =~ /name=\\'ownerId\\' value=\\'([0-9]+)\\'/
+          ownerId = $1.to_i
+          break
+        end
+      end
+
+      begin
+        r = query :post, '/corporate/set-current-organization', {ownerId: ownerId}
+      rescue RestClient::Exception => e
+        raise e unless e.http_code == 302 and e.http_headers[:location] == '/corporate'
+        r = e.response
       end
       r
     end
 
     def logout
-      query :get, '/logout'
+        query :get, '/logout'
     end
 
     def fetch_accounts
@@ -72,7 +109,7 @@ module BelinvestbankApi
       accounts = {}
 
       doc = Nokogiri::HTML(r.body)
-      doc.css('.accounts-wrapper').each do |item|
+      doc.css('.blockAccount').each do |item|
         acc = item.css('.accountNumber').text
         balance = item.css('.accountBalance').text.delete(' ')
         type = item.css('.accountType').text
@@ -95,10 +132,10 @@ module BelinvestbankApi
 
     private
 
-    def query(method, path, body = nil)
+    def query_common(base_url, method, path, body = nil)
       begin
         r = RestClient::Request.execute method: method,
-          url: @base_url + path,
+          url: base_url + path,
           headers: HEADERS,
           payload: body,
           cookies: @cookies
@@ -109,6 +146,14 @@ module BelinvestbankApi
         raise e
       end
       r
+    end
+
+    def query(method, path, body = nil)
+      query_common(@base_url, method, path, body)
+    end
+
+    def query_login(method, path, body = nil)
+      query_common(@login_base_url, method, path, body)
     end
 
     def encode_password(password, key)

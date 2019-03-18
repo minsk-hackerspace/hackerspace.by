@@ -12,6 +12,8 @@
 #  document_number :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  irregular       :boolean          default(FALSE)
+#  note            :string
 #
 # Indexes
 #
@@ -26,8 +28,9 @@ class BankTransaction < ApplicationRecord
     login = Setting['bib_login']
     password = Setting['bib_password']
     base_url = Setting['bib_baseURL']
+    login_base_url = Setting['bib_loginBaseURL']
 
-    bib = BelinvestbankApi::Bib.new(base_url, login, password)
+    bib = BelinvestbankApi::Bib.new(base_url, login_base_url, login, password)
     accounts = nil
     bib.login
     account_numbers = %w(BY50BLBB30150102386174001001 BY57BLBB31350102386174001001)
@@ -59,8 +62,8 @@ class BankTransaction < ApplicationRecord
 
   def self.cleanup_input(records)
     records = records.split("\n")
-    transactions_start = records.index records.select {|r| r.include?('Код банка'.force_encoding('utf-8'))}.first
-    transactions_end = records.index records.select {|r| r.include?('Итого'.force_encoding('utf-8'))}.first
+    transactions_start = records.index records.select { |r| r.include?('Код банка'.force_encoding('utf-8')) }.first
+    transactions_end = records.index records.select { |r| r.include?('Итого'.force_encoding('utf-8')) }.first
     records[transactions_start+1..transactions_end-1]
   end
 end

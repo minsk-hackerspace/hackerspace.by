@@ -16,7 +16,7 @@
 
 class Setting < ApplicationRecord
 
-  validates :key, presence: true
+  validates :key, presence: true, uniqueness: true
 
   def self.[](key)
     s = Setting.where(key: key).first

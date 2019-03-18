@@ -1,0 +1,37 @@
+%h1 Listing payments
+
+%table.table
+  %thead
+    %tr
+      %th User
+      %th Project
+      %th Erip Transaction
+      %th Paid at
+      %th Amount
+      %th Start date
+      %th End date
+      %th Payment type
+      %th Payment form
+      %th
+      %th
+      %th
+
+  %tbody
+    - @payments.each do |payment|
+      %tr
+        %td= payment.user.full_name_with_id unless payment.user.nil?
+        %th= payment.project.name_with_id unless payment.project.nil?
+        %td= payment.erip_transaction.uid[-5..-1] unless payment.erip_transaction.nil?
+        %td= payment.paid_at
+        %td= payment.amount
+        %td= payment.start_date
+        %td= payment.end_date
+        %td= payment.payment_type
+        %td= payment.payment_form
+        %td= link_to 'Show', admin_payment_path(payment)
+        %td= link_to 'Edit', edit_admin_payment_path(payment)
+        %td= link_to 'Destroy', [:admin, payment], :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Payment', new_admin_payment_path

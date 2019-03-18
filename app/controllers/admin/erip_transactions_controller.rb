@@ -1,7 +1,9 @@
 class Admin::EripTransactionsController < AdminController
   before_action :set_erip_transaction, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:create, :bepaid_notify]
+  before_action :check_if_admin, only: [:edit, :update, :create, :destroy, :index]
 
+  skip_before_action :verify_authenticity_token, only: :bepaid_notify
 
   # GET /erip_transactions
   # GET /erip_transactions.json
@@ -30,7 +32,7 @@ class Admin::EripTransactionsController < AdminController
 
     respond_to do |format|
       if @erip_transaction.save
-        format.html { redirect_to @erip_transaction, notice: 'Erip transaction was successfully created.' }
+        format.html { redirect_to [:admin, @erip_transaction], notice: 'Erip transaction was successfully created.' }
         format.json { render :show, status: :created, location: @erip_transaction }
       else
         format.html { render :new }
@@ -44,7 +46,7 @@ class Admin::EripTransactionsController < AdminController
   def update
     respond_to do |format|
       if @erip_transaction.update(erip_transaction_params)
-        format.html { redirect_to @erip_transaction, notice: 'Erip transaction was successfully updated.' }
+        format.html { redirect_to [:admin, @erip_transaction], notice: 'Erip transaction was successfully updated.' }
         format.json { render :show, status: :ok, location: @erip_transaction }
       else
         format.html { render :edit }
@@ -65,10 +67,13 @@ class Admin::EripTransactionsController < AdminController
 
   def bepaid_notify
     transaction = params[:transaction]
-    if transaction.nil?
+    if transaction.nil? ||
+        (transaction[:id].present? && EripTransaction.where(transaction_id: transaction[:id]).exists?)
+
       respond_to do |format|
         format.json { render json: {}, status: :unprocessable_entity }
       end
+      return
     end
 
     logger.debug transaction
@@ -94,10 +99,36 @@ class Admin::EripTransactionsController < AdminController
     et.erip = transaction[:erip]
 
     if et.erip['service_no'].to_i == Setting['bePaid_serviceNo'].to_i
-      u = User.find et.erip['account_number'].to_i
-      et.user = u
+      et.user = User.find_by(id: et.erip['account_number'].to_i)
     end
 
+    if et.status == 'successful'
+      p = Payment.new
+      p.erip_transaction = et
+      et.hs_payment = p
+      p.amount = et.amount
+      p.paid_at = et.paid_at
+      p.user = et.user
+      p.payment_type = et.erip['service_no'].to_i == Setting['bePaid_serviceNo'].to_i ? 'membership' : 'donation'
+      p.payment_form = 'erip'
+      if p.payment_type == 'membership' then
+        last_payment = nil
+        last_payment = p.user.last_payment unless p.user.nil?
+        unless last_payment.nil? or last_payment.end_date < et.paid_at.to_date - 14.days
+          p.start_date = last_payment.end_date + 1.day
+        else
+          p.start_date = et.paid_at.to_date
+        end
+
+        m_amount = p.user.nil? ? 50.0 :  p.user.monthly_payment_amount
+
+        m = p.amount.div m_amount
+        d = ((p.amount - m * m_amount) / m_amount * 30).floor
+        p.end_date = p.start_date + m.months + d.days - 1.day
+      else
+        p.project = Project.find_by(id: et.erip['account_number'].to_i)
+      end
+    end
     @erip_transaction = et
 
     logger.debug "Parsed transaction: " + et.inspect
@@ -105,6 +136,7 @@ class Admin::EripTransactionsController < AdminController
     respond_to do |format|
       if @erip_transaction.save
         format.json { render :show, status: :created, location: admin_erip_transaction_url(@erip_transaction) }
+        NotificationsMailer.with(transaction: @erip_transaction).notify_about_payment.deliver_later unless @erip_transaction.user.nil?
       else
         format.json { render json: @erip_transaction.errors, status: :unprocessable_entity }
       end
@@ -115,6 +147,13 @@ class Admin::EripTransactionsController < AdminController
     # Use callbacks to share common setup or constraints between actions.
     def set_erip_transaction
       @erip_transaction = EripTransaction.find(params[:id])
+    end
+
+    def check_if_admin
+      unless current_user.admin?
+        flash[:alert] = "У вас нет прав на это действие"
+        redirect_to admin_erip_transactions_path
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

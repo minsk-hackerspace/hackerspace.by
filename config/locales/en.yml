@@ -7,8 +7,38 @@ en:
         title: Hackers
         email: Email
         roles: Roles
-        monthly_payment_amount: Оплата в месяц
-        next_month_payment_amount: В следующем месяце
         created_at: Создан
         last_sign_in_at: Последний логин
-
+  common:
+    back: Back
+    edit: Edit
+  users:
+    title: Hackers
+    last_sign_in_at: Last sign in at
+    email: Email
+    personal_number: Member id
+    first_name:  First name
+    comment: Hacker's comment
+    last_name: Last name
+    telegram_username: Telegram
+    github_username: Github
+    ssh_public_key: SSH public key
+    last_payment_ended_at: Paid to
+    last_seen_in_hackerspace: Last seen
+    learner: Learner
+    order:
+      id: Id
+      title: Sort by
+      payments: Payments
+      last_seen: Last seen date
+      course: Course learner
+    projects:
+      title: Projects
+    payments:
+      title: Payments
+      tariff: Tariff
+      rate: BYN monthly
+      date: Date
+      amount: Amount
+      start_date: Start date
+      end_date: End date

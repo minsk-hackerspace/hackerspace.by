@@ -1,14 +1,19 @@
-%table.table
-  %thead
-    %th
-      = t('.date')
-    %th
-      = t('.amount')
-  %tbody
-    - payments.each do |payment|
-      %tr
-        %td
-          = payment.paid_at
-        %td
-          = payment.amount
+.row.payments
+  .col-md-10
+    %h3= t('users.payments.title')
+    %p= t('users.payments.title') + ": #{@user.monthly_payment_amount} " + t('users.payments.rate')
+
+    %table.table
+      %thead
+        %th= t('users.payments.date')
+        %th= t('users.payments.amount')
+        %th= t('users.payments.start_date')
+        %th= t('users.payments.end_date')
+      %tbody
+        - payments.each do |payment|
+          %tr
+            %td= payment.paid_at
+            %td= payment.amount
+            %td= payment.start_date
+            %td= payment.end_date
 

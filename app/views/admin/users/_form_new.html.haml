@@ -18,6 +18,9 @@
   .form-group
     = f.label :password
     = f.text_field :password, class: 'form-control'
+  .form-group
+    = f.label :monthly_payment_amount
+    = f.text_field :monthly_payment_amount, class: 'form-control'
   /.form-group
   /  = f.label :roles
   /  = f.collection_check_boxes :role_ids, Role.all, :id, :name

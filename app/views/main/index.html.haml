@@ -19,20 +19,24 @@
       %p В хакерспейсе участники занимаются своими делами, но рады всем желающим что-нибудь узнать, сломать, починить, собрать и поболтать.
 
   .row.featurette
-    .col-md-7
+    .col-md-4
       %h2.featurette-heading
         = t 'index.what_is_it'
         %span.text-muted
           = t 'index.what_is_it_muted'
       %p.lead
         =t('index.what_is_it_content').html_safe
-    .col-md-5
-      = image_tag image_path('/images/f.jpg'), class: 'featurette-image img-responsive'
+    .col-md-4
+      = image_tag image_path('tele-robot.jpeg'), class: 'featurette-image img-responsive'
+    .col-md-4
+      = image_tag image_path('tolik_mask.jpg'), class: 'featurette-image img-responsive'
   %hr.featurette-divider
     .row.featurette
-      .col-md-5
-        =image_tag image_path('/images/h.jpg'), class: 'featurette-image img-responsive'
-      .col-md-7
+      .col-md-4
+        =image_tag image_path('https://instagram.fiev1-1.fna.fbcdn.net/vp/53dd239f09261a815e51b0822689d038/5B7C54AC/t51.2885-15/e35/17439281_389651058085274_5873102910941822976_n.jpg'), class: 'featurette-image img-responsive'
+      .col-md-4
+        =image_tag image_path('https://instagram.fiev1-1.fna.fbcdn.net/vp/a61e74590cd6d271bf6e2aa79e4abeae/5B900B6A/t51.2885-15/e35/26157281_139000163437001_7283924544404848640_n.jpg'), class: 'featurette-image img-responsive'
+      .col-md-4
         %h2.featurette-heading
           = t 'index.what_we_do'
           %span.text-muted
@@ -40,20 +44,23 @@
         %p.lead
           = t('index.what_we_do_content').html_safe
     %hr.featurette-divider
+    %script{src: 'https://cdn.lightwidget.com/widgets/lightwidget.js'}
+    %iframe.lightwidget-widget{allowtransparency: 'true', scrolling: 'no', src: '//lightwidget.com/widgets/2aa6440e69d75e389dd3e7d40f344f17.html', style: 'width:100%;border:0;overflow:hidden;'}
+    %hr.featurette-divider
       .row.featurette
-        .col-md-7
+        .col-md-5
           %h2.featurette-heading
             = t 'index.how_to_join'
             %span.text-muted
               = t 'index.how_to_join_muted'
           %p.lead
             = t('index.how_to_join_content').html_safe
-        .col-md-5
-          =image_tag image_path('/images/a.jpg'), class: 'featurette-image img-responsive'
+        .col-md-7
+          =image_tag image_path('https://instagram.fiev1-1.fna.fbcdn.net/vp/09efd4e9ba29a1b512d9940f71285742/5B8DE446/t51.2885-15/e35/22858127_141287923267269_2460889069446496256_n.jpg'), class: 'featurette-image img-responsive'
       %hr.featurette-divider
         .row.featurette
           .col-md-5
-            =image_tag image_path('/images/b.jpg'), class: 'featurette-image img-responsive'
+            =image_tag image_path('https://instagram.fiev1-1.fna.fbcdn.net/vp/f08b0856f43abad770db5ac112f27520/5B957506/t51.2885-15/e35/19986028_1914939925414624_7965107293853319168_n.jpg'), class: 'featurette-image img-responsive'
           .col-md-7
             %h2.featurette-heading
               = t 'index.what_we_have'
@@ -63,7 +70,7 @@
               = t('index.what_we_have_content').html_safe
         %hr.featurette-divider
           .row.featurette
-            .col-md-7
+            .col-md-5
               %h2.featurette-heading#contacts
                 = t 'index.how_to_find'
                 %span.text-muted
@@ -72,6 +79,6 @@
                 = t('index.how_to_find_content_text').html_safe
               %p.lead
                 ="И не забудьте почитать #{link_to('правила', rules_path)}.".html_safe
-            .col-md-5
-              =image_tag image_path('/images/d.jpg'), class: 'featurette-image img-responsive'
+            .col-md-7
+              =image_tag image_path('https://instagram.fiev1-1.fna.fbcdn.net/vp/2556f719e210cec9c6d4ebb52584f030/5B8D0D57/t51.2885-15/e35/19367730_126796654572748_6357688621952139264_n.jpg'), class: 'featurette-image img-responsive'
 %hr

@@ -4,6 +4,8 @@ ru:
     attributes:
       project:
         public: "Публичный"
+      user:
+        monthly_payment_amount: "Сумма ежемесячного платежа, BYN"
   hsopen:
     unknown: "УПС..."
     opened: "Сейчас у нас открыто. Приходите."
@@ -321,21 +323,6 @@ ru:
       long: "%d %B %Y, %H:%M"
       short: "%d %b, %H:%M"
     pm: вечера
-  hackers:
-    index:
-      title: Hackers
-      personal_number: Номер участника
-      email: Email
-      comment: Примечание
-      name: Имя
-      created_at: Создан
-      last_payment: Последний платёж
-      last_payment_at: Дата платежа
-      last_sign_in_at: Последний логин
-    payments:
-      payments_for: Платежи
-      date: Дата
-      amount: Сумма
   settings:
     index:
       title: Настройки сайта
@@ -345,11 +332,43 @@ ru:
         title: Hackers
         email: Email
         roles: Роли
-        monthly_payment_amount: Оплата в месяц
-        next_month_payment_amount: В следующем месяце
         created_at: Создан
         last_payment: Последний платёж
         last_payment_at: Дата платежа
         last_sign_in_at: Последний логин
-        current_debt: Текущий долг
   badges:
+  common:
+    back: Назад к списку
+    edit: Редактировать
+  users:
+    title: Hackers
+    last_sign_in_at: Последний логин
+    email: Email
+    personal_number: Номер участника
+    first_name:  Имя
+    comment: Примечание
+    last_name: Фамилия
+    telegram_username: Telegram
+    github_username: Github
+    ssh_public_key: SSH public key
+    last_payment_ended_at: Оплачено по
+    last_seen_in_hackerspace: Видели в ХС
+    learner: Курсант
+    guarantor1: Рекомендатель 1
+    guarantor2: Рекомендатель 2
+    order:
+      title: Сортировать
+      id: По порядку
+      payments: По платежам
+      last_seen: По дате присутствия
+      course: По участию в курсе
+    projects:
+      title: Проекты
+    payments:
+      title: Платежи
+      tariff: Тариф
+      rate: BYN в месяц
+      date: Дата
+      amount: Сумма
+      start_date: Начало действия
+      end_date: Конец действия

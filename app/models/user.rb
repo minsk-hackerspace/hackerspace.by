@@ -2,40 +2,50 @@
 #
 # Table name: users
 #
-#  id                        :integer          not null, primary key
-#  email                     :string           default(""), not null
-#  encrypted_password        :string           default(""), not null
-#  reset_password_token      :string
-#  reset_password_sent_at    :datetime
-#  remember_created_at       :datetime
-#  sign_in_count             :integer          default(0), not null
-#  current_sign_in_at        :datetime
-#  last_sign_in_at           :datetime
-#  current_sign_in_ip        :string
-#  last_sign_in_ip           :string
-#  created_at                :datetime
-#  updated_at                :datetime
-#  hacker_comment            :string
-#  badge_comment             :string
-#  photo_file_name           :string
-#  photo_content_type        :string
-#  photo_file_size           :integer
-#  photo_updated_at          :datetime
-#  first_name                :string
-#  last_name                 :string
-#  bepaid_number             :integer
-#  monthly_payment_amount    :float            default(0.0)
-#  next_month_payment_amount :float
-#  next_month                :integer
-#  current_debt              :float
+#  id                       :integer          not null, primary key
+#  email                    :string           default(""), not null
+#  encrypted_password       :string           default(""), not null
+#  reset_password_token     :string
+#  reset_password_sent_at   :datetime
+#  remember_created_at      :datetime
+#  sign_in_count            :integer          default(0), not null
+#  current_sign_in_at       :datetime
+#  last_sign_in_at          :datetime
+#  current_sign_in_ip       :string
+#  last_sign_in_ip          :string
+#  created_at               :datetime
+#  updated_at               :datetime
+#  hacker_comment           :string
+#  photo_file_name          :string
+#  photo_content_type       :string
+#  photo_file_size          :integer
+#  photo_updated_at         :datetime
+#  first_name               :string
+#  last_name                :string
+#  bepaid_number            :integer
+#  telegram_username        :string
+#  alice_greeting           :string
+#  last_seen_in_hackerspace :datetime
+#  account_suspended        :boolean
+#  account_banned           :boolean
+#  monthly_payment_amount   :float            default(50.0)
+#  github_username          :string
+#  ssh_public_key           :text
+#  is_learner               :boolean          default(FALSE)
+#  project_id               :integer
+#  guarantor1_id            :integer
+#  guarantor2_id            :integer
 #
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_guarantor1_id         (guarantor1_id)
+#  index_users_on_guarantor2_id         (guarantor2_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
 require 'bepaid.rb'
+require 'digest/md5'
 
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
@@ -50,25 +60,33 @@ class User < ApplicationRecord
     last_name
     email
     hacker_comment
-    badge_comment
     bepaid_number
     monthly_payment_amount
-    next_month_payment_amount
-    next_month
-    current_debt
     sign_in_count
     last_sign_in_at
     created_at
-    updated_at
+    last_seen_in_hackerspace
+    telegram_username
+    alice_greeting
+    account_suspended
+    account_banned
+    github_username
+    is_learner
+    guarantor1
+    guarantor2
+    paid_until
   end
 
-  ROLES = %w(hacker admin)
+  ROLES = %w(hacker admin device)
 
   has_many :projects
-
-  has_many :roles, through: :users_roles
+  has_many :macs
   has_many :users_roles
+  has_many :roles, through: :users_roles
   has_many :erip_transactions
+  has_many :payments
+  belongs_to :guarantor1, class_name: 'User' 
+  belongs_to :guarantor2, class_name: 'User' 
 
   has_attached_file :photo,
                     styles: {
@@ -82,23 +100,80 @@ class User < ApplicationRecord
   validates_attachment :photo, size: { in: 0..3.megabytes }
 
   validates :email, presence: true, uniqueness: true, length: {maximum: 255}
-  validates :monthly_payment_amount, numericality: { greater_than_or_equal_to: 0 }
+  validates :monthly_payment_amount, numericality: true
+  validate :validate_guarantors
 
   after_save :create_bepaid_bill
+
+  def self.active
+    (allowed.paid + allowed.signed_in).uniq
+  end
+
+  # to be optimized
+  def self.with_debt
+    User.active.select do |user|
+      user.last_payment.present? && user.paid_until < Time.now.to_date
+    end
+  end
+
+  scope :signed_in, -> { where.not(last_sign_in_at: nil) }
+  scope :paid, -> { where(id: Payment.user_ids) }
+  scope :allowed, -> { where(account_suspended: [false, nil]).where(account_banned: [false, nil]) }
 
   def admin?
     check_role('admin')
   end
 
-  def last_payment
-    self.erip_transactions.where(status: 'successful', transaction_type: 'payment').order(paid_at: :desc).first
+  def device?
+    check_role('device')
   end
 
-  def payments
-    self.erip_transactions.where(status: 'successful', transaction_type: 'payment').order(paid_at: :desc)
+  def last_payment
+    @last_payment ||= payments.order(paid_at: :desc).first
+  end
+
+  # last day with valid payment for this user
+  def paid_until
+    last_payment&.end_date
+  end
+
+  def full_name
+    "#{self.last_name} #{self.first_name}"
+  end
+
+  def full_name_with_id
+    "#{self.id}. #{self.last_name} #{self.first_name}"
+  end
+
+  def avatar_url(style)
+    if self.photo?
+      self.photo.url(style)
+    else
+      hash = Digest::MD5.hexdigest(self.email.to_s.downcase)
+      geometry = User.new.photo.styles[style].try(:geometry)
+      size = geometry ? geometry.split('x').first : ''
+
+      "https://gravatar.com/avatar/#{hash}?d=robohash&size=#{size}"
+    end
+  end
+
+  def expected_payment_amount
+    unpaid_days_amount = (Date.today - paid_until).to_i
+    missing_payment_amount = if unpaid_days_amount < 14
+      (monthly_payment_amount * unpaid_days_amount.to_f / 30).round
+    else
+      0
+    end
+    missing_payment_amount + monthly_payment_amount
   end
 
   private
+
+  def validate_guarantors
+    errors.add(:guarantor1_id, "is invalid") if self.guarantor1_id.present? and self.guarantor1_id == self.id
+    errors.add(:guarantor2_id, "is invalid") if self.guarantor2_id.present? and self.guarantor2_id == self.id
+    errors.add(:guarantor1_id, "shouldn't be same as Guarantor2") if self.guarantor1_id.present? and self.guarantor1_id == self.guarantor2_id
+  end
 
   def check_role(role)
     self.roles.map(&:name).include? role
@@ -120,7 +195,7 @@ class User < ApplicationRecord
 
 
       dates.each_index do |i|
-        graph << [dates[i], self.paid_within_period(dates[i], dates[i+1]).count] unless i >= dates.size - 1
+        graph << [dates[i], self.paid_within_period(dates[i], dates[i+1]).group(:id).count.count] unless i >= dates.size - 1
       end
       graph
     end
@@ -132,7 +207,7 @@ class User < ApplicationRecord
 
     bp = BePaid::BePaid.new Setting['bePaid_baseURL'], Setting['bePaid_ID'], Setting['bePaid_secret']
 
-    amount = user.monthly_payment_amount
+    amount = 50
 
     #amount is (amoint in BYN)*100
     bill = {

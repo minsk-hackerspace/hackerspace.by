@@ -28,6 +28,7 @@ class Project < ApplicationRecord
   SUPPORTED_MARKUPS = %w(html markdown)
 
   belongs_to :user
+  has_many :payments
 
   has_attached_file :photo,
                     styles: {
@@ -46,4 +47,11 @@ class Project < ApplicationRecord
   validates :markup_type, inclusion: SUPPORTED_MARKUPS
   scope :published, -> { where public: true }
 
+  def name_with_id
+    "#{self.id}. #{self.name}"
+  end
+
+  def payments_sum
+    payments.sum(:amount)
+  end
 end
