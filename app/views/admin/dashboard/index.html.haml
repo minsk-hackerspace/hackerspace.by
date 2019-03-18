@@ -1,5 +1,7 @@
 %h1 Admin Panel
 = link_to 'New user', new_admin_user_path, class: 'btn btn-info', role: 'button'
 = link_to 'ERIP Transactions', admin_erip_transactions_path, class: 'btn btn-info', role: 'button'
+= link_to 'Банковские транзакции(расходы)', admin_bank_transactions_url + '?filter=expenses', class: 'btn btn-info', role: 'button'
+= link_to 'Банковские транзакции(поступления)', admin_bank_transactions_url + '?filter=inpayments', class: 'btn btn-info', role: 'button'
 = link_to 'Платежи', admin_payments_path, class: 'btn btn-info', role: 'button'
 = link_to 'Настройки сайта', settings_path, class: 'btn btn-info', role: 'button'

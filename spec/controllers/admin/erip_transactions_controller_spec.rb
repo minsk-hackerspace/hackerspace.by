@@ -291,6 +291,13 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
   end
 
   describe "POST #bepaid_notify" do
+
+    it "can be done by guest" do
+      ability = Ability.new(nil)
+      r = ability.can?(:bepaid_notify, :erip_transaction)
+      expect(r).to be true
+    end
+
     it "rejects duplicated notification from bePaid" do
       EripTransaction.destroy_all
       Payment.destroy_all

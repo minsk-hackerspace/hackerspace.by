@@ -4,7 +4,7 @@ class Ability
   def initialize(user)
     # Define abilities for the passed in user here. For example:
     #
-    user ||= User.new # guest user (not logged in)
+    # user ||= User.new # guest user (not logged in)
     # if user.admin?
     #   can :manage, :all
     # else
@@ -31,30 +31,47 @@ class Ability
 
     alias_action :create, :read, :update, :destroy, :to => :crud
 
-    can [:show, :index], User
+    # MainController is not REST conroller
+    can :manage, :main
+    cannot :chart, :main
+
     can [:show, :index, :create, :new], Thank
+    can :read, Project
+    can :read, News
 
-    can [:update, :edit, :add_mac, :remove_mac], User, id: user.id
-    can :manage, Mac, user_id: user.id
+    # device events use its own authorization, skip devise
+    can :add, Event
 
-    can [:index, :show, :create, :new], News
+    # for bepaid notifications
+    can [:create, :bepaid_notify], EripTransaction
+    # double previous line until fully understanding how cancancan works
+    can [:create, :bepaid_notify], :erip_transaction
 
-    can [:update, :edit, :destroy], News do |news|
-      news.user_id == user.id or news.public?
-    end
+    if user.present?
+      can :chart, :main
+      can [:show, :index], User
+      can [:update, :edit, :add_mac, :remove_mac], User, id: user.id
+      can :manage, Mac, user_id: user.id
 
-    if user.device?
-      can [:find_by_mac, :detected_at_hackerspace], User
-    end
+      can :read, Device
+      can :add, Event
 
-    if user.admin?
-      can :manage, :all
-      can :crud, EripTransaction
-      can :crud, User
-      can :crud, Thank
-      can :crud, Setting
-    else
+      can :create, Project
+      can [:update, :destroy], Project do |p|
+        p.user_id == user.id or p.public?
+      end
 
+      can [:update, :edit, :destroy], News do |news|
+        news.user_id == user.id or news.public?
+      end
+
+      if user.device?
+        can [:find_by_mac, :detected_at_hackerspace], User
+      end
+
+      if user.admin?
+        can :manage, :all
+      end
     end
   end
 end

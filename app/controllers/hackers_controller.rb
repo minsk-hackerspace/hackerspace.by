@@ -1,5 +1,5 @@
 class HackersController < ApplicationController
-  before_action :authenticate_user!
+#  before_action :authenticate_user!
   load_and_authorize_resource :user, parent: false,
                               except: [:useful, :find_by_mac, :detected_at_hackerspace]
   load_and_authorize_resource :mac
@@ -11,7 +11,7 @@ class HackersController < ApplicationController
     respond_to do |format|
       format.html
       format.csv { render csv: User.all, filename: 'hackers' }
-      format.json { render json: User.all}
+      format.json
     end
   end
 

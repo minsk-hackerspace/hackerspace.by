@@ -1,7 +1,8 @@
 class Admin::EripTransactionsController < AdminController
   before_action :set_erip_transaction, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:create, :bepaid_notify]
-  before_action :check_if_admin, only: [:edit, :update, :create, :destroy, :index]
+#  before_action :authenticate_user!, except: [:create, :bepaid_notify]
+#  before_action :check_if_admin, only: [:edit, :update, :create, :destroy, :index]
+  load_and_authorize_resource
 
   skip_before_action :verify_authenticity_token, only: :bepaid_notify
 
@@ -136,7 +137,9 @@ class Admin::EripTransactionsController < AdminController
     respond_to do |format|
       if @erip_transaction.save
         format.json { render :show, status: :created, location: admin_erip_transaction_url(@erip_transaction) }
-        NotificationsMailer.with(transaction: @erip_transaction).notify_about_payment.deliver_later unless @erip_transaction.user.nil?
+        unless @erip_transaction.user.nil? or @erip_transaction.status != "successful"
+          NotificationsMailer.with(transaction: @erip_transaction).notify_about_payment.deliver_later 
+        end
       else
         format.json { render json: @erip_transaction.errors, status: :unprocessable_entity }
       end
