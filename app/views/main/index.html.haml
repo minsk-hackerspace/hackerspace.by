@@ -9,15 +9,14 @@
           %p
             = 'Сейчас в хакерспейсе: ' + @hs_present_people.join(', ')
 
+  .bs-callout.bs-callout-info.alert.alert-info.alert-dismissible{role: 'alert'}
+    %button.close{'data-dismiss': 'alert', 'aria-label': 'Close'}
+      %span{'aria-hidden': 'true'} &times;
+    %p.lead Каждый четверг у нас вечер открытых дверей. Начало в 19:00. Окончание — после 22:00.
+    %p В хакерспейсе участники занимаются своими делами, но рады всем желающим что-нибудь узнать, сломать, починить, собрать и поболтать.
+
   .row.featurette
     = render partial: 'main/news'
-  .bs-callout.bs-callout-info.alert.alert-info
-    %a{href: "#", class: "close", "data-dismiss": "alert", "aria-label": "close"} &times;
-    %p.notice
-      %h2 Каждый четверг у нас вечер открытых дверей.
-      %p.lead Начало в 19:00. Окончание — после 22:00.
-      %p В хакерспейсе участники занимаются своими делами, но рады всем желающим что-нибудь узнать, сломать, починить, собрать и поболтать.
-
   .row.featurette
     .col-md-4
       %h2.featurette-heading
