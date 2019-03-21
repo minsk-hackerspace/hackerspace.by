@@ -84,6 +84,14 @@ img.no-shadow {
   border-color: #d0e3f0;
 }
 
+
+.malinohs.bs-callout-info {
+  background-color: rgba(99,21,42,0.25);
+  border-color: rgba(70,27,42,0.2);
+  color: rgba(70,10,36,1);
+}
+
+
 .mandatory label::after {
   content: '*';
   color: #ff0000;
