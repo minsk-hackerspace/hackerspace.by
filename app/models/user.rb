@@ -103,6 +103,15 @@ class User < ApplicationRecord
   validates :monthly_payment_amount, numericality: true
   validate :validate_guarantors
 
+  scope :signed_in, -> { where.not(last_sign_in_at: nil) }
+  scope :paid, -> { where(id: Payment.user_ids) }
+  scope :allowed, -> { where(account_suspended: [false, nil]).where(account_banned: [false, nil]) }
+
+  scope :banned, -> { where(account_banned: true)}
+  scope :not_banned, -> { where(account_banned: false)}
+  scope :suspended, -> { where(account_suspended: true)}
+  scope :not_suspended, -> { where(account_suspended: false)}
+
   after_save :create_bepaid_bill, :set_as_suspended
 
   def self.active
@@ -115,10 +124,6 @@ class User < ApplicationRecord
       user.last_payment.present? && user.paid_until < Time.now.to_date
     end
   end
-
-  scope :signed_in, -> { where.not(last_sign_in_at: nil) }
-  scope :paid, -> { where(id: Payment.user_ids) }
-  scope :allowed, -> { where(account_suspended: [false, nil]).where(account_banned: [false, nil]) }
 
   def admin?
     check_role('admin')

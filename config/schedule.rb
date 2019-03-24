@@ -27,3 +27,7 @@ every 1.day, at: '12:00 am' do
   runner 'SuspendUsersService.new.set_users_as_suspended'
 end
 
+every 1.hour, at: '12:30 am' do
+  runner 'SuspendUsersService.new.set_users_as_unsuspended'
+end
+
