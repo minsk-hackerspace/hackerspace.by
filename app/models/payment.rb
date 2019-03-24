@@ -57,10 +57,12 @@ class Payment < ApplicationRecord
   end
 
   def set_user_as_unsuspended
-    return if user.account_banned?
+    if user.present?
+      return if user.account_banned?
 
-    if user.last_payment && (user.last_payment.end_date > Time.now )
-      user.update_column(:account_suspended, false)
+      if user.last_payment && (user.last_payment.end_date > Time.now )
+        user.update_column(:account_suspended, false)
+      end
     end
   end
 end
