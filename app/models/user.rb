@@ -134,7 +134,7 @@ class User < ApplicationRecord
   end
 
   def last_payment
-    @last_payment ||= payments.order(paid_at: :desc).first
+    payments.order(paid_at: :desc).first
   end
 
   # last day with valid payment for this user

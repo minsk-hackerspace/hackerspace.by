@@ -54,8 +54,8 @@ describe User do
 
   describe '#last_payment' do
     let(:user) { create :user }
-    let!(:first_payment) { create :payment, paid_at: Date.parse('21-05-2018'), user: user }
-    let!(:second_payment) { create :payment, paid_at: Date.parse('21-06-2018'), user: user }
+    let!(:first_payment) { create :payment, paid_at: DateTime.parse('12:00 21-05-2018'), user: user }
+    let!(:second_payment) { create :payment, paid_at: DateTime.parse('13:00 21-06-2018'), user: user }
 
     it 'is expected to return last paid payment' do
       expect(user.last_payment).to eq(second_payment)
