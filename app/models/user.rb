@@ -103,7 +103,16 @@ class User < ApplicationRecord
   validates :monthly_payment_amount, numericality: true
   validate :validate_guarantors
 
-  after_save :create_bepaid_bill
+  scope :signed_in, -> { where.not(last_sign_in_at: nil) }
+  scope :paid, -> { where(id: Payment.user_ids) }
+  scope :allowed, -> { where(account_suspended: [false, nil]).where(account_banned: [false, nil]) }
+
+  scope :banned, -> { where(account_banned: true)}
+  scope :not_banned, -> { where(account_banned: false)}
+  scope :suspended, -> { where(account_suspended: true)}
+  scope :not_suspended, -> { where(account_suspended: false)}
+
+  after_save :create_bepaid_bill, :set_as_suspended
 
   def self.active
     (allowed.paid + allowed.signed_in).uniq
@@ -116,10 +125,6 @@ class User < ApplicationRecord
     end
   end
 
-  scope :signed_in, -> { where.not(last_sign_in_at: nil) }
-  scope :paid, -> { where(id: Payment.user_ids) }
-  scope :allowed, -> { where(account_suspended: [false, nil]).where(account_banned: [false, nil]) }
-
   def admin?
     check_role('admin')
   end
@@ -129,7 +134,7 @@ class User < ApplicationRecord
   end
 
   def last_payment
-    @last_payment ||= payments.order(paid_at: :desc).first
+    payments.order(paid_at: :desc).first
   end
 
   # last day with valid payment for this user
@@ -165,6 +170,21 @@ class User < ApplicationRecord
       0
     end
     missing_payment_amount + monthly_payment_amount
+  end
+
+  def inactive?
+    account_suspended? || account_banned? || last_sign_in_at.nil?
+  end
+
+  def active?
+    !inactive?
+  end
+
+  def set_as_suspended
+    if active? && last_payment && (last_payment.end_date < Time.now - 15.days)
+      #simple update without callbacks
+      update_column(:account_suspended, true)
+    end
   end
 
   private

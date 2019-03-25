@@ -54,8 +54,8 @@ describe User do
 
   describe '#last_payment' do
     let(:user) { create :user }
-    let!(:first_payment) { create :payment, paid_at: Date.parse('21-05-2018'), user: user }
-    let!(:second_payment) { create :payment, paid_at: Date.parse('21-06-2018'), user: user }
+    let!(:first_payment) { create :payment, paid_at: DateTime.parse('12:00 21-05-2018'), user: user }
+    let!(:second_payment) { create :payment, paid_at: DateTime.parse('13:00 21-06-2018'), user: user }
 
     it 'is expected to return last paid payment' do
       expect(user.last_payment).to eq(second_payment)
@@ -87,7 +87,7 @@ describe User do
 
   describe '.with_debt' do
     let!(:user_without_payment) { create :user }
-    let!(:user_with_outdated_payment) { create :user, :with_payment }
+    let!(:user_with_outdated_payment) { create :user, :with_outdated_payment }
     let!(:user_with_valid_payment) { create :user, :with_valid_payment }
 
     it 'is expected not to return users without payments' do
@@ -100,6 +100,19 @@ describe User do
 
     it 'is expected not to return users with valid payments' do
       expect(described_class.with_debt).not_to include(user_with_valid_payment)
+    end
+  end
+
+  describe '#check_account_suspended' do
+    let!(:user_with_valid_payment) { create :user, :with_valid_payment }
+    let!(:user_with_outdated_payment) { create :user, :with_outdated_payment }
+
+    it 'does nothing when valid payment'  do
+      expect{user_with_valid_payment.set_as_suspended}.not_to change{user_with_valid_payment.account_suspended}.from(nil)
+    end
+
+    it 'suspends nothing when invalid payment'  do
+      expect{user_with_outdated_payment.set_as_suspended}.to change{user_with_outdated_payment.account_suspended}.from(nil).to(true)
     end
   end
 end

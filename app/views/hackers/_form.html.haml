@@ -62,10 +62,6 @@
         .row
           .col-lg-3
             .form-group
-              = f.label 'Suspended'
-              = f.check_box :account_suspended, class: 'form-control', value: @user.account_suspended
-          .col-lg-3
-            .form-group
               = f.label 'Banned'
               = f.check_box :account_banned, class: 'form-control', value: @user.account_banned
 

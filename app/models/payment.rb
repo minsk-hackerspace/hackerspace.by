@@ -38,6 +38,8 @@ class Payment < ApplicationRecord
   validates :end_date, presence: true, if: Proc.new {|p| p.payment_type == 'membership'}
   validates :description, presence: true, if: Proc.new {|p| p.payment_form == 'natural'}
 
+  after_save :set_user_as_unsuspended
+
   def self.user_ids
     distinct.pluck(:user_id).compact
   end
@@ -51,6 +53,16 @@ class Payment < ApplicationRecord
     return if self.start_date.nil? or self.end_date.nil?
     if self.start_date - 1 > self.end_date
       errors.add(:end_date, "should be after or equal to start date")
+    end
+  end
+
+  def set_user_as_unsuspended
+    if user.present?
+      return if user.account_banned?
+
+      if user.last_payment && (user.last_payment.end_date > Time.now ) && user.account_suspended?
+        user.update_column(:account_suspended, false)
+      end
     end
   end
 end
