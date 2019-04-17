@@ -38,6 +38,9 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+  
+  # stop "cannot render console" messages when in docker container
+  config.web_console.whiny_requests = false
 
   Paperclip.options[:command_path] = '/usr/local/bin/'
 end
