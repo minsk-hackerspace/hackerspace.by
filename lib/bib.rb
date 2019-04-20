@@ -110,10 +110,10 @@ module BelinvestbankApi
 
       doc = Nokogiri::HTML(r.body)
       doc.css('.blockAccount').each do |item|
-        acc = item.css('.accountNumber').text
-        balance = item.css('.accountBalance').text.delete(' ')
-        type = item.css('.accountType').text
-        currency = item.css('.accountCurrency').text
+        acc = item.css('.js-account-number-in-table').first['data-value']
+        balance = item.css('.blockAccount__currentBalance .block__desc').text.delete(' ')
+        type = item.css('.js-account-type-in-table').first['data-value']
+        currency = item.css('.js-account-currency-in-table').first['data-value']
         acc_id = item['data-row-id']
 
         accounts[acc] = {balance: balance, type: type, currency: currency, id: acc_id}
