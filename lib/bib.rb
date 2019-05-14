@@ -93,7 +93,7 @@ module BelinvestbankApi
       begin
         r = query :post, '/corporate/set-current-organization', {ownerId: ownerId}
       rescue RestClient::Exception => e
-        raise e unless e.http_code == 302 and e.http_headers[:location] == '/corporate'
+        raise e unless e.http_code == 302 and e.http_headers[:location].include? '/corporate'
         r = e.response
       end
       r
