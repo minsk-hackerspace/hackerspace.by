@@ -12,6 +12,8 @@ Devise.setup do |config|
   # with default "from" parameter.
   config.mailer_sender = 'info@hackerspace.by'
 
+  config.parent_mailer = 'ApplicationMailer'
+
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
 
