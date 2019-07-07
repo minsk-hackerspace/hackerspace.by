@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   get '/spaceapi', to: 'main#spaceapi', defaults: {format: 'json'}
 
   authenticate :user do
-    mount WikiGateway, at: 'wiki'
+    mount WikiGateway.new(backend: 'http://localhost:4567/'), at: 'wiki', as: 'wiki_gateway'
   end
 
   namespace :admin do
