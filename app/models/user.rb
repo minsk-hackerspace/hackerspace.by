@@ -199,7 +199,7 @@ class User < ApplicationRecord
 
   def self.paid_within_period(start_date, end_date)
     Rails.cache.fetch [start_date, end_date, :paid_within_period] do
-      left_outer_joins(:erip_transactions).where(erip_transactions: {status: 'successful', created_at: [start_date..end_date]})
+      left_outer_joins(:payments).where(payments: {start_date: [Time.at(0)..end_date], end_date: [start_date..Date::Infinity.new]}).uniq
     end
   end
 
