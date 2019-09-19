@@ -64,17 +64,18 @@ module BelinvestbankApi
             r = query_login :get, e.http_headers[:location]
             raise e unless r.body.include?('showDialog')
             begin
+              puts "Close old session"
               r = query_login :post, '/confirmationCloseSession'
             rescue RestClient::Exception => e
               r = e.response
               raise e unless e.http_code == 302
+              puts e.http_headers[:location]
             end
-            r = self.login # restart auth process only if we got 302 after POST /confirmationCloseSession
-            return r
-          else
-            if e.http_headers[:location].include? 'auth-callback'
-              r = query_common e.http_headers[:location], :get, ''
-            end
+            puts r.body
+          end
+
+          if e.http_headers[:location].include? 'auth-callback'
+            r = query_common e.http_headers[:location], :get, ''
           end
         end
       end
@@ -163,6 +164,9 @@ module BelinvestbankApi
               'М','И','Т','Ь','Б','Ю','й','ц','у','к','е','н','г','ш','щ','з','х','ъ','ф','ы','в','а','п','р','о','л',
               'д','ж','э','я','ч','с','м','и','т','ь','б','ю','1','2','3','4','5','6','7','8','9','0','_','.','-'];
 
+      STDERR.puts key.size
+      STDERR.puts lang.size
+      STDERR.puts key.inspect
       dict = {}
       lang.each_index {|i| dict[lang[i]] = key[i].chr(Encoding::UTF_8)}
 
