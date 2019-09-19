@@ -26,3 +26,11 @@ end
 every 1.day, at: '12:00 am' do
   runner 'SuspendUsersService.new.set_users_as_suspended'
 end
+
+every 1.hour do
+  runner 'BankFetcherService.fetch_balance'
+end
+
+every 4.hours do
+  runner 'BankFetcherService.fetch_transactions'
+end

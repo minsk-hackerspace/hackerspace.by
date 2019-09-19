@@ -52,7 +52,8 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production.
-  config.cache_store = :memory_store, { size: 1.megabyte }
+  config.cache_store = :file_store, '/tmp/mhs_cache'
+#  config.cache_store = :memory_store, { size: 1.megabyte }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"
