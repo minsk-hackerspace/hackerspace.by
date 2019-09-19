@@ -9,7 +9,6 @@ class ApplicationController < ActionController::Base
   before_action :check_for_present_people if Rails.env.production?
   before_action :check_for_hs_balance
   before_action :calc_kitty_number
-  before_action :get_transactions
 
   rescue_from CanCan::AccessDenied do |exception|
     message = "Cannot #{exception.action} on #{exception.subject}"
@@ -58,38 +57,8 @@ class ApplicationController < ActionController::Base
 
   def check_for_hs_balance
     if user_signed_in?
-      @hs_balance = Rails.cache.fetch "hs_balance", expires_in: 3.hours do
-        if Rails.env.development? or Rails.env.test? then
-            7777
-        else
-          begin
-            Belinvestbank.fetch_balance unless Rails.env.development? or Rails.env.test?
-          rescue => e
-            Rails.logger.error(e.message)
-            Rails.logger.error(e.backtrace)
-            flash[:alert] = 'Не получилось забрать данные из банка'
-            nil
-          end
-        end
-      end
-    end
-  end
-
-  def get_transactions
-    if user_signed_in?
-      Rails.cache.fetch "bank_transactions", expires_in: 24.hours do
-        unless Rails.env.development? or Rails.env.test?
-          begin
-            BankTransaction.get_transactions
-            Balance.where(state: 0).ids.each { |i| Balance.find(i).update(state: Balance.find(i-1).state) }
-          rescue => e
-            Rails.logger.error(e.message)
-            Rails.logger.error(e.backtrace)
-            flash[:alert] = 'Не получилось забрать данные из банка'
-            nil
-          end
-        end
-      end
+      # Fetches in app/services/fetch_bank_balance.rb
+      @hs_balance = Rails.cache.fetch "hs_balance", expires_in: 3.hours
     end
   end
 

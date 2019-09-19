@@ -21,7 +21,7 @@ Rails.application.configure do
   config.active_support.deprecation = :log
 
   # Use a different cache store in production.
-  config.cache_store = :memory_store
+  config.cache_store = :file_store, '/tmp/mhs_cache'
 
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
