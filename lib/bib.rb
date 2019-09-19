@@ -164,9 +164,6 @@ module BelinvestbankApi
               'М','И','Т','Ь','Б','Ю','й','ц','у','к','е','н','г','ш','щ','з','х','ъ','ф','ы','в','а','п','р','о','л',
               'д','ж','э','я','ч','с','м','и','т','ь','б','ю','1','2','3','4','5','6','7','8','9','0','_','.','-'];
 
-      STDERR.puts key.size
-      STDERR.puts lang.size
-      STDERR.puts key.inspect
       dict = {}
       lang.each_index {|i| dict[lang[i]] = key[i].chr(Encoding::UTF_8)}
 
@@ -178,7 +175,6 @@ module BelinvestbankApi
           encrypted_passs += c
         end
       end
-      puts encrypted_pass
       encrypted_pass
     end
 
