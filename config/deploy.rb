@@ -146,6 +146,11 @@ task :nginx_restart => :remote_environment do
   command 'sudo service nginx restart'
 end
 
+desc "Shows logs."
+task :logs do
+  queue %[cd #{deploy_to!} && tail -f logs/production.log]
+end
+
 # For help in making your deploy script, see the Mina documentation:
 #
 #  - http://nadarei.co/mina
