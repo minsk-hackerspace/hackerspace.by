@@ -148,7 +148,7 @@ end
 
 desc "Shows logs."
 task :logs do
-  queue %[cd #{deploy_to!} && tail -f logs/production.log]
+  command %[cd #{fetch(:deploy_to)}/current && tail -f log/production.log]
 end
 
 # For help in making your deploy script, see the Mina documentation:
