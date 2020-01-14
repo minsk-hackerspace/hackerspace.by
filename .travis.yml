@@ -1,5 +1,9 @@
+version: ~> 1.0
+
+# Ubuntu 18.04 LTS
+dist: bionic
+
 language: ruby
-cache: bundler
 
 script:
   - cp config/database.example.yml config/database.yml
