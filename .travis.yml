@@ -5,6 +5,9 @@ dist: bionic
 
 language: ruby
 
+before_install:
+  - gem install bundler
+
 script:
   - cp config/database.example.yml config/database.yml
   - bundle exec rake db:setup RAILS_ENV=test
