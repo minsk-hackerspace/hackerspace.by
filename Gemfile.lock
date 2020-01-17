@@ -174,7 +174,8 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     public_suffix (3.0.3)
-    puma (3.12.2)
+    puma (4.3.1)
+      nio4r (~> 2.0)
     rack (2.0.8)
     rack-proxy (0.6.5)
       rack
@@ -337,7 +338,7 @@ DEPENDENCIES
   paperclip (~> 5.2.0)
   pg (< 1.0)
   pry
-  puma (~> 3.12)
+  puma (~> 4.3)
   rack-proxy
   rails (~> 5.1)
   rails-controller-testing
