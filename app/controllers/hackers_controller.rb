@@ -16,7 +16,7 @@ class HackersController < ApplicationController
   end
 
   def find_by_mac
-    @hacker = Mac.find_by(address: params[:mac]).try(&:user)
+    @hacker = Mac.find_by(address: params[:mac]&.downcase).try(&:user)
     if @hacker.nil?
       render json: {}, status: :not_found
     else
@@ -25,7 +25,7 @@ class HackersController < ApplicationController
   end
 
   def detected_at_hackerspace
-    @hacker = Mac.find_by(address: params[:mac]).try(&:user)
+    @hacker = Mac.find_by(address: params[:mac]&.downcase).try(&:user)
     if @hacker.nil?
       render json: {}, status: :not_found
     else
@@ -36,7 +36,7 @@ class HackersController < ApplicationController
 
   def add_mac
     if params[:mac].present? and params[:mac][/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/].present?
-      @user.macs << Mac.create(address: params[:mac])
+      @user.macs << Mac.create(address: params[:mac]&.downcase)
       redirect_to edit_user_path(@user)
     else
       redirect_to edit_user_path(@user), alert: 'Ошибка формата mac адреса'
@@ -44,7 +44,7 @@ class HackersController < ApplicationController
   end
 
   def remove_mac
-    @user.macs.delete(Mac.find(params[:mac]))
+    @user.macs.delete(Mac.find(params[:mac]&.downcase))
     redirect_to edit_user_path(@user)
   end
 
