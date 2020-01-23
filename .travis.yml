@@ -1,5 +1,6 @@
 language: ruby
-cache: bundler
+rvm:
+  - 2.5
 
 script:
   - cp config/database.example.yml config/database.yml

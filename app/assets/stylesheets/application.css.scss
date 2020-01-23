@@ -136,6 +136,8 @@ html {
 
 .footer a {
   color: white;
+  font-size: 40px;
+  padding: 10px;
 }
 
 .footer .nav > li > a:hover {
@@ -152,4 +154,24 @@ footer ul.nav.navbar-nav.navbar-right > li > a {
 nav ul.nav.navbar-nav> li > a {
   padding-left: 8px;
   padding-right: 8px;
+}
+.right-bar a {
+  color: white;
+}
+.right-bar li > a:hover {
+  color: green;
+}
+.right-bar {
+  position: fixed;
+  top: 35%;
+  right: 0;
+  ul {
+    font-size: 30px;
+    list-style-type: none;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.342);
+  }
+
 }
