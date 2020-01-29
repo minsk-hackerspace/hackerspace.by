@@ -15,6 +15,4 @@ after_success:
 - echo -e "Host hackerspace.by\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - ssh-add ./deploy_key
 - ssh -i ./deploy_key mhs@hackerspace.by pwd
-- bundle exec mina deploy
-  on:
-    branch: master
+- test $TRAVIS_BRANCH = "master" && bundle exec mina deploy
