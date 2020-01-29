@@ -1,4 +1,4 @@
-FROM ruby:2.5.0
+FROM ruby:2.5
 
 WORKDIR /app
 EXPOSE 3000
@@ -9,6 +9,8 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 COPY Gemfile Gemfile.lock Rakefile ./
+RUN bundle version
+RUN gem install bundler
 RUN bundle install --without production
 
 CMD cp config/database.example.yml config/database.yml \
