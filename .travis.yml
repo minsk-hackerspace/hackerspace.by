@@ -16,3 +16,5 @@ after_success:
 - ssh-add ./deploy_key
 - ssh -i ./deploy_key mhs@hackerspace.by pwd
 - bundle exec mina deploy
+  on:
+    branch: master
