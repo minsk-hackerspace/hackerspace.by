@@ -1,10 +1,12 @@
 language: ruby
 rvm:
-  - 2.5
-
+- 2.5
 script:
-  - cp config/database.example.yml config/database.yml
-  - bundle exec rake db:setup RAILS_ENV=test
-  - bundle exec rails spec
-  - bundle exec bundle-audit check --update
-  - bundle exec brakeman -z
+- cp config/database.example.yml config/database.yml
+- bundle exec rake db:setup RAILS_ENV=test
+- bundle exec rails spec
+- bundle exec bundle-audit check --update
+- bundle exec brakeman -z
+before_install:
+- openssl aes-256-cbc -K $encrypted_622d28529b58_key -iv $encrypted_622d28529b58_iv
+  -in deploy_key.enc -out ./deploy_key -d
