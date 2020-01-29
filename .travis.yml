@@ -15,3 +15,8 @@ before_install:
 - echo -e "Host hackerspace.by\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - ssh-add ./deploy_key
 - ssh -i ./deploy_key mhs@hackerspace.by pwd
+deploy:
+- provider: script
+  script: mina deploy
+  on:
+    branch: master
