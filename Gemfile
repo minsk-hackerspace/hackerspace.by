@@ -52,6 +52,7 @@ gem 'factory_girl_rails', '~> 4.0', require: false
 gem 'will_paginate', '~> 3.1.0'
 gem 'chartkick'
 gem 'groupdate'
+gem 'mina', '~> 1.2'
 
 gem 'font-awesome-rails'
 
@@ -63,7 +64,6 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'thin', platform: :ruby
-  gem 'mina', '~> 1.2'
   gem 'annotate'
   gem 'letter_opener'
 end
