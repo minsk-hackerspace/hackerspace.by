@@ -20,3 +20,6 @@ deploy:
   script: mina deploy
   on:
     branch: master
+branches:
+  only:
+    - master
