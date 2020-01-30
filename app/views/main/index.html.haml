@@ -1,4 +1,7 @@
 .container.marketing
+  %div.js-location.js-location--under-header
+    %script{src: 'https://cdn.lightwidget.com/widgets/lightwidget.js'}
+    %iframe.lightwidget-widget{allowtransparency: 'true', scrolling: 'no', src: '//lightwidget.com/widgets/13f9bdc580885b74ac503b7125dc99cc.html', style: 'width:100%;border:0;overflow:hidden;height:133px;'}
   .header
     %h1
       =t 'index.hello_world'
@@ -21,7 +24,19 @@
     %p.lead Каждый вторник у нас в МалиновомХС вечер открытых дверей. Начало в 19:00. Окончание — после 22:00.
     %p <a href="https://hackerspace.by/projects/32" target=\"_blank\"> Проект малинового ХС</a>. Там вы сможете найти расписание и больше новостей касательного нового пространства ) 
 
+  %div
+    %h3 Наши участники
+    %script{src: 'https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js'}
 
+    .owl-carousel
+      %div
+        Your Content
+      %div
+        Your Content
+      %div
+        Your Content
+      %div
+        Your Content
 
   .row.featurette
     = render partial: 'main/news'
@@ -51,8 +66,7 @@
         %p.lead
           = t('index.what_we_do_content').html_safe
     %hr.featurette-divider
-    %script{src: 'https://cdn.lightwidget.com/widgets/lightwidget.js'}
-    %iframe.lightwidget-widget{allowtransparency: 'true', scrolling: 'no', src: '//lightwidget.com/widgets/2aa6440e69d75e389dd3e7d40f344f17.html', style: 'width:100%;border:0;overflow:hidden;'}
+
     %hr.featurette-divider
       .row.featurette
         .col-md-5
