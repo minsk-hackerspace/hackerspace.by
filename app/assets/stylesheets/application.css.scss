@@ -135,13 +135,17 @@ html {
 }
 
 .footer a {
-  color: white;
-  font-size: 40px;
-  padding: 10px;
+  color: green;
 }
 
 .footer .nav > li > a:hover {
   color: green;
+}
+
+.contacts {
+  padding: 15px;
+  text-align: center;
+  font-size: 1.5em;
 }
 
 .contacts .text {
@@ -151,16 +155,20 @@ html {
 footer ul.nav.navbar-nav.navbar-right > li > a {
   padding: 5px 15px;
 }
+
 nav ul.nav.navbar-nav> li > a {
   padding-left: 8px;
   padding-right: 8px;
 }
+
 .right-bar a {
   color: white;
 }
+
 .right-bar li > a:hover {
   color: green;
 }
+
 .right-bar {
   position: fixed;
   top: 35%;
@@ -173,5 +181,4 @@ nav ul.nav.navbar-nav> li > a {
     border-bottom-left-radius: 10px;
     background-color: rgba(0, 0, 0, 0.342);
   }
-
 }
