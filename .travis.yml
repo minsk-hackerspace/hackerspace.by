@@ -1,6 +1,7 @@
 version: ~> 1.0
 os: linux
 language: ruby
+cache: bundler
 rvm:
 - 2.5
 script:
