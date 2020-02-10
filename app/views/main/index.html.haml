@@ -1,3 +1,6 @@
+- content_for :widgetinst do
+  = render partial: 'layouts/widgetinst'
+  
 .container.marketing
   .header
     %h1
@@ -20,8 +23,6 @@
       %span{'aria-hidden': 'true'} &times;
     %p.lead Каждый вторник у нас в МалиновомХС вечер открытых дверей. Начало в 19:00. Окончание — после 22:00.
     %p <a href="https://hackerspace.by/projects/32" target=\"_blank\"> Проект малинового ХС</a>. Там вы сможете найти расписание и больше новостей касательного нового пространства ) 
-
-
 
   .row.featurette
     = render partial: 'main/news'
@@ -51,8 +52,7 @@
         %p.lead
           = t('index.what_we_do_content').html_safe
     %hr.featurette-divider
-    %script{src: 'https://cdn.lightwidget.com/widgets/lightwidget.js'}
-    %iframe.lightwidget-widget{allowtransparency: 'true', scrolling: 'no', src: '//lightwidget.com/widgets/2aa6440e69d75e389dd3e7d40f344f17.html', style: 'width:100%;border:0;overflow:hidden;'}
+
     %hr.featurette-divider
       .row.featurette
         .col-md-5

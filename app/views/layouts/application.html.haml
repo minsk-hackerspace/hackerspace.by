@@ -15,6 +15,8 @@
     = render partial: 'shared/google_analytics' unless Rails.env.development?
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload', 'data-turbolinks-eval': 'false'
+    %link{rel:"stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" }
+    %link{rel:"stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css" }
   %body
     = render 'layouts/navigation'
 
@@ -31,4 +33,5 @@
           %p.alert #{alert}
       = yield
 
+    = render 'layouts/rightbarsoc'
     = render 'layouts/footer'

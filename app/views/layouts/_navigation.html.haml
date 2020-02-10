@@ -69,3 +69,5 @@
             = link_to 'Выход', destroy_user_session_path, method: :delete
           -else
             %a{href: new_user_session_path} Вход
+.container-widgetinst
+  = yield :widgetinst
