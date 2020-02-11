@@ -135,7 +135,7 @@ html {
 }
 
 .footer a {
-  color: green;
+  color: white;
 }
 
 .footer .nav > li > a:hover {
@@ -143,7 +143,6 @@ html {
 }
 
 .contacts {
-  padding: 15px;
   text-align: center;
   font-size: 1.5em;
 }
@@ -161,24 +160,3 @@ nav ul.nav.navbar-nav> li > a {
   padding-right: 8px;
 }
 
-.right-bar a {
-  color: white;
-}
-
-.right-bar li > a:hover {
-  color: green;
-}
-
-.right-bar {
-  position: fixed;
-  top: 35%;
-  right: 0;
-  ul {
-    font-size: 30px;
-    list-style-type: none;
-    padding: 10px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.342);
-  }
-}
