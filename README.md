@@ -1,4 +1,4 @@
-[![Travis (.org)](https://img.shields.io/travis/minsk-hackerspace/hackerspace.by)](https://travis-ci.org/minsk-hackerspace/hackerspace.by)
+[![Travis Build Status](https://img.shields.io/travis/minsk-hackerspace/hackerspace.by/master)](https://travis-ci.org/minsk-hackerspace/hackerspace.by)
 
 Документация в Wiki: https://github.com/minsk-hackerspace/hackerspace.by/wiki
 
