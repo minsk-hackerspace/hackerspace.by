@@ -1,12 +1,17 @@
-Web site of Minsk Hackerspace - https://hackerspace.by/
+[![Travis (.org)](https://img.shields.io/travis/minsk-hackerspace/hackerspace.by)](https://travis-ci.org/minsk-hackerspace/hackerspace.by)
 
 Документация в Wiki: https://github.com/minsk-hackerspace/hackerspace.by/wiki
 
-Новички могут посоздавать [issues] (https://github.com/minsk-hackerspace/hackerspace.by/issues), а для прокачанных, как обычно, git и pull-request'ы.
+Новички могут посоздавать [issues](https://github.com/minsk-hackerspace/hackerspace.by/issues), а для прокачанных, как обычно, git и pull-request'ы.
 
-Для разработки нужен [Ruby версии 2.5 и выше](https://www.ruby-lang.org/en/installation/), а также `bundler` (http://bundler.io/).
+### Разработка
 
-Как запустить локальную копию сайта:
+Для сайта требуется [Ruby версии 2.5 и выше](https://www.ruby-lang.org/en/installation/), а также `bundler` (http://bundler.io/).
+
+Тестовые пользователи: developer@hackerspace.by, developer2@hackerspace.by, admin@hackerspace.by, device@hackerspace.by пароль '111111'.
+
+
+#### Запуск сайта локально на [http://localhost:3000/](http://localhost:3000/):
 
 ```
 git clone https://github.com/minsk-hackerspace/hackerspace.by
@@ -19,12 +24,12 @@ bundle exec rails server
 
 `bundler` устанавливает библиотеки глобально, поэтому если не хочется мусорить, стоит посмотреть на RVM.
 
-После старта сайт будет доступен на [http://localhost:3000/](http://localhost:3000/). 
+#### Запуск в контейнере с помощью docker-compose:
+```
+docker-compose up
+```
 
-Тестовые пользователи: developer@hackerspace.by, developer2@hackerspace.by, admin@hackerspace.by, device@hackerspace.by пароль '111111'.
-
-
-Как запустить в виртуалке под Vagrant:
+#### Запуск в виртуалке под Vagrant:
 
 ```
 git clone https://github.com/minsk-hackerspace/hackerspace.by
@@ -37,13 +42,7 @@ vagrant ssh -c "cd /vagrant_share && bundle exec rails server --binding=0.0.0.0"
 
 ```
 
-Запуск с помощью docker-compose:
-```
-docker-compose up
-```
-
-Запуск тэстаў
-
+#### Запуск тэстаў
 ```
 rails db:test:prepare
 rspec spec/
