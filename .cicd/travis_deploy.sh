@@ -8,5 +8,5 @@ chmod 600 ./deploy_key
 eval "$(ssh-agent -s)"
 ssh-add ./deploy_key
 ssh -i ./deploy_key mhs@hackerspace.by pwd
-bundle exec mina deploy
-
+#bundle exec mina deploy
+bundle exec mina test

@@ -13,5 +13,5 @@ script:
 deploy:
 - provider: script
   script: .cicd/travis_deploy.sh
-  on:
-    branch: master
+  #  on:
+  #  branch: master
