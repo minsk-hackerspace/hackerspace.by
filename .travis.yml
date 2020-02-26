@@ -10,13 +10,8 @@ script:
 - bundle exec rails spec
 - bundle exec bundle-audit check --update
 - bundle exec brakeman -z
-after_success:
-- echo "branch=$TRAVIS_BRANCH repo=$TRAVIS_REPO_SLUG"
-- test "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_REPO_SLUG" = "minsk-hackerspace/hackerspace.by" -a "$TRAVIS_PULL_REQUEST" = "false" && openssl aes-256-cbc -K $encrypted_622d28529b58_key -iv $encrypted_622d28529b58_iv
-  -in deploy_key.enc -out ./deploy_key -d
-- test "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_REPO_SLUG" = "minsk-hackerspace/hackerspace.by" -a "$TRAVIS_PULL_REQUEST" = "false" && eval "$(ssh-agent -s)"
-- test "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_REPO_SLUG" = "minsk-hackerspace/hackerspace.by" -a "$TRAVIS_PULL_REQUEST" = "false" && chmod 600 ./deploy_key
-- test "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_REPO_SLUG" = "minsk-hackerspace/hackerspace.by" -a "$TRAVIS_PULL_REQUEST" = "false" && echo -e "Host hackerspace.by\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-- test "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_REPO_SLUG" = "minsk-hackerspace/hackerspace.by" -a "$TRAVIS_PULL_REQUEST" = "false" && ssh-add ./deploy_key
-- test "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_REPO_SLUG" = "minsk-hackerspace/hackerspace.by" -a "$TRAVIS_PULL_REQUEST" = "false" && ssh -i ./deploy_key mhs@hackerspace.by pwd
-- test "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_REPO_SLUG" = "minsk-hackerspace/hackerspace.by" -a "$TRAVIS_PULL_REQUEST" = "false" && bundle exec mina deploy
+deploy:
+- provider: script
+  script: .cicd/travis_deploy.sh
+  on:
+    branch: master
