@@ -48,14 +48,19 @@ ru:
     у которых всегда можно попросить совета и помощи."
     how_to_find: "Как нас найти?"
     how_to_find_muted: "Приходите."
-    how_to_find_content_text: "Мы находимся по адресу: ул. Беды, 45 \
+    how_to_find_content_text: "Зёленый хакерспейс: ул. Беды, 45 \
     (<a target=\"_blank\" href=\"https://www.mapillary.com/map/im/98iGzWktd9tuLs-agQWy2w/photo\">карта</a>). \
-    Вход со двора. Наш подвальчик – слева от третьего подъезда. <br/> Важно! У нас нет вахтёра, \
-    а, значит, попасть к нам можно только вместе с кем-нибудь или в день открытых дверей. Поэтому, прежде чем приходить \
-    в первый раз, уточните время в <a href=\"/calendar\">календаре</a>, <a href=\"https://groups.google.com/d/forum/hackerspace-minsk\">рассылке</a>, \
-    группе <a href=\"https://www.facebook.com/hs.minsk\">Facebook</a>,
-    <a href=\"https://vk.com/hackerspace_minsk\">Вконтакте</a> или в чате <a href=\"https://telegram.me/joinchat/Bxa3CT7ai59igvC1dP95Aw\">Telegram</a>.<br/>"
-    how_to_find_malinohs_content_text: "Адрес: Алибегова, 24. Подвал около магазина швейных машинок. Координация через <a href=\"https://t.me/joinchat/Bxa3CUIIty1FAziw7qRsaw\">Telegram</a>."
+    Вход со двора. Наш подвальчик – между третьим и четвертым подъездами. <br/> "
+    how_to_find_malinohs_content_text: "Малиновый хакерспейс: ул. Алибегова, 24 \
+     (<a target=\"_blank\" href=\"https://osm.org/go/0lrB3B911-?m=\">карта</a>). \
+     Подвал около магазина швейных машинок."
+    important_text: "Важно! У нас нет вахтёра, \
+                         а, значит, попасть к нам можно только вместе с кем-нибудь или в день открытых дверей. Поэтому, прежде чем приходить \
+                         в первый раз, уточните время в <a href=\"https://groups.google.com/d/forum/hackerspace-minsk\">рассылке</a>, \
+                         группе <a href=\"https://www.facebook.com/hs.minsk\">Facebook</a>. \
+                         <a href=\"https://vk.com/hackerspace_minsk\">Вконтакте</a>.<br/>"
+    chats_text: "Но проще (и быстрее) всего написать в чат Telegram <a href=\"https://telegram.me/joinchat/Bxa3CT7ai59igvC1dP95Aw\">Зелёного</a> \
+                         или <a href=\"https://t.me/joinchat/Bxa3CUIIty1FAziw7qRsaw\">Малинового</a>."
   cabinet:
     title: Кабинет
   join_us:
