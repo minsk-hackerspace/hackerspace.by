@@ -12,6 +12,6 @@ script:
 - bundle exec brakeman -z
 deploy:
 - provider: script
-  script: .cicd/travis_deploy.sh
+  script: rvm use $TRAVIS_RUBY_VERSION do .cicd/travis_deploy.sh
   on:
     branch: master
