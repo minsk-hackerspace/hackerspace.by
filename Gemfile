@@ -85,6 +85,6 @@ group :test do
 end
 
 group :production do
-  gem 'pg', '< 1.0'
-  gem 'puma', '~> 3.12'
+  gem 'pg'
+  gem 'puma'
 end

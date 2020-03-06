@@ -67,8 +67,8 @@ end
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
 task :remote_environment do
-  invoke :'rvm:use', 'ruby-2.5.0'
-  command 'gem i bundler -v 2.0.2'
+  invoke :'rvm:use', 'ruby-2.7.0'
+  command 'gem i bundler'
 #  command "export GEM_HOME=/home/#{fetch(:user)}/.rvm/gems/ruby-2.5.0"
 #  command "export PATH=/home/#{fetch(:user)}/.rvm/gems/ruby-2.5.0/bin:/home/#{fetch(:user)}/.rvm/gems/ruby-2.5.0@global/bin:/home/#{fetch(:user)}/.rvm/rubies/ruby-2.5.0/bin:/home/#{fetch(:user)}/.rvm/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games"
 end
