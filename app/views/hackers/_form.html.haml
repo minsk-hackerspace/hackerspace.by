@@ -67,6 +67,8 @@
 
       .form-group
         = f.submit 'Сохранить', class: 'btn btn-default'
+
+-#MAC
 %hr
 .row
   .col-lg-6
@@ -87,3 +89,25 @@
         = text_field_tag(:mac, nil, class: 'form-control')
       .form-group
         = submit_tag('Добавить Mac адрес', class: 'btn btn-default')
+
+-#NFC
+%hr
+.row
+  .col-lg-6
+    - unless @user.nfc_keys.empty?
+      %h3 NFC ключи пользователя
+      - @user.nfc_keys.each do |nfc|
+        .row
+          .col-lg-4
+            %p
+              = nfc.body
+          .col-lg-1
+            %p
+              = link_to 'Удалить', remove_nfc_user_path(@user, nfc: nfc.body), method: :delete
+.row
+  .col-lg-6
+    = form_tag("/hackers/#{@user.id}/add_nfc") do
+      .form-group
+        = text_field_tag(:nfc, nil, class: 'form-control')
+      .form-group
+        = submit_tag('Добавить NFC ключ', class: 'btn btn-default')

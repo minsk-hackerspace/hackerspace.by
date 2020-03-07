@@ -3,6 +3,7 @@ class HackersController < ApplicationController
   load_and_authorize_resource :user, parent: false,
                               except: [:useful, :find_by_mac, :detected_at_hackerspace]
   load_and_authorize_resource :mac
+  load_and_authorize_resource :nfc_key
   # before_action :set_hacker, only: [:show, :edit, :update, :add_mac, :remove_mac]
 
   def index
@@ -45,6 +46,20 @@ class HackersController < ApplicationController
 
   def remove_mac
     @user.macs.delete(Mac.find(params[:mac]&.downcase))
+    redirect_to edit_user_path(@user)
+  end
+
+  def add_nfc
+    if params[:nfc].present? and params[:nfc][/^[0-9A-Za-z]*$/].present?
+      @user.nfc_keys << NfcKey.create(body: params[:nfc]&.downcase)
+      redirect_to edit_user_path(@user)
+    else
+      redirect_to edit_user_path(@user), alert: 'Ошибка формата NFC [0-9A-Za-z]'
+    end
+  end
+
+  def remove_nfc
+    @user.nfc_keys.delete(NfcKey.find_by(body: params[:nfc]&.downcase))
     redirect_to edit_user_path(@user)
   end
 
