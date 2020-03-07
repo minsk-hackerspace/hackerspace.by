@@ -4,7 +4,7 @@ class BramnikController < ApplicationController
   load_resource :user
 
   def index
-    @users = User.all.map { |u| {id: u.id, paid_until: u.paid_until, nfc_keys: u.nfc_keys.pluck(:body)} }
+    @users = User.active.map { |u| {id: u.id, paid_until: u.paid_until, nfc_keys: u.nfc_keys.pluck(:body)} }
     render json: @users
   end
 
