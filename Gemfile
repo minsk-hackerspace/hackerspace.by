@@ -48,7 +48,6 @@ gem 'responders', '~> 2.0'
 gem 'sanitize', '~> 4.6.3'
 gem 'redcarpet'
 gem 'comma'
-gem 'factory_girl_rails', '~> 4.0', require: false
 gem 'will_paginate', '~> 3.1.0'
 gem 'chartkick'
 gem 'groupdate'
@@ -72,6 +71,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'pry'
   gem 'rspec-rails'
+  gem 'factory_bot_rails'
   gem 'sqlite3'
   gem 'faker'
   gem 'brakeman', require: false
@@ -79,7 +79,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'shoulda-matchers', '2.8.0'
+  gem 'shoulda-matchers', '=4.3.0'
   gem 'ffaker'
   gem 'rails-controller-testing'
 end
