@@ -10,7 +10,7 @@ class BramnikController < ApplicationController
 
 
   def authenticate_token
-    env_token = Rails.env.production? ? ENV['BRAMNIK_TOKEN'] : 'abcdef'
+    env_token = Rails.env.production? ? Rails.application.secrets.bramnik_token : 'abcdef'
     authenticate_or_request_with_http_token { |request_token, _| ActiveSupport::SecurityUtils.secure_compare(request_token, env_token)   }
   end
 end
