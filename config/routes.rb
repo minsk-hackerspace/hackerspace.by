@@ -7,6 +7,13 @@ Rails.application.routes.draw do
   devise_for :devices
   devise_for :users
 
+  resources :nfc_keys, controller: 'bramnik', path: 'bramnik' do
+
+    collection do
+
+    end
+  end
+
   resources :projects
   resources :news
   resources :devices, only: [:index, :show]
