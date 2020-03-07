@@ -1,15 +1,16 @@
-class BramnikController < ApplicationController
-  before_action :authenticate_token
-  skip_authorization_check
-  load_resource :user
+class BramnikController < ActionController::API
 
   def index
-    @users = User.active.map { |u| {id: u.id, paid_until: u.paid_until, nfc_keys: u.nfc_keys.pluck(:body)} }
-    render json: @users
+    if authenticate_token
+      @users = User.active.map { |u| {id: u.id, paid_until: u.paid_until, nfc_keys: u.nfc_keys.pluck(:body)} }
+      render json: @users, status: :ok
+    else
+      render plain: "Authorization required\n", status: :unauthorized
+    end
   end
 
-
+  protected
   def authenticate_token
-    authenticate_or_request_with_http_token { |request_token, _| ActiveSupport::SecurityUtils.secure_compare(request_token, Rails.application.secrets.bramnik_token) }
+    ActiveSupport::SecurityUtils.secure_compare(request.headers['Authorization']&.split&.last || '', Rails.application.secrets.bramnik_token)
   end
 end
