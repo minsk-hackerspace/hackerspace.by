@@ -50,7 +50,7 @@ class HackersController < ApplicationController
   end
 
   def add_nfc
-    if params[:nfc].present? and params[:nfc][/^[0-9A-Za-z]*$/].present?
+    if params[:nfc].present? and params[:nfc][/^[0-9A-Za-z:]*$/].present?
       @user.nfc_keys << NfcKey.create(body: params[:nfc]&.downcase)
       redirect_to edit_user_path(@user)
     else
