@@ -44,22 +44,22 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
     sequence(:email) { |n| "user#{n}@hackerspace.by" }
     first_name { FFaker::Name.first_name }
     last_name { FFaker::Name.last_name }
-    password "123456"
-    password_confirmation "123456"
+    password {"123456"}
+    password_confirmation {"123456"}
     # confirmed_at Time.now
-    sign_in_count 0
+    sign_in_count {0}
 
     trait :banned do
-      account_banned true
+      account_banned {true}
     end
 
     trait :suspended do
-      account_suspended true
+      account_suspended {true}
     end
 
     trait :with_payment do
@@ -69,7 +69,7 @@ FactoryGirl.define do
     end
 
     trait :with_outdated_payment do
-      last_sign_in_at Time.now - 2.days
+      last_sign_in_at {Time.now - 2.days}
       after(:create) do |user|
         user.payments << create(:payment, :outdated)
       end
@@ -83,7 +83,7 @@ FactoryGirl.define do
 
     factory :admin_user do
       after(:create) do |post|
-        post.roles << FactoryGirl.create(:admin_role)
+        post.roles << FactoryBot.create(:admin_role)
       end
     end
   end

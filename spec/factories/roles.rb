@@ -8,15 +8,15 @@
 #  updated_at :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :role do
     factory :admin_role do
-      name 'admin'
+      name {'admin'}
     end
 
     factory :hacker_role do
-      name 'hacker'
+      name {'hacker'}
     end
   end
 

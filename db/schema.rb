@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181030093131) do
+ActiveRecord::Schema.define(version: 2020_03_07_173347) do
 
   create_table "balances", force: :cascade do |t|
     t.float "state", null: false
@@ -103,6 +103,14 @@ ActiveRecord::Schema.define(version: 20181030093131) do
     t.boolean "show_on_homepage"
     t.datetime "show_on_homepage_till_date"
     t.string "url"
+  end
+
+  create_table "nfc_keys", force: :cascade do |t|
+    t.string "body"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_nfc_keys_on_user_id"
   end
 
   create_table "payments", force: :cascade do |t|

@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   devise_for :devices
   devise_for :users
 
+  resources :nfc_keys, controller: 'bramnik', path: 'bramnik', only: [:index]
+
   resources :projects
   resources :news
   resources :devices, only: [:index, :show]
@@ -14,6 +16,11 @@ Rails.application.routes.draw do
     member do
       post 'add_mac', to: 'hackers#add_mac'
       delete 'remove_mac', to: 'hackers#remove_mac'
+    end
+
+    member do
+      post 'add_nfc', to: 'hackers#add_nfc'
+      delete 'remove_nfc', to: 'hackers#remove_nfc'
     end
 
     collection do

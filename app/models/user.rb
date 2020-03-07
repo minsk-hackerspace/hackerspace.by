@@ -83,6 +83,7 @@ class User < ApplicationRecord
   has_many :roles, through: :users_roles
   has_many :erip_transactions
   has_many :payments
+  has_many :nfc_keys
   belongs_to :guarantor1, class_name: 'User' 
   belongs_to :guarantor2, class_name: 'User' 
 

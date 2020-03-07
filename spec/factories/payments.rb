@@ -23,18 +23,18 @@
 #  index_payments_on_user_id              (user_id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :payment do
-    paid_at Time.now - 1.second
-    amount 50
-    payment_type 'membership'
-    payment_form 'erip'
-    start_date Time.now
-    end_date Time.now + 30.days
+    paid_at { Time.now - 1.second }
+    amount { 50 }
+    payment_type { 'membership' }
+    payment_form { 'erip' }
+    start_date { Time.now }
+    end_date { Time.now + 30.days }
 
     trait :outdated do
-      start_date (Time.now - 46.days)
-      end_date (Time.now - 16.days)
+      start_date {Time.now - 46.days}
+      end_date {Time.now - 16.days}
     end
   end
 end

@@ -86,7 +86,7 @@ class Admin::EripTransactionsController < AdminController
     et.transaction_id = transaction[:id]
     et.uid = transaction[:uid]
     et.order_id = transaction[:order_id]
-    et.amount = BigDecimal.new(transaction[:amount]) / 100 # amount is in 1/100 BYN
+    et.amount = BigDecimal(transaction[:amount]) / 100 # amount is in 1/100 BYN
     et.currency = transaction[:currency]
     et.tracking_id = transaction[:tracking_id]
     et.transaction_created_at = DateTime.parse(transaction[:created_at])
