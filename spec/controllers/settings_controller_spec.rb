@@ -19,7 +19,7 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe SettingsController, type: :controller do
-  let(:user) { FactoryGirl.create(:admin_user) }
+  let(:user) { FactoryBot.create(:admin_user) }
 
   before do
     sign_in user
