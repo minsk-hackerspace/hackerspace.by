@@ -45,7 +45,7 @@ class HackersController < ApplicationController
   end
 
   def remove_mac
-    @user.macs.delete(Mac.find(params[:mac]&.downcase))
+    Mac.find(params[:mac]&.downcase)&.destroy
     redirect_to edit_user_path(@user)
   end
 

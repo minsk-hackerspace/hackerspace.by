@@ -1,23 +1,21 @@
-Setting.create(key: 'bePaid_ID', value: '', description: 'ID магазина из личного кабинета bePaid')
-Setting.create(key: 'bePaid_secret', value: '', description: 'Секретный ключ из личного кабинета bePaid')
-Setting.create(key: 'bePaid_baseURL', value: 'https://api.bepaid.by', description: 'Базовый адрес для запросов к API bePaid')
-Setting.create(key: 'bePaid_serviceNo', value: '248', description: 'Номер услуги в bePaid для членских взносов')
-Setting.create(key: 'bib_baseURL', value: 'https://ibank.belinvestbank.by/', description: 'Bank API base URL')
-Setting.create(key: 'bib_loginBaseURL', value: 'https://login.belinvestbank.by/', description: 'Bank API base URL for login')
-Setting.create(key: 'bib_login', value: '', description: 'Login for Belinvestbank')
-Setting.create(key: 'bib_password', value: '', description: 'Password for Belinvestbank')
-
-User::ROLES.each do |rolename|
-  puts "Create role: #{rolename}"
-  Role.find_or_create_by(name: rolename)
-end
-
 unless Rails.env.production?
-  Project.destroy_all
-  User.destroy_all
-  Device.destroy_all
-  Event.destroy_all
-  News.destroy_all
+
+  [Mac, Role, NfcKey, Project, Device, Event, News, Setting, User, EripTransaction, Payment].each { |model| model.destroy_all }
+
+  Setting.create(key: 'bePaid_ID', value: '', description: 'ID магазина из личного кабинета bePaid')
+  Setting.create(key: 'bePaid_secret', value: '', description: 'Секретный ключ из личного кабинета bePaid')
+  Setting.create(key: 'bePaid_baseURL', value: 'https://api.bepaid.by', description: 'Базовый адрес для запросов к API bePaid')
+  Setting.create(key: 'bePaid_serviceNo', value: '248', description: 'Номер услуги в bePaid для членских взносов')
+  Setting.create(key: 'bib_baseURL', value: 'https://ibank.belinvestbank.by/', description: 'Bank API base URL')
+  Setting.create(key: 'bib_loginBaseURL', value: 'https://login.belinvestbank.by/', description: 'Bank API base URL for login')
+  Setting.create(key: 'bib_login', value: '', description: 'Login for Belinvestbank')
+  Setting.create(key: 'bib_password', value: '', description: 'Password for Belinvestbank')
+
+  User::ROLES.each do |rolename|
+    puts "Create role: #{rolename}"
+    Role.find_or_create_by(name: rolename)
+  end
+
 
   admin = User.create(email: 'admin@hackerspace.by', password: '111111', last_name: 'Бердымухаммедов', first_name: 'Гурбангулы')
   admin.roles << Role.find_by(name: 'admin')
@@ -25,10 +23,14 @@ unless Rails.env.production?
   user1 = User.create(email: 'developer@hackerspace.by', password: '111111', last_name: 'Рабинович', first_name: 'Давид')
   user1.macs << Mac.create(address: 'a0:a0:a0:a0:a1:a1')
   user1.macs << Mac.create(address: 'a0:a0:a0:a0:a1:a2')
+  user1.nfc_keys << NfcKey.create(body: 'a0a0a0a0')
+  user1.nfc_keys << NfcKey.create(body: 'b0ab0b0b0')
 
   user2 = User.create(email: 'developer2@hackerspace.by', password: '111111', last_name: 'Ковалёв', first_name: 'Иван')
   user2.macs << Mac.create(address: 'a0:a0:a0:a0:a2:a1')
   user2.macs << Mac.create(address: 'a0:a0:a0:a0:a2:a2')
+  user2.nfc_keys << NfcKey.create(body: 'c0c0c0c0')
+  user2.nfc_keys << NfcKey.create(body: 'd0d0d0d0')
 
   device = User.create(email: 'device@hackerspace.by', password: '111111')
   device.roles << Role.find_by(name: 'device')
@@ -58,7 +60,6 @@ unless Rails.env.production?
 
   Device.all.each(&:mark_repeated_events)
 
-  EripTransaction.destroy_all
   60.times do
     time = Faker::Time.between(1.year.ago, Date.today)
     user = User.all.sample
@@ -124,11 +125,11 @@ unless Rails.env.production?
     if et.erip['service_no'] == 248
       start_date = et.paid_at
       end_date = et.paid_at + 1.month
-        begin
-          u = User.find(et.erip['account_number'])
-        rescue
-          u = nil
-        end
+      begin
+        u = User.find(et.erip['account_number'])
+      rescue
+        u = nil
+      end
     end
     p = Payment.create(erip_transaction: et,
                        amount: et.amount,
@@ -139,25 +140,25 @@ unless Rails.env.production?
                        end_date: end_date,
                        user: u)
     puts "Payment created: #{p.inspect} #{p.errors.inspect}"
-  end 
+  end
 
-    BankTransaction.destroy_all
-    BankTransaction.create(
-          plus: 10,
-          minus: 0,
-          unp: 'unp',
-          their_account: '000',
-          our_account: '111',
-          document_number: '123'
-    )
-    BankTransaction.create(
-          plus: 0,
-          minus: 2340,
-          unp: 'unp',
-          their_account: '000',
-          our_account: '111',
-          document_number: '1234'
-    )
+  BankTransaction.destroy_all
+  BankTransaction.create(
+      plus: 10,
+      minus: 0,
+      unp: 'unp',
+      their_account: '000',
+      our_account: '111',
+      document_number: '123'
+  )
+  BankTransaction.create(
+      plus: 0,
+      minus: 2340,
+      unp: 'unp',
+      their_account: '000',
+      our_account: '111',
+      document_number: '1234'
+  )
 
 end
 
