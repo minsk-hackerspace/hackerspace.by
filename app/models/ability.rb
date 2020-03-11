@@ -50,7 +50,7 @@ class Ability
     if user.present?
       can :chart, :main
       can [:show, :index], User
-      can [:update, :edit, :add_mac, :remove_mac], User, id: user.id
+      can [:update, :edit, :add_mac, :remove_mac, :add_nfc, :remove_nfc], User, id: user.id
       can :manage, Mac, user_id: user.id
       can :manage, NfcKey, user_id: user.id
 

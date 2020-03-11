@@ -13,6 +13,6 @@
 #
 
 class Mac < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, required: true
   validates_uniqueness_of :address
 end
