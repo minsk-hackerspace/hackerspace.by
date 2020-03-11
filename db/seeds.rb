@@ -1,4 +1,4 @@
-if !Rails.env.production?
+unless Rails.env.production?
 
   [Mac, Role, NfcKey, Project, Device, Event, News, Setting, User, EripTransaction].each { |model| model.destroy_all }
 
