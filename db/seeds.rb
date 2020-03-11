@@ -1,14 +1,6 @@
-unless Rails.env.production?
-  Mac.destroy_all
-  Role.destroy_all
-  NfcKey.destroy_all
-  Project.destroy_all
-  Device.destroy_all
-  Event.destroy_all
-  News.destroy_all
-  Setting.destroy_all
-  User.destroy_all
-  EripTransaction.destroy_all
+if !Rails.env.production?
+
+  [Mac, Role, NfcKey, Project, Device, Event, News, Setting, User, EripTransaction].each { |model| model.destroy_all }
 
   Setting.create(key: 'bePaid_ID', value: '', description: 'ID магазина из личного кабинета bePaid')
   Setting.create(key: 'bePaid_secret', value: '', description: 'Секретный ключ из личного кабинета bePaid')
@@ -31,14 +23,14 @@ unless Rails.env.production?
   user1 = User.create(email: 'developer@hackerspace.by', password: '111111', last_name: 'Рабинович', first_name: 'Давид')
   user1.macs << Mac.create(address: 'a0:a0:a0:a0:a1:a1')
   user1.macs << Mac.create(address: 'a0:a0:a0:a0:a1:a2')
-  user1.macs << NfcKey.create(body: 'a0a0a0a0')
-  user1.macs << NfcKey.create(body: 'b0ab0b0b0')
+  user1.nfc_keys << NfcKey.create(body: 'a0a0a0a0')
+  user1.nfc_keys << NfcKey.create(body: 'b0ab0b0b0')
 
   user2 = User.create(email: 'developer2@hackerspace.by', password: '111111', last_name: 'Ковалёв', first_name: 'Иван')
   user2.macs << Mac.create(address: 'a0:a0:a0:a0:a2:a1')
   user2.macs << Mac.create(address: 'a0:a0:a0:a0:a2:a2')
-  user2.macs << NfcKey.create(body: 'c0c0c0c0')
-  user2.macs << NfcKey.create(body: 'd0d0d0d0')
+  user2.nfc_keys << NfcKey.create(body: 'c0c0c0c0')
+  user2.nfc_keys << NfcKey.create(body: 'd0d0d0d0')
 
   device = User.create(email: 'device@hackerspace.by', password: '111111')
   device.roles << Role.find_by(name: 'device')
@@ -133,11 +125,11 @@ unless Rails.env.production?
     if et.erip['service_no'] == 248
       start_date = et.paid_at
       end_date = et.paid_at + 1.month
-        begin
-          u = User.find(et.erip['account_number'])
-        rescue
-          u = nil
-        end
+      begin
+        u = User.find(et.erip['account_number'])
+      rescue
+        u = nil
+      end
     end
     p = Payment.create(erip_transaction: et,
                        amount: et.amount,
@@ -148,25 +140,25 @@ unless Rails.env.production?
                        end_date: end_date,
                        user: u)
     puts "Payment created: #{p.inspect} #{p.errors.inspect}"
-  end 
+  end
 
-    BankTransaction.destroy_all
-    BankTransaction.create(
-          plus: 10,
-          minus: 0,
-          unp: 'unp',
-          their_account: '000',
-          our_account: '111',
-          document_number: '123'
-    )
-    BankTransaction.create(
-          plus: 0,
-          minus: 2340,
-          unp: 'unp',
-          their_account: '000',
-          our_account: '111',
-          document_number: '1234'
-    )
+  BankTransaction.destroy_all
+  BankTransaction.create(
+      plus: 10,
+      minus: 0,
+      unp: 'unp',
+      their_account: '000',
+      our_account: '111',
+      document_number: '123'
+  )
+  BankTransaction.create(
+      plus: 0,
+      minus: 2340,
+      unp: 'unp',
+      their_account: '000',
+      our_account: '111',
+      document_number: '1234'
+  )
 
 end
 
