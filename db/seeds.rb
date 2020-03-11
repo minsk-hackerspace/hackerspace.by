@@ -1,6 +1,6 @@
 unless Rails.env.production?
 
-  [Mac, Role, NfcKey, Project, Device, Event, News, Setting, User, EripTransaction].each { |model| model.destroy_all }
+  [Mac, Role, NfcKey, Project, Device, Event, News, Setting, User, EripTransaction, Payment].each { |model| model.destroy_all }
 
   Setting.create(key: 'bePaid_ID', value: '', description: 'ID магазина из личного кабинета bePaid')
   Setting.create(key: 'bePaid_secret', value: '', description: 'Секретный ключ из личного кабинета bePaid')
