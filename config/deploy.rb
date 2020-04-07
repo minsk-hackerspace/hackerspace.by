@@ -128,18 +128,21 @@ end
 
 task :puma_start => :remote_environment do
   invoke :cd
-  command 'puma -C config/puma.rb'
+#  command 'puma -C config/puma.rb'
+  command %{systemctl --user start puma-hackerspace.by}
 end
 
 task :puma_stop => :remote_environment do
   invoke :cd
-  command "pumactl -P /home/#{fetch(:user)}/puma.pid stop"
+#  command "pumactl -P /home/#{fetch(:user)}/puma.pid stop"
+  command %{systemctl --user stop puma-hackerspace.by}
 end
 
 task :puma_restart => :remote_environment do
   command 'echo $PATH'
   command 'echo $GEM_HOME'
-  command "pumactl -P /home/#{fetch(:user)}/puma.pid restart"
+#  command "pumactl -P /home/#{fetch(:user)}/puma.pid restart"
+  command %{systemctl --user restart puma-hackerspace.by}
 end
 
 task :nginx_restart => :remote_environment do

@@ -36,7 +36,7 @@ unless ENV['RAILS_ENV']=='development'
 #
 # The default is "false".
 #
-  daemonize
+#  daemonize
 
 # Store the pid of the server in the file at "path".
 #
