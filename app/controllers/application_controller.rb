@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
   def check_for_hs_balance
     if user_signed_in?
       # Fetches in app/services/fetch_bank_balance.rb
-      @hs_balance = Rails.cache.fetch "hs_balance", expires_in: 3.hours
+      @hs_balance = Rails.cache.read "hs_balance"
     end
   end
 
