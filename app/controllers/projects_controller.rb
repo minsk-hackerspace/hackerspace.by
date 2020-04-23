@@ -76,8 +76,15 @@ class ProjectsController < ApplicationController
       permitted_attrs << :public if @project.present? && @project.user == current_user
 
       result_params = params.require(:project).permit(permitted_attrs)
-      result_params[:short_desc] = Sanitize.clean(result_params[:short_desc], Sanitize::Config::RELAXED)
-      result_params[:full_desc] = Sanitize.clean(result_params[:full_desc], Sanitize::Config::RELAXED)
+      sanitize_config = Sanitize::Config.merge(Sanitize::Config::RELAXED,
+        :elements        => Sanitize::Config::RELAXED[:elements] + ['iframe'],
+        :attributes      => Sanitize::Config::RELAXED[:attributes].merge({
+          'iframe' => %w(width height src frameborder allow allowfullscreen)
+        }),
+        :remove_contents => true
+      )
+      result_params[:short_desc] = Sanitize.fragment(result_params[:short_desc], sanitize_config)
+      result_params[:full_desc] = Sanitize.fragment(result_params[:full_desc], sanitize_config)
       result_params
     end
 end
