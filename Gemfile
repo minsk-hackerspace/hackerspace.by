@@ -45,7 +45,7 @@ gem 'rack-proxy'
 
 gem 'paperclip', '~> 5.2.0'
 gem 'responders', '~> 2.0'
-gem 'sanitize', '~> 4.6.3'
+gem 'sanitize'
 gem 'redcarpet'
 gem 'comma'
 gem 'will_paginate', '~> 3.1.0'
