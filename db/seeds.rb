@@ -2,8 +2,8 @@ unless Rails.env.production?
 
   [Mac, Role, NfcKey, Project, Device, Event, News, Setting, User, EripTransaction, Payment].each { |model| model.destroy_all }
 
-  Setting.create(key: 'bePaid_ID', value: '', description: 'ID магазина из личного кабинета bePaid')
-  Setting.create(key: 'bePaid_secret', value: '', description: 'Секретный ключ из личного кабинета bePaid')
+  Setting.create(key: 'bePaid_ID', value: 'bepaidID', description: 'ID магазина из личного кабинета bePaid')
+  Setting.create(key: 'bePaid_secret', value: 'bepaidSecret', description: 'Секретный ключ из личного кабинета bePaid')
   Setting.create(key: 'bePaid_baseURL', value: 'https://api.bepaid.by', description: 'Базовый адрес для запросов к API bePaid')
   Setting.create(key: 'bePaid_serviceNo', value: '248', description: 'Номер услуги в bePaid для членских взносов')
   Setting.create(key: 'bib_baseURL', value: 'https://ibank.belinvestbank.by/', description: 'Bank API base URL')

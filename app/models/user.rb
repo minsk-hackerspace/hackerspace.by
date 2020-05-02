@@ -222,6 +222,9 @@ class User < ApplicationRecord
 
   #TODO: maybe place this to concerns?
   def create_bepaid_bill
+    # Don't touch real web services during of test database initialization
+    return if Rails.env.test?
+
     user = self
 
     bp = BePaid::BePaid.new Setting['bePaid_baseURL'], Setting['bePaid_ID'], Setting['bePaid_secret']
