@@ -6,6 +6,10 @@ class Admin::EripTransactionsController < AdminController
 
   skip_before_action :verify_authenticity_token, only: :bepaid_notify
 
+  http_basic_authenticate_with name: Setting['bePaid_ID'],
+                               password: Setting['bePaid_secret'],
+                               only: :bepaid_notify
+
   # GET /erip_transactions
   # GET /erip_transactions.json
   def index

@@ -139,6 +139,11 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
     }
   }
 
+  def bp_notify_auth
+    credentials = ActionController::HttpAuthentication::Basic.encode_credentials(
+      Setting['bePaid_ID'], Setting['bePaid_secret'])
+    request.env['HTTP_AUTHORIZATION'] = credentials
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -266,8 +271,21 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
     end
   end
 
+  describe "POST  #bepaid_notify" do
+    it "rejects unauthorized bePaid notification" do
+      EripTransaction.destroy_all
+      Payment.destroy_all
+      expect {
+        post :bepaid_notify, params: bepaid_notification, format: :json
+      }.to_not change(EripTransaction, :count)
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
+
   describe "POST #bepaid_notify" do
     it "handles a valid notification from bePaid" do
+      bp_notify_auth
       EripTransaction.destroy_all
       Payment.destroy_all
       expect {
@@ -299,6 +317,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
     end
 
     it "rejects duplicated notification from bePaid" do
+      bp_notify_auth
       EripTransaction.destroy_all
       Payment.destroy_all
       expect {
@@ -317,6 +336,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
 
   describe "POST #bepaid_notify" do
     it "handles a valid notification from bePaid with failed transaction" do
+      bp_notify_auth
       EripTransaction.destroy_all
       Payment.destroy_all
       expect {
@@ -335,6 +355,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
 
   describe "POST #bepaid_notify" do
     it "handles a valid notification from bePaid with monthly amount" do
+      bp_notify_auth
       EripTransaction.destroy_all
       Payment.destroy_all
       bp_notification_m = bepaid_notification.dup
@@ -360,6 +381,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
 
   describe "POST #bepaid_notify" do
     it "handles a valid notification from bePaid with big (two months and few days) amount" do
+      bp_notify_auth
       EripTransaction.destroy_all
       Payment.destroy_all
       bp_notification_m = bepaid_notification.dup
@@ -385,6 +407,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
 
   describe "POST #bepaid_notify" do
     it "handles a valid notification from bePaid with big (two months exactly) amount" do
+      bp_notify_auth
       EripTransaction.destroy_all
       Payment.destroy_all
       bp_notification_m = bepaid_notification.dup
@@ -409,6 +432,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
   end
   describe "POST #bepaid_notify" do
     it "handles a valid notification from bePaid with too small amount" do
+      bp_notify_auth
       EripTransaction.destroy_all
       Payment.destroy_all
       bp_notification_m = bepaid_notification.dup
@@ -434,6 +458,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
 
   describe "POST #bepaid_notify for old user" do
     it "handles a valid notification from bePaid, last payment was > 2 weeks ago" do
+      bp_notify_auth
       EripTransaction.destroy_all
       Payment.destroy_all
       p = Payment.create(paid_at: DateTime.parse('2016-12-07T14:40:12.010Z').to_date - 5.weeks,
@@ -466,6 +491,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
 
   describe "POST #bepaid_notify for old user" do
     it "handles a valid notification from bePaid, last payment was less than 2 weeks ago" do
+      bp_notify_auth
       EripTransaction.destroy_all
       Payment.destroy_all
       p = Payment.create(paid_at: DateTime.parse('2016-12-07T14:40:12.010Z').to_date - 2.weeks,
@@ -498,6 +524,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
 
   describe "POST #bepaid_notify for donation" do
     it "handles a valid notification about donation from bePaid" do
+      bp_notify_auth
       EripTransaction.destroy_all
       Payment.destroy_all
       expect {
