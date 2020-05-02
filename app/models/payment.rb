@@ -24,9 +24,9 @@
 #
 
 class Payment < ApplicationRecord
-  belongs_to :user
-  belongs_to :erip_transaction
-  belongs_to :project
+  belongs_to :user, optional: true
+  belongs_to :erip_transaction, optional: true
+  belongs_to :project, optional: true
 
   validates :paid_at, presence: true
   validates :amount, presence: true

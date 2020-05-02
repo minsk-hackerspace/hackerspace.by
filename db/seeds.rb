@@ -17,35 +17,40 @@ unless Rails.env.production?
   end
 
 
-  admin = User.create(email: 'admin@hackerspace.by', password: '111111', last_name: 'Бердымухаммедов', first_name: 'Гурбангулы')
+  admin = User.create!(email: 'admin@hackerspace.by', password: '111111', last_name: 'Бердымухаммедов', first_name: 'Гурбангулы')
   admin.roles << Role.find_by(name: 'admin')
+  admin.save
 
-  user1 = User.create(email: 'developer@hackerspace.by', password: '111111', last_name: 'Рабинович', first_name: 'Давид')
+  user1 = User.create!(email: 'developer@hackerspace.by', password: '111111', last_name: 'Рабинович', first_name: 'Давид')
   user1.macs << Mac.create(address: 'a0:a0:a0:a0:a1:a1')
   user1.macs << Mac.create(address: 'a0:a0:a0:a0:a1:a2')
   user1.nfc_keys << NfcKey.create(body: 'a0a0a0a0')
   user1.nfc_keys << NfcKey.create(body: 'b0ab0b0b0')
+  user1.save
 
-  user2 = User.create(email: 'developer2@hackerspace.by', password: '111111', last_name: 'Ковалёв', first_name: 'Иван')
+  user2 = User.create!(email: 'developer2@hackerspace.by', password: '111111', last_name: 'Ковалёв', first_name: 'Иван')
   user2.macs << Mac.create(address: 'a0:a0:a0:a0:a2:a1')
   user2.macs << Mac.create(address: 'a0:a0:a0:a0:a2:a2')
   user2.nfc_keys << NfcKey.create(body: 'c0c0c0c0')
   user2.nfc_keys << NfcKey.create(body: 'd0d0d0d0')
+  user2.save
 
-  device = User.create(email: 'device@hackerspace.by', password: '111111')
+  device = User.create!(email: 'device@hackerspace.by', password: '111111')
   device.roles << Role.find_by(name: 'device')
+  device.save
 
   7.times do
     Project.create!(name: Faker::Commerce.product_name,
-                    short_desc: Faker::Lorem.paragraph(rand(2..4)),
-                    full_desc: Faker::Lorem.paragraph(rand(7..20)),
+                    short_desc: Faker::Lorem.paragraph(sentence_count: rand(2..4)),
+                    full_desc: Faker::Lorem.paragraph(sentence_count: rand(7..20)),
                     user: User.all.sample,
                     photo: File.open(Dir['public/images/*.jpg'].sample))
   end
   7.times do
     News.create!(title: Faker::Commerce.product_name,
-                 short_desc: Faker::Lorem.paragraph(rand(5..12)),
-                 description: Faker::Lorem.paragraph(rand(7..20)),
+                 short_desc: Faker::Lorem.paragraph(sentence_count: rand(5..12)),
+                 description: Faker::Lorem.paragraph(sentence_count: rand(7..20)),
+                 user: User.all.sample,
                  public: true,
                  markup_type: 'html',
                  photo: File.open(Dir['public/images/*.jpg'].sample))
@@ -61,7 +66,7 @@ unless Rails.env.production?
   Device.all.each(&:mark_repeated_events)
 
   60.times do
-    time = Faker::Time.between(1.year.ago, Date.today)
+    time = Faker::Time.between(from: 1.year.ago, to: Date.today)
     user = User.all.sample
     uid = SecureRandom.uuid
     user.erip_transactions.create(
@@ -95,10 +100,10 @@ unless Rails.env.production?
              'status': 'successful',
              'gateway_id': 2073},
         erip:
-            {'request_id': Faker::Number.number(10),
-             'service_no': Faker::Number.between(248, 249),
+            {'request_id': Faker::Number.number(digits: 10),
+             'service_no': Faker::Number.between(from: 248, to: 249),
              'account_number': user.id,
-             'transaction_id': Faker::Number.number(10),
+             'transaction_id': Faker::Number.number(digits: 10),
              'instruction':
                  ['г. Минск -> Общественные объединения, Профсоюзы -> Мастерская ИТТ ОО «БОИР»'],
              'service_info': ['Введите Ваш номер членского билета'],
@@ -131,7 +136,7 @@ unless Rails.env.production?
         u = nil
       end
     end
-    p = Payment.create(erip_transaction: et,
+    p = Payment.create!(erip_transaction: et,
                        amount: et.amount,
                        paid_at: et.paid_at,
                        payment_type: get_payment_type(et),

@@ -18,10 +18,13 @@ RSpec.describe "admin/payments/index", type: :view do
     ])
   end
 
-  it "renders a list of payments" do
-    render
-    assert_select "tr>td", :text => "9.99".to_s, :count => 2
-    assert_select "tr>td", :text => "donation".to_s, :count => 2
-    assert_select "tr>td", :text => "cash".to_s, :count => 2
-  end
+  pending "Implement admin/payments/index view test"
+
+#  it "renders a list of payments" do
+#    render
+
+#    assert_select "tr>td", :text => "9.99".to_s, :count => 2
+#    assert_select "tr>td", :text => "donation".to_s, :count => 2
+#    assert_select "tr>td", :text => "cash".to_s, :count => 2
+#  end
 end

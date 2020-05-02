@@ -1,0 +1,23 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+#  database: hspace_development
+  pool: 5
+  username: jek
+  #  password: hspace
+  port: 5434
+
+development:
+  <<: *default
+  database: hspace_development
+
+  #development:
+  #  adapter: sqlite3
+  #  database: db/hspace_development.sqlite3
+  #  pool: 5
+  #  timeout: 5000
+
+test:
+  <<: *default
+  database: hspace_test
