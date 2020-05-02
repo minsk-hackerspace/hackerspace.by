@@ -34,7 +34,7 @@
 
 class EripTransaction < ApplicationRecord
   has_one :hs_payment, class_name: "Payment"
-  belongs_to :user
+  belongs_to :user, optional: true
 
   serialize :billing_address, JSON
   serialize :customer, JSON
