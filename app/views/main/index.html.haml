@@ -12,11 +12,16 @@
           %p
             = 'Сейчас в хакерспейсе: ' + @hs_present_people.join(', ')
 
-  -#.greenhs.bs-callout.bs-callout-info.alert.alert-info.alert-dismissible{role: 'alert'}
-  -#  %button.close{'data-dismiss': 'alert', 'aria-label': 'Close'}
-  -#    %span{'aria-hidden': 'true'} &times;
-  -#  %p.lead Каждый четверг у нас вечер открытых дверей. Начало в 19:00. Окончание — после 22:00.
-  -#  %p В хакерспейсе участники занимаются своими делами, но рады всем желающим что-нибудь узнать, сломать, починить, собрать и поболтать.
+  .greenhs.bs-callout.bs-callout-info.alert.alert-info.alert-dismissible{role: 'alert'}
+    %button.close{'data-dismiss': 'alert', 'aria-label': 'Close'}
+      %span{'aria-hidden': 'true'} &times;
+    %p.lead
+      Каждый четверг в
+      %a{href: "/contacts#green"}Зелёном
+      , а каждый вторник в
+      %a{href: "/contacts#malino"}Малиновом
+      хакерспейсах у нас вечер открытых дверей. Начало в 19:00. Окончание — после 22:00.
+    %p В хакерспейсе участники занимаются своими делами, но рады всем желающим что-нибудь узнать, сломать, починить, собрать и поболтать.
 
   -#.malinohs.bs-callout.bs-callout-info.alert.alert-info.alert-dismissible{role: 'alert'}
   -#  %button.close{'data-dismiss': 'alert', 'aria-label': 'Close'}
@@ -24,12 +29,12 @@
   -#  %p.lead Каждый вторник у нас в МалиновомХС вечер открытых дверей. Начало в 19:00. Окончание — после 22:00.
   -#  %p <a href="https://hackerspace.by/projects/32" target=\"_blank\"> Проект малинового ХС</a>. Там вы сможете найти расписание и больше новостей касательного нового пространства ) 
 
-  .bs-callout.bs-callout-danger.alert.alert-danger.alert-dismissible{role: 'alert'}
-    %button.close{'data-dismiss': 'alert', 'aria-label': 'Close'}
-      %span{'aria-hidden': 'true'} &times;
-    %p.lead
-      Вся информация о помощи медикам в борьбе с COVID-19 — по ссылке:
-      = link_to "https://covid19.hackerspace.by/", "https://covid19.hackerspace.by/"
+  -#.bs-callout.bs-callout-danger.alert.alert-danger.alert-dismissible{role: 'alert'}
+  -#  %button.close{'data-dismiss': 'alert', 'aria-label': 'Close'}
+  -#    %span{'aria-hidden': 'true'} &times;
+  -#  %p.lead
+  -#    Вся информация о помощи медикам в борьбе с COVID-19 — по ссылке:
+  -#    = link_to "https://covid19.hackerspace.by/", "https://covid19.hackerspace.by/"
 
   .row.featurette
     = render partial: 'main/news'
