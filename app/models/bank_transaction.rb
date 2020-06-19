@@ -42,7 +42,7 @@ class BankTransaction < ApplicationRecord
         records = bib.fetch_log accounts[id][:id], from, to
         transactions = cleanup_input records
         transactions.each do |t|
-          t = t.split(';', 10)
+          t = t.split(';', 10).map { |t| t.strip }
           self.find_or_create_by our_account: id,
                                  their_account: t[1].gsub(/[=]?"/, ''),
                                  document_number: t[2].gsub(/[=]?"/, ''),
@@ -65,7 +65,7 @@ class BankTransaction < ApplicationRecord
   end
 
   def self.cleanup_input(records)
-    records = records.split("\n")
+    records = records.split("\r\n")
     transactions_start = records.index records.select { |r| r.include?('Код банка'.force_encoding('utf-8')) }.first
     transactions_end = records.index records.select { |r| r.include?('Итого'.force_encoding('utf-8')) }.first
     records[transactions_start+1..transactions_end-1]
