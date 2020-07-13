@@ -20,11 +20,11 @@
     %th
       Дата
     %th
-      Приход
-    %th
       Расход
     %th
-      Кому платили
+      За что платили
+    %th
+      Кому
     %th
       Примечания
   %tbody
@@ -33,18 +33,16 @@
         %td
           =t.created_at.to_formatted_s(:short)
         %td
-          =t.plus if t.minus.zero?
-        %td
           =t.minus if t.plus.zero?
         %td
-          %i=Setting[t.their_account] || t.their_account if t.minus > 0 and t.contractor.blank?
-          %p{'data-toggle' => 'tooltip', :title => t.contractor}
-            =t.purpose
+          =t.purpose
+        %td
+          = Setting[t.their_account] || t.contractor
         %td
           - if t.irregular?
-            = "Нерегулярный"
-            %br
-          = t.note if t.note.present?
+            %p
+              = "Нерегулярный"
+            = t.note if t.note.present?
     %tr
       %td
         %strong
