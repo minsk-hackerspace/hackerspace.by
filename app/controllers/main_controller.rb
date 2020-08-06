@@ -22,19 +22,19 @@ class MainController < ApplicationController
   def chart
     ds = params[:start].try(:to_date)
     unless Balance.first.nil?
-      ds = Balance.first.created_at.to_date 
+      ds = Balance.first.created_at.to_date
     else
-      ds = Date.new(1970, 1 ,1)
+      ds = Date.new(2017, 1, 1)
     end
     de = params[:end].try(:to_date) || Time.now.to_date
     de += 1.day - 1.second
 
     @graph = Balance.graph(ds, de)
     @transactions = BankTransaction.where(created_at: [ds..de])
-    @expenses = [{name: 'Поступления', data: @transactions.group_by_month(:created_at, format: '%m.%Y').sum(:plus)},
-                 {name: 'Затраты', data: @transactions.group_by_month(:created_at, format: '%m.%Y').sum(:minus)}
-    ]
-    @paid_users = User.get_paid_users_graph(ds,de)
+    @expenses = Rails.env.production? ? [{name: 'Поступления', data: @transactions.where(irregular: false).group_by_month(:created_at, format: '%m.%Y').sum(:plus)},
+                                         {name: 'Затраты', data: @transactions.where(irregular: false).group_by_month(:created_at, format: '%m.%Y').sum(:minus)}] : []
+
+    @paid_users = User.get_paid_users_graph(ds, de)
   end
 
   def procedure
@@ -57,7 +57,7 @@ class MainController < ApplicationController
       endpoint[:state][:icon] = {open: helpers.image_url('default.png'), closed: helpers.image_url('default.png')}
       endpoint[:logo] = helpers.image_url('default.png')
       endpoint[:state][:open] = @hs_open_status == Hspace::OPENED
-      endpoint[:projects] = Project.published.map {|p| project_url(p)}
+      endpoint[:projects] = Project.published.map { |p| project_url(p) }
       endpoint[:state][:lastchange] = Event.order(updated_at: :desc).first.updated_at.to_i
       unless @hs_present_people.nil?
         endpoint[:sensors][:people_now_present][0][:value] = @hs_present_people.count
@@ -69,7 +69,7 @@ class MainController < ApplicationController
     response.headers['Cache-Control'] = 'no-cache'
 
     respond_to do |format|
-      format.json {render json: endpoint}
+      format.json { render json: endpoint }
     end
   end
 end
