@@ -52,7 +52,6 @@ gem 'comma'
 gem 'will_paginate', '~> 3.1.0'
 gem 'chartkick'
 gem 'groupdate'
-gem 'mina', '~> 1.2'
 
 gem 'font-awesome-rails'
 
@@ -66,6 +65,8 @@ group :development do
   gem 'thin', platform: :ruby
   gem 'annotate'
   gem 'letter_opener'
+  # Ruby deployment tool (like Ansible, but in Ruby)
+  gem 'mina', '~> 1.2'
 end
 
 group :development, :test do
