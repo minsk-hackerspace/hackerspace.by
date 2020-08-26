@@ -21,6 +21,6 @@ ssh -i "$KEYPATH" mhs@hackerspace.by pwd
 
 echo "[x] Preparing and running 'mina' (Ruby deploy tool)"
 
-bundle install
-bundle exec mina deploy
+gem install mina
+mina deploy
 
