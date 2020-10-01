@@ -7,11 +7,10 @@ require 'nokogiri'
 
 module BelinvestbankApi
   HEADERS = {
-    'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
     'Accept-Charset':'utf-8, iso-8859-1, utf-16, *;q=0.7',
-    'Accept-Language':'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4',
-    'Connection':'keep-alive',
-    'User-Agent':'Mozilla/5.0 (Linux; U; Android 4.0.4; ru-ru; Android SDK built for x86 Build/IMM76D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30',
+    'Accept-Language':'en-US;q=0.5,en;q=0.4',
+    user_agent: 'Mozilla/5.0 (X11; Linux x86_64; rv:80.0) Gecko/20100101 Firefox/80.0',
   }
 
   class Bib
@@ -24,17 +23,22 @@ module BelinvestbankApi
       @login = login
       @password = password
       @cookies = {}
+      @referrer = nil
       RestClient.log = STDERR
     end
 
     # Success path:
     # 1. GET https://login.belinvestbank.by/signin -> extract keyLang for password encoding
     # 2. POST https://login.belinvestbank.by/signin <- send login/password
-    # 3. (2) returns code 302 (redirect) to https://ibank.belinvestbank.by/auth-callback?auth_code=<code>&type=simple_session -> go to it
-    # 4. (3) returns code 302 to / -> auth success
+    # 3. (2) returns code 302 (redirect) to http://ibank.belinvestbank.by/auth-callback?auth_code=<code>&type=simple_session -> go to it
+    # 4. (3) redirects to https://ibank.belinvestbank.by/auth-callback?auth_code=<code>&type=simple_session
+    #                       -> https://biz.belinvestbank.by/toggle-corporate-version
+    #                       -> https://biz.belinvestbank.by/corporate
+    #                       -> https://biz.belinvestbank.by/corporate?owner_id=<ID>
+    #                       -> https://biz.belinvestbank.by/corporate/accounts/?owner_id=<ID>
     #
     # Errors:
-    # 3a. (2) returns redirect to https://login.belinvestbank.by/signin and this page contains string 'showDialog' -> reset session (POST /confirmationCloseSession) and restart from (1)
+    # 3a. (2) returns redirect to https://login.belinvestbank.by/signin and this page contains string 'showDialog' -> reset session (POST /confirmationCloseSession) and follow by redirects
     # 3b. (2) returns 200 -> auth failed
 
 
@@ -66,37 +70,28 @@ module BelinvestbankApi
             begin
               puts "Close old session"
               r = query_login :post, '/confirmationCloseSession'
-            rescue RestClient::Exception => e
-              r = e.response
-              raise e unless e.http_code == 302
-              puts e.http_headers[:location]
+            rescue RestClient::Exception => e1
+              r = e1.response
+              raise e1 unless e1.http_code == 302
+#              puts r.body
+              puts "Redirect to: " + e1.http_headers[:location]
+              location = e1.http_headers[:location]
+              if location[0] == '/'
+                location = r.net_http_res.uri.to_s + location
+              end
+              r = query_common location, :get, ''
             end
-            puts r.body
+#            puts r.body
           end
 
           if e.http_headers[:location].include? 'auth-callback'
+            puts "Requesting auth-callback"
+
             r = query_common e.http_headers[:location], :get, ''
           end
         end
       end
 
-      r = query :get, '/toggle-corporate-version'
-      doc = Nokogiri::HTML(r.body)
-      ownerId = nil
-      doc.css('.ChoiceOrganization').each do |org|
-        next if org['onclick'].nil?
-        if org['onclick'] =~ /name=\\'ownerId\\' value=\\'([0-9]+)\\'/
-          ownerId = $1.to_i
-          break
-        end
-      end
-
-      begin
-        r = query :post, '/corporate/set-current-organization', {ownerId: ownerId}
-      rescue RestClient::Exception => e
-        raise e unless e.http_code == 302 and e.http_headers[:location].include? '/corporate'
-        r = e.response
-      end
       r
     end
 
@@ -133,17 +128,26 @@ module BelinvestbankApi
 
     private
 
+    def cookies(url)
+      @cookies
+    end
+
+    def set_cookies(url, cookies)
+      @cookies = cookies
+    end
+
     def query_common(base_url, method, path, body = nil)
       begin
         r = RestClient::Request.execute method: method,
           url: base_url + path,
-          headers: HEADERS,
+          headers: HEADERS.merge(referrer: @referrer),
           payload: body,
-          cookies: @cookies
+          cookies: cookies(base_url)
 
-        @cookies = r.cookies
+        set_cookies(base_url, r.cookie_jar)
+        @referrer = r.net_http_res.uri
       rescue RestClient::Exception => e
-        @cookies = e.response.cookies if e.response and e.response.cookies
+        set_cookies(base_url, e.response.cookie_jar) if e.response and e.response.cookies
         raise e
       end
       r
