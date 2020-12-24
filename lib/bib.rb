@@ -176,7 +176,7 @@ module BelinvestbankApi
         if dict.include? c
           encrypted_pass += dict[c]
         else
-          encrypted_passs += c
+          encrypted_pass += c
         end
       end
       encrypted_pass
