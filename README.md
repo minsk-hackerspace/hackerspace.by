@@ -1,8 +1,7 @@
 [![Travis Build Status](https://img.shields.io/travis/minsk-hackerspace/hackerspace.by/master)](https://travis-ci.org/minsk-hackerspace/hackerspace.by)
 
-Документация в Wiki: https://github.com/minsk-hackerspace/hackerspace.by/wiki
-
-Новички могут посоздавать [issues](https://github.com/minsk-hackerspace/hackerspace.by/issues), а для прокачанных, как обычно, git и pull-request'ы.
+* Документация в Wiki: https://github.com/minsk-hackerspace/hackerspace.by/wiki
+* SpaceAPI: https://hackerspace.by/spaceapi
 
 ### Разработка
 
