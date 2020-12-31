@@ -60,8 +60,8 @@ class Payment < ApplicationRecord
     if user.present?
       return if user.account_banned?
 
-      if user.last_payment && (user.last_payment.end_date > Time.now ) && user.account_suspended?
-        user.update_column(:account_suspended, false)
+      if user.last_payment && (user.last_payment.end_date >= Date.today ) && user.account_suspended?
+        user.unsuspend!
       end
     end
   end

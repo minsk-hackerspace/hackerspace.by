@@ -110,6 +110,8 @@ class User < ApplicationRecord
   scope :not_banned, -> { where(account_banned: false)}
   scope :suspended, -> { where(account_suspended: true)}
   scope :not_suspended, -> { where(account_suspended: false)}
+  scope :suspended_today, -> { where(account_suspended: true)
+                              .where('suspended_changed_at > ?', Time.now - 1.day) }
 
   after_save :create_bepaid_bill, :set_as_suspended
 
@@ -185,8 +187,31 @@ class User < ApplicationRecord
     if active? && ((last_payment &&
         (last_payment.end_date < Time.now - 15.days)) || never_paid)
 
+      suspend!
+    end
+  end
+
+  def suspend!
+    transaction do
       #simple update without callbacks
       update_column(:account_suspended, true)
+      update_column(:suspended_changed_at, Time.now)
+    end
+  end
+
+  def unsuspend!
+    transaction do
+      #simple update without callbacks
+      update_column(:account_suspended, false)
+      update_column(:suspended_changed_at, Time.now)
+    end
+
+    begin
+      tg = TelegramNotifier.new
+      m = "Участник №#{id} (#{full_name}) снова с нами! Оплачено по #{paid_until}."
+      tg.send_message_to_all(m)
+    rescue
+      Rails.logger.warn "Telegram notification failed"
     end
   end
 
