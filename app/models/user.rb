@@ -151,6 +151,11 @@ class User < ApplicationRecord
     "#{self.id}. #{self.last_name} #{self.first_name}"
   end
 
+  def full_name_with_id_tg
+    tg = telegram_username.blank? ? "" : " @#{telegram_username}"
+    "#{self.id}. #{self.last_name} #{self.first_name}" + tg
+  end
+
   def avatar_url(style)
     if self.photo?
       self.photo.url(style)
@@ -208,7 +213,8 @@ class User < ApplicationRecord
 
     begin
       tg = TelegramNotifier.new
-      m = "Участник №#{id} (#{full_name}) снова с нами! Оплачено по #{paid_until}."
+      t = telegram_username.blank? ? "" : " @#{telegram_username}"
+      m = "Участник №#{id} (#{full_name}#{t}) снова с нами! Оплачено по #{paid_until}."
       tg.send_message_to_all(m)
     rescue
       Rails.logger.warn "Telegram notification failed"
