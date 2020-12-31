@@ -172,7 +172,7 @@ class User < ApplicationRecord
   end
 
   def inactive?
-    account_suspended? || account_banned? || last_sign_in_at.nil?
+    account_suspended? || account_banned?
   end
 
   def active?
@@ -180,7 +180,11 @@ class User < ApplicationRecord
   end
 
   def set_as_suspended
-    if active? && last_payment && (last_payment.end_date < Time.now - 15.days)
+    never_paid = last_payment.nil? && (created_at < Time.now - 1.month)
+
+    if active? && ((last_payment &&
+        (last_payment.end_date < Time.now - 15.days)) || never_paid)
+
       #simple update without callbacks
       update_column(:account_suspended, true)
     end
