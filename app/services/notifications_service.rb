@@ -26,7 +26,7 @@ class NotificationsService
     unless @debitors.empty?
       m += "Должники на сегодня:\n"
 
-      m += @debitors.map{ |u| "#{u.full_name_with_id} (оплачено по #{u.paid_until})" }.join("\n")
+      m += @debitors.map{ |u| "#{u.full_name_with_id_tg} (оплачено по #{u.paid_until})" }.join("\n")
       m += "\n\n"
     else
       m += "Должников на сегодня нет.\n"
@@ -34,7 +34,7 @@ class NotificationsService
 
     unless suspended.empty?
       m += "Ушли в суспенд:\n"
-      m += suspended.map{ |u| u.full_name_with_id }.join("\n")
+      m += suspended.map{ |u| u.full_name_with_id_tg }.join("\n")
     end
 
     tg.send_message_to_all(m)
