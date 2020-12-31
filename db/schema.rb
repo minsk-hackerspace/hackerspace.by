@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_02_123617) do
+ActiveRecord::Schema.define(version: 2020_12_31_171935) do
 
   create_table "balances", force: :cascade do |t|
     t.float "state", null: false
@@ -214,6 +214,7 @@ ActiveRecord::Schema.define(version: 2020_05_02_123617) do
     t.integer "project_id"
     t.integer "guarantor1_id"
     t.integer "guarantor2_id"
+    t.datetime "suspended_changed_at", default: "2010-12-31 18:21:50", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["guarantor1_id"], name: "index_users_on_guarantor1_id"
     t.index ["guarantor2_id"], name: "index_users_on_guarantor2_id"

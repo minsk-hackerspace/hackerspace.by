@@ -21,7 +21,7 @@ describe NotificationsService do
     end
 
     it 'sends notification email to debitors' do
-      described_class.notify_debitors
+      described_class.new.notify_debitors
 
       expect(notified_emails).to include(user_with_outdated_payment.email)
     end
