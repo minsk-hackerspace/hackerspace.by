@@ -114,6 +114,7 @@ class User < ApplicationRecord
                               .where('suspended_changed_at > ?', Time.now - 1.day) }
 
   after_save :create_bepaid_bill, :set_as_suspended
+  before_validation :normalize_tg_nickname
 
   def self.active
     (allowed.paid + allowed.signed_in).uniq
@@ -222,6 +223,10 @@ class User < ApplicationRecord
   end
 
   private
+
+  def normalize_tg_nickname
+    telegram_username.delete_prefix!('@') unless telegram_username.blank?
+  end
 
   def validate_guarantors
     errors.add(:guarantor1_id, "is invalid") if self.guarantor1_id.present? and self.guarantor1_id == self.id
