@@ -144,16 +144,16 @@ class User < ApplicationRecord
   end
 
   def full_name
-    "#{self.last_name} #{self.first_name}"
+    "#{self.first_name} #{self.last_name}"
   end
 
   def full_name_with_id
-    "#{self.id}. #{self.last_name} #{self.first_name}"
+    "#{self.id}. #{self.first_name} #{self.last_name}"
   end
 
   def full_name_with_id_tg
     tg = telegram_username.blank? ? "" : " @#{telegram_username}"
-    "#{self.id}. #{self.last_name} #{self.first_name}" + tg
+    "#{self.id}. #{self.first_name} #{self.last_name}" + tg
   end
 
   def avatar_url(style)

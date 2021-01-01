@@ -19,7 +19,7 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.day, at: '7:00 am' do
+every 1.day, at: '9:00 am' do
   runner 'NotificationsService.new.notify_debitors'
   runner 'NotificationsService.new.notify_telegram'
 end
