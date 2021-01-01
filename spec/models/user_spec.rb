@@ -52,6 +52,14 @@ describe User do
     it { should validate_length_of(:email).is_at_most(255) }
   end
 
+  describe '.telegram_username' do
+    let(:user) { create :user, telegram_username: "@test" }
+    it 'should not to include @' do
+      user.validate
+      expect(user.telegram_username).to eq('test')
+    end
+  end
+
   describe '#last_payment' do
     let(:user) { create :user }
     let!(:first_payment) { create :payment, paid_at: DateTime.parse('12:00 21-05-2018'), user: user }
