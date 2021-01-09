@@ -52,6 +52,8 @@ gem 'comma'
 gem 'will_paginate', '~> 3.1.0'
 gem 'chartkick'
 gem 'groupdate'
+gem 'tinymce-rails'
+gem 'tinymce-rails-langs'
 
 gem 'font-awesome-rails'
 

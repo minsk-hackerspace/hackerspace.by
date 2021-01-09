@@ -1,0 +1,13 @@
+toolbar:
+  - undo redo code | styleselect | bold italic | alignleft aligncenter alignright alignjustify alignnone | bullist numlist | table | link image media
+link_context_toolbar: true
+menubar: false
+
+plugins:
+  - image link imagetools media table code lists
+
+language: ru
+
+images_upload_url: '/uploader/image'
+convert_urls: true
+relative_urls: false

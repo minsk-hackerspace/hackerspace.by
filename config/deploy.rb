@@ -25,7 +25,7 @@ set :rvm_path, '/usr/local/rvm/scripts/rvm'
 # They will be linked in the 'deploy:link_shared_paths' step.
 #set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'log']
 set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/secrets.yml')
-set :shared_dirs, fetch(:shared_dirs, []).push('log')
+set :shared_dirs, fetch(:shared_dirs, []).push('log', 'storage')
 
 # Optional settings:
 #   set :forward_agent, true     # SSH forward_agent.
@@ -36,6 +36,9 @@ set :shared_dirs, fetch(:shared_dirs, []).push('log')
 task :setup do
   command %[mkdir -p "#{fetch(:shared_path)}/log"]
   command %[chmod g+rx,u+rwx "#{fetch(:shared_path)}/log"]
+
+  command %[mkdir -p "#{fetch(:shared_path)}/storage"]
+  command %[chmod g+rx,u+rwx "#{fetch(:shared_path)}/storage"]
 
   command %[mkdir -p "#{fetch(:shared_path)}/config"]
   command %[chmod g+rx,u+rwx "#{fetch(:shared_path)}/config"]

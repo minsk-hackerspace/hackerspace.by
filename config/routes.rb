@@ -30,6 +30,8 @@ Rails.application.routes.draw do
   end
   resources :thanks
 
+  post 'uploader/image', to: 'uploader#image'
+
   get '/rules', to: 'main#rules'
   get '/calendar', to: 'main#calendar'
   get '/contacts', to: 'main#contacts'

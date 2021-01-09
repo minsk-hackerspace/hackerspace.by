@@ -1,10 +1,13 @@
 %h1
   = @news.title
 
-.lead
-  = markup2html @news.short_desc, @news.markup_type
-%hr
-  =image_tag @news.photo.url(:original), class: 'center-block'
+.row
+  .col-lg-3
+    =image_tag @news.photo.url(:thumb)
+  .col-lg-9
+    .lead
+      = markup2html @news.short_desc, @news.markup_type
+
 %hr
 .lead
   = markup2html @news.description, @news.markup_type
