@@ -39,6 +39,8 @@ class Ability
     can :read, Project
     can :read, News
 
+    cannot :image, :uploader
+
     # device events use its own authorization, skip devise
     can :add, Event
 
@@ -49,6 +51,7 @@ class Ability
 
     if user.present?
       can :chart, :main
+      can :image, :uploader
       can [:show, :index], User
       can [:update, :edit, :add_mac, :remove_mac, :add_nfc, :remove_nfc], User, id: user.id
       can :manage, Mac, user_id: user.id
