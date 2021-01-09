@@ -6,7 +6,7 @@ gem 'rails', '~> 6.0.0'
 gem 'rails-i18n', '~> 6.0'
 # Use SCSS for stylesheets
 gem 'sassc-rails'
-gem 'sassc', '= 2.1.0'
+gem 'sassc'#, '= 2.1.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views
