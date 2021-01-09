@@ -13,6 +13,8 @@
         %li
           = link_to 'Проекты', projects_path
         %li
+          = link_to 'Новости', news_index_path
+        %li
           = link_to 'Контакты', contacts_path
         - if Thank.any?
           %li
@@ -41,8 +43,6 @@
               Хакерам
               %span.caret
             %ul.dropdown-menu
-              %li
-                = link_to 'Новости', news_index_path
               %li
                 = link_to 'Устройства', devices_path
               %li
