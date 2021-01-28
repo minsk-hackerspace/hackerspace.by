@@ -5,6 +5,12 @@ class ApplicationController < ActionController::Base
 
   check_authorization unless: :devise_controller?
 
+  before_action :set_default_request_format
+
+  def set_default_request_format
+    request.format = :html unless params[:format]
+  end
+
   before_action :check_if_hs_open if Rails.env.production?
   before_action :check_for_present_people if Rails.env.production?
   before_action :check_for_hs_balance
