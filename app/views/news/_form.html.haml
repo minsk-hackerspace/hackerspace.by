@@ -14,7 +14,7 @@
   .form-group.mandatory
     = f.label 'Основной текст'
     = f.text_area :description, class: 'form-control tinymce', rows: 40, cols: 120
-    = tinymce
+    = javascript_tag {tinymce_configurations_javascript}
   .row
     .form-group.col-lg-2
       = f.label 'Тип разметки текста'
