@@ -24,7 +24,8 @@
     = f.text_area :short_desc, rows: 5, class: 'form-control'
   .form-group
     = f.label 'Полное описание'
-    = f.text_area :full_desc, rows: 15, class: 'form-control'
+    = f.text_area :full_desc, class: 'form-control tinymce', rows: 40, cols: 120
+    = javascript_tag {tinymce_configurations_javascript}
   .form-group.mandatory
     = f.label 'Изображение, до 3 МБ'
     = f.file_field :photo

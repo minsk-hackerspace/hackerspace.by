@@ -14,7 +14,7 @@
   .form-group.mandatory
     = f.label 'Основной текст'
     = f.text_area :description, class: 'form-control tinymce', rows: 40, cols: 120
-    = tinymce
+    = javascript_tag {tinymce_configurations_javascript}
   .row
     .form-group.col-lg-2
       = f.label 'Тип разметки текста'
@@ -31,8 +31,5 @@
   .form-group
     = f.label 'Показывать на главной до'
     = f.datetime_select :show_on_homepage_till_date
-  .form-group
-    = f.label 'Url'
-    = f.text_field :url, class: 'form-control'
   .form-group
     = f.submit 'Сохранить', class: 'btn btn-default'

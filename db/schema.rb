@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_09_111224) do
+ActiveRecord::Schema.define(version: 2021_02_21_205456) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -123,7 +123,6 @@ ActiveRecord::Schema.define(version: 2021_01_09_111224) do
     t.datetime "updated_at"
     t.boolean "show_on_homepage"
     t.datetime "show_on_homepage_till_date"
-    t.string "url"
   end
 
   create_table "nfc_keys", force: :cascade do |t|
