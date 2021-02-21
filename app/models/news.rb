@@ -17,7 +17,6 @@
 #  updated_at                 :datetime
 #  show_on_homepage           :boolean
 #  show_on_homepage_till_date :datetime
-#  url                        :string
 #
 
 class News < ApplicationRecord
