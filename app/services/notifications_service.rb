@@ -23,6 +23,8 @@ class NotificationsService
 
     m = ""
 
+    @debitors.select! { |u| u.paid_until < Date.today - 3.day }
+
     unless @debitors.empty?
       m += "Скоро уйдут в саспенд:\n"
 
