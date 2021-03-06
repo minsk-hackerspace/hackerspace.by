@@ -303,7 +303,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
       expect(et.hs_payment.payment_type).to eq("membership")
       expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
       expect(et.hs_payment.start_date).to eq(et.hs_payment.paid_at.to_date)
-      expect(et.hs_payment.end_date).to eq(et.hs_payment.paid_at.to_date + (10.0 / 50.0 * 30 - 1).to_i.days)
+      expect(et.hs_payment.end_date).to eq(et.hs_payment.paid_at.to_date + (10.0 / 70.0 * 30 - 1).to_i.days)
 
     end
   end
@@ -359,7 +359,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
       EripTransaction.destroy_all
       Payment.destroy_all
       bp_notification_m = bepaid_notification.dup
-      bp_notification_m[:transaction][:amount] = 5000
+      bp_notification_m[:transaction][:amount] = 7000
       expect {
         post :bepaid_notify, params: bp_notification_m, format: :json
       }.to change(EripTransaction, :count).by(1)
@@ -367,10 +367,10 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
       et = assigns(:erip_transaction)
       expect(response).to have_http_status(:created)
       expect(et.erip['service_no'].to_i).to eq(248)
-      expect(et.amount).to eq(50)
+      expect(et.amount).to eq(70)
       expect(et.hs_payment).not_to be_nil
       expect(et.hs_payment).to be_a(Payment)
-      expect(et.hs_payment.amount).to eq(50)
+      expect(et.hs_payment.amount).to eq(70)
       expect(et.hs_payment.payment_form).to eq("erip")
       expect(et.hs_payment.payment_type).to eq("membership")
       expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
@@ -385,7 +385,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
       EripTransaction.destroy_all
       Payment.destroy_all
       bp_notification_m = bepaid_notification.dup
-      bp_notification_m[:transaction][:amount] = 11000
+      bp_notification_m[:transaction][:amount] = 15400
       expect {
         post :bepaid_notify, params: bp_notification_m, format: :json
       }.to change(EripTransaction, :count).by(1)
@@ -393,10 +393,10 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
       et = assigns(:erip_transaction)
       expect(response).to have_http_status(:created)
       expect(et.erip['service_no'].to_i).to eq(248)
-      expect(et.amount).to eq(110)
+      expect(et.amount).to eq(154)
       expect(et.hs_payment).not_to be_nil
       expect(et.hs_payment).to be_a(Payment)
-      expect(et.hs_payment.amount).to eq(110)
+      expect(et.hs_payment.amount).to eq(154)
       expect(et.hs_payment.payment_form).to eq("erip")
       expect(et.hs_payment.payment_type).to eq("membership")
       expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
@@ -411,7 +411,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
       EripTransaction.destroy_all
       Payment.destroy_all
       bp_notification_m = bepaid_notification.dup
-      bp_notification_m[:transaction][:amount] = 10000
+      bp_notification_m[:transaction][:amount] = 14000
       expect {
         post :bepaid_notify, params: bp_notification_m, format: :json
       }.to change(EripTransaction, :count).by(1)
@@ -419,10 +419,10 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
       et = assigns(:erip_transaction)
       expect(response).to have_http_status(:created)
       expect(et.erip['service_no'].to_i).to eq(248)
-      expect(et.amount).to eq(100)
+      expect(et.amount).to eq(140)
       expect(et.hs_payment).not_to be_nil
       expect(et.hs_payment).to be_a(Payment)
-      expect(et.hs_payment.amount).to eq(100)
+      expect(et.hs_payment.amount).to eq(140)
       expect(et.hs_payment.payment_form).to eq("erip")
       expect(et.hs_payment.payment_type).to eq("membership")
       expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
@@ -485,7 +485,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
       expect(et.hs_payment.payment_type).to eq("membership")
       expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
       expect(et.hs_payment.start_date).to eq(et.hs_payment.paid_at.to_date)
-      expect(et.hs_payment.end_date).to eq(et.hs_payment.paid_at.to_date + (10.0 / 50.0 * 30 - 1).to_i.days)
+      expect(et.hs_payment.end_date).to eq(et.hs_payment.paid_at.to_date + (10.0 / 70.0 * 30 - 1).to_i.days)
     end
   end
 
@@ -518,7 +518,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
       expect(et.hs_payment.payment_type).to eq("membership")
       expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
       expect(et.hs_payment.start_date).to eq(et.hs_payment.paid_at.to_date - 1.week + 1.day)
-      expect(et.hs_payment.end_date).to eq(et.hs_payment.start_date + (10.0 / 50.0 * 30 - 1).to_i.days)
+      expect(et.hs_payment.end_date).to eq(et.hs_payment.start_date + (10.0 / 70.0 * 30 - 1).to_i.days)
     end
   end
 

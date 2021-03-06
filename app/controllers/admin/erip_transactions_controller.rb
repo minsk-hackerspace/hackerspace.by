@@ -125,7 +125,7 @@ class Admin::EripTransactionsController < AdminController
           p.start_date = et.paid_at.to_date
         end
 
-        m_amount = p.user.nil? ? 50.0 :  p.user.monthly_payment_amount
+        m_amount = p.user.nil? ? 70.0 :  p.user.monthly_payment_amount
 
         m = p.amount.div m_amount
         d = ((p.amount - m * m_amount) / m_amount * 30).floor

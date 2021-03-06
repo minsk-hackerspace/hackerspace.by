@@ -52,6 +52,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :recoverable,
          :trackable
+
   comma do
     id
     first_name
@@ -73,6 +74,30 @@ class User < ApplicationRecord
     guarantor1
     guarantor2
     paid_until
+  end
+
+  comma(:with_nfc) do
+    id
+    first_name
+    last_name
+    email
+    hacker_comment
+    bepaid_number
+    monthly_payment_amount
+    sign_in_count
+    last_sign_in_at
+    created_at
+    last_seen_in_hackerspace
+    telegram_username
+    alice_greeting
+    account_suspended
+    account_banned
+    github_username
+    is_learner
+    guarantor1
+    guarantor2
+    paid_until
+    nfc_keys { |keys| keys.join(" ") }
   end
 
   ROLES = %w(hacker admin device)

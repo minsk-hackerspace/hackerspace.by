@@ -1,17 +1,15 @@
 class HackersController < ApplicationController
-#  before_action :authenticate_user!
   load_and_authorize_resource :user, parent: false,
                               except: [:useful, :find_by_mac, :detected_at_hackerspace]
   load_and_authorize_resource :mac
-  load_and_authorize_resource :nfc_key
-  # before_action :set_hacker, only: [:show, :edit, :update, :add_mac, :remove_mac]
 
   def index
     @active_users = ActiveUsersQuery.perform(index_params)
     @non_active_users = User.where.not(id: @active_users.map(&:id))
     respond_to do |format|
       format.html
-      format.csv { render csv: User.all, filename: 'hackers' }
+      format.csv { render csv: User.all, filename: 'hackers',
+                   style: can?(:read, NfcKey) ? :with_nfc : :default}
       format.json
     end
   end
@@ -50,11 +48,13 @@ class HackersController < ApplicationController
   end
 
   def add_nfc
-    if params[:nfc].present? and params[:nfc][/^[0-9A-Za-z:]*$/].present?
-      @user.nfc_keys << NfcKey.create(body: params[:nfc]&.downcase)
+    @nfc_key = NfcKey.new(body: params[:nfc]&.downcase, user: @user)
+
+    if @nfc_key.save
       redirect_to edit_user_path(@user)
     else
-      redirect_to edit_user_path(@user), alert: 'Ошибка формата NFC [0-9A-Za-z]'
+      redirect_to edit_user_path(@user),
+        alert: "Ошибка сохранения NFC ключа: #{@nfc_key.errors.full_messages.join("\n")}"
     end
   end
 

@@ -77,5 +77,7 @@ class Ability
         can :manage, :all
       end
     end
+    cannot :manage, NfcKey
+
   end
 end
