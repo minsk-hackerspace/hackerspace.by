@@ -16,8 +16,8 @@
 class NfcKey < ApplicationRecord
   belongs_to :user, required: true
   validates_uniqueness_of :body
-  validates :body, format: { with: /\A([0-9a-fA-F]{2}:){3}[0-9a-fA-F]{2}\z/,
-                             message: "должно быть в формате xx:yy:zz:kk (четыре байта)"}
+  validates :body, format: { with: /\A([0-9a-fA-F]{2}:){3,6}[0-9a-fA-F]{2}\z/,
+                             message: "должен быть в формате xx:yy:zz:kk или xx:yy:zz:kk:nn:mm (четыре или семь байт)" }
 
   def to_s
     body
