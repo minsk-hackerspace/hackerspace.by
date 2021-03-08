@@ -6,6 +6,8 @@ ru:
         public: "Публичный"
       user:
         monthly_payment_amount: "Сумма ежемесячного платежа, BYN"
+      nfc_key:
+        body: "ID"
   hsopen:
     unknown: "УПС..."
     opened: "Сейчас у нас открыто."
