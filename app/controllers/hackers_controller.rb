@@ -59,7 +59,8 @@ class HackersController < ApplicationController
   end
 
   def remove_nfc
-    @user.nfc_keys.delete(NfcKey.find_by(body: params[:nfc]&.downcase))
+    key = @user.nfc_keys.find_by(body: params[:nfc]&.downcase)
+    key&.destroy
     redirect_to edit_user_path(@user)
   end
 
