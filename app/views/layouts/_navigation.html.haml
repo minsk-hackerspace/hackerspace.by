@@ -59,9 +59,10 @@
         %li
           -if user_signed_in?
             %a{href: chart_path}
-              Баланс:
-              %b
-                = @hs_balance
+              %span.navbar-collapsible
+                Баланс:
+                %b
+                  = @hs_balance
               %meter{value:@hs_kitty_number, min:0, max:100, low:25, high:75, optimum:100}
                 (#{@hs_kitty_number}%)
         %li
