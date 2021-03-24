@@ -17,13 +17,17 @@
 $state-warning-bg:	rgba(252, 248, 227, 0.5);
 $state-danger-bg:	rgba(242, 222, 222, 0.5);
 
+$screen-sm: 1090px;
+$screen-sm-min: $screen-sm;
+$screen-tablet: $screen-sm;
+
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400&subset=latin,cyrillic);
 @import 'font-awesome';
 
 body {
-  margin-top: 51px;
+  margin-top: 80px;
   margin-bottom: 70px;
   background-image: url('../../images/back.jpg');
   font-family: 'Helvetica Neue', 'Open Sans', sans-serif;
