@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_03_123353) do
+ActiveRecord::Schema.define(version: 2021_04_03_150907) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -245,10 +245,12 @@ ActiveRecord::Schema.define(version: 2021_04_03_123353) do
     t.integer "guarantor1_id"
     t.integer "guarantor2_id"
     t.datetime "suspended_changed_at", default: "2010-12-31 18:21:50", null: false
+    t.integer "tariff_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["guarantor1_id"], name: "index_users_on_guarantor1_id"
     t.index ["guarantor2_id"], name: "index_users_on_guarantor2_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["tariff_id"], name: "index_users_on_tariff_id"
   end
 
   create_table "users_roles", id: false, force: :cascade do |t|
@@ -261,4 +263,5 @@ ActiveRecord::Schema.define(version: 2021_04_03_123353) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "nfc_keys", "users"
+  add_foreign_key "users", "tariffs"
 end

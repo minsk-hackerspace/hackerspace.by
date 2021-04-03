@@ -109,6 +109,7 @@ class User < ApplicationRecord
   has_many :erip_transactions
   has_many :payments
   has_many :nfc_keys
+  belongs_to :tariff
   belongs_to :guarantor1, class_name: 'User', optional: true
   belongs_to :guarantor2, class_name: 'User', optional: true
 

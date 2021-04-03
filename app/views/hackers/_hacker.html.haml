@@ -4,7 +4,8 @@
 %td= "#{hacker.first_name} #{hacker.last_name}"
 %td= simple_format hacker.hacker_comment
 %td= hacker.paid_until&.to_formatted_s(:long)
-%td= hacker.monthly_payment_amount
+%td= hacker.tariff&.name
+%td= hacker.tariff&.monthly_price
 %td
   = link_to hacker.telegram_username, "https://t.me/" + hacker.telegram_username if hacker.telegram_username
 %td= link_to image_tag('info_32x32.png', class: 'no-shadow'), user_path(hacker)
