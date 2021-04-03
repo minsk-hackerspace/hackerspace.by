@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_06_173938) do
+ActiveRecord::Schema.define(version: 2021_04_03_123353) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -182,6 +182,16 @@ ActiveRecord::Schema.define(version: 2021_03_06_173938) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_settings_on_key"
+  end
+
+  create_table "tariffs", force: :cascade do |t|
+    t.string "ref_name"
+    t.string "name"
+    t.string "description"
+    t.boolean "access_allowed"
+    t.decimal "monthly_price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "thanks", force: :cascade do |t|

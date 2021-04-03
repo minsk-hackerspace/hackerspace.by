@@ -11,6 +11,38 @@ unless Rails.env.production?
   Setting.create(key: 'bib_login', value: '', description: 'Login for Belinvestbank')
   Setting.create(key: 'bib_password', value: '', description: 'Password for Belinvestbank')
 
+  Tariff.create(
+    ref_name: 'remote',
+    name: 'Remote',
+    description: 'Удалённый доступ',
+    access_allowed: false,
+    monthly_price: 10.0
+  )
+
+  Tariff.create(
+    ref_name: 'remote+storage',
+    name: 'Remote and Storage',
+    description: 'Удалённый доступ с хранением коробок',
+    access_allowed: false,
+    monthly_price: 20.0
+  )
+
+  Tariff.create(
+    ref_name: 'full',
+    name: 'Основной тариф',
+    description: 'Полный доступ в хакерспейс',
+    access_allowed: true,
+    monthly_price: 70.0
+  )
+
+  Tariff.create(
+    ref_name: 'student',
+    name: 'Студенческий',
+    description: 'Полный доступ в хакерспейс, для студентов',
+    access_allowed: true,
+    monthly_price: 20.0
+  )
+
   User::ROLES.each do |rolename|
     puts "Create role: #{rolename}"
     Role.find_or_create_by(name: rolename)

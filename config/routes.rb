@@ -51,6 +51,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :dashboard, only: :index
     resources :users, only: [:new, :create]
+    resources :tariffs
     resources :payments
     resources :erip_transactions
     resources :bank_transactions
