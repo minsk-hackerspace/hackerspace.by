@@ -125,7 +125,6 @@ class User < ApplicationRecord
   validates_attachment :photo, size: { in: 0..3.megabytes }
 
   validates :email, presence: true, uniqueness: true, length: {maximum: 255}
-  validates :monthly_payment_amount, numericality: true
   validate :validate_guarantors
 
   scope :signed_in, -> { where.not(last_sign_in_at: nil) }
@@ -193,6 +192,11 @@ class User < ApplicationRecord
 
       "https://gravatar.com/avatar/#{hash}?d=robohash&size=#{size}"
     end
+  end
+
+  def monthly_payment_amount
+    s = self.tariff&.monthly_price
+    s.nil? ? 0 : s
   end
 
   def expected_payment_amount

@@ -11,7 +11,7 @@ unless Rails.env.production?
   Setting.create(key: 'bib_login', value: '', description: 'Login for Belinvestbank')
   Setting.create(key: 'bib_password', value: '', description: 'Password for Belinvestbank')
 
-  Tariff.create(
+  remote_tariff = Tariff.create(
     ref_name: 'remote',
     name: 'Remote',
     description: 'Удалённый доступ',
@@ -27,7 +27,7 @@ unless Rails.env.production?
     monthly_price: 20.0
   )
 
-  Tariff.create(
+  main_tariff = Tariff.create(
     ref_name: 'full',
     name: 'Основной тариф',
     description: 'Полный доступ в хакерспейс',
@@ -49,25 +49,25 @@ unless Rails.env.production?
   end
 
 
-  admin = User.create!(email: 'admin@hackerspace.by', password: '111111', last_name: 'Бердымухаммедов', first_name: 'Гурбангулы')
+  admin = User.create!(email: 'admin@hackerspace.by', password: '111111', last_name: 'Бердымухаммедов', first_name: 'Гурбангулы', tariff: main_tariff)
   admin.roles << Role.find_by(name: 'admin')
   admin.save
 
-  user1 = User.create!(email: 'developer@hackerspace.by', password: '111111', last_name: 'Рабинович', first_name: 'Давид')
+  user1 = User.create!(email: 'developer@hackerspace.by', password: '111111', last_name: 'Рабинович', first_name: 'Давид', tariff: main_tariff)
   user1.macs << Mac.create(address: 'a0:a0:a0:a0:a1:a1')
   user1.macs << Mac.create(address: 'a0:a0:a0:a0:a1:a2')
   user1.nfc_keys << NfcKey.create(body: 'a0a0a0a0')
   user1.nfc_keys << NfcKey.create(body: 'b0ab0b0b0')
   user1.save
 
-  user2 = User.create!(email: 'developer2@hackerspace.by', password: '111111', last_name: 'Ковалёв', first_name: 'Иван')
+  user2 = User.create!(email: 'developer2@hackerspace.by', password: '111111', last_name: 'Ковалёв', first_name: 'Иван', tariff: main_tariff)
   user2.macs << Mac.create(address: 'a0:a0:a0:a0:a2:a1')
   user2.macs << Mac.create(address: 'a0:a0:a0:a0:a2:a2')
   user2.nfc_keys << NfcKey.create(body: 'c0c0c0c0')
   user2.nfc_keys << NfcKey.create(body: 'd0d0d0d0')
   user2.save
 
-  device = User.create!(email: 'device@hackerspace.by', password: '111111')
+  device = User.create!(email: 'device@hackerspace.by', password: '111111', tariff: main_tariff)
   device.roles << Role.find_by(name: 'device')
   device.save
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_03_150907) do
+ActiveRecord::Schema.define(version: 2021_04_03_155618) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -237,7 +237,6 @@ ActiveRecord::Schema.define(version: 2021_04_03_150907) do
     t.datetime "last_seen_in_hackerspace"
     t.boolean "account_suspended"
     t.boolean "account_banned"
-    t.float "monthly_payment_amount", default: 70.0
     t.string "github_username"
     t.text "ssh_public_key"
     t.boolean "is_learner", default: false
