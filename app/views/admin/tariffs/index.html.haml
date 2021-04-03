@@ -1,0 +1,29 @@
+%h1 Listing admin_tariffs
+
+%table.table
+  %thead
+    %tr
+      %th Ref name
+      %th Name
+      %th Description
+      %th Access allowed
+      %th Monthly price
+      %th
+      %th
+      %th
+
+  %tbody
+    - @admin_tariffs.each do |admin_tariff|
+      %tr
+        %td= admin_tariff.ref_name
+        %td= admin_tariff.name
+        %td= admin_tariff.description
+        %td= admin_tariff.access_allowed
+        %td= admin_tariff.monthly_price
+        %td= link_to 'Show', admin_tariff_path(admin_tariff)
+        %td= link_to 'Edit', edit_admin_tariff_path(admin_tariff)
+        %td= link_to 'Destroy', admin_tariff_path(admin_tariff), method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Tariff', new_admin_tariff_path

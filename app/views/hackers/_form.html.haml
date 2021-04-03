@@ -56,8 +56,8 @@
           = f.select :project_id, Project.all.map{|p| [p.name, p.id]}, {include_blank: true}, class: 'form-control', value: @user.project_id
 
         .form-group
-          = f.label :monthly_payment_amount
-          = f.text_field :monthly_payment_amount, class: 'form-control'
+          = f.label :tariff
+          = f.collection_select :tariff_id, Tariff.all, :id, :name_with_price, class: 'form-control'
 
         .row
           .col-lg-3

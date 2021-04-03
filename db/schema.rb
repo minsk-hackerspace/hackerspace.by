@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_06_173938) do
+ActiveRecord::Schema.define(version: 2021_04_03_155618) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -184,6 +184,16 @@ ActiveRecord::Schema.define(version: 2021_03_06_173938) do
     t.index ["key"], name: "index_settings_on_key"
   end
 
+  create_table "tariffs", force: :cascade do |t|
+    t.string "ref_name"
+    t.string "name"
+    t.string "description"
+    t.boolean "access_allowed"
+    t.decimal "monthly_price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "thanks", force: :cascade do |t|
     t.string "name"
     t.text "short_desc"
@@ -227,7 +237,6 @@ ActiveRecord::Schema.define(version: 2021_03_06_173938) do
     t.datetime "last_seen_in_hackerspace"
     t.boolean "account_suspended"
     t.boolean "account_banned"
-    t.float "monthly_payment_amount", default: 70.0
     t.string "github_username"
     t.text "ssh_public_key"
     t.boolean "is_learner", default: false
@@ -235,10 +244,12 @@ ActiveRecord::Schema.define(version: 2021_03_06_173938) do
     t.integer "guarantor1_id"
     t.integer "guarantor2_id"
     t.datetime "suspended_changed_at", default: "2010-12-31 18:21:50", null: false
+    t.integer "tariff_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["guarantor1_id"], name: "index_users_on_guarantor1_id"
     t.index ["guarantor2_id"], name: "index_users_on_guarantor2_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["tariff_id"], name: "index_users_on_tariff_id"
   end
 
   create_table "users_roles", id: false, force: :cascade do |t|
@@ -251,4 +262,5 @@ ActiveRecord::Schema.define(version: 2021_03_06_173938) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "nfc_keys", "users"
+  add_foreign_key "users", "tariffs"
 end

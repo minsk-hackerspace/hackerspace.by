@@ -109,7 +109,8 @@ class HackersController < ApplicationController
       :is_learner,
       :project_id,
       :guarantor1_id,
-      :guarantor2_id
+      :guarantor2_id,
+      :tariff_id
     )
   end
 

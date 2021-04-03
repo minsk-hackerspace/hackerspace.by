@@ -109,6 +109,7 @@ class User < ApplicationRecord
   has_many :erip_transactions
   has_many :payments
   has_many :nfc_keys
+  belongs_to :tariff
   belongs_to :guarantor1, class_name: 'User', optional: true
   belongs_to :guarantor2, class_name: 'User', optional: true
 
@@ -124,7 +125,6 @@ class User < ApplicationRecord
   validates_attachment :photo, size: { in: 0..3.megabytes }
 
   validates :email, presence: true, uniqueness: true, length: {maximum: 255}
-  validates :monthly_payment_amount, numericality: true
   validate :validate_guarantors
 
   scope :signed_in, -> { where.not(last_sign_in_at: nil) }
@@ -194,6 +194,11 @@ class User < ApplicationRecord
     end
   end
 
+  def monthly_payment_amount
+    s = self.tariff&.monthly_price
+    s.nil? ? 0 : s
+  end
+
   def expected_payment_amount
     unpaid_days_amount = (Date.today - paid_until).to_i
     missing_payment_amount = if unpaid_days_amount < 14
@@ -210,6 +215,10 @@ class User < ApplicationRecord
 
   def active?
     !inactive?
+  end
+
+  def access_allowed?
+    active? && self.tariff&.access_allowed
   end
 
   def set_as_suspended
