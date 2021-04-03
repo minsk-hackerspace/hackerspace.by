@@ -217,6 +217,10 @@ class User < ApplicationRecord
     !inactive?
   end
 
+  def access_allowed?
+    active? && self.tariff&.access_allowed
+  end
+
   def set_as_suspended
     never_paid = last_payment.nil? && (created_at < Time.now - 1.month)
 
