@@ -30,7 +30,7 @@ table.heat {
 }
 
 /* стили для схлопывания контента в шапке  */
-@media (max-width: 1220px) and (min-width: 1090px) {
+@media (max-width: 1220px) and (min-width: $screen-sm) {
 
 	/* убрать подпись у баланса */
 	.navbar-collapsible {
@@ -49,4 +49,13 @@ table.heat {
 		height: 38px;
 		object-fit: contain;
 	}
+}
+
+/* mobile view */
+@media (max-width: $screen-sm) {
+
+  .contacts li {
+    display: inline-block;
+  }
+
 }
