@@ -38,6 +38,7 @@ class Ability
     can [:show, :index, :create, :new], Thank
     can :read, Project
     can :read, News
+    can :read, Tariff
 
     cannot :image, :uploader
 

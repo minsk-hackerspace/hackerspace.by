@@ -33,6 +33,10 @@
         %strong= t('users.last_name') + ':'
         = @user.last_name
 
+    %p
+      %strong Тариф:
+      = @user.tariff&.name_with_price
+
     - if @user.guarantor1.present?
       %p
         %strong= t('users.guarantor1') + ':'

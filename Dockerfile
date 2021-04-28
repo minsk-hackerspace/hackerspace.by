@@ -1,4 +1,4 @@
-FROM ruby:2.5
+FROM ruby:2.7
 
 WORKDIR /app
 EXPOSE 3000
@@ -13,6 +13,10 @@ RUN bundle version
 RUN gem install bundler
 RUN bundle install --without production
 
+COPY bin/entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+
 CMD cp config/database.example.yml config/database.yml \
- && bundle exec rails db:setup \
- && bundle exec rails server  --binding=0.0.0.0
+ && rails db:setup \
+ && rails server  --binding=0.0.0.0
