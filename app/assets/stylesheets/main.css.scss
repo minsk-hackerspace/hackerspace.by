@@ -28,25 +28,3 @@ table.heat {
     margin-right: 1em;
   }
 }
-
-/* стили для схлопывания контента в шапке  */
-@media (max-width: 1220px) and (min-width: 1090px) {
-
-	/* убрать подпись у баланса */
-	.navbar-collapsible {
-		display: none
-	}
-}
-
-@media (max-width: 1350px) {
-	/* уменьшить логотип */
-	a.navbar-brand {
-		padding: 8px 15px;
-		line-height: 10px;
-	}
-	.navbar-brand img {
-		width: 50px;
-		height: 38px;
-		object-fit: contain;
-	}
-}

@@ -165,3 +165,36 @@ nav ul.nav.navbar-nav> li > a {
   padding-right: 8px;
 }
 
+/* стили для схлопывания контента в шапке  */
+@media (max-width: 1220px) and (min-width: $screen-sm) {
+
+	/* убрать подпись у баланса */
+	.navbar-collapsible {
+		display: none
+	}
+}
+
+@media (max-width: 1350px) {
+	/* уменьшить логотип */
+	a.navbar-brand {
+		padding: 8px 15px;
+		line-height: 10px;
+	}
+	.navbar-brand img {
+		width: 50px;
+		height: 38px;
+		object-fit: contain;
+	}
+}
+
+/* mobile view */
+@media (max-width: $screen-sm) {
+
+  .contacts li {
+    display: inline-block;
+  }
+
+  .container img {
+    max-width: 100%;
+  }
+} 
