@@ -1,3 +1,18 @@
 // Place all the styles related to the projects controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$screen-sm: 1090px;
+
+.map iframe {
+  width: 800px;
+  height: 600px;
+}
+
+@media (max-width: $screen-sm) {
+  .map iframe {
+    width: 100%;
+    height: 300px;
+  }
+
+}
