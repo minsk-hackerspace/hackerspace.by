@@ -1,0 +1,14 @@
+# sr.ht build service
+# - https://man.sr.ht/builds.sr.ht/
+# - https://man.sr.ht/dispatch.sr.ht/
+image: ubuntu
+tasks:
+- build: |
+   ls -la
+   cp config/database.example.yml config/database.yml
+   bundle exec rake db:setup RAILS_ENV=test
+   bundle exec rails spec
+   bundle exec bundle-audit check --update
+   bundle exec brakeman -z
+- deploy: |
+   script .cicd/travis_deploy.sh
