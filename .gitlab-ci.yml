@@ -1,0 +1,23 @@
+image: ruby:2.7
+
+build-job:
+  stage: build
+  cache: 
+    paths:
+      - vendor/ruby
+  before_script:
+    - ruby --version
+    - bundle install -j $(nproc) --path vendor/ruby
+  script:
+    - cp config/database.example.yml config/database.yml
+    - bundle exec rake db:setup RAILS_ENV=test
+    - bundle exec rails spec
+    - bundle exec bundle-audit check --update
+    - bundle exec brakeman -z
+
+deploy-job:
+  stage: deploy
+  script: .cicd/travis_deploy.sh
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
