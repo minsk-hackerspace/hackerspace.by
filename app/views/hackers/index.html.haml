@@ -17,6 +17,6 @@
       = render 'hackers', hackers: @active_users
   - if current_user.admin?
     %h2 Suspended, banned and forgotten
-    .row
+    .row 
       .col-lg-12
         = render 'hackers', hackers: @non_active_users
