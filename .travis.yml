@@ -6,14 +6,23 @@ language: ruby
 cache: bundler
 rvm:
 - 2.7
-script:
-- cp config/database.example.yml config/database.yml
-- bundle exec rake db:setup RAILS_ENV=test
-- bundle exec rails spec
-- bundle exec bundle-audit check --update
-- bundle exec brakeman -z
-deploy:
-- provider: script
-  script: .cicd/travis_deploy.sh
-  on:
-    branch: master
+
+jobs:
+  include:
+    - stage: test
+      name: "Tests"
+      script:
+        - cp config/database.example.yml config/database.yml
+        - bundle exec rake db:setup RAILS_ENV=test
+        - bundle exec rails spec
+    - name: "Audit"
+      script:
+        - bundle exec bundle-audit check --update
+        - bundle exec brakeman -z
+
+    - stage: deploy
+      if: branch = master
+      script: skip
+      deploy:
+        - provider: script
+          script: .cicd/travis_deploy.sh
