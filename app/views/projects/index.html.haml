@@ -1,24 +1,21 @@
 %h1 Наши проекты
 
-.container
-  - @projects.each_slice(2) do |project_row|
-    .row
-      - project_row.each do |project|
-        .col-lg-6
-          %h2
-            = link_to project.name_with_id, project_path(project)
-          %p
-            = link_to image_tag(project.photo.url(:medium), class: 'left-block'), project_path(project)
-          %p
-            %em
-              Статус:
-              = project.project_status
-          %p
-            = project.short_desc.html_safe
-          %p
-            %a.btn.btn-default{href: project_path(project), role: 'button'} Читать дальше &raquo;
+- @projects.each_slice(2) do |project_row|
+  .row.mb-5
+    - project_row.each do |project|
+      .col-lg-6
+        %h2
+          = link_to project.name_with_id, project_path(project)
+        %p
+          = link_to image_tag(project.photo.url(:medium), class: 'left-block'), project_path(project)
+        %p
+          %em
+            Статус:
+            = project.project_status
+        %p
+          = project.short_desc.html_safe
+        %p
+          = link_to "Подробнее >>>", project_path(project)
 
-  - if user_signed_in?
-    %hr
-    = link_to 'Добавить проект', new_project_path, class: 'btn btn-info'
-  %hr
+- if user_signed_in?
+  = link_to 'Добавить проект', new_project_path, class: 'btn btn-info'

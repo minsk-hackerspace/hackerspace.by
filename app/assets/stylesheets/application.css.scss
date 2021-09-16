@@ -17,20 +17,35 @@
 $state-warning-bg:	rgba(252, 248, 227, 0.5);
 $state-danger-bg:	rgba(242, 222, 222, 0.5);
 
-$screen-sm: 1090px;
-$screen-sm-min: $screen-sm;
-$screen-tablet: $screen-sm;
+$font-family-base: "Helvetica Neue", "Open Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
-@import "bootstrap-sprockets";
+$font-size-base: 1rem;
+$font-weight-normal: 300;
+$lead-font-size: 1.4rem;
+
+$link-decoration: none;
+
+$table-th-font-weight: 600;
+
+$nav-link-padding-y: 0.2rem;
+$enable-negative-margins: true;
+$btn-close-width: 0.7em;
+
+//$screen-sm: 1090px;
+//$screen-sm-min: $screen-sm;
+//$screen-tablet: $screen-sm;
+
+//@import "bootstrap-sprockets";
 @import "bootstrap";
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400&subset=latin,cyrillic);
 @import 'font-awesome';
 
 body {
-  margin-top: 80px;
-  margin-bottom: 70px;
+//  margin-top: 80px;
+//  margin-bottom: 70px;
   background-image: url('../../images/back.jpg');
-  font-family: 'Helvetica Neue', 'Open Sans', sans-serif;
+//  font-family: 'Helvetica Neue', 'Open Sans', sans-serif;
+    font-size: 1.25rem;
 }
 
 img {
@@ -132,41 +147,19 @@ html {
 }
 
 .footer {
-  background-color: black;
-  color: white;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
+  padding-top: 3.5rem;
 }
 
-.footer a {
-  color: white;
+.form-group {
+  margin-bottom: 1rem;
 }
 
-.footer .nav > li > a:hover {
-  color: green;
-}
-
-.contacts {
-  text-align: center;
-  font-size: 1.5em;
-}
-
-.contacts .text {
-  padding: 15px;
-}
-
-footer ul.nav.navbar-nav.navbar-right > li > a {
-  padding: 5px 15px;
-}
-
-nav ul.nav.navbar-nav> li > a {
-  padding-left: 8px;
-  padding-right: 8px;
+.navbar-brand img {
+  margin-bottom: -3rem;
 }
 
 /* стили для схлопывания контента в шапке  */
-@media (max-width: 1220px) and (min-width: $screen-sm) {
+@media (max-width: 1220px) and (min-width: 576px) {
 
 	/* убрать подпись у баланса */
 	.navbar-collapsible {
@@ -184,11 +177,12 @@ nav ul.nav.navbar-nav> li > a {
 		width: 50px;
 		height: 38px;
 		object-fit: contain;
+    margin-bottom: 0;
 	}
 }
 
 /* mobile view */
-@media (max-width: $screen-sm) {
+@media (max-width: 576px) {
 
   .contacts li {
     display: inline-block;
@@ -197,4 +191,4 @@ nav ul.nav.navbar-nav> li > a {
   .container img {
     max-width: 100%;
   }
-} 
+}

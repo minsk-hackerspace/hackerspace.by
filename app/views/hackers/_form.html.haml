@@ -9,26 +9,26 @@
               %li= msg
 
       .form-group.mandatory
-        = f.label 'Email'
+        = f.label :email, 'Email'
         = f.text_field :email, class: 'form-control'
       .form-group
-        = f.label 'Имя'
+        = f.label :first_name, 'Имя'
         = f.text_field :first_name, class: 'form-control'
-        = f.label 'Фамилия'
+      .form-group
+        = f.label :last_name, 'Фамилия'
         = f.text_field :last_name, class: 'form-control'
       .form-group
-        = f.label 'Примечание'
+        = f.label :hacker_comment, 'Примечание'
         = f.text_area :hacker_comment, rows: 2, class: 'form-control'
       .form-group.mandatory
-        = f.label 'Изображение, до 3 МБ'
+        = f.label :photo, 'Изображение, до 3 МБ'
         = f.file_field :photo
 
       .form-group
         = f.label 'Рекомендатели:'
         %br
-        = f.collection_select :guarantor1_id, User.order(:last_name).all, :id, :full_name_with_id, include_blank: true
-        %br
-        = f.collection_select :guarantor2_id, User.order(:last_name).all, :id, :full_name_with_id, include_blank: true
+        = f.collection_select :guarantor1_id, User.order(:last_name).all, :id, :full_name_with_id, {include_blank: true}, class: 'form-select'
+        = f.collection_select :guarantor2_id, User.order(:last_name).all, :id, :full_name_with_id, {include_blank: true}, class: 'form-select'
 
       .form-group
         = f.label 'Никнейм в Telegram'
@@ -48,25 +48,25 @@
 
       - if current_user.admin?
         .form-group
+          = f.check_box :is_learner, class: 'form-check-input', value: @user.is_learner
           = f.label 'Курсант'
-          = f.check_box :is_learner, class: 'form-control', value: @user.is_learner
 
         .form-group
           = f.label 'Проект'
-          = f.select :project_id, Project.all.map{|p| [p.name, p.id]}, {include_blank: true}, class: 'form-control', value: @user.project_id
+          = f.select :project_id, Project.all.map{|p| [p.name, p.id]}, {include_blank: true}, class: 'form-select', value: @user.project_id
 
         .form-group
           = f.label :tariff
-          = f.collection_select :tariff_id, Tariff.all, :id, :name_with_price, class: 'form-control'
+          = f.collection_select :tariff_id, Tariff.all, :id, :name_with_price, {}, class: 'form-select'
 
         .row
           .col-lg-3
             .form-group
               = f.label 'Banned'
-              = f.check_box :account_banned, class: 'form-control', value: @user.account_banned
+              = f.check_box :account_banned, class: 'form-check-input', value: @user.account_banned
 
       .form-group
-        = f.submit 'Сохранить', class: 'btn btn-default'
+        = f.submit 'Сохранить', class: 'btn btn-primary'
 
 -#MAC
 %hr
@@ -88,7 +88,7 @@
       .form-group
         = text_field_tag(:mac, nil, class: 'form-control')
       .form-group
-        = submit_tag('Добавить Mac адрес', class: 'btn btn-default')
+        = submit_tag('Добавить Mac адрес', class: 'btn btn-primary')
 
 -#NFC
 %hr
@@ -97,7 +97,7 @@
     - unless @user.nfc_keys.empty?
       %h3 NFC ключи пользователя
       - @user.nfc_keys.each do |nfc|
-        .row
+        .row.small
           .col-lg-4
             %p
               = nfc.body
@@ -110,4 +110,4 @@
       .form-group
         = text_field_tag(:nfc, nil, class: 'form-control')
       .form-group
-        = submit_tag('Добавить NFC ключ', class: 'btn btn-default')
+        = submit_tag('Добавить NFC ключ', class: 'btn btn-primary')

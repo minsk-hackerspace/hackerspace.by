@@ -7,14 +7,12 @@
   .col-lg-9
     .lead
       = markup2html @news.short_desc, @news.markup_type
+.row
+  .col-lg-12
+    = markup2html @news.description, @news.markup_type
 
-%hr
-.lead
-  = markup2html @news.description, @news.markup_type
-
--if (user_signed_in? and can?(:update, @news)) or (user_signed_in? and @news.public? )
-  = link_to 'Изменить', edit_news_path(@news), class: 'btn btn-info'
-
-= link_to 'Назад', news_index_path, class: 'btn btn-default'
-
-%br.bottom_margin
+.row
+  .d-grid.gap-2.d-md-flex.justify-content-md-end
+    = link_to 'Назад', news_index_path, class: 'btn btn-primary'
+    -if (user_signed_in? and can?(:update, @news)) or (user_signed_in? and @news.public? )
+      = link_to 'Изменить', edit_news_path(@news), class: 'btn btn-secondary'
