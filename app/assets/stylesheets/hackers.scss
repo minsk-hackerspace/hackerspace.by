@@ -5,19 +5,8 @@
   width: 400px;
 }
 
-.links {
-  margin-top: 20px;
-  margin-left: 40px;
-}
-
-.user {
-  margin-top: 40px;
-  margin-left: 40px;
-  font-size: 18px;
-
-  .last-login {
-    font-size: 14px;
-  }
+table.hackers-list {
+  font-size: 0.875rem;
 }
 
 .ssh-public-key {
@@ -25,14 +14,3 @@
   word-wrap: break-word;
 }
 
-.payments {
-  margin-left: 40px;
-}
-
-.projects {
-  margin-left: 40px;
-}
-
-.additional_info {
-  margin-left: 40px;
-}

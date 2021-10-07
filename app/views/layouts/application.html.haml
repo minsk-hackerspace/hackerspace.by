@@ -6,6 +6,7 @@
     %meta{name: :description, content: 'Минский хакерспейс, DIY community, 3D принтер, ЧПУ фрезер, паяльная станция, Минск, проекты, сделай сам, arduino'}
     %meta{name: :keywords, content: 'Хакерспейс, DIY community, 3D принтер, ЧПУ фрезер, паяльная станция, Минск, проекты, сделай сам, arduino'}
     %meta{ charset: "utf-8" }
+    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1'}
     = render partial: 'layouts/og_meta_tags'
     = render partial: 'layouts/gplus_meta_tags'
     = render partial: 'layouts/fb_meta_tags'
@@ -24,14 +25,12 @@
     .container
       -if notice.present?
         %br
-        .alert.alert-success.alert-dismissable
-          %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", type: "button"} &times;
-          %p.notice #{notice}
+        .alert.alert-success
+          = notice
       -if alert.present?
         %br
-        .alert.alert-danger.alert-dismissable
-          %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", type: "button"} &times;
-          %p.alert #{alert}
+        .alert.alert-danger
+          = alert
       = yield
 
     = render 'layouts/footer'

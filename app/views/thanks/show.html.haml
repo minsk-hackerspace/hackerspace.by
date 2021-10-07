@@ -10,7 +10,7 @@
 
 -if user_signed_in? && (@thank.user == current_user or @thank.public)
   = link_to 'Изменить', edit_thank_path(@thank), class: 'btn btn-info'
-= link_to 'Назад', thanks_path, class: 'btn btn-default'
+= link_to 'Назад', thanks_path, class: 'btn btn-primary'
 
 %br.bottom_margin
 

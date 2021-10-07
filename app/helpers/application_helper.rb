@@ -36,3 +36,11 @@ module ApplicationHelper
   end
 
 end
+
+class AppFormBuilder < ActionView::Helpers::FormBuilder
+  def label(method, text = nil, options = {}, &block)
+    options['class'] = '' if options['class'].nil?
+    options['class'] += ' form-label small'
+    @template.label(@object_name, method, text, objectify_options(options), &block)
+  end
+end

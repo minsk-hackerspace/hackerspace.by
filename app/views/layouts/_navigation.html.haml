@@ -1,74 +1,69 @@
-%nav.navbar.navbar-inverse.navbar-fixed-top{role: 'navigation'}
+%nav.navbar.navbar-expand-lg.navbar-dark.sticky-top.bg-dark.mb-3{role: 'navigation'}
   .container-fluid
-    .navbar-header
-      %button.navbar-toggle{"data-target" => "#navbar", "data-toggle" => "collapse", type: "button", onclick: "$('#brand').fadeToggle();"}
-        %span.sr-only Toggle navigation
-        %span.icon-bar
-        %span.icon-bar
-        %span.icon-bar
-      %a.navbar-brand#brand{href: root_path}
-        = image_tag '/images/logo_site.svg', height: '70px', class: "hsopen-#{@hs_open_status}", title: t("hsopen.#{@hs_open_status}").to_s
+
+    %a.navbar-brand#brand{href: root_path}
+      = image_tag '/images/logo_site.svg', height: '70px', class: "mb hsopen-#{@hs_open_status}", title: t("hsopen.#{@hs_open_status}").to_s
+    %button.navbar-toggler{"data-bs-target" => "#navbar", "data-bs-toggle" => "collapse", type: "button", onclick: "$('#brand').fadeToggle();"}
+      %span.navbar-toggler-icon
+
     .collapse.navbar-collapse#navbar
-      %ul.nav.navbar-nav.lead
-        %li
-          = link_to 'Проекты', projects_path
-        %li
-          = link_to 'Новости', news_index_path
-        %li
-          = link_to 'Контакты', contacts_path
+      %ul.navbar-nav.me-auto
+        %li.nav-item
+          = link_to 'Проекты', projects_path, class: 'nav-link'
+        %li.nav-item
+          = link_to 'Новости', news_index_path, class: 'nav-link'
+        %li.nav-item
+          = link_to 'Контакты', contacts_path, class: 'nav-link'
         - if Thank.any?
-          %li
-            = link_to 'Благодарности', thanks_path
+          %li.nav-item
+            = link_to 'Благодарности', thanks_path, class: 'nav-link'
 
-        %li.dropdown
-          %a{class:"dropdown-toggle", 'data-toggle': "dropdown", href: "#"}
+        %li.dropdown.nav-item
+          %a{class:"dropdown-toggle nav-link", 'data-bs-toggle': "dropdown", href: "#"}
             Присоединиться
-            %span.caret
           %ul.dropdown-menu
-            %li
-              = link_to 'Наши короткие правила', rules_path
-            %li
-              = link_to 'Тарифы', tariffs_path
-            %li
-              = link_to 'Как оплатить', howtopay_path
-            %li
-              = link_to 'Как присоединиться', procedure_path
-            %li
-              = link_to 'Время работы', calendar_path
-            %li
-              = link_to 'Совет хакерспейса', board_path
-        - if user_signed_in?
-          %li.dropdown
-            %a{class:"dropdown-toggle", 'data-toggle': "dropdown", href: "#"}
-              Хакерам
-              %span.caret
-            %ul.dropdown-menu
-              %li
-                = link_to 'Устройства', devices_path
-              %li
-                = link_to 'Список участников', users_path
-              %li
-                = link_to 'Полезная информация', wiki_gateway_path
-              %li
-                = link_to t('cabinet.title'), edit_user_path(current_user)
-              - if current_user.admin?
-                %li
-                  = link_to 'Админка', admin_dashboard_index_path
+            %li.nav-item
+              = link_to 'Наши короткие правила', rules_path, class: 'dropdown-item'
+            %li.nav-item
+              = link_to 'Тарифы', tariffs_path, class: 'dropdown-item'
+            %li.nav-item
+              = link_to 'Как оплатить', howtopay_path, class: 'dropdown-item'
+            %li.nav-item
+              = link_to 'Как присоединиться', procedure_path, class: 'dropdown-item'
+            %li.nav-item
+              = link_to 'Время работы', calendar_path, class: 'dropdown-item'
+            %li.nav-item
+              = link_to 'Совет хакерспейса', board_path, class: 'dropdown-item'
 
-      %ul.nav.navbar-nav.navbar-right.lead
-        %li
+        - if user_signed_in?
+          %li.dropdown.nav-item
+            %a{class:"dropdown-toggle nav-link", 'data-bs-toggle': "dropdown", href: "#"}
+              Хакерам
+            %ul.dropdown-menu
+              %li.nav-item
+                = link_to 'Устройства', devices_path, class: 'dropdown-item'
+              %li.nav-item
+                = link_to 'Список участников', users_path, class: 'dropdown-item'
+              %li.nav-item
+                = link_to 'Полезная информация', wiki_gateway_path, class: 'dropdown-item'
+              %li.nav-item
+                = link_to t('cabinet.title'), edit_user_path(current_user), class: 'dropdown-item'
+              - if current_user.admin?
+                %li.nav-item
+                  = link_to 'Админка', admin_dashboard_index_path, class: 'dropdown-item'
+
+      %ul.navbar-nav
+        %li.nav-item
           -if user_signed_in?
-            %a{href: chart_path}
+            %a.nav-link{href: chart_path}
               %span.navbar-collapsible
                 Баланс:
                 %b
                   = @hs_balance
               %meter{value:@hs_kitty_number, min:0, max:100, low:25, high:75, optimum:100}
                 (#{@hs_kitty_number}%)
-        %li
+        %li.nav-item
           -if user_signed_in?
-            = link_to 'Выход', destroy_user_session_path, method: :delete
+            = link_to 'Выход', destroy_user_session_path, method: :delete, class: 'nav-link'
           -else
-            %a{href: new_user_session_path} Вход
-.container-widgetinst
-  = yield :widgetinst
+            %a.nav-link{href: new_user_session_path} Вход

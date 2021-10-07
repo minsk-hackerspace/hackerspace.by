@@ -1,39 +1,39 @@
-%h1
-  = @project.name_with_id
-%h3
-  = "Статус: #{@project.project_status}"
-.lead
-  = markup2html @project.short_desc, @project.markup_type
-%hr
-  =image_tag @project.photo.url(:original), class: 'center-block'
-%hr
-.lead
+.row
+  %h1
+    = @project.name_with_id
+.row
+  %h3
+    = "Статус: #{@project.project_status}"
+  .lead
+    = markup2html @project.short_desc, @project.markup_type
+    =image_tag @project.photo.url(:original), class: 'center-block'
+
+.row
   = markup2html @project.full_desc, @project.markup_type
 
--if can? :update, @project
-  = link_to 'Изменить', edit_project_path(@project), class: 'btn btn-info'
+.row
+  .d-grid.gap-2.d-md-flex.justify-content-md-end
+    = link_to 'Назад', projects_path, class: 'btn btn-primary me-md-2'
+    -if can? :update, @project
+      = link_to 'Изменить', edit_project_path(@project), class: 'btn btn-secondary'
 
-%h3
-  = "Собрано денег: #{@project.payments_sum} BYN"
+.row
+  %h3
+    = "Собрано денег: #{@project.payments_sum} BYN"
 
-- if user_signed_in?
-  .container
-    .row
-      .col-md-12
-        - @payments.each do |payment|
-          .row
-            .col-md-1
-              = link_to_if current_user.admin?, payment.amount, admin_payment_path(payment)
-            .col-md-3
-              - if payment.user.present?
-                = link_to_if current_user.admin?, payment.user.email, user_path(payment.user)
-            .col-md-2
-              = payment.paid_at.strftime('%d-%m-%Y %H:%M')
-%br
-= link_to 'Назад', projects_path, class: 'btn btn-default'
-
-%br.bottom_margin
-
+  - if user_signed_in?
+    .col-md-12
+      - @payments.each do |payment|
+        .row
+          .col-md-1
+            = link_to_if current_user.admin?, payment.amount, admin_payment_path(payment)
+          .col-md-3
+            - if payment.user.present?
+              = link_to_if current_user.admin?, payment.user.email, user_path(payment.user)
+          .col-md-2
+            = payment.paid_at.strftime('%d-%m-%Y %H:%M')
+.row
+  %p
 
 #disqus_thread
 :javascript

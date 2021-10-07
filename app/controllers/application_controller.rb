@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   check_authorization unless: :devise_controller?
 
+  default_form_builder AppFormBuilder
+
   before_action :set_default_request_format
 
   def set_default_request_format

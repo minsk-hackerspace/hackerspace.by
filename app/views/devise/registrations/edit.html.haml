@@ -10,21 +10,21 @@
     %div
       Ожидание подтверждения регистрации: #{resource.unconfirmed_email}
   .form-group
-    = f.label 'Новый пароль'
+    = f.label :password, 'Новый пароль'
     %i (оставьте пустым, если не хотите менять)
     %br/
     = f.password_field :password, autocomplete: "off", class: 'form-control'
   .form-group
-    = f.label 'Еще раз'
+    = f.label :password_confirmation, 'Еще раз'
     %br/
     = f.password_field :password_confirmation, autocomplete: "off", class: 'form-control'
   .form-group
-    = f.label 'Текущий пароль'
+    = f.label :current_password, 'Текущий пароль'
     %i (нужен для подтверждения изменений)
     %br/
     = f.password_field :current_password, autocomplete: "off", class: 'form-control'
   .form-group
-    = f.submit "Обновить", class: 'btn btn-default'
+    = f.submit "Обновить", class: 'btn btn-primary'
 
 %h3 Удалить свой профиль
 %p

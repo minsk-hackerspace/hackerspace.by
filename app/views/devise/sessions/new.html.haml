@@ -1,17 +1,19 @@
-.col-md-6.col-md-offset-3
-  .panel.panel-default
-    .panel-heading.text-center
-      %h4 Вход
-    .panel-body
-      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-        .form-group
-          = f.label :email
-          = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control'
+.row
+  .col-md-3
+  .col-md-6
+    .card
+      .card-header.text-center
+        %h4 Вход
+      .card-body
+        = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+          .form-group
+            = f.label :email
+            = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control'
 
-        .form-group
-          = f.label :password
-          = f.password_field :password, autocomplete: "current-password", class: 'form-control'
+          .form-group
+            = f.label :password
+            = f.password_field :password, autocomplete: "current-password", class: 'form-control'
 
-        .actions
-          = f.submit 'Войти', class: 'btn btn-success'
-  = render 'devise/shared/links'
+          .actions
+            = f.submit 'Войти', class: 'btn btn-success'
+        = render 'devise/shared/links'
