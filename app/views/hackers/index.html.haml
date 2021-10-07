@@ -13,8 +13,8 @@
 .row
   .col-lg-12
     = render 'hackers', hackers: @active_users
-- if current_user.admin?
-  %h4 Suspended, banned and forgotten
-  .row 
-    .col-lg-12
-      = render 'hackers', hackers: @non_active_users
+
+%h4 Suspended, banned and forgotten
+.row
+  .col-lg-12
+    = render 'hackers', hackers: @non_active_users
