@@ -15,14 +15,14 @@ set -e
 
 # Edit these settings to your liking:
 GOLLUM_USER=mhs
-GOLLUM_BASE=/home/mhs/hackerspace.by/wiki/
+GOLLUM_BASE=/home/user/hackerspace.by/wiki/
 GOLLUM_OPTS="--live-preview -b wiki -h 127.0.0.1"
 
 NAME=mhs
 PID=/var/run/${NAME}.pid
 EXEC=/usr/local/bin/gollum
 LOG=/var/log/gollum.log
-PATH=$PATH:/home/mhs/.rvm/gems/ruby-2.3.1/bin:/home/mhs/.rvm/gems/ruby-2.3.1@global/bin:/home/mhs/.rvm/rubies/ruby-2.3.1/bin:/home/mhs/.rvm/bin:/home/mhs/.nvm/versions/node/v8.4.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+PATH=$PATH:/home/user/.rvm/gems/ruby-2.3.1/bin:/home/user/.rvm/gems/ruby-2.3.1@global/bin:/home/user/.rvm/rubies/ruby-2.3.1/bin:/home/user/.rvm/bin:/home/user/.nvm/versions/node/v8.4.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 . /lib/lsb/init-functions
 
 start ()

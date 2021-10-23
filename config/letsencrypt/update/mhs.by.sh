@@ -1,6 +1,6 @@
 #!/bin/sh
 
-/home/mhs/letsencrypt/certbot/certbot-auto certonly \
+/home/user/letsencrypt/certbot/certbot-auto certonly \
     --standalone \
     --email info@hackerspace.by \
     --renew-by-default \
