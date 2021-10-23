@@ -11,8 +11,8 @@ require './config/deploy/mina-whenever/tasks.rb'
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
-set :domain, '93.125.30.47'
-set :user, 'mhs' # Username in the server to SSH to.
+set :domain, '31.24.92.99'
+set :user, 'user' # Username in the server to SSH to.
 set :repo_port, '22' # SSH port number.
 
 set :deploy_to, "/home/#{fetch(:user)}/hackerspace.by"
@@ -70,10 +70,7 @@ end
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
 task :remote_environment do
-  invoke :'rvm:use', 'ruby-2.7.0'
-  command 'gem i bundler'
-#  command "export GEM_HOME=/home/#{fetch(:user)}/.rvm/gems/ruby-2.5.0"
-#  command "export PATH=/home/#{fetch(:user)}/.rvm/gems/ruby-2.5.0/bin:/home/#{fetch(:user)}/.rvm/gems/ruby-2.5.0@global/bin:/home/#{fetch(:user)}/.rvm/rubies/ruby-2.5.0/bin:/home/#{fetch(:user)}/.rvm/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games"
+  invoke :'rvm:use', 'ruby-3.0'
 end
 
 desc 'Deploys the current version to the server.'
@@ -96,8 +93,8 @@ task :deploy do
       # command 'ln -s /etc/nginx/sites-available/hackerspace.by.conf /etc/nginx/sites-enabled/hackerspace.by.conf'
       command "rm -rf #{fetch(:current_path)}/public/system/"
       command "ln -s #{fetch(:shared_path)}/system/ #{fetch(:current_path)}/public/system"
-      invoke :'whenever:update'
-      invoke :restart
+      # invoke :'whenever:update'
+      # invoke :restart
     end
   end
 end
