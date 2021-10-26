@@ -93,8 +93,8 @@ task :deploy do
       # command 'ln -s /etc/nginx/sites-available/hackerspace.by.conf /etc/nginx/sites-enabled/hackerspace.by.conf'
       command "rm -rf #{fetch(:current_path)}/public/system/"
       command "ln -s #{fetch(:shared_path)}/system/ #{fetch(:current_path)}/public/system"
-      # invoke :'whenever:update'
-      # invoke :restart
+      invoke :'whenever:update'
+      invoke :restart
     end
   end
 end
@@ -129,20 +129,20 @@ end
 task :puma_start => :remote_environment do
   invoke :cd
 #  command 'puma -C config/puma.rb'
-  command %{systemctl --user start puma-hackerspace.by}
+  command %{systemctl --user start puma}
 end
 
 task :puma_stop => :remote_environment do
   invoke :cd
 #  command "pumactl -P /home/#{fetch(:user)}/puma.pid stop"
-  command %{systemctl --user stop puma-hackerspace.by}
+  command %{systemctl --user stop puma}
 end
 
 task :puma_restart => :remote_environment do
   command 'echo $PATH'
   command 'echo $GEM_HOME'
 #  command "pumactl -P /home/#{fetch(:user)}/puma.pid restart"
-  command %{systemctl --user restart puma-hackerspace.by}
+  command %{systemctl --user restart puma}
 end
 
 task :nginx_restart => :remote_environment do
