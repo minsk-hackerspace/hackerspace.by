@@ -45,7 +45,7 @@ body {
 //  margin-bottom: 70px;
   background-image: url('../../images/back.jpg');
 //  font-family: 'Helvetica Neue', 'Open Sans', sans-serif;
-    font-size: 1.25rem;
+//    font-size: 1.25rem;
 }
 
 img {
@@ -158,6 +158,12 @@ html {
   margin-bottom: -3rem;
 }
 
+@include media-breakpoint-up(md) {
+	html {
+		font-size: 1.25rem;
+	}
+}
+
 /* стили для схлопывания контента в шапке  */
 @media (max-width: 1220px) and (min-width: 576px) {
 
@@ -177,7 +183,7 @@ html {
 		width: 50px;
 		height: 38px;
 		object-fit: contain;
-    margin-bottom: 0;
+		margin-bottom: 0;
 	}
 }
 
