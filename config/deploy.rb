@@ -89,13 +89,13 @@ task :deploy do
     invoke :'deploy:cleanup'
 
     on :launch do
-      command "cp -f #{fetch(:deploy_to)}/#{fetch(:current_path)}/config/nginx/hackerspace.by.conf /etc/nginx/sites-available/hackerspace.by.conf"
+      # command "cp -f #{fetch(:deploy_to)}/#{fetch(:current_path)}/config/nginx/hackerspace.by.conf /etc/nginx/sites-available/hackerspace.by.conf"
       # command 'ln -s /etc/nginx/sites-available/hackerspace.by.conf /etc/nginx/sites-enabled/hackerspace.by.conf'
-      command "mkdir -p /home/#{fetch(:user)}/.config/systemd/user"
-      command "cp -f #{fetch(:deploy_to)}/#{fetch(:current_path)}/config/services/* /home/#{fetch(:user)}/.config/systemd/user"
-      command %{systemctl --user start gollum}
-      command "rm -rf #{fetch(:current_path)}/public/system/"
-      command "ln -s #{fetch(:shared_path)}/system/ #{fetch(:current_path)}/public/system"
+      # command "mkdir -p /home/#{fetch(:user)}/.config/systemd/user"
+      # command "cp -f #{fetch(:current_path)}/config/services/* /home/#{fetch(:user)}/.config/systemd/user"
+      # command %{systemctl --user start gollum}
+      # command "rm -rf #{fetch(:current_path)}/public/system/"
+      # command "ln -s #{fetch(:shared_path)}/system/ #{fetch(:current_path)}/public/system"
       invoke :'whenever:update'
       invoke :restart
     end
@@ -138,7 +138,7 @@ task :puma_start => :remote_environment do
 end
 
 task :copy_configs => :remote_environment do
-  command "cp -f #{fetch(:deploy_to)}/#{fetch(:current_path)}/config/nginx/hackerspace.by.conf /etc/nginx/sites-available/hackerspace.by.conf"
+  command "sudo cp -f #{fetch(:current_path)}/config/nginx/hackerspace.by.conf /etc/nginx/sites-available/hackerspace.by"
 end
 
 task :puma_stop => :remote_environment do
