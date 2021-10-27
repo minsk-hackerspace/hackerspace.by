@@ -16,7 +16,7 @@ openssl aes-256-cbc -K $encrypted_622d28529b58_key -iv $encrypted_622d28529b58_i
 chmod 600 "$KEYPATH"
 eval "$(ssh-agent -s)"
 ssh-add "$KEYPATH"
-ssh -i "$KEYPATH" mhs@hackerspace.by pwd
+ssh -i "$KEYPATH" user@hackerspace.by pwd
 
 
 echo "[x] Preparing and running 'mina' (Ruby deploy tool)"
