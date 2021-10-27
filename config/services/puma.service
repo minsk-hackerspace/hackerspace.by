@@ -1,0 +1,27 @@
+[Unit]
+Description=Puma HTTP Server
+After=network.target
+
+# Uncomment for socket activation (see below)
+# Requires=puma.socket
+
+[Service]
+Type=simple
+
+# Preferably configure a non-privileged user
+# User=
+
+WorkingDirectory=/home/user/current
+
+ExecStart=/home/user/.rvm/gems/default/wrappers/puma -C /home/user/current/config/puma.rb
+
+
+# Variant: Use `bundle exec --keep-file-descriptors puma` instead of binstub
+# Variant: Specify directives inline.
+# ExecStart=/<FULLPATH>/puma -b tcp://0.0.0.0:9292 -b ssl://0.0.0.0:9293?key=key.pem&cert=cert.pem
+
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

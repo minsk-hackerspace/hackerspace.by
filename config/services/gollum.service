@@ -1,0 +1,13 @@
+[Unit]
+Description=Gollum wiki for hackerspace.by
+After=basic.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/user/wiki
+Environment=RUBYOPT="-KU -E utf-8:utf-8"
+ExecStart=/home/user/.rvm/gems/default/wrappers/gollum /home/user/wiki --base-path /wiki --allow-uploads --host 127.0.0.1
+Restart=always
+
+[Install]
+WantedBy=default.target
