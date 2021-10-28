@@ -94,8 +94,8 @@ task :deploy do
       # command "mkdir -p /home/#{fetch(:user)}/.config/systemd/user"
       # command "cp -f #{fetch(:current_path)}/config/services/* /home/#{fetch(:user)}/.config/systemd/user"
       # command %{systemctl --user start gollum}
-      # command "rm -rf #{fetch(:current_path)}/public/system/"
-      # command "ln -s #{fetch(:shared_path)}/system/ #{fetch(:current_path)}/public/system"
+      command "rm -rf #{fetch(:current_path)}/public/system/"
+      command "ln -s #{fetch(:shared_path)}/system/ #{fetch(:current_path)}/public/system"
       invoke :'whenever:update'
       invoke :restart
     end
@@ -156,7 +156,7 @@ task :nginx_restart => :remote_environment do
   command 'sudo service nginx restart'
 end
 
-desc "Shows logs."
+desc 'Shows logs.'
 task :logs do
   command %[cd #{fetch(:deploy_to)}/current && tail -f log/production.log]
 end
