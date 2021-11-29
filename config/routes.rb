@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :nfc_keys, controller: 'bramnik', path: 'bramnik', only: [:index]
+  get 'bramnik/find_user', to: 'bramnik#find_user'
 
   resources :projects
   resources :news
