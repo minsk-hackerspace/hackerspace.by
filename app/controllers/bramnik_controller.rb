@@ -6,13 +6,13 @@ class BramnikController < ActionController::API
       render json: @users, status: :ok
   end
 
-  # find user id by his telegram nick
+  # find user by various params
   def find_user
-    tg = params[:tg_username]
+    token = params[:auth_token]
 
     user = nil
-    if tg.present? then
-      user = User.find_by(telegram_username: tg)
+    if token.present? then
+      user = User.find_by_auth_token(token)
     end
 
     unless user.nil? then

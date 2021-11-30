@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_28_110708) do
+ActiveRecord::Schema.define(version: 2021_11_30_164347) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 2021_04_28_110708) do
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
-    t.bigint "blob_id", null: false
+    t.integer "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
@@ -252,6 +252,8 @@ ActiveRecord::Schema.define(version: 2021_04_28_110708) do
     t.integer "guarantor2_id"
     t.datetime "suspended_changed_at", default: "2010-12-31 18:21:50", null: false
     t.integer "tariff_id"
+    t.string "tg_auth_token"
+    t.datetime "tg_auth_token_expiry"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["guarantor1_id"], name: "index_users_on_guarantor1_id"
     t.index ["guarantor2_id"], name: "index_users_on_guarantor2_id"

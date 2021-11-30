@@ -12,6 +12,12 @@
     %p.small
       = t('users.last_sign_in_at')
       = @user.last_sign_in_at
+
+    - if @user == current_user
+      %p
+        = link_to "Авторизоваться у Брамника",
+          "https://t.me/#{Setting['bramnikBotName']}?start=#{@user.tg_auth_token}", class: "btn btn-secondary"
+
   .col-md-8
     %p
       %strong= t('users.email') + ':'

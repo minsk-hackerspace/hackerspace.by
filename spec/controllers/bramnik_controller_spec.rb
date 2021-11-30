@@ -27,7 +27,7 @@ RSpec.describe BramnikController, type: :controller do
   describe "GET #find_user for unknown user" do
     it "returns http not_found" do
       request.headers["Authorization"] = "abcdef"
-      get :find_user, params: { tg_username: 'random_nick' }
+      get :find_user, params: { auth_token: 'random_token' }
 
       expect(response).to have_http_status(:not_found)
     end
@@ -36,11 +36,10 @@ RSpec.describe BramnikController, type: :controller do
   describe "GET #find_user for known user" do
     it "returns user" do
       user = FactoryBot.create(:user)
-      user.telegram_username = 'big_boss'
-      user.save
+      user.generate_tg_auth_token!
 
       request.headers["Authorization"] = "abcdef"
-      get :find_user, params: { tg_username: 'big_boss' }
+      get :find_user, params: { auth_token: user.tg_auth_token }
 
       expect(response).to have_http_status(:success)
       expect(JSON.parse(response.body)).to eq({ "id" => user.id })
