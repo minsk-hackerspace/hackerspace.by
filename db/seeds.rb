@@ -10,6 +10,7 @@ unless Rails.env.production?
   Setting.create(key: 'bib_loginBaseURL', value: 'https://login.belinvestbank.by/', description: 'Bank API base URL for login')
   Setting.create(key: 'bib_login', value: '', description: 'Login for Belinvestbank')
   Setting.create(key: 'bib_password', value: '', description: 'Password for Belinvestbank')
+  Setting.create(key: 'bramnikBotName', value: 'BramnikBot', description: 'Name of the Bramnik Telegram bot')
 
   remote_tariff = Tariff.create(
     ref_name: 'remote',

@@ -14,6 +14,14 @@ class HackersController < ApplicationController
     end
   end
 
+  def show
+    @user.generate_tg_auth_token! if @user == current_user
+  end
+
+  def profile
+    redirect_to current_user
+  end
+
   def find_by_mac
     @hacker = Mac.find_by(address: params[:mac]&.downcase).try(&:user)
     if @hacker.nil?

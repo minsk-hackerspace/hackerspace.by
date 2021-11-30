@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   get '/howtopay', to: 'main#howtopay'
   get '/chart', to: 'main#chart'
   get '/useful', to: 'hackers#useful'
+  get '/profile', to: 'hackers#profile'
 
   get '/spaceapi', to: 'main#spaceapi', defaults: {format: 'json'}
 

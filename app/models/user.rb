@@ -256,6 +256,17 @@ class User < ApplicationRecord
     end
   end
 
+  def generate_tg_auth_token!
+    return tg_auth_token if tg_auth_token.present? and Time.now < tg_auth_token_expiry
+
+    self.update(tg_auth_token:  SecureRandom.alphanumeric(20), tg_auth_token_expiry: Time.now + 1.day)
+    tg_auth_token
+  end
+
+  def self.find_by_auth_token(token)
+    self.where(tg_auth_token: token).where('tg_auth_token_expiry > ?', Time.now).first
+  end
+
   private
 
   def normalize_tg_nickname
