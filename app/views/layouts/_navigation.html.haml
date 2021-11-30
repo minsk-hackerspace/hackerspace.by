@@ -62,8 +62,12 @@
                   = @hs_balance
               %meter{value:@hs_kitty_number, min:0, max:100, low:25, high:75, optimum:100}
                 (#{@hs_kitty_number}%)
-        %li.nav-item
-          -if user_signed_in?
+        -if user_signed_in?
+          %li.nav-item
+            %a.nav-link{href: "#{profile_path}"}
+              .fa.fa-user
+          %li.nav-item
             = link_to 'Выход', destroy_user_session_path, method: :delete, class: 'nav-link'
-          -else
+        -else
+          %li.nav-item
             %a.nav-link{href: new_user_session_path} Вход
