@@ -15,6 +15,10 @@ class BramnikController < ActionController::API
       @user = User.find_by_auth_token(token)
     end
 
+    if params[:id].present?
+      @user = User.find(params[:id])
+    end
+
     unless @user.nil? then
       render
     else
