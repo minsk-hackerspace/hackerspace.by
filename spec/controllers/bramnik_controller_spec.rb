@@ -34,15 +34,16 @@ RSpec.describe BramnikController, type: :controller do
   end
 
   describe "GET #find_user for known user" do
+    render_views
     it "returns user" do
       user = FactoryBot.create(:user)
       user.generate_tg_auth_token!
 
       request.headers["Authorization"] = "abcdef"
-      get :find_user, params: { auth_token: user.tg_auth_token }
+      get :find_user, params: { auth_token: user.tg_auth_token }, format: :json
 
       expect(response).to have_http_status(:success)
-      expect(JSON.parse(response.body)).to eq({ "id" => user.id })
+      expect(JSON.parse(response.body)['id']).to eq(user.id)
     end
   end
 
