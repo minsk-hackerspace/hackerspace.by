@@ -22,7 +22,7 @@ ru:
     irc: "IRC"
     github: "Github"
     fb: "Facebook"
-    vk: "Vkontakte"
+    vk: "VK"
     telegram: "Telegram"
   date:
     abbr_day_names:
