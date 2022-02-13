@@ -222,7 +222,7 @@ class User < ApplicationRecord
   end
 
   def set_as_suspended
-    never_paid = last_payment.nil? && (created_at < Time.now - 1.month)
+    never_paid = last_payment.nil?
 
     if active? && ((last_payment &&
         (last_payment.end_date < Time.now - 15.days)) || never_paid)
