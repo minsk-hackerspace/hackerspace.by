@@ -122,7 +122,8 @@ class User < ApplicationRecord
                     default_url: 'default_hacker_avatar_60x60.png'
 
   validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
-  validates_attachment :photo, size: { in: 0..3.megabytes }
+  validates_attachment :photo
+  #, size: { in: 0..3.megabytes }
 
   validates :email, presence: true, uniqueness: true, length: {maximum: 255}
   validate :validate_guarantors
