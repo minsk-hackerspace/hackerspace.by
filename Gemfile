@@ -44,7 +44,7 @@ gem 'rack-proxy'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'paperclip', '~> 5.2.0'
+gem 'paperclip'
 gem 'responders'
 gem 'sanitize'
 gem 'redcarpet'
