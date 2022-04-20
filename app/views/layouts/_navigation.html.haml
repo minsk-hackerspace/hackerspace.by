@@ -47,7 +47,7 @@
               %li.nav-item
                 = link_to 'Полезная информация', wiki_gateway_path, class: 'dropdown-item'
               %li.nav-item
-                = link_to t('cabinet.title'), edit_user_path(current_user), class: 'dropdown-item'
+                = link_to t('cabinet.title'), current_user, class: 'dropdown-item'
               - if current_user.admin?
                 %li.nav-item
                   = link_to 'Админка', admin_dashboard_index_path, class: 'dropdown-item'
