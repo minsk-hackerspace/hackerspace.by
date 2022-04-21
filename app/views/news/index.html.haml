@@ -8,6 +8,9 @@
       %h2
         = link_to news.title, news_path(news)
       %p
+        %small
+          %i= I18n.l(news.created_at, format: :long)
+        %br
         = news.short_desc.html_safe
         %br
         %a{href: news_path(news)} Читать дальше &raquo;
