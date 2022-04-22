@@ -7,11 +7,11 @@ class Admin::BankTransactionsController < ApplicationController
 
     case params[:filter]
     when 'expenses'
-      bts = BankTransaction.where('minus > 0')
+      bts = BankTransaction.where('minus > 0').order(created_by: :desc).page(params[:page])
     when 'inpayments'
-      bts = BankTransaction.where('plus > 0')
+      bts = BankTransaction.where('plus > 0').order(created_by: :desc).page(params[:page])
     else
-      bts = BankTransaction.all
+      bts = BankTransaction.order(created_by: :desc).page(params[:page])
     end
 
     @bank_transactions = bts.order(created_at: :desc)
