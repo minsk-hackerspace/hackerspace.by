@@ -1,6 +1,15 @@
-%h1 Listing payments
+%h1 Платежи
 
-%table.table
+.row
+  .col-lg-12
+    = link_to 'Создать платёж', new_admin_payment_path
+.row
+  .col-lg-12
+    = paginate @payments,
+      theme: 'bootstrap-5',
+      pagination_class: "pagination-sm justify-content-end"
+
+%table.table.small
   %thead
     %tr
       %th User
@@ -32,6 +41,10 @@
         %td= link_to 'Edit', edit_admin_payment_path(payment)
         %td= link_to 'Destroy', [:admin, payment], :method => :delete, :data => { :confirm => 'Are you sure?' }
 
-%br
+.row
+  .col-lg-12
+    = paginate @payments,
+      theme: 'bootstrap-5',
+      pagination_class: "pagination-sm justify-content-end"
 
-= link_to 'New Payment', new_admin_payment_path
+

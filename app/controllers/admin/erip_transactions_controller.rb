@@ -13,7 +13,7 @@ class Admin::EripTransactionsController < AdminController
   # GET /erip_transactions
   # GET /erip_transactions.json
   def index
-    @erip_transactions = EripTransaction.all.order(paid_at: :desc).paginate(page: params[:page], per_page: 30)
+    @erip_transactions = EripTransaction.order(paid_at: :desc).page(params[:page])
   end
 
   # GET /erip_transactions/1

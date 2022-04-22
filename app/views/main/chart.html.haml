@@ -13,48 +13,49 @@
 = link_to 'За три месяца', chart_path(start: Time.now - 3.month, end: Time.now), class: 'btn btn-info'
 = link_to 'За все время', chart_path, class: 'btn btn-info'
 
-%h2 Список расходов
+%h2.mt-3#expenses Список расходов
 
-%table.table.small
-  %thead
-    %th
-      Дата
-    %th
-      Расход
-    %th
-      За что платили
-    %th
-      Кому
-    %th
-      Примечания
-  %tbody
-    - @transactions.order(created_at: :desc).select{|t| t.minus > 0}.each do |t|
-      %tr
-        %td
-          =t.created_at.to_formatted_s(:short)
-        %td
-          =t.minus if t.plus.zero?
-        %td
-          =t.purpose
-        %td
-          = Setting[t.their_account] || t.contractor
-        %td
-          - if t.irregular?
-            %p
-              = "Нерегулярный"
-            = t.note if t.note.present?
-    %tr
-      %td
-        %strong
-          Итого:
-      %td
-        %strong
-          - sum_plus = @transactions.sum(:plus).round(2)
-          = sum_plus
-      %td
-        %strong
-          - sum_minus = @transactions.sum(:minus).round(2)
-          = sum_minus
-      %td
-        %strong
-          = "Баланс за период: #{(sum_plus - sum_minus).round(2)}"
+.row
+  .col-lg-12
+    = paginate @transactions,
+      params: { anchor: 'expenses' },
+      theme: 'bootstrap-5',
+      pagination_class: "pagination-sm justify-content-end"
+
+.row
+  .col-lg-12
+    %table.table.small
+      %thead
+        %th
+          Дата
+        %th
+          Расход
+        %th
+          За что платили
+        %th
+          Кому
+        %th
+          Примечания
+      %tbody
+        - @transactions.order(created_at: :desc).select{|t| t.minus > 0}.each do |t|
+          %tr
+            %td
+              =t.created_at.to_formatted_s(:short)
+            %td
+              =t.minus if t.plus.zero?
+            %td
+              =t.purpose
+            %td
+              = Setting[t.their_account] || t.contractor
+            %td
+              - if t.irregular?
+                %p
+                  = "Нерегулярный"
+                = t.note if t.note.present?
+
+.row
+  .col-lg-12
+    = paginate @transactions,
+      params: { anchor: 'expenses' },
+      theme: 'bootstrap-5',
+      pagination_class: "pagination-sm justify-content-end"

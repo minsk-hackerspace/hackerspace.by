@@ -4,7 +4,12 @@
   = "(поступления)" if @filter == "inpayments"
 
 = form_tag admin_bank_transactions_mass_update_path do
+  = paginate @bank_transactions,
+    theme: 'bootstrap-5',
+    pagination_class: "pagination-sm justify-content-end"
+
   = submit_tag "Сохранить изменения"
+
   %table.table.table-condensed
     %thead
       %tr
@@ -35,4 +40,8 @@
           %td{colspan: 2}= bt.purpose
           %td= bt.note
   = submit_tag "Сохранить изменения"
+
+= paginate @bank_transactions,
+  theme: 'bootstrap-5',
+  pagination_class: "pagination-sm justify-content-end"
 
