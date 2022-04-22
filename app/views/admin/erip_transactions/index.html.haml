@@ -1,4 +1,8 @@
-%h1 Listing erip_transactions
+%h1 ЕРИП транзакции
+
+= paginate @erip_transactions,
+  theme: 'bootstrap-5',
+  pagination_class: "pagination-sm justify-content-end"
 
 %table.table
   %thead
@@ -39,7 +43,9 @@
         %td= erip_transaction.customer['email'] unless erip_transaction.customer.nil?
         %td= link_to 'Show', admin_erip_transaction_path(erip_transaction)
 
-= will_paginate @erip_transaction
+= paginate @erip_transactions,
+  theme: 'bootstrap-5',
+  pagination_class: "pagination-sm justify-content-end"
 %br
 
 -#= link_to 'New Erip transaction', new_admin_erip_transaction_path
