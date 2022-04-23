@@ -5,16 +5,15 @@ class Admin::BankTransactionsController < ApplicationController
   def index
     @filter = params[:filter]
 
-    case params[:filter]
-    when 'expenses'
-      bts = BankTransaction.where('minus > 0').order(created_by: :desc).page(params[:page])
-    when 'inpayments'
-      bts = BankTransaction.where('plus > 0').order(created_by: :desc).page(params[:page])
-    else
-      bts = BankTransaction.order(created_by: :desc).page(params[:page])
-    end
+    @bank_transactions = BankTransaction.all
+    case @filter
+      when BankTransaction::EXPENSES
+        @bank_transactions = @bank_transactions.expenses
+      when BankTransaction::INPAYMENTS
+        @bank_transactions = @bank_transactions.inpayments
+      end
 
-    @bank_transactions = bts.order(created_at: :desc)
+    @bank_transactions = @bank_transactions.order(created_by: :desc, created_at: :desc).page(params[:page])
   end
 
   def mass_update
