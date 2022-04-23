@@ -26,6 +26,12 @@
 require 'bib'
 
 class BankTransaction < ApplicationRecord
+  EXPENSES = 'expenses'
+  INPAYMENTS = 'inpayments'
+
+  scope :expenses, -> { where('minus > 0') }
+  scope :inpayments, -> { where('plus > 0') }
+
   def self.get_transactions(from = (Time.now - 45.days).strftime('%d.%m.%Y'), to = Time.now.strftime('%d.%m.%Y'))
     login = Setting['bib_login']
     password = Setting['bib_password']

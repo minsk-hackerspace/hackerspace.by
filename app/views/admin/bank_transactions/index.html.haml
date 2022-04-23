@@ -1,7 +1,7 @@
 %h1
   Банковские транзакции
-  = "(расходы)" if @filter == "expenses"
-  = "(поступления)" if @filter == "inpayments"
+  = "(расходы)" if @filter == BankTransaction::EXPENSES
+  = "(поступления)" if @filter == BankTransaction::INPAYMENTS
 
 = form_tag admin_bank_transactions_mass_update_path do
   = paginate @bank_transactions,
