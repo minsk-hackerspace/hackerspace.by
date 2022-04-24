@@ -1,5 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe Tariff, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  describe "tariff changes logic" do
+    let(:user) { create :user }
+    let(:admin) { create :admin_user }
+    let(:tariff) { create :tariff } 
+    let(:accessible_to_user_tariff) { create :tariff, accessible_to_user: true } 
+
+    before do
+      tariff
+      accessible_to_user_tariff
+    end
+
+    it 'returns all for admin' do
+      expect(Tariff.available_by(admin)).to eq(Tariff.all)
+    end   
+
+    it 'returns all accessible to user only' do
+      expect(Tariff.available_by(user)).to eq([accessible_to_user_tariff])
+    end   
+  end
 end

@@ -1,9 +1,9 @@
-= form_for admin_tariffs_path(@admin_tariff) do |f|
-  - if @admin_tariff.errors.any?
+= form_for [:admin, @tariff] do |f|
+  - if @tariff.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@admin_tariff.errors.count, "error")} prohibited this admin_tariff from being saved:"
+      %h2= "#{pluralize(@tariff.errors.count, "error")} prohibited this admin_tariff from being saved:"
       %ul
-        - @admin_tariff.errors.full_messages.each do |message|
+        - @tariff.errors.full_messages.each do |message|
           %li= message
 
   .field
@@ -21,5 +21,8 @@
   .field
     = f.label :monthly_price
     = f.text_field :monthly_price
+  .field
+    = f.label :accessible_to_user
+    = f.check_box :accessible_to_user
   .actions
     = f.submit 'Save'

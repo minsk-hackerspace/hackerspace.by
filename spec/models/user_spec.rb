@@ -46,7 +46,7 @@
 
 require 'rails_helper'
 
-describe User do
+describe User, type: :model  do
   describe "relations and validations" do
     it { should validate_presence_of(:email) }
     it { should validate_length_of(:email).is_at_most(255) }
@@ -121,6 +121,62 @@ describe User do
 
     it 'suspends nothing when invalid payment'  do
       expect{user_with_outdated_payment.set_as_suspended}.to change{user_with_outdated_payment.account_suspended}.from(nil).to(true)
+    end
+  end
+
+  describe "tariff changes logic" do
+    let(:user) { create :user }
+    let(:admin) { create :admin_user }
+    let(:tariff) { create :tariff } 
+
+    context "user" do
+      it 'updates one time per 30 days' do
+        user.update(tariff_changed_at: Time.now - 32.days)
+        user.updating_by = user
+        user.tariff = tariff
+
+        expect(user).to be_valid
+      end
+
+      it "not updates if tariff was changed less then #{Tariff::CHANGE_LIMIT_IN_DAYS} days ago" do
+        user.updating_by = user
+        user.tariff = tariff
+
+        expect(user).to_not be_valid
+      end
+
+      context "allow updates if tariff was not changed" do
+        let!(:user) { create(:user) }
+
+        subject { user }
+
+        before do
+          user.updating_by = user
+          user.tariff_changed_at = Time.now
+          user.updating_by = user
+          user.first_name = 'test123'
+        end
+
+        it { expect(subject).to be_valid }
+      end
+    end
+
+    context "admin" do
+      it 'always does updates' do
+        user.updating_by = admin
+        user.tariff = tariff
+
+        expect(user).to be_valid
+      end   
+    end
+    
+    context "sustem" do
+      it 'always does updates' do
+        user.updating_by = admin
+        user.tariff = tariff
+
+        expect(user).to be_valid
+      end   
     end
   end
 end

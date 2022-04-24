@@ -140,7 +140,12 @@ class User < ApplicationRecord
                               .where('suspended_changed_at > ?', Time.now - 1.day) }
 
   after_save :create_bepaid_bill, :set_as_suspended
+  before_save :set_tariff_changed_at
   before_validation :normalize_tg_nickname
+
+  validate :tariff_changes, on: :update
+
+  attr_accessor :updating_by
 
   def self.active
     (allowed.paid + allowed.signed_in).uniq
@@ -268,6 +273,18 @@ class User < ApplicationRecord
     self.where(tg_auth_token: token).where('tg_auth_token_expiry > ?', Time.now).first
   end
 
+  def able_to_change_tariff_now?
+    return true if tariff_changed_at.nil? || admin?
+
+    next_tariff_change_date <= Time.now
+  end 
+  
+  def tariff_changeble_date
+    return Time.now if tariff_changed_at.nil?
+
+    next_tariff_change_date
+  end  
+
   private
 
   def normalize_tg_nickname
@@ -278,6 +295,22 @@ class User < ApplicationRecord
     errors.add(:guarantor1_id, "is invalid") if self.guarantor1_id.present? and self.guarantor1_id == self.id
     errors.add(:guarantor2_id, "is invalid") if self.guarantor2_id.present? and self.guarantor2_id == self.id
     errors.add(:guarantor1_id, "shouldn't be same as Guarantor2") if self.guarantor1_id.present? and self.guarantor1_id == self.guarantor2_id
+  end
+
+  def tariff_changes
+    return if admin? || updating_by.nil? || updating_by.admin?
+
+    if tariff_id_changed? && tariff_changed_at && next_tariff_change_date > Time.now
+      errors.add(:tariff, "You able change tariff once per #{Tariff::CHANGE_LIMIT_IN_DAYS} days.") 
+    end
+  end
+
+  def next_tariff_change_date
+    (tariff_changed_at + Tariff::CHANGE_LIMIT_IN_DAYS.days)
+  end
+
+  def set_tariff_changed_at
+    self.tariff_changed_at = Time.now if tariff_id_changed?
   end
 
   def check_role(role)

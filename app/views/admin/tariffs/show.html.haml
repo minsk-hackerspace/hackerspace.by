@@ -2,20 +2,20 @@
 
 %p
   %b Ref name:
-  = @admin_tariff.ref_name
+  = @tariff.ref_name
 %p
   %b Name:
-  = @admin_tariff.name
+  = @tariff.name
 %p
   %b Description:
-  = @admin_tariff.description
+  = @tariff.description
 %p
   %b Access allowed:
-  = @admin_tariff.access_allowed
+  = @tariff.access_allowed
 %p
   %b Monthly price:
-  = @admin_tariff.monthly_price
+  = @tariff.monthly_price
 
-= link_to 'Edit', edit_admin_tariff_path(@admin_tariff)
+= link_to 'Edit', edit_admin_tariff_path(@tariff)
 \|
 = link_to 'Back', admin_tariffs_path
