@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_20_140909) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_23_224009) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -198,6 +198,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_20_140909) do
     t.decimal "monthly_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "accessible_to_user", default: false, null: false
   end
 
   create_table "thanks", force: :cascade do |t|
@@ -253,6 +254,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_20_140909) do
     t.integer "tariff_id"
     t.string "tg_auth_token"
     t.datetime "tg_auth_token_expiry", precision: nil
+    t.datetime "tariff_changed_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["guarantor1_id"], name: "index_users_on_guarantor1_id"
     t.index ["guarantor2_id"], name: "index_users_on_guarantor2_id"

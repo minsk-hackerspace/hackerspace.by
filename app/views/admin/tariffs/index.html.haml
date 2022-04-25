@@ -1,4 +1,4 @@
-%h1 Listing admin_tariffs
+%h1 Listing Tariffs
 
 %table.table
   %thead
@@ -7,22 +7,24 @@
       %th Name
       %th Description
       %th Access allowed
+      %th Accessible to user
       %th Monthly price
       %th
       %th
       %th
 
   %tbody
-    - @admin_tariffs.each do |admin_tariff|
+    - @tariffs.each do |tariff|
       %tr
-        %td= admin_tariff.ref_name
-        %td= admin_tariff.name
-        %td= admin_tariff.description
-        %td= admin_tariff.access_allowed
-        %td= admin_tariff.monthly_price
-        %td= link_to 'Show', admin_tariff_path(admin_tariff)
-        %td= link_to 'Edit', edit_admin_tariff_path(admin_tariff)
-        %td= link_to 'Destroy', admin_tariff_path(admin_tariff), method: :delete, data: { confirm: 'Are you sure?' }
+        %td= tariff.ref_name
+        %td= tariff.name
+        %td= tariff.description
+        %td= tariff.access_allowed ? '✅' : '❌'
+        %td= tariff.accessible_to_user ? '✅' : '❌'
+        %td= tariff.monthly_price
+        %td= link_to 'Show', admin_tariff_path(tariff)
+        %td= link_to 'Edit', edit_admin_tariff_path(tariff)
+        %td= link_to 'Destroy', admin_tariff_path(tariff), method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 

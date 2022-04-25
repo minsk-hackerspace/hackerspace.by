@@ -46,7 +46,4 @@ RSpec.describe BramnikController, type: :controller do
       expect(JSON.parse(response.body)['id']).to eq(user.id)
     end
   end
-
-
-
 end

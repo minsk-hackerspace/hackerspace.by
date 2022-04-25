@@ -46,6 +46,17 @@
         = f.label 'Публичный ключ ssh'
         = f.text_area :ssh_public_key, class: 'form-control', value: @user.ssh_public_key
 
+      .form-group
+        = f.label :tariff
+        - unless current_user.admin?
+          %br= "Изменение тарифа возможно 1 раз в #{Tariff::CHANGE_LIMIT_IN_DAYS} дней"
+          - if current_user.able_to_change_tariff_now?
+            Доступно
+          - else
+            Доступно после
+            = current_user.tariff_changeble_date.strftime('%d/%m/%Y %H:%M')
+        = f.collection_select :tariff_id, Tariff.available_by(current_user), :id, :name_with_price, {}, class: 'form-select', disabled: !current_user.able_to_change_tariff_now?
+
       - if current_user.admin?
         .form-group
           = f.check_box :is_learner, class: 'form-check-input', value: @user.is_learner
@@ -54,10 +65,6 @@
         .form-group
           = f.label 'Проект'
           = f.select :project_id, Project.all.map{|p| [p.name, p.id]}, {include_blank: true}, class: 'form-select', value: @user.project_id
-
-        .form-group
-          = f.label :tariff
-          = f.collection_select :tariff_id, Tariff.all, :id, :name_with_price, {}, class: 'form-select'
 
         .row
           .col-lg-3

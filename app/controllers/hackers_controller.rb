@@ -86,6 +86,8 @@ class HackersController < ApplicationController
   end
 
   def update
+    @user.updating_by = current_user
+
     if @user.update(user_params)
       flash[:notice] = 'Профиль изменен'
       flash[:alert] = @user.errors.full_messages.join "\n"
