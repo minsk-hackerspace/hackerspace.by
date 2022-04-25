@@ -27,8 +27,9 @@
       .form-group
         = f.label 'Рекомендатели:'
         %br
-        = f.collection_select :guarantor1_id, User.order(:last_name).all, :id, :full_name_with_id, {include_blank: true}, class: 'form-select'
-        = f.collection_select :guarantor2_id, User.order(:last_name).all, :id, :full_name_with_id, {include_blank: true}, class: 'form-select'
+        - users = User.select(:id, :first_name, :last_name).order(:id).all
+        = f.collection_select :guarantor1_id, users, :id, :full_name_with_id, {include_blank: true}, class: 'form-select'
+        = f.collection_select :guarantor2_id, users, :id, :full_name_with_id, {include_blank: true}, class: 'form-select'
 
       .form-group
         = f.label 'Никнейм в Telegram'
