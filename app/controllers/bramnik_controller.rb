@@ -11,7 +11,7 @@ class BramnikController < ActionController::API
     token = params[:auth_token]
 
     @user = nil
-    if token.present? then
+    if token.present?
       @user = User.find_by_auth_token(token)
     end
 
@@ -19,7 +19,7 @@ class BramnikController < ActionController::API
       @user = User.find(params[:id])
     end
 
-    unless @user.nil? then
+    if @user.present?
       render
     else
       render plain: "User not found", status: :not_found
