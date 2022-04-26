@@ -32,7 +32,7 @@ class MainController < ApplicationController
     @graph = Balance.graph(ds, de)
 
     @expenses = BankTransaction.where(created_at: [ds..de])
-    @transactions = @expenses.order(created_at: :desc).page(params[:page])
+    @transactions = @expenses.where("minus > 0.0").order(created_at: :desc).page(params[:page])
 
     @expenses = Rails.env.production? ? [{name: 'Поступления', data: @expenses.where(irregular: false).group_by_month(:created_at, format: '%m.%Y').sum(:plus)},
                                          {name: 'Затраты', data: @expenses.where(irregular: false).group_by_month(:created_at, format: '%m.%Y').sum(:minus)}] : []
