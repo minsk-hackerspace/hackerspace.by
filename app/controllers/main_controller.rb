@@ -20,24 +20,19 @@ class MainController < ApplicationController
   end
 
   def chart
-    ds = params[:start].try(:to_date)
-    unless Balance.first.nil?
-      ds = Balance.first.created_at.to_date
-    else
-      ds = Date.new(2017, 1, 1)
-    end
-    de = params[:end].try(:to_date) || Time.now.to_date
-    de += 1.day - 1.second
+    start_date = params[:start].try(:to_date) || Balance.first&.created_at&.to_date || Date.new(2017, 1, 1)
+    end_date = params[:end].try(:to_date) || Time.now.to_date
+    end_date += 1.day - 1.second
 
-    @graph = Balance.graph(ds, de)
+    @graph = Balance.graph(start_date, end_date)
 
-    @expenses = BankTransaction.where(created_at: [ds..de])
+    @expenses = BankTransaction.where(created_at: [start_date..end_date])
     @transactions = @expenses.where("minus > 0.0").order(created_at: :desc).page(params[:page])
 
     @expenses = Rails.env.production? ? [{name: 'Поступления', data: @expenses.where(irregular: false).group_by_month(:created_at, format: '%m.%Y').sum(:plus)},
                                          {name: 'Затраты', data: @expenses.where(irregular: false).group_by_month(:created_at, format: '%m.%Y').sum(:minus)}] : []
 
-    @paid_users = User.get_paid_users_graph(ds, de)
+    @paid_users = User.get_paid_users_graph(start_date, end_date)
   end
 
   def procedure
