@@ -42,3 +42,41 @@ en:
       amount: Amount
       start_date: Start date
       end_date: End date
+  og_meta:
+    projects:
+      index:
+        Title: Our projects
+        description: List of projects in Hackerspace
+    news:
+      index:
+        Title: News
+        Description: Hackerspace news and events
+    main:
+      contacts:
+        title: 'Contacts'
+        description: 'How to contact us. Main location. Map. MalinoHS branch.'
+      index:
+        title: 'Hello World! This is the website of Minsk Hackerspace'
+        description: 'In the hackerspace of participants in various cases, but everyone is welcome to learn something, break, fix, assemble and chat.'
+      board:
+        title: 'Hackerspace Tip'
+        description: 'There are different people in hackerspace who sometimes have conflicts. If, for some reason, the participants could not agree on their own, they raised the issue to the hackerspace Council, selected by the vote of the participants.'
+      calendar:
+        title: 'When We Have Opening'
+        description: 'We are open when there is someone in the hackerspace. If you become a random member, then this issue will not bother you, since you will have your own key and public access.'
+      rules:
+        title: 'Our Rules'
+        description: 'Hackerspace (HS) is an independent non-profit public workshop-club. Because of this, accusations of taking over and using it are growing.'
+      tariffs:
+        title: 'Our Rates'
+        Description: 'Categories included. Opportunities and rewards.'
+      howtopay:
+        title: 'How Fees and Paid Donations Are Paid'
+        description: 'Contributions, ERIP, room available, cabinet and all-all-all'
+      procedure:
+        title: 'Join'
+        description: 'What do you need to join our club permanently.'
+    thanks:
+      index:
+        title: 'Thanks'
+        description: 'Thanks left here as a feedback.'
