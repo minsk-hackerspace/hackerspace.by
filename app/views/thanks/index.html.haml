@@ -7,7 +7,7 @@
         %h2
           = link_to thank.name_with_id, thank_path(thank)
         %p
-          = link_to image_tag(thank.photo.url(:medium), class: 'left-block'), thank_path(thank)
+          = link_to image_tag(thank.photo.url(:medium), class: 'left-block img-fluid'), thank_path(thank)
         %p
           = thank.short_desc.html_safe
         %p

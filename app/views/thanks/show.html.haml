@@ -3,7 +3,7 @@
 .lead
   = markup2html @thank.short_desc, @thank.markup_type
 %hr
-  =image_tag @thank.photo.url(:original), class: 'center-block'
+  =image_tag @thank.photo.url(:original), class: 'center-block img-fluid'
 %hr
 .lead
   = markup2html @thank.full_desc, @thank.markup_type
