@@ -2,22 +2,19 @@ class BramnikController < ActionController::API
   before_action :authenticate_token!
 
   def index
-      @users = User.all.map { |u| {id: u.id, name: "#{u.first_name} #{u.last_name}", paid_until: u.paid_until, access_allowed: u.access_allowed?, nfc_keys: u.nfc_keys.pluck(:body)} }
+      @users = User.all.map { |u| {id: u.id, name: u.full_name, paid_until: u.paid_until, access_allowed: u.access_allowed?, nfc_keys: u.nfc_keys.pluck(:body)} }
       render json: @users, status: :ok
   end
 
   # find user by various params
   def find_user
-    token = params[:auth_token]
-
-    @user = nil
-    if token.present?
-      @user = User.find_by_auth_token(token)
-    end
-
-    if params[:id].present?
-      @user = User.find(params[:id])
-    end
+    @user = if params[:auth_token].present?
+              User.find_by_auth_token(params[:auth_token])
+            elsif params[:id].present?
+              User.find_by(id: params[:id])
+            else
+              nil
+            end
 
     if @user.present?
       render

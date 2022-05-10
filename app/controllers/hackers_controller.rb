@@ -8,8 +8,11 @@ class HackersController < ApplicationController
     @non_active_users = User.where.not(id: @active_users.map(&:id))
     respond_to do |format|
       format.html
-      format.csv { render csv: User.all, filename: 'hackers',
-                   style: can?(:read, NfcKey) ? :with_nfc : :default}
+      format.csv { 
+                   render csv: User.all, 
+                   filename: 'hackers',
+                   style: can?(:read, NfcKey) ? :with_nfc : :default 
+                  }
       format.json
     end
   end
@@ -23,7 +26,8 @@ class HackersController < ApplicationController
   end
 
   def find_by_mac
-    @hacker = Mac.find_by(address: params[:mac]&.downcase).try(&:user)
+    set_hacker_by_mac
+
     if @hacker.nil?
       render json: {}, status: :not_found
     else
@@ -32,7 +36,8 @@ class HackersController < ApplicationController
   end
 
   def detected_at_hackerspace
-    @hacker = Mac.find_by(address: params[:mac]&.downcase).try(&:user)
+    set_hacker_by_mac
+
     if @hacker.nil?
       render json: {}, status: :not_found
     else
@@ -51,7 +56,7 @@ class HackersController < ApplicationController
   end
 
   def remove_mac
-    Mac.find(params[:mac]&.downcase)&.destroy
+    Mac.find(params[:mac_id])&.destroy
     redirect_to edit_user_path(@user)
   end
 
@@ -126,5 +131,9 @@ class HackersController < ApplicationController
 
   def index_params
     params.slice(:order)
+  end
+
+  def set_hacker_by_mac
+    @hacker = Mac.find_by(address: params[:mac]&.downcase).try(&:user)
   end
 end

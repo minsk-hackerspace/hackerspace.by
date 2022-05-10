@@ -2,10 +2,10 @@ module ApplicationHelper
 
   def og_static_pages_map
     {
-    'projects' => %w(index),
-    'news' => %w(index),
-    'main' => %w(contacts index board calendar rules tariffs howtopay procedure),
-    'thanks' => %w(index)
+      'projects' => %w(index),
+      'news' => %w(index),
+      'main' => %w(contacts index board calendar rules tariffs howtopay procedure),
+      'thanks' => %w(index)
     }
   end
 
@@ -69,7 +69,6 @@ module ApplicationHelper
       text.html_safe
     end
   end
-
 end
 
 class AppFormBuilder < ActionView::Helpers::FormBuilder

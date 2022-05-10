@@ -89,7 +89,7 @@
               = mac.address
           .col-lg-1
             %p
-              = link_to 'Удалить', remove_mac_user_path(@user, mac: mac.id), method: :delete
+              = link_to 'Удалить', remove_mac_user_path(@user, mac_id: mac.id), method: :delete, data: { confirm: 'Are you sure?' }
 .row
   .col-lg-6
     = form_tag("/hackers/#{@user.id}/add_mac") do
