@@ -2,17 +2,9 @@
   = @news.title
 
 .row
-  .col-lg-3
-    =image_tag @news.photo.url(:thumb), class: 'img-fluid'
-  .col-lg-9
-
-    %small
-      %i= I18n.l(@news.created_at, format: :long)
-
-    .lead
-      = markup2html @news.short_desc, @news.markup_type
-.row
   .col-lg-12
+    = image_tag @news.photo.url(:thumb), class: 'float-start news img-fluid'
+    %i= I18n.l(@news.created_at, format: :long)
     = markup2html @news.description, @news.markup_type
 
 .row
