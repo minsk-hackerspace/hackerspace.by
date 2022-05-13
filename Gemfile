@@ -89,6 +89,7 @@ group :test do
   gem 'shoulda-matchers', '=4.3.0'
   gem 'ffaker'
   gem 'rails-controller-testing'
+  gem 'simplecov', require: false
 end
 
 group :production do

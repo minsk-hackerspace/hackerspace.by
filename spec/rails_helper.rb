@@ -11,6 +11,15 @@ require 'shoulda/matchers'
 require 'factory_bot_rails'
 require 'ffaker'
 
+if ENV['simplecov'] == 'true'
+  require 'simplecov'
+  SimpleCov.start do
+    add_group "Models", "app/models"
+    add_group "Controllers", "app/controllers"
+  end
+  puts "required simplecov"
+end
+
 
 require "paperclip/matchers"
 # Add additional requires below this line. Rails is not loaded until this point!
