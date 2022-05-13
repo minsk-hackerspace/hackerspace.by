@@ -5,7 +5,7 @@ class SuspendUsersService
   end
 
   def set_users_as_suspended
-    debitors = User.with_debt
+    debitors = User.fee_expires_in(0.days)
     debitors.each do |debitor|
       debitor.set_as_suspended
     end

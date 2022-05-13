@@ -76,9 +76,16 @@ FactoryBot.define do
       end
     end
 
+    trait :expires_in_2_days do
+      last_sign_in_at {Time.now - 2.days}
+      after(:create) do |user|
+        user.payments << create(:payment, :expires_in_2_days)
+      end
+    end
+
     trait :with_valid_payment do
       after(:create) do |user|
-        user.payments << create(:payment, end_date: Date.tomorrow)
+        user.payments << create(:payment, end_date: Date.today + 10.days)
       end
     end
 

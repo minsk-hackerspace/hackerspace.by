@@ -151,11 +151,17 @@ class User < ApplicationRecord
     (allowed.paid + allowed.signed_in).uniq
   end
 
-  # to be optimized
-  def self.with_debt
+  # Return all users with fee expires after provided duration
+  #
+  # to be optimized, move logic to DB query
+  def self.fee_expires_in(duration)
     User.active.select do |user|
-      user.last_payment.present? ? user.paid_until < Time.now.to_date : true
+      user.last_payment.present? ? user.paid_until < Date.today + duration : true
     end
+  end
+
+  def self.with_debt
+    fee_expires_in(0.days)
   end
 
   def admin?
@@ -231,7 +237,7 @@ class User < ApplicationRecord
     never_paid = last_payment.nil? && (created_at < Time.now - 1.day)
 
     if active? && ((last_payment &&
-        (last_payment.end_date < Time.now - 15.days)) || never_paid)
+        (last_payment.end_date < Date.today)) || never_paid)
 
       suspend!
     end
