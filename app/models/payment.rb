@@ -58,9 +58,10 @@ class Payment < ApplicationRecord
 
   def set_user_as_unsuspended
     if user.present?
+      return unless user.account_suspended?
       return if user.account_banned?
 
-      if user.last_payment && (user.last_payment.end_date >= Date.today ) && user.account_suspended?
+      if user.last_payment && (user.last_payment.end_date - user.first_payment_after_last_suspend.start_date + 1.day >= 14.days)
         user.unsuspend!
       end
     end

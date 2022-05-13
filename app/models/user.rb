@@ -176,6 +176,11 @@ class User < ApplicationRecord
     payments.order(paid_at: :desc).first
   end
 
+  def first_payment_after_last_suspend
+    payments.where('start_date >= ?', suspended_changed_at).order(start_date: :asc).first
+  end
+
+
   # last day with valid payment for this user
   def paid_until
     last_payment&.end_date
