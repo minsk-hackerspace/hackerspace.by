@@ -57,13 +57,17 @@ class Payment < ApplicationRecord
   end
 
   def set_user_as_unsuspended
-    if user.present?
-      return unless user.account_suspended?
-      return if user.account_banned?
+    return unless user.present?
 
-      if user.last_payment && (user.last_payment.end_date - user.first_payment_after_last_suspend.start_date + 1.day >= 14.days)
-        user.unsuspend!
-      end
-    end
+    return unless user.account_suspended?
+    return if user.account_banned?
+    return unless user.last_payment # should never happen because this method is called after creation of payment
+
+    # First day of payed period after suspension. Usually should be first day of last payment
+    # but may be first day of earlier payment if it was not enough for 14 days (user wasn't unsuspended)
+    start_date = user.first_payment_after_last_suspend&.start_date || user.last_payment.start_date
+
+    # Unsuspend user if he paid for more than two weeks (by one or more transactions.)
+    user.unsuspend! if user.last_payment.end_date - start_date + 1 >= 14
   end
 end
