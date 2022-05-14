@@ -24,6 +24,8 @@
 #
 
 class Payment < ApplicationRecord
+  PAID_DAYS_FOR_UNSUSPEND = 14
+
   belongs_to :user, optional: true
   belongs_to :erip_transaction, optional: true
   belongs_to :project, optional: true
@@ -68,6 +70,6 @@ class Payment < ApplicationRecord
     start_date = user.first_payment_after_last_suspend&.start_date || user.last_payment.start_date
 
     # Unsuspend user if he paid for more than two weeks (by one or more transactions.)
-    user.unsuspend! if user.last_payment.end_date - start_date + 1 >= 14
+    user.unsuspend! if user.last_payment.end_date - start_date + 1 >= PAID_DAYS_FOR_UNSUSPEND
   end
 end
