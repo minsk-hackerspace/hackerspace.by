@@ -249,6 +249,8 @@ class User < ApplicationRecord
   end
 
   def suspend!
+    return if account_suspended?
+
     transaction do
       #simple update without callbacks
       update_column(:account_suspended, true)
@@ -257,6 +259,8 @@ class User < ApplicationRecord
   end
 
   def unsuspend!
+    return unless account_suspended?
+
     transaction do
       #simple update without callbacks
       update_column(:account_suspended, false)
