@@ -256,6 +256,8 @@ class User < ApplicationRecord
       update_column(:account_suspended, true)
       update_column(:suspended_changed_at, Time.now)
     end
+
+    NotificationsMailer.with(user: self).notify_about_suspend.deliver_now
   end
 
   def unsuspend!
@@ -266,6 +268,8 @@ class User < ApplicationRecord
       update_column(:account_suspended, false)
       update_column(:suspended_changed_at, Time.now)
     end
+
+    NotificationsMailer.with(user: self).notify_about_unsuspend.deliver_now
 
     begin
       tg = TelegramNotifier.new
