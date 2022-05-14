@@ -1,14 +1,13 @@
 require 'rails_helper'
 
 describe NotificationsService do
-  describe '.notify_debitors' do
+  describe '.notify_expiring' do
     let!(:user_without_payment) { create :user }
     let!(:user_with_outdated_payment) { create :user, :with_outdated_payment   }
     let!(:user_expires_in_2_days) { create :user, :expires_in_2_days   }
     let!(:user_with_valid_payment) { create :user, :with_valid_payment }
-    let!(:suspended_user) { create :user, :suspended, :with_payment }
+    let!(:suspended_user) { create :user, :suspended, :with_outdated_payment }
 
-    let(:debitors) { described_class.new.debitors }
     let(:notified_emails) { ActionMailer::Base.deliveries.map(&:to).flatten }
 
     it 'sends notification email to expiring users only' do

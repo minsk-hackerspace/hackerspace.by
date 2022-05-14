@@ -68,8 +68,13 @@ class Payment < ApplicationRecord
     # First day of payed period after suspension. Usually should be first day of last payment
     # but may be first day of earlier payment if it was not enough for 14 days (user wasn't unsuspended)
     start_date = user.first_payment_after_last_suspend&.start_date || user.last_payment.start_date
+    end_date = user.last_payment.end_date
+
+    # Don't unsuspend user if the last payment ended before suspend date (can be happened in tests
+    # or after manual editing of payments)
+    return if end_date < user.suspended_changed_at.to_date
 
     # Unsuspend user if he paid for more than two weeks (by one or more transactions.)
-    user.unsuspend! if user.last_payment.end_date - start_date + 1 >= PAID_DAYS_FOR_UNSUSPEND
+    user.unsuspend! if end_date - start_date + 1 >= PAID_DAYS_FOR_UNSUSPEND
   end
 end

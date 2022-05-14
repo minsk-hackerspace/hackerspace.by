@@ -51,6 +51,7 @@ FactoryBot.define do
     last_name { FFaker::Name.last_name }
     password {"123456"}
     password_confirmation {"123456"}
+    suspended_changed_at {DateTime.now}
     tariff
     # confirmed_at Time.now
     sign_in_count {0}
