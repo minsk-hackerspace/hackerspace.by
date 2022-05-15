@@ -13,14 +13,13 @@ require 'ffaker'
 
 if ENV['simplecov'] == 'true'
   require 'simplecov'
-  SimpleCov.start do
-    add_group "Models", "app/models"
-    add_group "Controllers", "app/controllers"
-  end
-  puts "required simplecov"
+  SimpleCov.start 'rails'
 
   require 'simplecov-cobertura'
-  SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+    SimpleCov::Formatter::CoberturaFormatter,
+    SimpleCov::Formatter::HTMLFormatter
+  ])
 end
 
 
