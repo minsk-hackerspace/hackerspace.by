@@ -1,4 +1,5 @@
 [![Travis Build Status](https://img.shields.io/travis/minsk-hackerspace/hackerspace.by/master)](https://travis-ci.org/minsk-hackerspace/hackerspace.by)
+[![codecov](https://codecov.io/gh/minsk-hackerspace/hackerspace.by/branch/master/graph/badge.svg?token=OCuDxYFoJi)](https://codecov.io/gh/minsk-hackerspace/hackerspace.by)
 
 * Документация в Wiki: https://github.com/minsk-hackerspace/hackerspace.by/wiki
 * SpaceAPI: https://hackerspace.by/spaceapi
