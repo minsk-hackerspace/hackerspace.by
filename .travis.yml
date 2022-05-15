@@ -14,7 +14,11 @@ jobs:
       script:
         - cp config/database.example.yml config/database.yml
         - bundle exec rake db:setup RAILS_ENV=test
-        - bundle exec rails spec
+        - simplecov=true bundle exec rails spec
+        - ls -la coverage/
+        - curl -Os https://uploader.codecov.io/latest/linux/codecov
+        - chmod +x codecov
+        - ./codecov -f coverage/codecov-result.json
     - name: "Audit"
       script:
         - bundle exec bundle-audit check --update

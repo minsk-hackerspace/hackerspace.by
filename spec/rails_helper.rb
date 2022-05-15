@@ -18,6 +18,9 @@ if ENV['simplecov'] == 'true'
     add_group "Controllers", "app/controllers"
   end
   puts "required simplecov"
+
+  require 'codecov'
+  SimpleCov.formatter = SimpleCov::Formatter::Codecov
 end
 
 
