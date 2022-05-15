@@ -90,7 +90,7 @@ group :test do
   gem 'ffaker'
   gem 'rails-controller-testing'
   gem 'simplecov', require: false
-  gem 'codecov', require: false
+  gem 'simplecov-cobertura', require: false
 end
 
 group :production do

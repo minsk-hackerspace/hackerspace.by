@@ -19,8 +19,8 @@ if ENV['simplecov'] == 'true'
   end
   puts "required simplecov"
 
-  require 'codecov'
-  SimpleCov.formatter = SimpleCov::Formatter::Codecov
+  require 'simplecov-cobertura'
+  SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
 end
 
 
