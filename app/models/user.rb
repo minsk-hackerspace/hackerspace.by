@@ -253,8 +253,7 @@ class User < ApplicationRecord
 
     transaction do
       #simple update without callbacks
-      update_column(:account_suspended, true)
-      update_column(:suspended_changed_at, Time.now)
+      update_columns(account_suspended: true, suspended_changed_at: Time.now)
     end
 
     NotificationsMailer.with(user: self).notify_about_suspend.deliver_now
@@ -265,10 +264,10 @@ class User < ApplicationRecord
 
     transaction do
       #simple update without callbacks
-      update_column(:account_suspended, false)
-      update_column(:suspended_changed_at, Time.now)
+      update_columns(account_suspended: false, suspended_changed_at: Time.now)
     end
 
+    # TODO move this to another methods/classes, one method - one action
     NotificationsMailer.with(user: self).notify_about_unsuspend.deliver_now
 
     begin
