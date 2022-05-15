@@ -1,3 +1,14 @@
+if ENV['simplecov'] == 'true'
+  require 'simplecov'
+  SimpleCov.start 'rails'
+
+  require 'simplecov-cobertura'
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+    SimpleCov::Formatter::CoberturaFormatter,
+    SimpleCov::Formatter::HTMLFormatter
+  ])
+end
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
@@ -10,18 +21,6 @@ require 'devise'
 require 'shoulda/matchers'
 require 'factory_bot_rails'
 require 'ffaker'
-
-if ENV['simplecov'] == 'true'
-  require 'simplecov'
-  SimpleCov.start 'rails'
-
-  require 'simplecov-cobertura'
-  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-    SimpleCov::Formatter::CoberturaFormatter,
-    SimpleCov::Formatter::HTMLFormatter
-  ])
-end
-
 
 require "paperclip/matchers"
 # Add additional requires below this line. Rails is not loaded until this point!
