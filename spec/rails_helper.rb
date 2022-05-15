@@ -16,7 +16,10 @@ if ENV['simplecov'] == 'true'
   SimpleCov.start 'rails'
 
   require 'simplecov-cobertura'
-  SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+    SimpleCov::Formatter::CoberturaFormatter,
+    SimpleCov::Formatter::HTMLFormatter
+  ])
 end
 
 
