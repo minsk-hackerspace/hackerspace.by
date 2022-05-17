@@ -145,10 +145,11 @@ RSpec.describe HackersController, type: :controller do
       end
     end
 
-    FAKE_SSH_KEY = "Test Fake SSH Key"
     describe "GET #ssh_keys" do
+      let(:fake_ssh_test) { "Test Fake SSH Key" }
+
       before do
-        user.ssh_public_key = FAKE_SSH_KEY
+        user.ssh_public_key = fake_ssh_test
         user.save
       end
 
@@ -156,14 +157,18 @@ RSpec.describe HackersController, type: :controller do
         get :ssh_keys
 
         expect(response).to have_http_status(:success)
-        expect(Mime::Type.parse(response.content_type).first).to eq(Mime['text'])
+      end
+
+      it "returns plain text respons" do
+        get :ssh_keys
+
+        expect(response.headers["Content-Type"]).to eq('text/plain; charset=utf-8')
       end
 
       it "contains SSH keys" do
         get :ssh_keys
 
-        expect(response).to have_http_status(:success)
-        expect(response.body).to include(FAKE_SSH_KEY)
+        expect(response.body).to include(fake_ssh_test)
       end
     end
   end
