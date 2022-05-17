@@ -1,7 +1,6 @@
 class HackersController < ApplicationController
   load_and_authorize_resource :user, parent: false,
-                              except: [:useful, :find_by_mac, :detected_at_hackerspace]
-  load_and_authorize_resource :mac
+                              except: [:useful, :find_by_mac, :detected_at_hackerspace, :ssh_keys]
 
   def index
     @active_users = ActiveUsersQuery.perform(index_params)
@@ -17,6 +16,15 @@ class HackersController < ApplicationController
     end
   end
 
+  def ssh_keys
+    authorize! :ssh_keys, User
+
+    @users = User.allowed.where.not(ssh_public_key: nil)
+    ssh_keys = @users.map { |u| u.ssh_public_key }
+
+    render plain: ssh_keys.join("\n")
+  end
+
   def show
     @user.generate_tg_auth_token! if @user == current_user
   end
@@ -26,6 +34,7 @@ class HackersController < ApplicationController
   end
 
   def find_by_mac
+    authorize! :find_by_mac, User
     set_hacker_by_mac
 
     if @hacker.nil?
@@ -36,6 +45,7 @@ class HackersController < ApplicationController
   end
 
   def detected_at_hackerspace
+    authorize! :detected_at_hackerspace, User
     set_hacker_by_mac
 
     if @hacker.nil?
@@ -82,6 +92,7 @@ class HackersController < ApplicationController
   end
 
   def useful
+    authorize! :useful, User
     @page_content =
         if Rails.env.production?
           Net::HTTP.get(URI.parse('https://raw.githubusercontent.com/minsk-hackerspace/hackerspace.by/master/app/views/hackers/useful.md'))

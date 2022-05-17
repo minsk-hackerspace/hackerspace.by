@@ -50,6 +50,8 @@ class Ability
     # double previous line until fully understanding how cancancan works
     can [:create, :bepaid_notify], :erip_transaction
 
+    can [:ssh_keys, :detected_at_hackerspace, :find_by_mac, :useful], User
+
     if user.present?
       can :chart, :main
       can :image, :uploader
