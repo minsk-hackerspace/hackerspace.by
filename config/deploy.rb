@@ -70,7 +70,7 @@ end
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
 task :remote_environment do
-  invoke :'rvm:use', 'ruby-3.0'
+  invoke :'rvm:use', 'ruby-3.1.2'
 end
 
 desc 'Deploys the current version to the server.'
