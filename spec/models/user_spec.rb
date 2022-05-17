@@ -111,7 +111,27 @@ describe User, type: :model  do
     end
   end
 
-  describe '#check_account_suspended' do
+  describe "#access_allowed?" do
+    context 'for active user' do
+      let(:access_allowed_tariff) { create :tariff, access_allowed: true }
+      let(:user_with_valid_payment) { create :user, :with_valid_payment, tariff: access_allowed_tariff }
+
+      it 'returns true' do
+        expect(user_with_valid_payment.access_allowed?).to be true
+      end
+    end
+
+    context 'for inactive user' do
+      let(:access_not_allowed_tariff) { create :tariff, access_allowed: false }
+      let(:user_with_valid_payment) { create :user, :with_valid_payment, tariff: access_not_allowed_tariff }
+
+      it 'returns false' do
+        expect(user_with_valid_payment.access_allowed?).to be false
+      end
+    end
+  end
+
+  describe '#set_as_suspended' do
     let!(:user_with_valid_payment) { create :user, :with_valid_payment }
     let!(:user_with_outdated_payment) { create :user, :with_outdated_payment }
 
