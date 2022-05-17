@@ -54,4 +54,33 @@ RSpec.describe Payment, type: :model do
     payment.end_date = payment.start_date - 2
     expect(payment).to_not be_valid
   end
+
+  describe ".user_ids" do
+    let!(:user) { create :user}
+    let!(:user2) { create :user}
+
+    before do
+      create(:payment, user: user)
+      create(:payment, user: user)
+      create(:payment, user: user2)
+      create(:payment)
+    end
+
+    xit 'return uniq array of ids' do
+      expect(Payment.user_ids).to eq([user.id, user2.id])
+    end
+  end
+
+  describe "Save valid payment does set user as unsuspended" do
+    let(:suspended_user) { create :user, :suspended }
+
+    it 'does unsuspend user' do
+      expect{create(:payment, user: suspended_user)}.to change{suspended_user.account_suspended}.from(true).to(false)
+    end
+
+    it 'does NOT unsuspend banned user' do
+      suspended_user.account_banned = true
+      expect{create(:payment, user: suspended_user)}.to_not change{suspended_user.account_suspended}
+    end
+  end
 end
