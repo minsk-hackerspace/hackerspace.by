@@ -295,13 +295,13 @@ class User < ApplicationRecord
     return true if tariff_changed_at.nil? || admin?
 
     next_tariff_change_date <= Time.now
-  end 
-  
+  end
+
   def tariff_changeble_date
     return Time.now if tariff_changed_at.nil?
 
     next_tariff_change_date
-  end  
+  end
 
   private
 
@@ -319,7 +319,7 @@ class User < ApplicationRecord
     return if admin? || updating_by.nil? || updating_by.admin?
 
     if tariff_id_changed? && tariff_changed_at && next_tariff_change_date > Time.now
-      errors.add(:tariff, "You able change tariff once per #{Tariff::CHANGE_LIMIT_IN_DAYS} days.") 
+      errors.add(:tariff, "You able change tariff once per #{Tariff::CHANGE_LIMIT_IN_DAYS} days.")
     end
   end
 

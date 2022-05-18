@@ -147,7 +147,7 @@ describe User, type: :model  do
   describe "tariff changes logic" do
     let(:user) { create :user }
     let(:admin) { create :admin_user }
-    let(:tariff) { create :tariff } 
+    let(:tariff) { create :tariff }
 
     context "user" do
       it 'updates one time per 30 days' do
@@ -187,16 +187,16 @@ describe User, type: :model  do
         user.tariff = tariff
 
         expect(user).to be_valid
-      end   
+      end
     end
-    
+
     context "sustem" do
       it 'always does updates' do
         user.updating_by = admin
         user.tariff = tariff
 
         expect(user).to be_valid
-      end   
+      end
     end
   end
 end
