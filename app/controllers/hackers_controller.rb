@@ -19,9 +19,7 @@ class HackersController < ApplicationController
   def ssh_keys
     authorize! :ssh_keys, User
 
-    @users = User.allowed.where.not(ssh_public_key: nil)
-    ssh_keys = @users.map { |u| u.ssh_public_key }
-
+    ssh_keys = User.allowed.where.not(ssh_public_key: nil).pluck(:ssh_public_key)
     render plain: ssh_keys.join("\n")
   end
 
