@@ -51,6 +51,7 @@ FactoryBot.define do
     last_name { FFaker::Name.last_name }
     password {"123456"}
     password_confirmation {"123456"}
+    suspended_changed_at {DateTime.now}
     tariff
     # confirmed_at Time.now
     sign_in_count {0}
@@ -76,9 +77,16 @@ FactoryBot.define do
       end
     end
 
+    trait :expires_in_2_days do
+      last_sign_in_at {Time.now - 2.days}
+      after(:create) do |user|
+        user.payments << create(:payment, :expires_in_2_days)
+      end
+    end
+
     trait :with_valid_payment do
       after(:create) do |user|
-        user.payments << create(:payment, end_date: Date.tomorrow)
+        user.payments << create(:payment, end_date: Date.today + 10.days)
       end
     end
 

@@ -152,11 +152,17 @@ class User < ApplicationRecord
     (allowed.paid + allowed.signed_in).uniq
   end
 
-  # to be optimized
-  def self.with_debt
+  # Return all users with fee expires after provided duration
+  #
+  # to be optimized, move logic to DB query
+  def self.fee_expires_in(duration)
     User.active.select do |user|
-      user.last_payment.present? ? user.paid_until < Time.now.to_date : true
+      user.last_payment.present? ? user.paid_until < Date.today + duration : true
     end
+  end
+
+  def self.with_debt
+    fee_expires_in(0.days)
   end
 
   def admin?
@@ -170,6 +176,11 @@ class User < ApplicationRecord
   def last_payment
     payments.order(paid_at: :desc).first
   end
+
+  def first_payment_after_last_suspend
+    payments.where('start_date >= ?', suspended_changed_at.to_date).order(start_date: :asc).first
+  end
+
 
   # last day with valid payment for this user
   def paid_until
@@ -232,26 +243,33 @@ class User < ApplicationRecord
     never_paid = last_payment.nil? && (created_at < Time.now - 1.day)
 
     if active? && ((last_payment &&
-        (last_payment.end_date < Time.now - 15.days)) || never_paid)
+        (last_payment.end_date < Date.today)) || never_paid)
 
       suspend!
     end
   end
 
   def suspend!
+    return if account_suspended?
+
     transaction do
       #simple update without callbacks
-      update_column(:account_suspended, true)
-      update_column(:suspended_changed_at, Time.now)
+      update_columns(account_suspended: true, suspended_changed_at: Time.now)
     end
+
+    NotificationsMailer.with(user: self).notify_about_suspend.deliver_now
   end
 
   def unsuspend!
+    return unless account_suspended?
+
     transaction do
       #simple update without callbacks
-      update_column(:account_suspended, false)
-      update_column(:suspended_changed_at, Time.now)
+      update_columns(account_suspended: false, suspended_changed_at: Time.now)
     end
+
+    # TODO move this to another methods/classes, one method - one action
+    NotificationsMailer.with(user: self).notify_about_unsuspend.deliver_now
 
     begin
       tg = TelegramNotifier.new
@@ -278,13 +296,13 @@ class User < ApplicationRecord
     return true if tariff_changed_at.nil? || admin?
 
     next_tariff_change_date <= Time.now
-  end 
-  
+  end
+
   def tariff_changeble_date
     return Time.now if tariff_changed_at.nil?
 
     next_tariff_change_date
-  end  
+  end
 
   private
 
@@ -316,7 +334,7 @@ class User < ApplicationRecord
     return if admin? || updating_by.nil? || updating_by.admin?
 
     if tariff_id_changed? && tariff_changed_at && next_tariff_change_date > Time.now
-      errors.add(:tariff, "You able change tariff once per #{Tariff::CHANGE_LIMIT_IN_DAYS} days.") 
+      errors.add(:tariff, "You able change tariff once per #{Tariff::CHANGE_LIMIT_IN_DAYS} days.")
     end
   end
 

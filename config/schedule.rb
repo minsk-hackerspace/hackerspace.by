@@ -20,8 +20,8 @@
 # Learn more: http://github.com/javan/whenever
 
 every 1.day, at: '9:00 am' do
-  runner 'NotificationsService.new.notify_debitors'
-  runner 'NotificationsService.new.notify_telegram'
+  runner 'NotificationsService.notify_expiring'
+  runner 'NotificationsService.notify_telegram'
 end
 
 every 1.day, at: '12:00 am' do

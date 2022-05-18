@@ -36,5 +36,10 @@ FactoryBot.define do
       start_date {Time.now - 46.days}
       end_date {Time.now - 16.days}
     end
+
+    trait :expires_in_2_days do
+      start_date {Date.today - 46.days}
+      end_date {Date.today + 2.days}
+    end
   end
 end

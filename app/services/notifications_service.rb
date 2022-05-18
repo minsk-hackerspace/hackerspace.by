@@ -1,17 +1,14 @@
 class NotificationsService
   attr_reader :debitors
 
-  def initialize
-    @debitors = User.with_debt
-  end
-
-  def notify_debitors
-    @debitors.each do |debitor|
+  def self.notify_expiring
+    @users = User.fee_expires_in(7.days)
+    @users.each do |debitor|
       NotificationsMailer.with(user: debitor).notify_about_debt.deliver_now
     end
   end
 
-  def notify_telegram
+  def self.notify_telegram
     begin
       tg = TelegramNotifier.new
     rescue
@@ -23,20 +20,21 @@ class NotificationsService
 
     m = ""
 
-    @debitors.select! { |u| u.paid_until < Date.today - 3.day }
+    @debitors = User.fee_expires_in(3.days)
 
     unless @debitors.empty?
-      m += "Скоро уйдут в саспенд:\n"
+      m += "Участники, у которых скоро закончится взнос:\n"
 
       m += @debitors.map{ |u| "#{u.full_name_with_id_tg} (оплачено по #{u.paid_until})" }.join("\n")
       m += "\n\n"
     else
-      m += "Должников на сегодня нет.\n"
+      m += "У всех активных участников взносы оплачены.\n"
     end
 
     unless suspended.empty?
-      m += "Ушли в саспенд:\n"
+      m += "Участники, у которых закончился взнос:\n"
       m += suspended.map{ |u| u.full_name_with_id_tg }.join("\n")
+      m += "Доступ в хакерспейс им закрыт до оплаты взноса (не менее, чем на две недели)."
     end
 
     tg.send_message_to_all(m)
