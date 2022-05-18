@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     collection do
       get 'find', to: 'hackers#find_by_mac'
       post 'detected', to: 'hackers#detected_at_hackerspace'
+      get 'ssh_keys', to: 'hackers#ssh_keys'
     end
   end
   resources :thanks

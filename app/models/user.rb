@@ -127,6 +127,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true, length: {maximum: 255}
   validate :validate_guarantors
+  validate :validate_ssh_key
 
   scope :signed_in, -> { where.not(last_sign_in_at: nil) }
   scope :paid, -> { where(id: Payment.user_ids) }
@@ -295,6 +296,20 @@ class User < ApplicationRecord
     errors.add(:guarantor1_id, "is invalid") if self.guarantor1_id.present? and self.guarantor1_id == self.id
     errors.add(:guarantor2_id, "is invalid") if self.guarantor2_id.present? and self.guarantor2_id == self.id
     errors.add(:guarantor1_id, "shouldn't be same as Guarantor2") if self.guarantor1_id.present? and self.guarantor1_id == self.guarantor2_id
+  end
+
+  SSH_KEY_TYPES = %w(
+    sk-ecdsa-sha2-nistp256@openssh.com ecdsa-sha2-nistp256 ecdsa-sha2-nistp384
+    ecdsa-sha2-nistp521 sk-ssh-ed25519@openssh.com ssh-ed25519 ssh-dss ssh-rsa
+  )
+
+  def validate_ssh_key
+    return unless ssh_public_key.present?
+
+    key_type, key, comment = ssh_public_key.split(/\s+/, 3)
+    key_is_base64 = (Base64.strict_encode64(Base64.decode64(key)) == key)
+    errors.add(:ssh_public_key, "has invalid key type or garbage at the beginning") unless SSH_KEY_TYPES.include?(key_type)
+    errors.add(:ssh_public_key, "has invalid format") if key_type.nil? || key.nil? || !key_is_base64
   end
 
   def tariff_changes

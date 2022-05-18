@@ -137,12 +137,41 @@ RSpec.describe HackersController, type: :controller do
 
     describe "DELETE #remove_mac" do
       let(:mac) { create :mac }
-  
+
       it "returns redirect to edit user page" do
         process :remove_mac, params: {id: user.id, mac_id: mac.id}
-  
+
         expect(response).to redirect_to(new_user_session_path)
       end
-    end  
+    end
+
+    describe "GET #ssh_keys" do
+      let(:ssh_key_valid) { SSHKeyFactory.create :valid1 }
+
+      before do
+        user.ssh_public_key = ssh_key_valid
+        user.save
+      end
+
+      it "returns http success" do
+        get :ssh_keys
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns plain text respons" do
+        get :ssh_keys
+
+        expect(response.headers["Content-Type"]).to eq('text/plain; charset=utf-8')
+      end
+
+      it "contains SSH keys without of comments" do
+        get :ssh_keys
+
+        ssh_key_without_of_comment = ssh_key_valid.split(/\s+/, 3)[0..1].join(" ")
+        expect(response.body).to_not include(ssh_key_valid)
+        expect(response.body).to include(ssh_key_without_of_comment)
+      end
+    end
   end
 end
