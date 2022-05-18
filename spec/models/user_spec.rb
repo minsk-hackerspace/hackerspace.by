@@ -48,8 +48,37 @@ require 'rails_helper'
 
 describe User, type: :model  do
   describe "relations and validations" do
+    let(:user) { create :user }
+    let(:ssh_key_valid1) { SSHKeyFactory.create :valid1 }
+    let(:ssh_key_valid2) { SSHKeyFactory.create :valid2 }
+    let(:ssh_key_invalid_type) { SSHKeyFactory.create :invalid_type }
+    let(:ssh_key_invalid_format) { SSHKeyFactory.create :invalid_format }
+    let(:ssh_key_with_options) { SSHKeyFactory.create :with_options }
+
     it { should validate_presence_of(:email) }
     it { should validate_length_of(:email).is_at_most(255) }
+
+    it 'should validate SSH key format' do
+      user.ssh_public_key = ssh_key_invalid_type
+      user.validate
+      expect(user.errors[:ssh_public_key]).not_to be_empty
+
+      user.ssh_public_key = ssh_key_invalid_format
+      user.validate
+      expect(user.errors[:ssh_public_key]).not_to be_empty
+
+      user.ssh_public_key = ssh_key_with_options
+      user.validate
+      expect(user.errors[:ssh_public_key]).not_to be_empty
+
+      user.ssh_public_key = ssh_key_valid1
+      user.validate
+      expect(user.errors[:ssh_public_key]).to be_empty
+
+      user.ssh_public_key = ssh_key_valid2
+      user.validate
+      expect(user.errors[:ssh_public_key]).to be_empty
+    end
   end
 
   describe '.telegram_username' do

@@ -20,7 +20,7 @@ class HackersController < ApplicationController
     authorize! :ssh_keys, User
 
     ssh_keys = User.allowed.where.not(ssh_public_key: nil).pluck(:ssh_public_key)
-    render plain: ssh_keys.join("\n")
+    render plain: ssh_keys.map{ |key| key.split(/\s+/, 3)[0..1].join(" ") }.join("\n")
   end
 
   def show

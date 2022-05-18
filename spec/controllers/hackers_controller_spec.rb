@@ -146,10 +146,10 @@ RSpec.describe HackersController, type: :controller do
     end
 
     describe "GET #ssh_keys" do
-      let(:fake_ssh_test) { "Test Fake SSH Key" }
+      let(:ssh_key_valid) { SSHKeyFactory.create :valid1 }
 
       before do
-        user.ssh_public_key = fake_ssh_test
+        user.ssh_public_key = ssh_key_valid
         user.save
       end
 
@@ -165,10 +165,12 @@ RSpec.describe HackersController, type: :controller do
         expect(response.headers["Content-Type"]).to eq('text/plain; charset=utf-8')
       end
 
-      it "contains SSH keys" do
+      it "contains SSH keys without of comments" do
         get :ssh_keys
 
-        expect(response.body).to include(fake_ssh_test)
+        ssh_key_without_of_comment = ssh_key_valid.split(/\s+/, 3)[0..1].join(" ")
+        expect(response.body).to_not include(ssh_key_valid)
+        expect(response.body).to include(ssh_key_without_of_comment)
       end
     end
   end
