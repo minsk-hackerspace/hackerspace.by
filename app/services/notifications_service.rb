@@ -34,7 +34,7 @@ class NotificationsService
     unless suspended.empty?
       m += "Участники, у которых закончился взнос:\n"
       m += suspended.map{ |u| u.full_name_with_id_tg }.join("\n")
-      m += "Доступ в хакерспейс им закрыт до оплаты взноса (не менее, чем на две недели)."
+      m += "\nДоступ в хакерспейс им закрыт до оплаты взноса в размере не менее, чем на две недели."
     end
 
     tg.send_message_to_all(m)
