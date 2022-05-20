@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   resources :nfc_keys, controller: 'bramnik', path: 'bramnik', only: [:index]
   get 'bramnik/find_user', to: 'bramnik#find_user'
+  get 'bramnik/members_statistics', to: 'bramnik#members_statistics'
 
   resources :projects
   resources :news
