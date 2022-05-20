@@ -23,6 +23,33 @@ class BramnikController < ActionController::API
     end
   end
 
+  # Export the statistics about members
+  def members_statistics
+    members_count = User.count
+    active_members = User.allowed
+
+    tariff_stats = {}
+    active_members.each do |user|
+      t = user.tariff
+      if tariff_stats[t.ref_name].nil?
+        tariff_stats[t.ref_name] = {
+          name: t.name,
+          monthly_price: t.monthly_price,
+          access_allowed: t.access_allowed,
+          users: 0
+        }
+      end
+
+      tariff_stats[t.ref_name][:users] += 1
+    end
+
+    render json: {
+      members_count: members_count,
+      active_members: active_members.count,
+      tariff_stats: tariff_stats
+    }
+  end
+
   protected
   def authenticate_token!
     token = request.headers['Authorization']&.split&.last

@@ -46,4 +46,22 @@ RSpec.describe BramnikController, type: :controller do
       expect(JSON.parse(response.body)['id']).to eq(user.id)
     end
   end
+
+  describe "GET #members_statistics" do
+    it "returns http unauthorized" do
+      get :members_statistics
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it "returns statistics" do
+      request.headers["Authorization"] = "abcdef"
+      get :members_statistics
+
+      # TODO: Check for real data (after removing of seeds usage in the tests)
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+
 end
