@@ -1,1 +1,1 @@
-json.extract! @user, :id, :email, :last_sign_in_at, :created_at, :hacker_comment, :first_name, :last_name, :telegram_username, :alice_greeting, :account_suspended, :account_banned, :tariff_id, :github_username, :ssh_public_key, :is_learner, :access_allowed?, :paid_until
+json.extract! @user, :id, :email, :last_sign_in_at, :created_at, :hacker_comment, :first_name, :last_name, :telegram_username, :alice_greeting, :account_suspended, :account_banned, :tariff_id, :github_username, :is_learner, :access_allowed?, :paid_until

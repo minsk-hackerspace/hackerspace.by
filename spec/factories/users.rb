@@ -28,13 +28,16 @@
 #  last_seen_in_hackerspace :datetime
 #  account_suspended        :boolean
 #  account_banned           :boolean
-#  monthly_payment_amount   :float            default(50.0)
 #  github_username          :string
-#  ssh_public_key           :text
 #  is_learner               :boolean          default(FALSE)
 #  project_id               :integer
 #  guarantor1_id            :integer
 #  guarantor2_id            :integer
+#  suspended_changed_at     :datetime         default(Fri, 31 Dec 2010 20:21:50.000000000 EET +02:00), not null
+#  tariff_id                :integer
+#  tg_auth_token            :string
+#  tg_auth_token_expiry     :datetime
+#  tariff_changed_at        :datetime
 #
 # Indexes
 #
@@ -42,6 +45,11 @@
 #  index_users_on_guarantor1_id         (guarantor1_id)
 #  index_users_on_guarantor2_id         (guarantor2_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_tariff_id             (tariff_id)
+#
+# Foreign Keys
+#
+#  tariff_id  (tariff_id => tariffs.id)
 #
 
 FactoryBot.define do

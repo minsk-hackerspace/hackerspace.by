@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_23_224009) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_22_112111) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -175,6 +175,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_23_224009) do
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
+  create_table "public_ssh_keys", force: :cascade do |t|
+    t.text "body", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_public_ssh_keys_on_user_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: nil, null: false
@@ -245,7 +253,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_23_224009) do
     t.boolean "account_suspended"
     t.boolean "account_banned"
     t.string "github_username"
-    t.text "ssh_public_key"
     t.boolean "is_learner", default: false
     t.integer "project_id"
     t.integer "guarantor1_id"
@@ -273,5 +280,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_23_224009) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "nfc_keys", "users"
+  add_foreign_key "public_ssh_keys", "users"
   add_foreign_key "users", "tariffs"
 end

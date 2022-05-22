@@ -68,8 +68,9 @@
 
 = render 'payments', payments: @user.payments.order(paid_at: :desc)
 
--if @user.ssh_public_key.present?
+-if @user.public_ssh_keys.any?
   .row.additional_info
     .col-md-8
-      %h4= t('users.ssh_public_key') + ':'
-      .ssh-public-key= @user.ssh_public_key
+      %h4= t('users.public_ssh_keys') + ':'
+      - @user.public_ssh_keys.each do |public_ssh_key|
+        .ssh-public-key= public_ssh_key.body

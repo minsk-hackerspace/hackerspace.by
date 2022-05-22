@@ -307,7 +307,7 @@ ru:
     last_name: Фамилия
     telegram_username: Telegram
     github_username: Github
-    ssh_public_key: SSH public key
+    public_ssh_keys: Public SSH keys
     last_payment_ended_at: Оплачено по
     last_seen_in_hackerspace: Видели в ХС
     learner: Курсант

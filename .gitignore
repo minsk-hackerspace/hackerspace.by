@@ -18,6 +18,7 @@
 /.idea
 /public/system
 *.swp
+.DS_Store
 
 # Ignore test coverage
 /coverage

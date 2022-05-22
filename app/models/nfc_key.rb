@@ -12,6 +12,10 @@
 #
 #  index_nfc_keys_on_user_id  (user_id)
 #
+# Foreign Keys
+#
+#  user_id  (user_id => users.id)
+#
 
 class NfcKey < ApplicationRecord
   belongs_to :user, required: true
