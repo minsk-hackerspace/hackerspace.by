@@ -117,9 +117,9 @@ class Admin::EripTransactionsController < AdminController
       p.payment_type = et.erip['service_no'].to_i == Setting['bePaid_serviceNo'].to_i ? 'membership' : 'donation'
       p.payment_form = 'erip'
       if p.payment_type == 'membership' then
-        last_payment = nil
-        last_payment = p.user.last_payment unless p.user.nil?
-        unless last_payment.nil? or last_payment.end_date < et.paid_at.to_date - 14.days
+        last_payment = p.user&.last_payment
+
+        unless last_payment.nil? or last_payment.end_date < et.paid_at.to_date
           p.start_date = last_payment.end_date + 1.day
         else
           p.start_date = et.paid_at.to_date
