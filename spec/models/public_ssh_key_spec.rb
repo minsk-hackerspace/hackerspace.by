@@ -22,6 +22,8 @@ RSpec.describe PublicSshKey, type: :model do
   describe "relations and validations" do
     let(:ssh_key_valid1) { build :public_ssh_key }
     let(:ssh_key_valid2) { build :public_ssh_key, :without_email }
+    let(:ssh_key_invalid_body) { build :public_ssh_key, body: 'dwqdqdqdwqwdqwd' }
+    let(:ssh_key_empty_body) { build :public_ssh_key, body: nil }
     let(:ssh_key_invalid_type) { build :public_ssh_key, :invalid_type }
     let(:ssh_key_invalid_format) { build :public_ssh_key, :invalid_format }
     let(:ssh_key_with_options) { build :public_ssh_key, :with_options }
@@ -42,6 +44,11 @@ RSpec.describe PublicSshKey, type: :model do
 
       ssh_key_valid2.validate
       expect(ssh_key_valid2.errors[:key]).to be_empty
+
+      ssh_key_invalid_body.validate
+      expect(ssh_key_invalid_body.errors[:key]).not_to be_empty
+
+      expect(ssh_key_empty_body.valid?).to be false
     end
 
     it 'returns true if valid' do
