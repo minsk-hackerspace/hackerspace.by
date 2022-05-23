@@ -61,7 +61,7 @@ RSpec.describe HackersController, type: :controller do
 
       before do
         user.macs << mac
-      end  
+      end
 
       it 'returns 404 for wrong mac id' do
         expect { process :remove_mac, params: {id: user.id, mac_id: 123334} }.to raise_error(ActiveRecord::RecordNotFound)
@@ -146,11 +146,10 @@ RSpec.describe HackersController, type: :controller do
     end
 
     describe "GET #ssh_keys" do
-      let(:ssh_key_valid) { SSHKeyFactory.create :valid1 }
+      let(:ssh_key_valid) { create :public_ssh_key }
 
       before do
-        user.ssh_public_key = ssh_key_valid
-        user.save
+        user.public_ssh_keys << ssh_key_valid
       end
 
       it "returns http success" do
@@ -168,8 +167,8 @@ RSpec.describe HackersController, type: :controller do
       it "contains SSH keys without of comments" do
         get :ssh_keys
 
-        ssh_key_without_of_comment = ssh_key_valid.split(/\s+/, 3)[0..1].join(" ")
-        expect(response.body).to_not include(ssh_key_valid)
+        ssh_key_without_of_comment = ssh_key_valid.body.split(/\s+/, 3)[0..1].join(" ")
+        expect(response.body).to_not include(ssh_key_valid.body)
         expect(response.body).to include(ssh_key_without_of_comment)
       end
     end

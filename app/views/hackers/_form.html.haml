@@ -44,10 +44,6 @@
         = f.text_field :github_username, class: 'form-control', value: @user.github_username
 
       .form-group
-        = f.label 'Публичный ключ ssh'
-        = f.text_area :ssh_public_key, class: 'form-control', value: @user.ssh_public_key
-
-      .form-group
         = f.label :tariff
         - unless current_user.admin?
           %br= "Изменение тарифа возможно 1 раз в #{Tariff::CHANGE_LIMIT_IN_DAYS} дней"
@@ -119,3 +115,27 @@
         = text_field_tag(:nfc, nil, class: 'form-control')
       .form-group
         = submit_tag('Добавить NFC ключ', class: 'btn btn-primary')
+
+-# Public SSH Keys
+%hr
+.row
+  .col-lg-6
+    - if @user.public_ssh_keys.any?
+      %h3 Public SSH ключи пользователя
+      - @user.public_ssh_keys.each do |public_ssh_key|
+        .row.small
+          .col-lg-4
+            %p
+              = public_ssh_key.body
+          .col-lg-1
+            %p
+              = link_to 'Удалить', user_public_ssh_key_path(@user, public_ssh_key), method: :delete, data: { confirm: 'Are you sure?' }
+.row
+  .col-lg-6
+    = form_for [@user, @new_public_ssh_key] do |f|
+      = f.hidden_field :user_id
+      .form-group
+        = f.text_area :body, class: 'form-control'
+      .form-group
+        = submit_tag('Добавить публичный SSH ключ', class: 'btn btn-primary')
+

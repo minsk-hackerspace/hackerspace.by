@@ -59,6 +59,7 @@ class Ability
       can [:update, :edit, :add_mac, :remove_mac, :add_nfc, :remove_nfc], User, id: user.id
       can :manage, Mac, user_id: user.id
       can :manage, NfcKey, user_id: user.id
+      can :manage, PublicSshKey, user_id: user.id
 
       can :read, Device
       can :add, Event

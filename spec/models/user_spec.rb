@@ -28,13 +28,16 @@
 #  last_seen_in_hackerspace :datetime
 #  account_suspended        :boolean
 #  account_banned           :boolean
-#  monthly_payment_amount   :float            default(50.0)
 #  github_username          :string
-#  ssh_public_key           :text
 #  is_learner               :boolean          default(FALSE)
 #  project_id               :integer
 #  guarantor1_id            :integer
 #  guarantor2_id            :integer
+#  suspended_changed_at     :datetime         default(Fri, 31 Dec 2010 20:21:50.000000000 EET +02:00), not null
+#  tariff_id                :integer
+#  tg_auth_token            :string
+#  tg_auth_token_expiry     :datetime
+#  tariff_changed_at        :datetime
 #
 # Indexes
 #
@@ -42,6 +45,11 @@
 #  index_users_on_guarantor1_id         (guarantor1_id)
 #  index_users_on_guarantor2_id         (guarantor2_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_tariff_id             (tariff_id)
+#
+# Foreign Keys
+#
+#  tariff_id  (tariff_id => tariffs.id)
 #
 
 require 'rails_helper'
@@ -49,36 +57,9 @@ require 'rails_helper'
 describe User, type: :model  do
   describe "relations and validations" do
     let(:user) { create :user }
-    let(:ssh_key_valid1) { SSHKeyFactory.create :valid1 }
-    let(:ssh_key_valid2) { SSHKeyFactory.create :valid2 }
-    let(:ssh_key_invalid_type) { SSHKeyFactory.create :invalid_type }
-    let(:ssh_key_invalid_format) { SSHKeyFactory.create :invalid_format }
-    let(:ssh_key_with_options) { SSHKeyFactory.create :with_options }
 
     it { should validate_presence_of(:email) }
     it { should validate_length_of(:email).is_at_most(255) }
-
-    it 'should validate SSH key format' do
-      user.ssh_public_key = ssh_key_invalid_type
-      user.validate
-      expect(user.errors[:ssh_public_key]).not_to be_empty
-
-      user.ssh_public_key = ssh_key_invalid_format
-      user.validate
-      expect(user.errors[:ssh_public_key]).not_to be_empty
-
-      user.ssh_public_key = ssh_key_with_options
-      user.validate
-      expect(user.errors[:ssh_public_key]).not_to be_empty
-
-      user.ssh_public_key = ssh_key_valid1
-      user.validate
-      expect(user.errors[:ssh_public_key]).to be_empty
-
-      user.ssh_public_key = ssh_key_valid2
-      user.validate
-      expect(user.errors[:ssh_public_key]).to be_empty
-    end
   end
 
   describe '.telegram_username' do

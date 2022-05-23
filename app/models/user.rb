@@ -28,13 +28,16 @@
 #  last_seen_in_hackerspace :datetime
 #  account_suspended        :boolean
 #  account_banned           :boolean
-#  monthly_payment_amount   :float            default(50.0)
 #  github_username          :string
-#  ssh_public_key           :text
 #  is_learner               :boolean          default(FALSE)
 #  project_id               :integer
 #  guarantor1_id            :integer
 #  guarantor2_id            :integer
+#  suspended_changed_at     :datetime         default(Fri, 31 Dec 2010 20:21:50.000000000 EET +02:00), not null
+#  tariff_id                :integer
+#  tg_auth_token            :string
+#  tg_auth_token_expiry     :datetime
+#  tariff_changed_at        :datetime
 #
 # Indexes
 #
@@ -42,6 +45,11 @@
 #  index_users_on_guarantor1_id         (guarantor1_id)
 #  index_users_on_guarantor2_id         (guarantor2_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_tariff_id             (tariff_id)
+#
+# Foreign Keys
+#
+#  tariff_id  (tariff_id => tariffs.id)
 #
 
 require 'bepaid.rb'
@@ -109,6 +117,7 @@ class User < ApplicationRecord
   has_many :erip_transactions
   has_many :payments
   has_many :nfc_keys
+  has_many :public_ssh_keys
   belongs_to :tariff
   belongs_to :guarantor1, class_name: 'User', optional: true
   belongs_to :guarantor2, class_name: 'User', optional: true
@@ -127,7 +136,6 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true, length: {maximum: 255}
   validate :validate_guarantors
-  validate :validate_ssh_key
 
   scope :signed_in, -> { where.not(last_sign_in_at: nil) }
   scope :paid, -> { where(id: Payment.user_ids) }
@@ -314,20 +322,6 @@ class User < ApplicationRecord
     errors.add(:guarantor1_id, "is invalid") if self.guarantor1_id.present? and self.guarantor1_id == self.id
     errors.add(:guarantor2_id, "is invalid") if self.guarantor2_id.present? and self.guarantor2_id == self.id
     errors.add(:guarantor1_id, "shouldn't be same as Guarantor2") if self.guarantor1_id.present? and self.guarantor1_id == self.guarantor2_id
-  end
-
-  SSH_KEY_TYPES = %w(
-    sk-ecdsa-sha2-nistp256@openssh.com ecdsa-sha2-nistp256 ecdsa-sha2-nistp384
-    ecdsa-sha2-nistp521 sk-ssh-ed25519@openssh.com ssh-ed25519 ssh-dss ssh-rsa
-  )
-
-  def validate_ssh_key
-    return unless ssh_public_key.present?
-
-    key_type, key, comment = ssh_public_key.split(/\s+/, 3)
-    key_is_base64 = (Base64.strict_encode64(Base64.decode64(key)) == key)
-    errors.add(:ssh_public_key, "has invalid key type or garbage at the beginning") unless SSH_KEY_TYPES.include?(key_type)
-    errors.add(:ssh_public_key, "has invalid format") if key_type.nil? || key.nil? || !key_is_base64
   end
 
   def tariff_changes

@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   resources :news
   resources :devices, only: [:index, :show]
   resources :users, path: 'hackers', controller: 'hackers', only: [:index, :show, :edit, :update] do
+    resources :public_ssh_keys, only: [:create, :destroy]
+
     member do
       post 'add_mac', to: 'hackers#add_mac'
       delete 'remove_mac', to: 'hackers#remove_mac'

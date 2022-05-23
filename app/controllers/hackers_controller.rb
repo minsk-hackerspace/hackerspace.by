@@ -7,10 +7,10 @@ class HackersController < ApplicationController
     @non_active_users = User.where.not(id: @active_users.map(&:id))
     respond_to do |format|
       format.html
-      format.csv { 
-                   render csv: User.all, 
+      format.csv {
+                   render csv: User.all,
                    filename: 'hackers',
-                   style: can?(:read, NfcKey) ? :with_nfc : :default 
+                   style: can?(:read, NfcKey) ? :with_nfc : :default
                   }
       format.json
     end
@@ -19,7 +19,7 @@ class HackersController < ApplicationController
   def ssh_keys
     authorize! :ssh_keys, User
 
-    ssh_keys = User.allowed.where.not(ssh_public_key: [nil, ""]).pluck(:ssh_public_key)
+    ssh_keys = PublicSshKey.where(user_id: User.allowed.ids).pluck(:body)
     render plain: ssh_keys.map{ |key| key.split(/\s+/, 3)[0..1].join(" ") }.join("\n")
   end
 
@@ -86,6 +86,7 @@ class HackersController < ApplicationController
   end
 
   def edit
+    @new_public_ssh_key = PublicSshKey.new(user: @user)
     redirect_to root_path, alert: 'Ошибка' unless @user == current_user or current_user.admin?
   end
 
@@ -129,7 +130,6 @@ class HackersController < ApplicationController
       :account_banned,
       :monthly_payment_amount,
       :github_username,
-      :ssh_public_key,
       :is_learner,
       :project_id,
       :guarantor1_id,
