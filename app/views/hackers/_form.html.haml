@@ -125,7 +125,7 @@
       - @user.public_ssh_keys.each do |public_ssh_key|
         .row.small
           .col-lg-10
-            %p
+            %p{:title => public_ssh_key.body}
               = public_ssh_key.body[0..20] + "..." + public_ssh_key.body[-30..-1]
           .col-lg-1
             %p
