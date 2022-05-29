@@ -33,8 +33,12 @@ class PublicSshKey < ApplicationRecord
     return unless body.present?
 
     key_type, key, comment = body.split(/\s+/, 3)
+    if key_type.nil? || key.nil?
+      errors.add(:key, "has invalid format")
+      return
+    end
     key_is_base64 = (Base64.strict_encode64(Base64.decode64(key)) == key)
     errors.add(:key, "has invalid key type or garbage at the beginning") unless SSH_KEY_TYPES.include?(key_type)
-    errors.add(:key, "has invalid format") if key_type.nil? || key.nil? || !key_is_base64
+    errors.add(:key, "has invalid format") if !key_is_base64
   end
 end

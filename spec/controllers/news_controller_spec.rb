@@ -32,7 +32,7 @@ describe NewsController, type: :controller do
 
     describe "GET 'show'" do
       it "returns http success" do
-        process :show, params: { id: news.id } 
+        process :show, params: { id: news.id }
         expect(response).to be_successful
       end
     end
@@ -70,4 +70,4 @@ describe NewsController, type: :controller do
       end
     end
   end
-end 
+end
