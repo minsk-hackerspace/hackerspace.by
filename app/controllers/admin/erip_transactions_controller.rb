@@ -142,7 +142,7 @@ class Admin::EripTransactionsController < AdminController
       if @erip_transaction.save
         format.json { render :show, status: :created, location: admin_erip_transaction_url(@erip_transaction) }
         unless @erip_transaction.user.nil? or @erip_transaction.status != "successful"
-          NotificationsMailer.with(transaction: @erip_transaction).notify_about_payment.deliver_later 
+          NotificationsMailer.with(transaction: @erip_transaction).notify_about_payment.deliver_later
         end
       else
         format.json { render json: @erip_transaction.errors, status: :unprocessable_entity }
