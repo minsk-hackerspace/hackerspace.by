@@ -17,7 +17,7 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require turbolinks
-//= require tinymce-jquery
+//= require tinymce
 //= require_tree .
 
 
