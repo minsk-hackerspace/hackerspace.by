@@ -140,6 +140,7 @@ class User < ApplicationRecord
   scope :signed_in, -> { where.not(last_sign_in_at: nil) }
   scope :paid, -> { where(id: Payment.user_ids) }
   scope :allowed, -> { where(account_suspended: [false, nil]).where(account_banned: [false, nil]) }
+  scope :allowed_paid_or_signed_in, -> { allowed.paid.or(allowed.signed_in).uniq }
 
   scope :banned, -> { where(account_banned: true)}
   scope :not_banned, -> { where(account_banned: false)}
@@ -156,16 +157,12 @@ class User < ApplicationRecord
 
   attr_accessor :updating_by
 
-  def self.active
-    (allowed.paid + allowed.signed_in).uniq
-  end
-
   # Return all users with fee expires after provided duration
   #
   # to be optimized, move logic to DB query
   def self.fee_expires_in(duration)
-    User.active.select do |user|
-      user.last_payment.present? ? user.paid_until < Date.today + duration : true
+    allowed.paid.select do |user|
+      user.last_payment.present? ? user.paid_until < (Date.today + duration) : true
     end
   end
 

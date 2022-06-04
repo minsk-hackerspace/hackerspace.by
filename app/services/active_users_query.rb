@@ -14,11 +14,11 @@ class ActiveUsersQuery
     when 'payments'
       (User.allowed.paid.sort_by { |u| u.last_payment.end_date } + User.allowed.signed_in).uniq
     when 'last_seen'
-      User.active.sort_by { |u| u.last_seen_in_hackerspace.to_i }.reverse
+      User.allowed_paid_or_signed_in.sort_by { |u| u.last_seen_in_hackerspace.to_i }.reverse
     when 'course'
       User.all.sort_by { |u| u.is_learner.to_s }.reverse
     else
-      User.active.sort_by { |u| u.id }
+      User.allowed_paid_or_signed_in.sort_by { |u| u.id }
     end
   end
 end

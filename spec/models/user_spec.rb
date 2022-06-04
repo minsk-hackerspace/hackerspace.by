@@ -80,26 +80,26 @@ describe User, type: :model  do
     end
   end
 
-  describe '.active' do
+  describe '.allowed_paid_or_signed_in' do
     let!(:blocked_user) { create :user, :banned }
     let!(:suspended_user) { create :user, :suspended }
     let!(:user_without_sign_in) { create :user, last_sign_in_at: nil }
     let!(:user_with_payment) { create :user, :with_payment }
 
     it 'is expected not to return blocked users' do
-      expect(described_class.active).not_to include(blocked_user)
+      expect(described_class.allowed_paid_or_signed_in).not_to include(blocked_user)
     end
 
     it 'is expected not to return suspended users' do
-      expect(described_class.active).not_to include(suspended_user)
+      expect(described_class.allowed_paid_or_signed_in).not_to include(suspended_user)
     end
 
     it 'is expected not to return users that never logged in' do
-      expect(described_class.active).not_to include(user_without_sign_in)
+      expect(described_class.allowed_paid_or_signed_in).not_to include(user_without_sign_in)
     end
 
     it 'is expected to return users with payments' do
-      expect(described_class.active).to include(user_with_payment)
+      expect(described_class.allowed_paid_or_signed_in).to include(user_with_payment)
     end
   end
 
@@ -118,6 +118,12 @@ describe User, type: :model  do
 
     it 'is expected not to return users with valid payments' do
       expect(described_class.with_debt).not_to include(user_with_valid_payment)
+    end
+  end
+
+  describe '.fee_expires_in' do
+    it 'is expected to not return empty dataset' do
+      expect(described_class.fee_expires_in(0.days)).to_not be_empty
     end
   end
 
