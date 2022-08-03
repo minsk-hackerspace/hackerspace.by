@@ -161,9 +161,7 @@ class User < ApplicationRecord
   #
   # to be optimized, move logic to DB query
   def self.fee_expires_in(duration)
-    allowed.paid.select do |user|
-      user.last_payment.present? ? user.paid_until < (Date.today + duration) : true
-    end
+    allowed.paid.select { |user| user.paid_until < (Date.today + duration) }
   end
 
   def self.with_debt
