@@ -122,8 +122,14 @@ describe User, type: :model  do
   end
 
   describe '.fee_expires_in' do
+    let!(:user_with_outdated_payment2) { create :user, :with_outdated_payment }
+
     it 'is expected to not return empty dataset' do
       expect(described_class.fee_expires_in(0.days)).to_not be_empty
+    end
+
+    it 'is expected to return users with outdated payments' do
+      expect(described_class.with_debt).to include(user_with_outdated_payment2)
     end
   end
 
