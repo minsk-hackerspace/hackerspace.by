@@ -11,11 +11,16 @@ Rails.application.routes.draw do
   get 'bramnik/find_user', to: 'bramnik#find_user'
   get 'bramnik/members_statistics', to: 'bramnik#members_statistics'
 
+  get 'wg_configs/export_peers', to: 'wg_configs#export_peers'
+
   resources :projects
   resources :news
   resources :devices, only: [:index, :show]
   resources :users, path: 'hackers', controller: 'hackers', only: [:index, :show, :edit, :update] do
     resources :public_ssh_keys, only: [:create, :destroy]
+
+    resources :wg_configs, only: [:create, :destroy]
+    post 'wg_configs/:id/export', to: 'wg_configs#export', as: 'wg_export'
 
     member do
       post 'add_mac', to: 'hackers#add_mac'
