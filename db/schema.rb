@@ -278,9 +278,20 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_03_100233) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  create_table "wg_configs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.string "privatekey", null: false
+    t.string "publickey", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_wg_configs_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "nfc_keys", "users"
   add_foreign_key "public_ssh_keys", "users"
   add_foreign_key "users", "tariffs"
+  add_foreign_key "wg_configs", "users"
 end
