@@ -39,6 +39,7 @@ gem 'haml-rails'
 gem 'rest-client'
 gem 'whenever', require: false
 gem 'rack-proxy'
+gem 'ipaddress'
 
 #gem 'copycopter_client', '~> 2.0.1'
 # Use Capistrano for deployment

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_22_112111) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_22_221907) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -257,7 +257,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_22_112111) do
     t.integer "project_id"
     t.integer "guarantor1_id"
     t.integer "guarantor2_id"
-    t.datetime "suspended_changed_at", precision: nil, default: "2010-12-31 18:21:50", null: false
+    t.datetime "suspended_changed_at", precision: nil, default: "2012-05-14 20:36:05", null: false
     t.integer "tariff_id"
     t.string "tg_auth_token"
     t.datetime "tg_auth_token_expiry", precision: nil
@@ -277,9 +277,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_22_112111) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  create_table "wg_configs", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "privatekey", null: false
+    t.string "publickey", null: false
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_wg_configs_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "nfc_keys", "users"
   add_foreign_key "public_ssh_keys", "users"
   add_foreign_key "users", "tariffs"
+  add_foreign_key "wg_configs", "users"
 end

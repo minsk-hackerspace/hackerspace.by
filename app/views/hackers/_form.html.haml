@@ -139,3 +139,26 @@
       .form-group
         = submit_tag('Добавить публичный SSH ключ', class: 'btn btn-primary')
 
+-# WireGuard
+%hr
+.row#wg-configs
+  .col-lg-6
+    - unless @user.wg_configs.empty?
+      %h3 Конфигурации WireGuard
+      - @user.wg_configs.each do |wg|
+        .row.small
+          .col-lg-4
+            %p
+              = wg.name
+          .col-lg-1
+            %p
+              = link_to 'Удалить', user_wg_config_path(@user, wg), method: :delete, data: { confirm: 'Вы уверены?' }
+
+.row
+  .col-lg-6
+    = form_for [@user, @new_wg_config] do |f|
+      = f.hidden_field :user_id
+      .form-group
+        = f.text_field :name, class: 'form-control'
+      .form-group
+        = submit_tag('Создать конфигурацию WireGuard', class: 'btn btn-primary')

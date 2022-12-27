@@ -87,6 +87,7 @@ class HackersController < ApplicationController
 
   def edit
     @new_public_ssh_key = PublicSshKey.new(user: @user)
+    @new_wg_config = WgConfig.new(user: @user)
     redirect_to root_path, alert: 'Ошибка' unless @user == current_user or current_user.admin?
   end
 

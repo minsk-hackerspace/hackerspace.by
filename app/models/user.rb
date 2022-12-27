@@ -118,6 +118,7 @@ class User < ApplicationRecord
   has_many :payments
   has_many :nfc_keys
   has_many :public_ssh_keys
+  has_many :wg_configs
   belongs_to :tariff
   belongs_to :guarantor1, class_name: 'User', optional: true
   belongs_to :guarantor2, class_name: 'User', optional: true

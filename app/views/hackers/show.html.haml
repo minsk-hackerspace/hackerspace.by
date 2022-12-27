@@ -74,3 +74,14 @@
       %h4= t('users.public_ssh_keys') + ':'
       - @user.public_ssh_keys.each do |public_ssh_key|
         .ssh-public-key= public_ssh_key.body
+
+-if @user.wg_configs.any?
+  .row.additional_info
+    .col-md-8
+      %h4= t('users.wg_configs') + ':'
+      - @user.wg_configs.each do |wg|
+        .wg_config.row
+          .col-lg-3
+            = wg.name
+          .col-lg-2
+            = link_to 'Скачать', user_wg_export_path(@user, wg), method: :post
