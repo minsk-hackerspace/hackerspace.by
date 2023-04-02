@@ -4,7 +4,7 @@ link_context_toolbar: true
 menubar: false
 
 plugins:
-  - image link imagetools media table code lists
+  - image link media table code lists
 
 language: ru
 

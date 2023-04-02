@@ -101,6 +101,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+  config.tinymce.install = :compile
 end
 
 DISPLAY_GOOGLE_ANALYTICS = true
