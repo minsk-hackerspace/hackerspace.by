@@ -271,8 +271,13 @@ class User < ApplicationRecord
       update_columns(account_suspended: false, suspended_changed_at: Time.now)
     end
 
+    begin
     # TODO move this to another methods/classes, one method - one action
-    NotificationsMailer.with(user: self).notify_about_unsuspend.deliver_now
+      NotificationsMailer.with(user: self).notify_about_unsuspend.deliver_later
+    rescue => e
+      Rails.logger.warn "Failed to send notification e-mail: " + e.message
+      Rails.logger.warn e.backtrace.join("\n")
+    end
 
     begin
       tg = TelegramNotifier.new
