@@ -152,7 +152,7 @@ class User < ApplicationRecord
   after_save :create_bepaid_bill, :set_as_suspended
   before_save :set_tariff_changed_at
   before_validation :normalize_tg_nickname
-
+  after_initialize :set_default_tariff, if: :new_record?
   validate :tariff_changes, on: :update
 
   attr_accessor :updating_by
@@ -338,6 +338,10 @@ class User < ApplicationRecord
 
   def set_tariff_changed_at
     self.tariff_changed_at = Time.now if tariff_id_changed?
+  end
+
+  def set_default_tariff
+    self.tariff ||= Tariff.default_tariff
   end
 
   def check_role(role)

@@ -18,7 +18,7 @@ class Tariff < ApplicationRecord
   has_many :users
 
   scope :accessible_by_user, -> { where(accessible_to_user: true) }
-  
+
   validates :monthly_price, numericality: {greater_than_or_equal_to: 0}
 
   def name_with_price
@@ -29,5 +29,9 @@ class Tariff < ApplicationRecord
     return all if user.admin?
 
     accessible_by_user
+  end
+
+  def self.default_tariff
+    Tariff.find_by(ref_name: 'full')
   end
 end
