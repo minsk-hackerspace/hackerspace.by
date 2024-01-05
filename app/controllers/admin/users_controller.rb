@@ -8,8 +8,11 @@ class Admin::UsersController < AdminController
 
   def create
     @user = User.new(user_params)
+    @user.set_password if @user.password.blank?
 
     if @user.save
+      UserMailer.welcome(@user).deliver_later
+
       flash[:alert] = @user.errors.full_messages.join "\n"
       redirect_to users_path, notice: 'Пользователь создан успешно'
     else

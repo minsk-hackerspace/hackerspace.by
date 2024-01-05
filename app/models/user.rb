@@ -153,6 +153,7 @@ class User < ApplicationRecord
   before_save :set_tariff_changed_at
   before_validation :normalize_tg_nickname
   after_initialize :set_default_tariff, if: :new_record?
+  after_initialize :set_password, if: :new_record?
   validate :tariff_changes, on: :update
 
   attr_accessor :updating_by
@@ -310,6 +311,11 @@ class User < ApplicationRecord
     return Time.now if tariff_changed_at.nil?
 
     next_tariff_change_date
+  end
+
+  def set_password
+    return if self.password.present?
+    self.password = Devise.friendly_token.first(10)
   end
 
   private
