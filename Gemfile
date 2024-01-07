@@ -39,6 +39,7 @@ gem 'haml-rails'
 gem 'rest-client'
 gem 'whenever', require: false
 gem 'rack-proxy'
+gem 'domain_name', '~> 0.5.20190701'
 
 #gem 'copycopter_client', '~> 2.0.1'
 # Use Capistrano for deployment
