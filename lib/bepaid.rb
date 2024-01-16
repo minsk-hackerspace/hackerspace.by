@@ -108,7 +108,7 @@ module BePaid
           headers: {content_type: :json, accept: :json}
       rescue => e
         log e.message
-        log e.http_.body if e.respond_to? :http_body
+        log e.http_body if e.respond_to? :http_body
         raise e
       end
       r
