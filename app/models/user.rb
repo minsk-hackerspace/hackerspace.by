@@ -149,7 +149,7 @@ class User < ApplicationRecord
   scope :suspended_today, -> { where(account_suspended: true)
                               .where('suspended_changed_at > ?', Time.now - 1.day) }
 
-  after_save :create_bepaid_bill, :set_as_suspended
+  after_save :update_bepaid_bill, :set_as_suspended
   before_save :set_tariff_changed_at
   before_validation :normalize_tg_nickname
   after_initialize :set_default_tariff, if: :new_record?
@@ -377,6 +377,15 @@ class User < ApplicationRecord
   end
 
   #TODO: maybe place this to concerns?
+
+  def update_bepaid_bill
+    unless account_banned
+      create_bepaid_bill
+    else
+      delete_bepaid_bill
+    end
+  end
+
   def create_bepaid_bill
     # Don't touch real web services during of test database initialization
     return if Rails.env.test?
@@ -424,6 +433,30 @@ class User < ApplicationRecord
       logger.error e.message
       logger.error e.http_body if e.respond_to? :http_body
       user.errors.add :base, "Не удалось создать счёт в bePaid, проверьте лог"
+    end
+  end
+
+  def delete_bepaid_bill
+    return if Rails.env.test?
+
+    user = self
+
+    bp = BePaid::BePaid.new Setting['bePaid_baseURL'], Setting['bePaid_ID'], Setting['bePaid_secret']
+
+    begin
+      bill = bp.bill(order_id: user.id)
+    rescue
+      logger.debug "Bill for user #{user.id} not found, nothing to delete"
+      return
+    end
+
+    begin
+      res = bp.delete_bill bill["transaction"]["id"]
+      logger.debug "Bill #{user.id} deleted: #{res["message"]}"
+    rescue  => e
+      logger.error e.message
+      logger.error e.http_body if e.respond_to? :http_body
+      user.errors.add :base, "Не удалось удалить счёт в bePaid, проверьте лог"
     end
   end
 end
