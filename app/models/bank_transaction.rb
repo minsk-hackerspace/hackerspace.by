@@ -23,7 +23,7 @@
 #  index_bank_transactions_on_updated_at  (updated_at)
 #
 
-require 'bib'
+require 'belinvestbank_api/bib'
 
 class BankTransaction < ApplicationRecord
   EXPENSES = 'expenses'
