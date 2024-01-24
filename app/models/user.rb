@@ -52,7 +52,7 @@
 #  tariff_id  (tariff_id => tariffs.id)
 #
 
-require 'bepaid.rb'
+require 'be_paid'
 require 'digest/md5'
 
 class User < ApplicationRecord
