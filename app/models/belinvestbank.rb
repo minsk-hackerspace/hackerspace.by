@@ -1,4 +1,4 @@
-require 'bib.rb'
+require 'belinvestbank_api/bib.rb'
 
 class Belinvestbank
   def self.fetch_balance

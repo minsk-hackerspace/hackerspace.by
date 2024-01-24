@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 require 'csv'
-require './bepaid.rb'
+require 'be_paid.rb'
 
 bp = BePaid::BePaid.new 'https://api.bepaid.by', '<ID>', '<SECRET KEY>'
 amount = 50.00

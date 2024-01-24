@@ -19,7 +19,7 @@ module Hspace
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.autoload_lib(ignore: %w(config/nginx))
+    config.autoload_lib(ignore: %w(bp_create.rb))
 
     config.time_zone = 'Minsk'
     config.i18n.default_locale = :ru
