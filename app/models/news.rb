@@ -30,7 +30,7 @@ class News < ApplicationRecord
                         medium: '500x500#',
                         thumb: '200x200>'
                     },
-                    default_url: 'default.png'
+                    default_url: '/images/default.png'
 
   validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
   validates_attachment :photo
