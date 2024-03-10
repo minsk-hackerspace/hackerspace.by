@@ -5,7 +5,7 @@ RSpec.describe UserMailer, type: :mailer do
 
   describe '#invite' do
     specify do
-      mailer = described_class.welcome(user)
+      mailer = described_class.welcome(user, user.password)
 
       expect(mailer.to).to eq([user.email])
     end

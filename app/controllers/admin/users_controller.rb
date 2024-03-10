@@ -11,7 +11,7 @@ class Admin::UsersController < AdminController
     @user.set_password if @user.password.blank?
 
     if @user.save
-      UserMailer.welcome(@user).deliver_later
+      UserMailer.welcome(@user, @user.password).deliver_later
 
       flash[:alert] = @user.errors.full_messages.join "\n"
       redirect_to users_path, notice: 'Пользователь создан успешно'
