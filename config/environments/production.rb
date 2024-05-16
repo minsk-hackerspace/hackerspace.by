@@ -71,7 +71,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: 'smtp.gmail.com',
-    port: 587,
+    port: 465,
     domain: 'hackerspace.by',
     authentication: 'plain',
     enable_starttls_auto: true,
