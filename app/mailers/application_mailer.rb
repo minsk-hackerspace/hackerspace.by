@@ -7,8 +7,10 @@ class ApplicationMailer < ActionMailer::Base
   private
 
   def set_smtp_settings
+    return if Setting['mailer_user'].blank?
+
     mail.delivery_method.settings.merge!({
-      user_name: Setting['mailer_from'],
+      user_name: Setting['mailer_user'],
       password: Setting['mailer_password']
     })
   end
