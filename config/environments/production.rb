@@ -73,7 +73,7 @@ Rails.application.configure do
     address: 'smtp-relay.gmail.com',
     port: 465,
     domain: 'hackerspace.by',
-    authentication: 'plain',
+#    authentication: 'plain',
     enable_starttls_auto: true,
     tls: true
   }
