@@ -61,6 +61,8 @@ gem 'font-awesome-rails'
 
 gem 'telegram-bot-ruby'
 
+gem 'psych', '~> 5.2'
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console'
