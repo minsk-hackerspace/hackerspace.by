@@ -4,28 +4,45 @@ dist: bionic
 
 language: ruby
 cache: bundler
+
 rvm:
-- 3.1.2
+  - 3.3.5@hspace
 
-jobs:
-  include:
-    - stage: test
-      name: "Tests"
-      script:
-        - cp config/database.example.yml config/database.yml
-        - bundle exec rake db:setup RAILS_ENV=test
-        - simplecov=true bundle exec rails spec
-        - curl -Os https://uploader.codecov.io/latest/linux/codecov
-        - chmod +x codecov
-        - ./codecov -f coverage/coverage.xml
-    - name: "Audit"
-      script:
-        - bundle exec bundle-audit check --update
-        - bundle exec brakeman -z
+# before_install:
+#   - rvm get stable
+#   - rvm reload
+#   - rvm use ruby-3.3.6 --install --binary --create
+#   - rvm gemset create hspace || true  # Create gemset if it doesn't exist
+#   - rvm use ruby-3.3.6
+#   - rvm gemset use ruby-3.3.6@hspace
+#   - gem install bundler # Ensure Bundler is installed
 
-    - stage: deploy
-      if: branch = master
-      script: skip
-      deploy:
-        - provider: script
-          script: .cicd/travis_deploy.sh
+
+# rvm:
+# - 3.3.7
+
+# install:
+#   - bundle install
+
+# jobs:
+#   include:
+#     - stage: test
+#       name: "Tests"
+#       script:
+#         - cp config/database.example.yml config/database.yml
+#         - bundle exec rake db:setup RAILS_ENV=test
+#         - simplecov=true bundle exec rails spec
+#         - curl -Os https://uploader.codecov.io/latest/linux/codecov
+#         - chmod +x codecov
+#         - ./codecov -f coverage/coverage.xml
+#     - name: "Audit"
+#       script:
+#         - bundle exec bundle-audit check --update
+#         - bundle exec brakeman -z
+
+#     - stage: deploy
+#       if: branch = master
+#       script: skip
+#       deploy:
+#         - provider: script
+#           script: .cicd/travis_deploy.sh
