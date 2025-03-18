@@ -4,8 +4,18 @@ dist: bionic
 
 language: ruby
 cache: bundler
+
 rvm:
-- 3.1.2
+- 3.3.7
+
+before_install:
+  - rvm use ruby-3.3.7 --install --binary --create
+  - rvm gemset create hspace || true  # Create gemset if it doesn't exist
+  - rvm gemset use hspace
+  - gem install bundler # Ensure Bundler is installed
+
+install:
+  - bundle install
 
 jobs:
   include:
