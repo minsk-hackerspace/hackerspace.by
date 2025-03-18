@@ -1,11 +1,19 @@
 version: ~> 1.0
 os: linux
-dist: bionic
+dist: noble
 
 language: ruby
 cache: bundler
+
 rvm:
-- 3.1.2
+  - 3.3.5
+
+before_install:
+  - sudo apt-get -y install libpq-dev
+
+addons:
+  apt:
+    update: true
 
 jobs:
   include:
