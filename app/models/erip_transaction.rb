@@ -36,10 +36,10 @@ class EripTransaction < ApplicationRecord
   has_one :hs_payment, class_name: "Payment"
   belongs_to :user, optional: true
 
-  serialize :billing_address, JSON
-  serialize :customer, JSON
-  serialize :payment, JSON
-  serialize :erip, JSON
+  serialize :billing_address, coder: JSON
+  serialize :customer, coder: JSON
+  serialize :payment, coder: JSON
+  serialize :erip, coder: JSON
 
   validates :transaction_id, uniqueness: true
 
