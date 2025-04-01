@@ -11,7 +11,7 @@ require './config/deploy/mina-whenever/tasks.rb'
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
-set :domain, '31.24.92.99'
+set :domain, 'hackerspace.by'
 set :user, 'user' # Username in the server to SSH to.
 set :repo_port, '22' # SSH port number.
 
