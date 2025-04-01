@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.1.4.1'
+gem 'rails', '~> 7.2.2'
 gem 'rails-i18n'
 # Use SCSS for stylesheets
 gem 'sassc-rails'
@@ -60,6 +60,8 @@ gem 'tinymce-rails-langs'
 gem 'font-awesome-rails'
 
 gem 'telegram-bot-ruby'
+
+gem 'psych', '~> 5.2'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.

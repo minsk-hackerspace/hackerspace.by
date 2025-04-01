@@ -53,7 +53,7 @@ class BramnikController < ActionController::API
   protected
   def authenticate_token!
     token = request.headers['Authorization']&.split&.last
-    if not ActiveSupport::SecurityUtils.secure_compare(token || '', Rails.application.secrets.bramnik_token) then
+    if not ActiveSupport::SecurityUtils.secure_compare(token || '', Rails.application.credentials.bramnik_token) then
       render plain: "Authorization required\n", status: :unauthorized
     end
   end
