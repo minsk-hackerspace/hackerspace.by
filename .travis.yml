@@ -6,7 +6,7 @@ language: ruby
 cache: bundler
 
 rvm:
-  - 3.3.5
+  - 3.3.7
 
 before_install:
   - sudo apt-get -y install libpq-dev
