@@ -75,6 +75,7 @@ group :development do
   gem 'letter_opener'
   # Ruby deployment tool (like Ansible, but in Ruby)
   gem 'mina', '~> 1.2'
+  gem 'next_rails'
 end
 
 group :development, :test do
