@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.2.2'
+gem 'rails', '~> 8.0.2'
 gem 'rails-i18n'
 # Use SCSS for stylesheets
 gem 'sassc-rails'
@@ -71,7 +71,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen'
   gem 'thin', platform: :ruby
-  gem 'annotate'
+  # gem 'annotate'
   gem 'letter_opener'
   # Ruby deployment tool (like Ansible, but in Ruby)
   gem 'mina', '~> 1.2'
