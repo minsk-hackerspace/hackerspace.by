@@ -355,6 +355,7 @@ class User < ApplicationRecord
   end
 
   def self.paid_within_period(start_date, end_date)
+    # commented temporary to fix balance chart
     # Rails.cache.fetch [start_date, end_date, :paid_within_period] do
       left_outer_joins(:payments).where(payments: {start_date: [Time.at(0)..end_date], end_date: [start_date..Date::Infinity.new]}).distinct
     # end
