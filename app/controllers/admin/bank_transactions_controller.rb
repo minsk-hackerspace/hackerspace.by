@@ -13,7 +13,7 @@ class Admin::BankTransactionsController < ApplicationController
         @bank_transactions = @bank_transactions.inpayments
       end
 
-    @bank_transactions = @bank_transactions.order(created_by: :desc, created_at: :desc).page(params[:page])
+    @bank_transactions = @bank_transactions.order(created_at: :desc).page(params[:page])
   end
 
   def mass_update
