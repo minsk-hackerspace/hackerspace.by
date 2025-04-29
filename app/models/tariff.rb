@@ -19,7 +19,7 @@ class Tariff < ApplicationRecord
 
   scope :accessible_by_user, -> { where(accessible_to_user: true) }
 
-  validates :monthly_price, numericality: {greater_than_or_equal_to: 0}
+  validates :monthly_price, numericality: { greater_than_or_equal_to: 0 }
 
   def name_with_price
     "#{self.name} (#{self.monthly_price} BYN)"
