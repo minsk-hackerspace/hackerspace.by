@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe NewsController, type: :controller do
-  let(:news) { create :news }
+describe ProjectsController, type: :controller do
+  let(:project) { create :project }
   let(:admin_user) { create :admin_user }
 
   describe "GET 'index'" do
@@ -13,7 +13,7 @@ describe NewsController, type: :controller do
 
   describe "GET 'show'" do
     it "returns http success" do
-      process :show, params: { id: news.id }
+      process :show, params: { id: project.id }
       expect(response).to be_successful
     end
   end
@@ -32,7 +32,7 @@ describe NewsController, type: :controller do
 
     describe "GET 'show'" do
       it "returns http success" do
-        process :show, params: { id: news.id }
+        process :show, params: { id: project.id }
         expect(response).to be_successful
       end
     end
@@ -46,39 +46,27 @@ describe NewsController, type: :controller do
 
     describe "GET 'edit'" do
       it "returns http success" do
-        process :edit, params: { id: news.id }
+        process :edit, params: { id: project.id }
         expect(response).to be_successful
-      end
-    end
-
-    describe "POST 'create'" do
-      it "returns http success create and redirect" do
-        post :create, params: { news: { title: 'Super News', short_desc: 'short_desc', markup_type: 'html' } }
-        expect(response).to redirect_to(news_path(News.last))
-      end
-
-      it "returns new page if not created" do
-        post :create, params: { news: { title: 'Super News', short_desc: 'short_desc' } }
-        expect(response).to render_template("new")
       end
     end
 
     describe "PUT 'update'" do
       it "returns http redirect" do
-        process :update, params: { id: news.id, news: { title: 'Super News' } }
-        expect(response).to redirect_to(news_path(news))
+        process :update, params: { id: project.id, project: { name: 'Super project', short_desc: 'text' } }
+        expect(response).to redirect_to(project_path(project))
       end
 
       it "returns edit page" do
-        process :update, params: { id: news.id, news: { show_on_homepage: true, show_on_homepage_till_date: nil, title: nil } }
+        process :update, params: { id: project.id, project: { name: nil } }
         expect(response).to render_template("edit")
       end
     end
 
     describe "DELETE 'destroy'" do
       it "returns http success with redirect" do
-        process :destroy, params: { id: news.id }
-        expect(response).to redirect_to(news_index_path)
+        process :destroy, params: { id: project.id }
+        expect(response).to redirect_to(projects_path)
       end
     end
   end

@@ -30,7 +30,7 @@ RSpec.describe Admin::PaymentsController, type: :controller do
   # Payment. As you add validations to Payment, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    build(:payment).attributes
   }
 
   let(:invalid_attributes) {
@@ -41,10 +41,34 @@ RSpec.describe Admin::PaymentsController, type: :controller do
   # in order to pass any filters (e.g. authentication) defined in
   # PaymentsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
+  let(:payment) { create :payment }
 
   describe "GET #index" do
+    it "returns a successful response" do
+      get :index
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "assigns @payments ordered by paid_at descending" do
+      Payment.delete_all
+
+      @payment1 = create(:payment, paid_at: 2.days.ago)
+      @payment2 = create(:payment, paid_at: 1.day.ago)
+      @payment3 = create(:payment, paid_at: Time.current)
+
+      get :index
+      expect(assigns(:payments)).to eq([@payment3, @payment2, @payment1])
+    end
+
+    it "paginates results based on page param" do
+      expect(Payment).to receive(:page).with('2')
+      get :index, params: { page: 2 }
+    end
+
     it "assigns all payments as @payments" do
+      Payment.delete_all
       payment = Payment.create! valid_attributes
+
       get :index, params: {}, session: valid_session
       expect(assigns(:payments)).to eq([payment])
     end
@@ -74,10 +98,11 @@ RSpec.describe Admin::PaymentsController, type: :controller do
   end
 
   describe "POST #create" do
+
     context "with valid params" do
       it "creates a new Payment" do
         expect {
-          post :create, params: {payment: valid_attributes}, session: valid_session
+          post :create, params: { payment: valid_attributes }, session: valid_session
         }.to change(Payment, :count).by(1)
       end
 
@@ -89,7 +114,7 @@ RSpec.describe Admin::PaymentsController, type: :controller do
 
       it "redirects to the created payment" do
         post :create, params: {payment: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Payment.last)
+        expect(response).to redirect_to(admin_payment_path(Payment.last))
       end
     end
 
@@ -114,34 +139,34 @@ RSpec.describe Admin::PaymentsController, type: :controller do
 
       it "updates the requested payment" do
         payment = Payment.create! valid_attributes
-        put :update, params: {id: payment.to_param, payment: new_attributes}, session: valid_session
+        put :update, params: {id: payment.id, payment: new_attributes}, session: valid_session
         payment.reload
         skip("Add assertions for updated state")
       end
 
       it "assigns the requested payment as @payment" do
         payment = Payment.create! valid_attributes
-        put :update, params: {id: payment.to_param, payment: valid_attributes}, session: valid_session
+        put :update, params: {id: payment.id, payment: valid_attributes}, session: valid_session
         expect(assigns(:payment)).to eq(payment)
       end
 
       it "redirects to the payment" do
         payment = Payment.create! valid_attributes
-        put :update, params: {id: payment.to_param, payment: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(payment)
+        put :update, params: {id: payment.id, payment: valid_attributes}, session: valid_session
+        expect(response).to redirect_to(admin_payment_path(payment))
       end
     end
 
     context "with invalid params" do
       it "assigns the payment as @payment" do
         payment = Payment.create! valid_attributes
-        put :update, params: {id: payment.to_param, payment: invalid_attributes}, session: valid_session
+        put :update, params: {id: payment.id, payment: invalid_attributes}, session: valid_session
         expect(assigns(:payment)).to eq(payment)
       end
 
       it "re-renders the 'edit' template" do
         payment = Payment.create! valid_attributes
-        put :update, params: {id: payment.to_param, payment: invalid_attributes}, session: valid_session
+        put :update, params: {id: payment.id, payment: invalid_attributes}, session: valid_session
         expect(response).to render_template("edit")
       end
     end
@@ -158,8 +183,7 @@ RSpec.describe Admin::PaymentsController, type: :controller do
     it "redirects to the payments list" do
       payment = Payment.create! valid_attributes
       delete :destroy, params: {id: payment.to_param}, session: valid_session
-      expect(response).to redirect_to(payments_url)
+      expect(response).to redirect_to(admin_payments_path)
     end
   end
-
 end

@@ -1,5 +1,5 @@
 class Admin::UsersController < AdminController
-  before_action :set_user, only: [:edit, :update, :add_mac]
+  # before_action :set_user, only: [:edit, :update]
   authorize_resource class: User
 
   def new
@@ -22,9 +22,9 @@ class Admin::UsersController < AdminController
 
   private
 
-  def set_user
-    @user = User.find(params[:id])
-  end
+  # def set_user
+  #   @user = User.find(params[:id])
+  # end
 
   def user_params
     params.fetch(:user, {}).permit(:email, :first_name, :last_name, :password, :tariff_id)

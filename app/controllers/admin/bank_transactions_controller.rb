@@ -21,6 +21,7 @@ class Admin::BankTransactionsController < ApplicationController
 
     respond_to do |format|
       logger.debug bts.inspect
+
       if not bts.nil? and BankTransaction.update(bts.keys, bts.values)
         format.html { redirect_to request.referrer, notice: "Bank transactions have been successfully updated" }
       else
