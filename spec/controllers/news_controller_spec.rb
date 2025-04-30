@@ -51,6 +51,18 @@ describe NewsController, type: :controller do
       end
     end
 
+    describe "POST 'create'" do
+      it "returns http success create and redirect" do
+        post :create, params: { news: { title: 'Super News', short_desc: 'short_desc', markup_type: 'html' } }
+        expect(response).to redirect_to(news_path(News.last))
+      end
+
+      it "returns new page if not created" do
+        post :create, params: { news: { title: 'Super News', short_desc: 'short_desc' } }
+        expect(response).to render_template("new")
+      end
+    end
+
     describe "PUT 'update'" do
       it "returns http redirect" do
         process :update, params: { id: news.id, news: { title: 'Super News' } }
