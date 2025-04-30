@@ -17,7 +17,7 @@ class Admin::BankTransactionsController < ApplicationController
   end
 
   def mass_update
-    bts = params.require(:bank_transactions).permit!
+    bts = params.require(:bank_transactions)
 
     respond_to do |format|
       logger.debug bts.inspect
