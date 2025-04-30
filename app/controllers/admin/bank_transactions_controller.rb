@@ -17,10 +17,11 @@ class Admin::BankTransactionsController < ApplicationController
   end
 
   def mass_update
-    bts = params.require(:bank_transactions)
+    bts = params.require(:bank_transactions).permit!
 
     respond_to do |format|
       logger.debug bts.inspect
+
       if not bts.nil? and BankTransaction.update(bts.keys, bts.values)
         format.html { redirect_to request.referrer, notice: "Bank transactions have been successfully updated" }
       else
