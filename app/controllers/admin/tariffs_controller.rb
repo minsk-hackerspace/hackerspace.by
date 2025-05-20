@@ -25,7 +25,7 @@ class Admin::TariffsController < ApplicationController
   # POST /admin/tariffs
   # POST /admin/tariffs.json
   def create
-    @tariff = Tariff.new(admin_tariff_params)
+    @tariff = Tariff.new(tariff_params)
 
     respond_to do |format|
       if @tariff.save
@@ -42,7 +42,7 @@ class Admin::TariffsController < ApplicationController
   # PATCH/PUT /admin/tariffs/1.json
   def update
     respond_to do |format|
-      if @tariff.update(admin_tariff_params)
+      if @tariff.update(tariff_params)
         format.html { redirect_to [:admin, @tariff], notice: 'Tariff was successfully updated.' }
         format.json { render :show, status: :ok, location: @tariff }
       else
@@ -69,7 +69,7 @@ class Admin::TariffsController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    def admin_tariff_params
+    def tariff_params
       params.require(:tariff).permit(:ref_name, :name, :description, :access_allowed, :monthly_price, :accessible_to_user)
     end
 end

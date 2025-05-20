@@ -52,7 +52,7 @@ describe Admin::TariffsController, type: :controller do
     end
 
     describe "POST 'create'" do
-      xit "returns http success and redirect" do
+      it "returns http success and redirect" do
         expect {
           process :create,
             params: { tariff: { ref_name: 'ref_name', name: 'Super hacker tariff', monthly_price: 100, description: "description" }
