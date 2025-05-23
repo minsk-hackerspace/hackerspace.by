@@ -54,10 +54,10 @@ class BankTransaction < ApplicationRecord
                                  document_number: t[2].gsub(/[=]?"/, ''),
                                  minus: t[3].gsub(',', '.').to_f,
                                  plus: t[4].gsub(',', '.').to_f,
-                                 unp: t[6],
-                                 created_at: DateTime.parse(t[7]),
-                                 contractor: t[8],
-                                 purpose: t[9]
+                                 unp: t[5],
+                                 created_at: Time.zone.parse(t[6]),
+                                 contractor: t[7],
+                                 purpose: t[8]
         end
       end
 
