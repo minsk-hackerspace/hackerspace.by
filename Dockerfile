@@ -1,12 +1,11 @@
-FROM ruby:2.7
+FROM ruby:3.3.5
+
+# Install system dependencies
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs yarn \
+ && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 EXPOSE 3000
-
-# add js runtime
-RUN apt-get update \
- && apt-get install -y nodejs \
- && rm -rf /var/lib/apt/lists/*
 
 COPY Gemfile Gemfile.lock Rakefile ./
 RUN bundle version
@@ -18,5 +17,8 @@ RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 
 CMD cp config/database.example.yml config/database.yml \
- && rails db:setup \
+ && rake db:create \
+ && rake db:migrate \
+ && rake db:seed \
+# && rails db:setup --trace \
  && rails server  --binding=0.0.0.0
