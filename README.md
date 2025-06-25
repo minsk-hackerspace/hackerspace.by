@@ -26,6 +26,7 @@ bundle exec rails server
 
 #### Запуск в контейнере с помощью docker-compose:
 ```
+docker-compose build 
 docker-compose up
 ```
 
