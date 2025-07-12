@@ -1,20 +1,20 @@
+# frozen_string_literal: true
+
 class SettingsController < ApplicationController
-#  before_action :authenticate_user!
+  #  before_action :authenticate_user!
   load_and_authorize_resource
 
   def index
     @settings = Setting.all
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @setting = Setting.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @setting = Setting.new(setting_params)
@@ -51,8 +51,9 @@ class SettingsController < ApplicationController
   end
 
   private
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def setting_params
-      params.require(:setting).permit(:key, :value)
-    end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def setting_params
+    params.require(:setting).permit(:key, :value)
+  end
 end

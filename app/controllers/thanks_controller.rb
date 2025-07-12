@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class ThanksController < ApplicationController
-#  before_action :authenticate_user!, except: [:index, :show]
+  #  before_action :authenticate_user!, except: [:index, :show]
   load_and_authorize_resource
 
   # GET /thanks
@@ -10,8 +12,7 @@ class ThanksController < ApplicationController
 
   # GET /thanks/1
   # GET /thanks/1.json
-  def show
-  end
+  def show; end
 
   # GET /thanks/new
   def new
@@ -19,8 +20,7 @@ class ThanksController < ApplicationController
   end
 
   # GET /thanks/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /thanks
   # POST /thanks.json
@@ -64,19 +64,20 @@ class ThanksController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_thank
-      @thank = Thank.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def thank_params
-      permitted_attrs = [:name, :short_desc, :full_desc, :photo, :markup_type]
-      permitted_attrs << :public if @project.present? && @project.user == current_user
+  # Use callbacks to share common setup or constraints between actions.
+  def set_thank
+    @thank = Thank.find(params[:id])
+  end
 
-      result_params = params.require(:thank).permit(permitted_attrs)
-      result_params[:short_desc] = Sanitize.clean(result_params[:short_desc], Sanitize::Config::RELAXED)
-      result_params[:full_desc] = Sanitize.clean(result_params[:full_desc], Sanitize::Config::RELAXED)
-      result_params
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def thank_params
+    permitted_attrs = %i[name short_desc full_desc photo markup_type]
+    permitted_attrs << :public if @project.present? && @project.user == current_user
+
+    result_params = params.require(:thank).permit(permitted_attrs)
+    result_params[:short_desc] = Sanitize.clean(result_params[:short_desc], Sanitize::Config::RELAXED)
+    result_params[:full_desc] = Sanitize.clean(result_params[:full_desc], Sanitize::Config::RELAXED)
+    result_params
+  end
 end

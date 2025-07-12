@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class PublicSshKeysController < ApplicationController
   load_and_authorize_resource
 
-  before_action :set_user, only: [:create, :destroy]
+  before_action :set_user, only: %i[create destroy]
 
   def create
     @public_ssh_key = PublicSshKey.new(public_ssh_key_params)
@@ -10,7 +12,7 @@ class PublicSshKeysController < ApplicationController
       redirect_to edit_user_path(@user)
     else
       redirect_to edit_user_path(@user),
-        alert: "Ошибка сохранения SSH ключа: #{@public_ssh_key.errors.full_messages.join("\n")}"
+                  alert: "Ошибка сохранения SSH ключа: #{@public_ssh_key.errors.full_messages.join("\n")}"
     end
   end
 
@@ -22,14 +24,14 @@ class PublicSshKeysController < ApplicationController
 
   private
 
-    def public_ssh_key_params
-      params.require(:public_ssh_key).permit(
-        :body,
-        :user_id
-      )
-    end
+  def public_ssh_key_params
+    params.require(:public_ssh_key).permit(
+      :body,
+      :user_id
+    )
+  end
 
-    def set_user
-      @user = User.find(params[:user_id])
-    end
+  def set_user
+    @user = User.find(params[:user_id])
+  end
 end
