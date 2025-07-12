@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 class HackersController < ApplicationController
   load_and_authorize_resource :user, parent: false,
-                              except: [:useful, :find_by_mac, :detected_at_hackerspace, :ssh_keys]
+                                     except: %i[useful find_by_mac detected_at_hackerspace ssh_keys]
 
   def index
     @active_users = ActiveUsersQuery.perform(index_params)
     @non_active_users = User.where.not(id: @active_users.map(&:id))
     respond_to do |format|
       format.html
-      format.csv {
-                   render csv: User.all,
-                   filename: 'hackers',
-                   style: can?(:read, NfcKey) ? :with_nfc : :default
-                  }
+      format.csv do
+        render csv: User.all,
+               filename: 'hackers',
+               style: can?(:read, NfcKey) ? :with_nfc : :default
+      end
       format.json
     end
   end
@@ -20,7 +22,7 @@ class HackersController < ApplicationController
     authorize! :ssh_keys, User
 
     ssh_keys = PublicSshKey.where(user_id: User.allowed.ids).pluck(:body)
-    render plain: ssh_keys.map{ |key| key.split(/\s+/, 3)[0..1].join(" ") }.join("\n")
+    render plain: ssh_keys.map { |key| key.split(/\s+/, 3)[0..1].join(' ') }.join("\n")
   end
 
   def show
@@ -55,7 +57,7 @@ class HackersController < ApplicationController
   end
 
   def add_mac
-    if params[:mac].present? and params[:mac][/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/].present?
+    if params[:mac].present? && params[:mac][/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/].present?
       @user.macs << Mac.create(address: params[:mac]&.downcase)
       redirect_to edit_user_path(@user)
     else
@@ -75,7 +77,7 @@ class HackersController < ApplicationController
       redirect_to edit_user_path(@user)
     else
       redirect_to edit_user_path(@user),
-        alert: "Ошибка сохранения NFC ключа: #{@nfc_key.errors.full_messages.join("\n")}"
+                  alert: "Ошибка сохранения NFC ключа: #{@nfc_key.errors.full_messages.join("\n")}"
     end
   end
 
@@ -87,17 +89,17 @@ class HackersController < ApplicationController
 
   def edit
     @new_public_ssh_key = PublicSshKey.new(user: @user)
-    redirect_to root_path, alert: 'Ошибка' unless @user == current_user or current_user.admin?
+    redirect_to root_path, alert: 'Ошибка' unless (@user == current_user) || current_user.admin?
   end
 
   def useful
     authorize! :useful, User
     @page_content =
-        if Rails.env.production?
-          Net::HTTP.get(URI.parse('https://raw.githubusercontent.com/minsk-hackerspace/hackerspace.by/master/app/views/hackers/useful.md'))
-        else
-          File.read(Rails.root.join('app', 'views', 'hackers', 'useful.md'))
-        end
+      if Rails.env.production?
+        Net::HTTP.get(URI.parse('https://raw.githubusercontent.com/minsk-hackerspace/hackerspace.by/master/app/views/hackers/useful.md'))
+      else
+        File.read(Rails.root.join('app', 'views', 'hackers', 'useful.md'))
+      end
   end
 
   def update

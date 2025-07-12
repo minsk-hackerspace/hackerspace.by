@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: payments
@@ -32,13 +34,13 @@ class Payment < ApplicationRecord
 
   validates :paid_at, presence: true
   validates :amount, presence: true
-  validates :erip_transaction_id, presence: true, if: Proc.new {|p| p.payment_type == 'erip'}
-  validates :payment_type, :inclusion => { in: %w(membership donation) }
-  validates :payment_form, :inclusion => { in: %w(erip cash natural) }
+  validates :erip_transaction_id, presence: true, if: proc { |p| p.payment_type == 'erip' }
+  validates :payment_type, inclusion: { in: %w[membership donation] }
+  validates :payment_form, inclusion: { in: %w[erip cash natural] }
   validate :start_date_before_of_end_date
-  validates :start_date, presence: true, if: Proc.new {|p| p.payment_type == 'membership'}
-  validates :end_date, presence: true, if: Proc.new {|p| p.payment_type == 'membership'}
-  validates :description, presence: true, if: Proc.new {|p| p.payment_form == 'natural'}
+  validates :start_date, presence: true, if: proc { |p| p.payment_type == 'membership' }
+  validates :end_date, presence: true, if: proc { |p| p.payment_type == 'membership' }
+  validates :description, presence: true, if: proc { |p| p.payment_form == 'natural' }
 
   after_save :set_user_as_unsuspended
 
@@ -52,11 +54,11 @@ class Payment < ApplicationRecord
   # than (monthly amount / 30), end_date will be one day before the last day.
   #
   def start_date_before_of_end_date
-    return if self.start_date.nil? || self.end_date.nil?
+    return if start_date.nil? || end_date.nil?
 
-    if self.start_date - 1 > self.end_date
-      errors.add(:end_date, "should be after or equal to start date")
-    end
+    return unless start_date - 1 > end_date
+
+    errors.add(:end_date, 'should be after or equal to start date')
   end
 
   def set_user_as_unsuspended

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: devices
@@ -12,8 +14,8 @@
 class Device < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable#, :registerable,
-         #:recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable # , :registerable,
+  # :recoverable, :rememberable, :trackable, :validatable
   has_many :events, dependent: :destroy
 
   validates :name, presence: true
@@ -31,12 +33,11 @@ class Device < ApplicationRecord
     event_types.each do |event_type|
       events_of_this_type = events.where(event_type: event_type).to_a
       events_of_this_type.each_index do |i|
-        while i < events_of_this_type.size - 1 && events_of_this_type[i].value == events_of_this_type[i+1].value
-          events_of_this_type[i+1].update(repeated: true)
-          events_of_this_type.delete events_of_this_type[i+1]
+        while i < events_of_this_type.size - 1 && events_of_this_type[i].value == events_of_this_type[i + 1].value
+          events_of_this_type[i + 1].update(repeated: true)
+          events_of_this_type.delete events_of_this_type[i + 1]
         end
       end
     end
   end
-
 end

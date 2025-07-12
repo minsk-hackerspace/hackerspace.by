@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: settings
@@ -15,12 +17,12 @@
 #
 
 class Setting < ApplicationRecord
-
   validates :key, presence: true, uniqueness: true
 
   def self.[](key)
     s = Setting.where(key: key).first
     return nil if s.nil?
+
     s.value
   end
 

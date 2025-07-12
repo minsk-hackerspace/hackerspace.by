@@ -1,10 +1,11 @@
-#encoding: utf-8
+# frozen_string_literal: true
+
 require 'sanitize'
 
 class ProjectsController < ApplicationController
-#  before_action :authenticate_user!, only: [:edit, :update, :destroy, :new, :create]
+  #  before_action :authenticate_user!, only: [:edit, :update, :destroy, :new, :create]
   load_and_authorize_resource
-  before_action :set_project, only: [:edit, :update, :destroy]
+  before_action :set_project, only: %i[edit update destroy]
 
   # GET /projects
   # GET /projects.json
@@ -25,8 +26,7 @@ class ProjectsController < ApplicationController
   end
 
   # GET /projects/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /projects
   # POST /projects.json
@@ -65,26 +65,28 @@ class ProjectsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project
-      @project = Project.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def project_params
-      permitted_attrs = [:name, :short_desc, :full_desc, :photo, :markup_type, :project_status]
-      permitted_attrs << :public if @project.present? && @project.user == current_user
+  # Use callbacks to share common setup or constraints between actions.
+  def set_project
+    @project = Project.find(params[:id])
+  end
 
-      result_params = params.require(:project).permit(permitted_attrs)
-      sanitize_config = Sanitize::Config.merge(Sanitize::Config::RELAXED,
-        :elements        => Sanitize::Config::RELAXED[:elements] + ['iframe'],
-        :attributes      => Sanitize::Config::RELAXED[:attributes].merge({
-          'iframe' => %w(width height src frameborder allow allowfullscreen)
-        }),
-        :remove_contents => true
-      )
-      result_params[:short_desc] = Sanitize.fragment(result_params[:short_desc], sanitize_config)
-      result_params[:full_desc] = Sanitize.fragment(result_params[:full_desc], sanitize_config)
-      result_params
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def project_params
+    permitted_attrs = %i[name short_desc full_desc photo markup_type project_status]
+    permitted_attrs << :public if @project.present? && @project.user == current_user
+
+    result_params = params.require(:project).permit(permitted_attrs)
+    sanitize_config = Sanitize::Config.merge(Sanitize::Config::RELAXED,
+                                             elements: Sanitize::Config::RELAXED[:elements] + ['iframe'],
+                                             attributes: Sanitize::Config::RELAXED[:attributes].merge(
+                                               {
+                                                 'iframe' => %w[width height src frameborder allow allowfullscreen]
+                                               }
+                                             ),
+                                             remove_contents: true)
+    result_params[:short_desc] = Sanitize.fragment(result_params[:short_desc], sanitize_config)
+    result_params[:full_desc] = Sanitize.fragment(result_params[:full_desc], sanitize_config)
+    result_params
+  end
 end

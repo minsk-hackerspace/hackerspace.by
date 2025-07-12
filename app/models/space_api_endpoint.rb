@@ -1,32 +1,33 @@
-# encoding: utf-8
+# frozen_string_literal: true
+
 # -*- SkipSchemaAnnotations
 
 class SpaceApiEndpoint
   DEFAULT_DATA = {
-    api: "0.13",
-    space: "Example Hackerspace",
-    logo: "http://example.com/logo.png",
-    url: "http://example.com",
+    api: '0.13',
+    space: 'Example Hackerspace',
+    logo: 'http://example.com/logo.png',
+    url: 'http://example.com',
     location: {
-      address: "Nowhere",
+      address: 'Nowhere',
       lon: 42,
-      lat: 42,
+      lat: 42
     },
     contact: {
-      ml: "hackerspacek@example.com",
+      ml: 'hackerspacek@example.com'
     },
 
     issue_report_channels: [:ml],
 
     state: {
-      open: nil,
+      open: nil
     },
     sensors: {
       people_now_present: [{
-        value: 0,
+        value: 0
       }]
     }
-  }
+  }.freeze
 
   def initialize
     @data = DEFAULT_DATA.merge Rails.configuration.spaceapi_data

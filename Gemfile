@@ -76,6 +76,7 @@ group :development do
   # Ruby deployment tool (like Ansible, but in Ruby)
   gem 'mina', '~> 1.2'
   gem 'next_rails'
+  gem 'rubocop'
 end
 
 group :development, :test do

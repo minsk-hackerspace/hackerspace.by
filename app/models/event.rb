@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: events
@@ -16,7 +18,7 @@ class Event < ApplicationRecord
 
   validates :event_type, :value, presence: true
 
-  scope :light, -> { where event_type: 'light'}
+  scope :light, -> { where event_type: 'light' }
 
   comma do
     id
@@ -30,7 +32,7 @@ class Event < ApplicationRecord
   def self.heatmap
     Rails.cache.fetch('heatmap', expires_in: 30.days) do
       h = Heatmap.new
-      where(device_id: 1).find_in_batches(batch_size: 10000) do |events|
+      where(device_id: 1).find_in_batches(batch_size: 10_000) do |events|
         events.each do |event|
           if event.value == 'on'
             h.add_on_event(event.created_at)

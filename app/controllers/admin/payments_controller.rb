@@ -1,68 +1,70 @@
-class Admin::PaymentsController < AdminController
-  load_and_authorize_resource
-  before_action :set_payment, only: [:show, :edit, :update, :destroy]
+# frozen_string_literal: true
 
-  # GET /payments
-  # GET /payments.json
-  def index
-    @payments = Payment.order(paid_at: :desc).page(params[:page])
-  end
+module Admin
+  class PaymentsController < AdminController
+    load_and_authorize_resource
+    before_action :set_payment, only: %i[show edit update destroy]
 
-  # GET /payments/1
-  # GET /payments/1.json
-  def show
-  end
+    # GET /payments
+    # GET /payments.json
+    def index
+      @payments = Payment.order(paid_at: :desc).page(params[:page])
+    end
 
-  # GET /payments/new
-  def new
-    @payment = Payment.new
-  end
+    # GET /payments/1
+    # GET /payments/1.json
+    def show; end
 
-  # GET /payments/1/edit
-  def edit
-  end
+    # GET /payments/new
+    def new
+      @payment = Payment.new
+    end
 
-  # POST /payments
-  # POST /payments.json
-  def create
-    @payment = Payment.new(payment_params)
+    # GET /payments/1/edit
+    def edit; end
 
-    respond_to do |format|
-      if @payment.save
-        format.html { redirect_to [:admin, @payment], notice: 'Payment was successfully created.' }
-        format.json { render :show, status: :created, location: [:admin, @payment] }
-      else
-        format.html { render :new }
-        format.json { render json: @payment.errors, status: :unprocessable_entity }
+    # POST /payments
+    # POST /payments.json
+    def create
+      @payment = Payment.new(payment_params)
+
+      respond_to do |format|
+        if @payment.save
+          format.html { redirect_to [:admin, @payment], notice: 'Payment was successfully created.' }
+          format.json { render :show, status: :created, location: [:admin, @payment] }
+        else
+          format.html { render :new }
+          format.json { render json: @payment.errors, status: :unprocessable_entity }
+        end
       end
     end
-  end
 
-  # PATCH/PUT /payments/1
-  # PATCH/PUT /payments/1.json
-  def update
-    respond_to do |format|
-      if @payment.update(payment_params)
-        format.html { redirect_to [:admin, @payment], notice: 'Payment was successfully updated.' }
-        format.json { render :show, status: :ok, location: [:admin, @payment] }
-      else
-        format.html { render :edit }
-        format.json { render json: @payment.errors, status: :unprocessable_entity }
+    # PATCH/PUT /payments/1
+    # PATCH/PUT /payments/1.json
+    def update
+      respond_to do |format|
+        if @payment.update(payment_params)
+          format.html { redirect_to [:admin, @payment], notice: 'Payment was successfully updated.' }
+          format.json { render :show, status: :ok, location: [:admin, @payment] }
+        else
+          format.html { render :edit }
+          format.json { render json: @payment.errors, status: :unprocessable_entity }
+        end
       end
     end
-  end
 
-  # DELETE /payments/1
-  # DELETE /payments/1.json
-  def destroy
-    @payment.destroy
-    respond_to do |format|
-      format.html { redirect_to admin_payments_url, notice: 'Payment was successfully destroyed.' }
-      format.json { head :no_content }
+    # DELETE /payments/1
+    # DELETE /payments/1.json
+    def destroy
+      @payment.destroy
+      respond_to do |format|
+        format.html { redirect_to admin_payments_url, notice: 'Payment was successfully destroyed.' }
+        format.json { head :no_content }
+      end
     end
-  end
 
-  private
+    private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_payment
       @payment = Payment.find(params[:id])
@@ -70,6 +72,8 @@ class Admin::PaymentsController < AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def payment_params
-      params.require(:payment).permit(:paid_at, :amount, :start_date, :end_date, :payment_type, :payment_form, :erip_transaction_id, :description, :project_id, :user_id)
+      params.require(:payment).permit(:paid_at, :amount, :start_date, :end_date, :payment_type, :payment_form,
+                                      :erip_transaction_id, :description, :project_id, :user_id)
     end
+  end
 end

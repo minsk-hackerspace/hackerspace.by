@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: tariffs
@@ -22,7 +24,7 @@ class Tariff < ApplicationRecord
   validates :monthly_price, numericality: { greater_than_or_equal_to: 0 }
 
   def name_with_price
-    "#{self.name} (#{self.monthly_price} BYN)"
+    "#{name} (#{monthly_price} BYN)"
   end
 
   def self.available_by(user)

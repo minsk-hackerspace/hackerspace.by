@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -26,10 +28,9 @@ class ApplicationController < ActionController::Base
       redirect_to new_user_session_url, alert: 'Вам необходимо войти в систему'
     else
       # render file: "#{Rails.root}/public/403.html", status: 403
-      redirect_back(fallback_location: root_path, alert: "У вас нет прав на выполнение этого действия")
+      redirect_back(fallback_location: root_path, alert: 'У вас нет прав на выполнение этого действия')
     end
   end
-
 
   def check_if_hs_open
     @event = Event.light.where('created_at >= ?', 30.minutes.ago).order(created_at: :desc).first
@@ -45,32 +46,32 @@ class ApplicationController < ActionController::Base
 
   def check_for_present_people
     d = Device.find_by(name: 'bob')
-    @hs_present_people = d.events.where('created_at >= ?', 5.minutes.ago).map { |e| e.value }
+    @hs_present_people = d.events.where('created_at >= ?', 5.minutes.ago).map(&:value)
     @hs_present_people.uniq!
   end
 
-    def calc_kitty_number
-      if user_signed_in? and !@hs_balance.nil?
-        @hs_kitty_number = Rails.cache.fetch "hs_kitty_number", expires_in: 3.hours do
-          three_months_ago_date = Time.now - 3.months
-          transactions = BankTransaction.where('created_at > ?', three_months_ago_date).where(irregular: false)
-          the_sum = transactions.sum(:minus)
-          (100 * @hs_balance / the_sum).round(1)
-
-        end
-      else
-        @hs_kitty_number = 0
+  def calc_kitty_number
+    if user_signed_in? && !@hs_balance.nil?
+      @hs_kitty_number = Rails.cache.fetch 'hs_kitty_number', expires_in: 3.hours do
+        three_months_ago_date = Time.now - 3.months
+        transactions = BankTransaction.where('created_at > ?', three_months_ago_date).where(irregular: false)
+        the_sum = transactions.sum(:minus)
+        (100 * @hs_balance / the_sum).round(1)
       end
-    end
-
-  def check_for_hs_balance
-    if user_signed_in?
-      # Fetches in app/services/fetch_bank_balance.rb
-      @hs_balance = Rails.cache.read "hs_balance"
+    else
+      @hs_kitty_number = 0
     end
   end
 
+  def check_for_hs_balance
+    return unless user_signed_in?
+
+    # Fetches in app/services/fetch_bank_balance.rb
+    @hs_balance = Rails.cache.read 'hs_balance'
+  end
+
   private
+
   def event_status
     @event.value == 'on' ? Hspace::OPENED : Hspace::CLOSED
   end

@@ -1,20 +1,20 @@
+# frozen_string_literal: true
+
 class NewsController < ApplicationController
-#  before_action :authenticate_user!, only: [:edit, :update, :destroy, :new, :create]
+  #  before_action :authenticate_user!, only: [:edit, :update, :destroy, :new, :create]
   load_and_authorize_resource
 
   def index
     @news = News.order(created_at: :desc).all
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @news = News.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @news = News.new(news_params)
@@ -53,10 +53,9 @@ class NewsController < ApplicationController
 
   private
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def news_params
-      params.require(:news).permit(:title, :short_desc, :description, :photo, :public, :markup_type,
-                                   :show_on_homepage_till_date, :show_on_homepage, :url
-      )
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def news_params
+    params.require(:news).permit(:title, :short_desc, :description, :photo, :public, :markup_type,
+                                 :show_on_homepage_till_date, :show_on_homepage, :url)
+  end
 end

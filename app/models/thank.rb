@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: thanks
@@ -23,22 +25,20 @@
 #
 
 class Thank < ApplicationRecord
-
-  SUPPORTED_MARKUPS = %w(html markdown)
+  SUPPORTED_MARKUPS = %w[html markdown].freeze
 
   belongs_to :user
 
   has_attached_file :photo,
                     styles: {
-                        original: '600x600>',
-                        medium: '400x400#',
-                        thumb: '200x200>'
+                      original: '600x600>',
+                      medium: '400x400#',
+                      thumb: '200x200>'
                     },
                     default_url: 'default.png'
 
-  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
+  validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}
   validates_attachment :photo, presence: true, size: { in: 0..3.megabytes }
-
 
   validates :name, uniqueness: true
   validates :name, :short_desc, presence: true
@@ -46,6 +46,6 @@ class Thank < ApplicationRecord
   scope :published, -> { where public: true }
 
   def name_with_id
-    "#{self.id}. #{self.name}"
+    "#{id}. #{name}"
   end
 end

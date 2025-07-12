@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HackersHelper
   def row_class(hacker)
     return if hacker.inactive?
