@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: projects
@@ -24,8 +26,7 @@
 #
 
 class Project < ApplicationRecord
-
-  SUPPORTED_MARKUPS = %w(html markdown)
+  SUPPORTED_MARKUPS = %w[html markdown].freeze
 
   belongs_to :user
   has_many :payments
@@ -38,10 +39,9 @@ class Project < ApplicationRecord
                     },
                     default_url: 'default.png'
 
-  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
+  validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}
   validates_attachment :photo, presence: true
-  #, size: { in: 0..3.megabytes }
-
+  # , size: { in: 0..3.megabytes }
 
   validates :name, uniqueness: true
   validates :name, :short_desc, :project_status, presence: true
@@ -49,7 +49,7 @@ class Project < ApplicationRecord
   scope :published, -> { where public: true }
 
   def name_with_id
-    "#{self.id}. #{self.name}"
+    "#{id}. #{name}"
   end
 
   def payments_sum

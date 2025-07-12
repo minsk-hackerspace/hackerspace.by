@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 require 'telegram/bot'
 
 class TelegramNotifier
   def initialize
-    raise "No token for telegram bot in the settings" if Setting['tgToken'].nil?
-    raise "No chat IDs for telegram bot set" if Setting['tgChatIds'].nil?
+    raise 'No token for telegram bot in the settings' if Setting['tgToken'].nil?
+    raise 'No chat IDs for telegram bot set' if Setting['tgChatIds'].nil?
 
     @bot = Telegram::Bot::Client.new(Setting['tgToken'], logger: Rails.logger)
-    @chats = Setting['tgChatIds'].split.map{|id| id.to_i}
+    @chats = Setting['tgChatIds'].split.map(&:to_i)
   end
 
   def send_message_to(chat_id, message)

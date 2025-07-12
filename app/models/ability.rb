@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Ability
   include CanCan::Ability
 
@@ -29,13 +31,13 @@ class Ability
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
 
-    alias_action :create, :read, :update, :destroy, :to => :crud
+    alias_action :create, :read, :update, :destroy, to: :crud
 
     # MainController is not REST conroller
     can :manage, :main
     cannot :chart, :main
 
-    can [:show, :index, :create, :new], Thank
+    can %i[show index create new], Thank
     can :read, Project
     can :read, News
     can :read, Tariff
@@ -46,17 +48,17 @@ class Ability
     can :add, Event
 
     # for bepaid notifications
-    can [:create, :bepaid_notify], EripTransaction
+    can %i[create bepaid_notify], EripTransaction
     # double previous line until fully understanding how cancancan works
-    can [:create, :bepaid_notify], :erip_transaction
+    can %i[create bepaid_notify], :erip_transaction
 
-    can [:ssh_keys, :detected_at_hackerspace, :find_by_mac, :useful], User
+    can %i[ssh_keys detected_at_hackerspace find_by_mac useful], User
 
     if user.present?
       can :chart, :main
       can :image, :uploader
-      can [:show, :index, :profile], User
-      can [:update, :edit, :add_mac, :remove_mac, :add_nfc, :remove_nfc], User, id: user.id
+      can %i[show index profile], User
+      can %i[update edit add_mac remove_mac add_nfc remove_nfc], User, id: user.id
       can :manage, Mac, user_id: user.id
       can :manage, NfcKey, user_id: user.id
       can :manage, PublicSshKey, user_id: user.id
@@ -73,15 +75,10 @@ class Ability
         news.user_id == user.id or news.public?
       end
 
-      if user.device?
-        can [:find_by_mac, :detected_at_hackerspace], User
-      end
+      can %i[find_by_mac detected_at_hackerspace], User if user.device?
 
-      if user.admin?
-        can :manage, :all
-      end
+      can :manage, :all if user.admin?
     end
     cannot :manage, NfcKey
-
   end
 end

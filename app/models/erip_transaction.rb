@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: erip_transactions
@@ -33,7 +35,7 @@
 #
 
 class EripTransaction < ApplicationRecord
-  has_one :hs_payment, class_name: "Payment"
+  has_one :hs_payment, class_name: 'Payment'
   belongs_to :user, optional: true
 
   serialize :billing_address, coder: JSON
@@ -44,7 +46,6 @@ class EripTransaction < ApplicationRecord
   validates :transaction_id, uniqueness: true
 
   def to_human_s
-    "...#{self.uid[-5..-1]}, status: #{self.status}, date: #{self.paid_at}, order: #{self.order_id}, amount: #{self.amount}"
+    "...#{uid[-5..]}, status: #{status}, date: #{paid_at}, order: #{order_id}, amount: #{amount}"
   end
-
 end

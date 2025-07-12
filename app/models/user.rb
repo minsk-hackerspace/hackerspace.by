@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: users
@@ -105,10 +107,10 @@ class User < ApplicationRecord
     guarantor1
     guarantor2
     paid_until
-    nfc_keys { |keys| keys.join(" ") }
+    nfc_keys { |keys| keys.join(' ') }
   end
 
-  ROLES = %w(hacker admin device)
+  ROLES = %w[hacker admin device].freeze
 
   has_many :projects
   has_many :macs
@@ -124,17 +126,17 @@ class User < ApplicationRecord
 
   has_attached_file :photo,
                     styles: {
-                        original: '600x600>',
-                        medium: '200x200#',
-                        thumb: '60x60'
+                      original: '600x600>',
+                      medium: '200x200#',
+                      thumb: '60x60'
                     },
                     default_url: 'default_hacker_avatar_60x60.png'
 
-  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
+  validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}
   validates_attachment :photo
-  #, size: { in: 0..3.megabytes }
+  # , size: { in: 0..3.megabytes }
 
-  validates :email, presence: true, uniqueness: true, length: {maximum: 255}
+  validates :email, presence: true, uniqueness: true, length: { maximum: 255 }
   validate :validate_guarantors
 
   scope :signed_in, -> { where.not(last_sign_in_at: nil) }
@@ -142,12 +144,14 @@ class User < ApplicationRecord
   scope :allowed, -> { where(account_suspended: [false, nil]).where(account_banned: [false, nil]) }
   scope :allowed_paid_or_signed_in, -> { allowed.paid.or(allowed.signed_in).uniq }
 
-  scope :banned, -> { where(account_banned: true)}
-  scope :not_banned, -> { where(account_banned: false)}
-  scope :suspended, -> { where(account_suspended: true)}
-  scope :not_suspended, -> { where(account_suspended: false)}
-  scope :suspended_today, -> { where(account_suspended: true)
-                              .where('suspended_changed_at > ?', Time.now - 1.day) }
+  scope :banned, -> { where(account_banned: true) }
+  scope :not_banned, -> { where(account_banned: false) }
+  scope :suspended, -> { where(account_suspended: true) }
+  scope :not_suspended, -> { where(account_suspended: false) }
+  scope :suspended_today, lambda {
+    where(account_suspended: true)
+      .where('suspended_changed_at > ?', Time.now - 1.day)
+  }
 
   after_save :update_bepaid_bill, :set_as_suspended
   before_save :set_tariff_changed_at
@@ -185,30 +189,29 @@ class User < ApplicationRecord
     payments.where('start_date >= ?', suspended_changed_at.to_date).order(start_date: :asc).first
   end
 
-
   # last day with valid payment for this user
   def paid_until
     last_payment&.end_date
   end
 
   def full_name
-    "#{self.first_name} #{self.last_name}"
+    "#{first_name} #{last_name}"
   end
 
   def full_name_with_id
-    "#{self.id}. #{self.first_name} #{self.last_name}"
+    "#{id}. #{first_name} #{last_name}"
   end
 
   def full_name_with_id_tg
-    tg = telegram_username.blank? ? "" : " @#{telegram_username}"
-    "#{self.id}. #{self.first_name} #{self.last_name}" + tg
+    tg = telegram_username.blank? ? '' : " @#{telegram_username}"
+    "#{id}. #{first_name} #{last_name}" + tg
   end
 
   def avatar_url(style)
-    if self.photo?
-      self.photo.url(style)
+    if photo?
+      photo.url(style)
     else
-      hash = Digest::MD5.hexdigest(self.email.to_s.downcase)
+      hash = Digest::MD5.hexdigest(email.to_s.downcase)
       geometry = User.new.photo.styles[style].try(:geometry)
       size = geometry ? geometry.split('x').first : ''
 
@@ -217,17 +220,17 @@ class User < ApplicationRecord
   end
 
   def monthly_payment_amount
-    s = self.tariff&.monthly_price
+    s = tariff&.monthly_price
     s.nil? ? 0 : s
   end
 
   def expected_payment_amount
     unpaid_days_amount = (Date.today - paid_until).to_i
     missing_payment_amount = if unpaid_days_amount < 14
-      (monthly_payment_amount * unpaid_days_amount.to_f / 30).ceil(2)
-    else
-      0
-    end
+                               (monthly_payment_amount * unpaid_days_amount.to_f / 30).ceil(2)
+                             else
+                               0
+                             end
     missing_payment_amount + monthly_payment_amount
   end
 
@@ -240,7 +243,7 @@ class User < ApplicationRecord
   end
 
   def access_allowed?
-    active? && self.tariff&.access_allowed
+    active? && tariff&.access_allowed
   end
 
   def set_as_suspended
@@ -257,7 +260,7 @@ class User < ApplicationRecord
     return if account_suspended?
 
     transaction do
-      #simple update without callbacks
+      # simple update without callbacks
       update_columns(account_suspended: true, suspended_changed_at: Time.now)
     end
 
@@ -268,37 +271,37 @@ class User < ApplicationRecord
     return unless account_suspended?
 
     transaction do
-      #simple update without callbacks
+      # simple update without callbacks
       update_columns(account_suspended: false, suspended_changed_at: Time.now)
     end
 
     begin
-    # TODO move this to another methods/classes, one method - one action
+      # TODO: move this to another methods/classes, one method - one action
       NotificationsMailer.with(user: self).notify_about_unsuspend.deliver_later
-    rescue => e
-      Rails.logger.warn "Failed to send notification e-mail: " + e.message
+    rescue StandardError => e
+      Rails.logger.warn "Failed to send notification e-mail: #{e.message}"
       Rails.logger.warn e.backtrace.join("\n")
     end
 
     begin
       tg = TelegramNotifier.new
-      t = telegram_username.blank? ? "" : " @#{telegram_username}"
+      t = telegram_username.blank? ? '' : " @#{telegram_username}"
       m = "Участник №#{id} (#{full_name}#{t}) снова с нами! Оплачено по #{paid_until}."
       tg.send_message_to_all(m)
-    rescue
-      Rails.logger.warn "Telegram notification failed"
+    rescue StandardError
+      Rails.logger.warn 'Telegram notification failed'
     end
   end
 
   def generate_tg_auth_token!
-    return tg_auth_token if tg_auth_token.present? and Time.now < tg_auth_token_expiry
+    return tg_auth_token if tg_auth_token.present? && (Time.now < tg_auth_token_expiry)
 
-    self.update(tg_auth_token:  SecureRandom.alphanumeric(20), tg_auth_token_expiry: Time.now + 1.day)
+    update(tg_auth_token: SecureRandom.alphanumeric(20), tg_auth_token_expiry: Time.now + 1.day)
     tg_auth_token
   end
 
   def self.find_by_auth_token(token)
-    self.where(tg_auth_token: token).where('tg_auth_token_expiry > ?', Time.now).first
+    where(tg_auth_token: token).where('tg_auth_token_expiry > ?', Time.now).first
   end
 
   def able_to_change_tariff_now?
@@ -314,7 +317,8 @@ class User < ApplicationRecord
   end
 
   def set_password
-    return if self.password.present?
+    return if password.present?
+
     self.password = Devise.friendly_token.first(10)
   end
 
@@ -325,17 +329,20 @@ class User < ApplicationRecord
   end
 
   def validate_guarantors
-    errors.add(:guarantor1_id, "is invalid") if self.guarantor1_id.present? and self.guarantor1_id == self.id
-    errors.add(:guarantor2_id, "is invalid") if self.guarantor2_id.present? and self.guarantor2_id == self.id
-    errors.add(:guarantor1_id, "shouldn't be same as Guarantor2") if self.guarantor1_id.present? and self.guarantor1_id == self.guarantor2_id
+    errors.add(:guarantor1_id, 'is invalid') if guarantor1_id.present? && (guarantor1_id == id)
+    errors.add(:guarantor2_id, 'is invalid') if guarantor2_id.present? && (guarantor2_id == id)
+    return unless guarantor1_id.present? && (guarantor1_id == guarantor2_id)
+
+    errors.add(:guarantor1_id,
+               "shouldn't be same as Guarantor2")
   end
 
   def tariff_changes
     return if admin? || updating_by.nil? || updating_by.admin?
 
-    if tariff_id_changed? && tariff_changed_at && next_tariff_change_date > Time.now
-      errors.add(:tariff, "You able change tariff once per #{Tariff::CHANGE_LIMIT_IN_DAYS} days.")
-    end
+    return unless tariff_id_changed? && tariff_changed_at && next_tariff_change_date > Time.now
+
+    errors.add(:tariff, "You able change tariff once per #{Tariff::CHANGE_LIMIT_IN_DAYS} days.")
   end
 
   def next_tariff_change_date
@@ -351,13 +358,14 @@ class User < ApplicationRecord
   end
 
   def check_role(role)
-    self.roles.map(&:name).include? role
+    roles.map(&:name).include? role
   end
 
   def self.paid_within_period(start_date, end_date)
     # commented temporary to fix balance chart
     # Rails.cache.fetch [start_date, end_date, :paid_within_period] do
-      left_outer_joins(:payments).where(payments: {start_date: [Time.at(0)..end_date], end_date: [start_date..Date::Infinity.new]}).distinct
+    left_outer_joins(:payments).where(payments: { start_date: [Time.at(0)..end_date],
+                                                  end_date: [start_date..Date::Infinity.new] }).distinct
     # end
   end
 
@@ -366,24 +374,26 @@ class User < ApplicationRecord
       graph = []
       start_date = start_date.beginning_of_month
       end_date = end_date.end_of_month
-      dates = (start_date..end_date).to_a.select {|d| d == d.beginning_of_month}
+      dates = (start_date..end_date).to_a.select { |d| d == d.beginning_of_month }
       dates << end_date unless dates.include? end_date
 
-
       dates.each_index do |i|
-        graph << [dates[i], self.paid_within_period(dates[i], dates[i+1]).group(:id).count.count] unless i >= dates.size - 1
+        unless i >= dates.size - 1
+          graph << [dates[i],
+                    paid_within_period(dates[i], dates[i + 1]).group(:id).count.count]
+        end
       end
       graph
     end
   end
 
-  #TODO: maybe place this to concerns?
+  # TODO: maybe place this to concerns?
 
   def update_bepaid_bill
-    unless account_banned
-      create_bepaid_bill
-    else
+    if account_banned
       delete_bepaid_bill
+    else
+      create_bepaid_bill
     end
   end
 
@@ -397,7 +407,7 @@ class User < ApplicationRecord
 
     amount = user.monthly_payment_amount
 
-    #amount is (amoint in BYN)*100
+    # amount is (amoint in BYN)*100
     bill = {
       request: {
         amount: (amount * 100).to_i,
@@ -409,14 +419,14 @@ class User < ApplicationRecord
         order_id: '4444',
         customer: {
           first_name: 'Cool',
-          last_name: 'Hacker',
+          last_name: 'Hacker'
         },
         payment_method: {
           type: 'erip',
           account_number: 444,
           permanent: 'true',
           editable_amount: 'true',
-          service_no: Setting['bePaid_serviceNo'],
+          service_no: Setting['bePaid_serviceNo']
         }
       }
     }
@@ -430,10 +440,10 @@ class User < ApplicationRecord
     begin
       res = bp.post_bill bill
       logger.debug JSON.pretty_generate res
-    rescue  => e
+    rescue StandardError => e
       logger.error e.message
       logger.error e.http_body if e.respond_to? :http_body
-      user.errors.add :base, "Не удалось создать счёт в bePaid, проверьте лог"
+      user.errors.add :base, 'Не удалось создать счёт в bePaid, проверьте лог'
     end
   end
 
@@ -446,18 +456,18 @@ class User < ApplicationRecord
 
     begin
       bill = bp.bill(order_id: user.id)
-    rescue
+    rescue StandardError
       logger.debug "Bill for user #{user.id} not found, nothing to delete"
       return
     end
 
     begin
-      res = bp.delete_bill bill["transaction"]["id"]
-      logger.debug "Bill #{user.id} deleted: #{res["message"]}"
-    rescue  => e
+      res = bp.delete_bill bill['transaction']['id']
+      logger.debug "Bill #{user.id} deleted: #{res['message']}"
+    rescue StandardError => e
       logger.error e.message
       logger.error e.http_body if e.respond_to? :http_body
-      user.errors.add :base, "Не удалось удалить счёт в bePaid, проверьте лог"
+      user.errors.add :base, 'Не удалось удалить счёт в bePaid, проверьте лог'
     end
   end
 end

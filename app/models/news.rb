@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: news
@@ -26,15 +28,15 @@ class News < ApplicationRecord
 
   has_attached_file :photo,
                     styles: {
-                        original: '600x600>',
-                        medium: '500x500#',
-                        thumb: '200x200>'
+                      original: '600x600>',
+                      medium: '500x500#',
+                      thumb: '200x200>'
                     },
                     default_url: '/images/default.png'
 
-  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
+  validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}
   validates_attachment :photo
-  #, size: { in: 0..3.megabytes }
+  # , size: { in: 0..3.megabytes }
   validates :markup_type, inclusion: SUPPORTED_MARKUPS
   validates :show_on_homepage_till_date, presence: true, if: :show_on_homepage
 
