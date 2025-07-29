@@ -5,10 +5,10 @@
 # Table name: public_ssh_keys
 #
 #  id         :integer          not null, primary key
-#  body       :text
-#  user_id    :integer          not null
+#  body       :text             not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  user_id    :integer          not null
 #
 # Indexes
 #
