@@ -71,7 +71,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen'
   gem 'thin', platform: :ruby
-  # gem 'annotate'
+  gem 'annotaterb'
   gem 'letter_opener'
   # Ruby deployment tool (like Ansible, but in Ruby)
   gem 'mina', '~> 1.2'

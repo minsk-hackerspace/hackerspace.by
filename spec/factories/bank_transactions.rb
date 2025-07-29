@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: bank_transactions
+#
+#  id              :integer          not null, primary key
+#  contractor      :string
+#  document_number :string
+#  irregular       :boolean          default(FALSE)
+#  minus           :float
+#  note            :string
+#  our_account     :string
+#  plus            :float
+#  purpose         :string
+#  their_account   :string
+#  unp             :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+# Indexes
+#
+#  index_bank_transactions_on_created_at  (created_at)
+#  index_bank_transactions_on_updated_at  (updated_at)
+#
 FactoryBot.define do
   factory :bank_transaction do
     plus { 0.0 }
