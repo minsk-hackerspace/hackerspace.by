@@ -119,6 +119,10 @@ GEM
     connection_pool (2.5.3)
     crass (1.0.6)
     daemons (1.4.1)
+    database_cleaner-active_record (2.2.2)
+      activerecord (>= 5.a)
+      database_cleaner-core (~> 2.0)
+    database_cleaner-core (2.0.1)
     date (3.4.1)
     devise (4.9.4)
       bcrypt (~> 3.0)
@@ -502,6 +506,7 @@ DEPENDENCIES
   chartkick
   coffee-rails
   comma
+  database_cleaner-active_record
   devise
   devise-i18n
   domain_name
