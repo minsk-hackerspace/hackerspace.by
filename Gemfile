@@ -96,6 +96,7 @@ group :test do
   gem 'rails-controller-testing'
   gem 'simplecov', require: false
   gem 'simplecov-cobertura', require: false
+  gem 'database_cleaner-active_record'
 end
 
 group :production do
