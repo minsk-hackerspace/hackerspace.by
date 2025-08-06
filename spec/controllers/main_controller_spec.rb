@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe MainController, type: :controller do
   let(:admin_user) { create :admin_user }
+  let!(:event) { create :event }
 
   describe "GET 'index'" do
     it "returns http success" do
