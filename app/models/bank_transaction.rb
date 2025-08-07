@@ -72,8 +72,8 @@ class BankTransaction < ApplicationRecord
 
   def self.cleanup_input(records)
     records = records.split("\r\n")
-    transactions_start = records.index records.select { |r| r.include?('Код банка'.force_encoding('utf-8')) }.first
-    transactions_end = records.index records.select { |r| r.include?('Итого'.force_encoding('utf-8')) }.first
+    transactions_start = records.index records.select { |r| r.include?('Код банка'.dup.force_encoding('utf-8')) }.first
+    transactions_end = records.index records.select { |r| r.include?('Итого'.dup.force_encoding('utf-8')) }.first
     records[transactions_start + 1..transactions_end - 1]
   end
 end
