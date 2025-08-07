@@ -19,11 +19,14 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe Admin::EripTransactionsController, type: :controller do
-
   let(:user) { FactoryBot.create(:admin_user) }
 
   before do
     sign_in user
+    allow(Setting).to receive(:[]).with('mailer_from').and_return('info@hackerspace.by')
+    allow(Setting).to receive(:[]).with('bePaid_ID').and_return('test')
+    allow(Setting).to receive(:[]).with('bePaid_secret').and_return('test')
+    allow(Setting).to receive(:[]).with('bePaid_serviceNo').and_return(248)
   end
 
  # This should return the minimal set of attributes required to create a valid
@@ -36,6 +39,8 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
   let(:invalid_attributes) {
     skip("Add a hash of attributes invalid for your model")
   }
+
+  let!(:account_user) { create :user }
 
   let(:bepaid_notification) {
     {
@@ -78,7 +83,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
         "erip":{
           "request_id":"00000001",
           "service_no":248,
-          "account_number":"2",
+          "account_number": account_user.id.to_s,
           "transaction_id":"0000001",
           "service_info":["Оплата заказа 123"],
           "instruction": ["'Расчёт' ЕРИП-> Интернет-магазины/сервисы-> B -> bePaid.by"],
@@ -129,7 +134,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
         "erip":{
           "request_id":"00000001",
           "service_no":249,
-          "account_number":"2",
+          "account_number": account_user.id.to_s,
           "transaction_id":"0000001",
           "service_info":["Оплата заказа 123"],
           "instruction": ["'Расчёт' ЕРИП-> Интернет-магазины/сервисы-> B -> bePaid.by"],
@@ -273,8 +278,6 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
 
   describe "POST  #bepaid_notify" do
     it "rejects unauthorized bePaid notification" do
-      EripTransaction.destroy_all
-      Payment.destroy_all
       expect {
         post :bepaid_notify, params: bepaid_notification, format: :json
       }.to_not change(EripTransaction, :count)
@@ -286,8 +289,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
   describe "POST #bepaid_notify" do
     it "handles a valid notification from bePaid" do
       bp_notify_auth
-      EripTransaction.destroy_all
-      Payment.destroy_all
+
       expect {
         post :bepaid_notify, params: bepaid_notification, format: :json
       }.to change(EripTransaction, :count).by(1)
@@ -303,8 +305,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
       expect(et.hs_payment.payment_type).to eq("membership")
       expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
       expect(et.hs_payment.start_date).to eq(et.hs_payment.paid_at.to_date)
-      expect(et.hs_payment.end_date).to eq(et.hs_payment.paid_at.to_date + (10.0 / 70.0 * 30 - 1).to_i.days)
-
+      expect(et.hs_payment.end_date).to eq(et.hs_payment.paid_at.to_date + (10.0 / account_user.monthly_payment_amount * 30 - 1).to_i.days)
     end
   end
 
@@ -318,8 +319,6 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
 
     it "rejects duplicated notification from bePaid" do
       bp_notify_auth
-      EripTransaction.destroy_all
-      Payment.destroy_all
       expect {
         post :bepaid_notify, params: bepaid_notification, format: :json
       }.to change(EripTransaction, :count).by(1)
@@ -337,8 +336,6 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
   describe "POST #bepaid_notify" do
     it "handles a valid notification from bePaid with failed transaction" do
       bp_notify_auth
-      EripTransaction.destroy_all
-      Payment.destroy_all
       expect {
         bp = bepaid_notification.dup
         bp[:transaction][:status] = 'failed'
@@ -356,8 +353,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
   describe "POST #bepaid_notify" do
     it "handles a valid notification from bePaid with monthly amount" do
       bp_notify_auth
-      EripTransaction.destroy_all
-      Payment.destroy_all
+
       bp_notification_m = bepaid_notification.dup
       bp_notification_m[:transaction][:amount] = 7000
       expect {
@@ -382,8 +378,6 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
   describe "POST #bepaid_notify" do
     it "handles a valid notification from bePaid with big (two months and few days) amount" do
       bp_notify_auth
-      EripTransaction.destroy_all
-      Payment.destroy_all
       bp_notification_m = bepaid_notification.dup
       bp_notification_m[:transaction][:amount] = 15400
       expect {
@@ -408,8 +402,6 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
   describe "POST #bepaid_notify" do
     it "handles a valid notification from bePaid with big (two months exactly) amount" do
       bp_notify_auth
-      EripTransaction.destroy_all
-      Payment.destroy_all
       bp_notification_m = bepaid_notification.dup
       bp_notification_m[:transaction][:amount] = 14000
       expect {
@@ -433,8 +425,6 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
   describe "POST #bepaid_notify" do
     it "handles a valid notification from bePaid with too small amount" do
       bp_notify_auth
-      EripTransaction.destroy_all
-      Payment.destroy_all
       bp_notification_m = bepaid_notification.dup
       bp_notification_m[:transaction][:amount] = 100
       expect {
@@ -459,8 +449,6 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
   describe "POST #bepaid_notify for old user" do
     it "handles a valid notification from bePaid, last payment was > 2 weeks ago" do
       bp_notify_auth
-      EripTransaction.destroy_all
-      Payment.destroy_all
       p = Payment.create(paid_at: DateTime.parse('2016-12-07T14:40:12.010Z').to_date - 5.weeks,
                     amount: 10,
                     start_date: DateTime.parse('2016-12-07T14:40:12.010Z').to_date - 5.weeks,
@@ -492,8 +480,7 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
   describe "POST #bepaid_notify for old user" do
     it "handles a valid notification from bePaid, last payment was less than 2 weeks ago" do
       bp_notify_auth
-      EripTransaction.destroy_all
-      Payment.destroy_all
+
       p = Payment.create(paid_at: DateTime.parse('2016-12-07T14:40:12.010Z').to_date - 2.weeks,
                     amount: 10,
                     start_date: DateTime.parse('2016-12-07T14:40:12.010Z').to_date - 2.weeks,
@@ -523,10 +510,10 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
   end
 
   describe "POST #bepaid_notify for donation" do
+    let(:account_user) { create :project }
     it "handles a valid notification about donation from bePaid" do
       bp_notify_auth
-      EripTransaction.destroy_all
-      Payment.destroy_all
+
       expect {
         post :bepaid_notify, params: bepaid_notification_donation, format: :json
       }.to change(EripTransaction, :count).by(1)
@@ -542,10 +529,8 @@ RSpec.describe Admin::EripTransactionsController, type: :controller do
       expect(et.hs_payment.paid_at).to eq(DateTime.parse('2016-12-07T14:40:12.010Z'))
       expect(et.hs_payment.start_date).to be_nil
       expect(et.hs_payment.end_date).to be_nil
-      expect(et.hs_payment.project.id).to eq(2)
-      expect(et.hs_payment.project.name).to eq(Project.find(2).name)
+      expect(et.hs_payment.project.id).to eq(account_user.id)
+      expect(et.hs_payment.project.name).to eq(account_user.name)
     end
   end
-
-
 end

@@ -14,6 +14,6 @@
 #
 FactoryBot.define do
   factory :tariff do
-    monthly_price { 0 } 
+    monthly_price { 70 }
   end
 end
