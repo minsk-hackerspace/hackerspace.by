@@ -29,5 +29,11 @@ FactoryBot.define do
     their_account { "000" }
     our_account { "111" }
     document_number { "1234" }
+    # their_account { "BY00UNBS00000000000000000000" }
+    # our_account { "BY50BLBB30150102386174001001" }
+    irregular { false }
+    note { "Test transaction" }
+    contractor { "Test Contractor" }
+    purpose { "Test Purpose" }
   end
 end
