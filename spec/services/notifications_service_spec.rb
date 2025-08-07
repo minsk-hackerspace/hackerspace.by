@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 describe NotificationsService do
+  before do
+    allow(Setting).to receive(:[]).with('mailer_from').and_return('info@hackerspace.by')
+    allow(Setting).to receive(:[]).with('test_notifications_email').and_return(nil)
+    allow(Setting).to receive(:[]).with('mailer_user').and_return(nil)
+  end
+
   describe '.notify_expiring' do
     let!(:user_without_payment) { create :user }
     let!(:user_with_outdated_payment) { create :user, :with_outdated_payment   }
