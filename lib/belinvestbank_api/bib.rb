@@ -50,7 +50,7 @@ module BelinvestbankApi
       doc = Nokogiri::HTML(r.body)
 
       keyLang = doc.css('script').find do |data|
-        parse_keyLang(data)
+        Belinvestbankapi.parse_keyLang(data)
       end || ''
 
       begin
