@@ -41,7 +41,7 @@ module BelinvestbankApi
     # 3a. (2) returns redirect to https://login.belinvestbank.by/signin and this page contains string 'showDialog' -> reset session (POST /confirmationCloseSession) and follow by redirects
     # 3b. (2) returns 200 -> auth failed
 
-
+    # TODO add tests
     def login
       r = query_login :get, '/signin'
 
