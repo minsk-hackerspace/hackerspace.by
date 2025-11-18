@@ -49,9 +49,9 @@ module BelinvestbankApi
 
       keyLang = ''
       doc.css('script').each do |data|
-        if data.to_s =~ /var keyLang =\s*(.*);/ then
+        if data.to_s =~ /keyLang":\[([^\]]+)/ then
           str = $1
-          keyLang = str[1..-2].split(',').map {|e| e[1..-2].to_i}
+          keyLang = str.split(',').map {|e| e.to_i}
         end
       end
 
