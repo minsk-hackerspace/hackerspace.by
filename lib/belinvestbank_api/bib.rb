@@ -4,6 +4,8 @@
 require 'rest-client'
 require 'nokogiri'
 
+require_relative 'bib_parse'
+
 
 module BelinvestbankApi
   HEADERS = {
@@ -47,13 +49,9 @@ module BelinvestbankApi
 
       doc = Nokogiri::HTML(r.body)
 
-      keyLang = ''
-      doc.css('script').each do |data|
-        if data.to_s =~ /keyLang":\[([^\]]+)/ then
-          str = $1
-          keyLang = str.split(',').map {|e| e.to_i}
-        end
-      end
+      keyLang = doc.css('script').find do |data|
+        parse_keyLang(data)
+      end || ''
 
       begin
         r = query_login :post, '/signin', {login: @login, password: encode_password(@password, keyLang), typeSessionKey: 0}
