@@ -1,21 +1,25 @@
+# Make sure RUBY_VERSION matches the Ruby version in .ruby-version
 FROM ruby:3.4.7
 
-# Install system dependencies
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs yarn \
- && rm -rf /var/lib/apt/lists/*
+# Rails app lives here
+WORKDIR /rails
 
-WORKDIR /app
-EXPOSE 3000
+# Install packages needed to build gems
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential libpq-dev nodejs && \
+    rm -rf /var/lib/apt/lists/*
 
-COPY Gemfile Gemfile.lock Rakefile ./
-RUN bundle version
-RUN gem install bundler
+# Install application gems
+COPY Gemfile Gemfile.lock ./
 RUN bundle install --without production
 
-COPY bin/entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
+# Copy application code
+COPY . .
 
+# Entrypoint prepares the database
+ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+
+EXPOSE 3000
 CMD cp config/database.example.yml config/database.yml \
  && rake db:create \
  && rake db:migrate \
