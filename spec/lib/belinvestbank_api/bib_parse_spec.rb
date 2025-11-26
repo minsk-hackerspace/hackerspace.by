@@ -6,7 +6,7 @@ describe BelinvestbankApi::Parse do
   describe '::keyLang' do
     context "..Testing keylang parser input and output" do
       it 'returns expected output' do
-        input = File.read(Rails.root.join("spec/lib/belinvestbank_api/testdata/login.belinvestbank.by_signin"))
+        input = File.read("spec/lib/belinvestbank_api/testdata/login.belinvestbank.by_signin")
         expected = [50, 82, 76, 46, 73, 105, 1070, 1093, 112, 1052, 70, 115, 1099, 1048, 51, 1051, 108, 1053, 1080, 120,
                     1072, 49, 1091, 98, 53, 55, 121, 1056, 1101, 65, 116, 1045, 1097, 85, 103, 1057, 1058, 1098, 122,
                     74, 1049, 97, 1044, 56, 1069, 77, 88, 1087, 114, 1061, 100, 119, 1089, 1083, 106, 1096, 1064, 1073,
