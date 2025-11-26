@@ -15,13 +15,13 @@ module BelinvestbankApi
   }
 
   class Bib
-
-    def initialize(base_url, login_base_url, login, password)
+    def initialize(base_url = Setting['bib_baseURL'], login_base_url = Setting['bib_loginBaseURL'],
+                   login_name = Setting['bib_login'], password = Setting['bib_password'])
       @base_url = base_url
       @base_url = @base_url[0..-2] if @base_url[-1] == '/'
       @login_base_url = login_base_url
       @login_base_url = @login_base_url[0..-2] if @login_base_url[-1] == '/'
-      @login = login
+      @login_name = login_name
       @password = password
       @cookies = {}
       @referrer = nil
@@ -53,7 +53,7 @@ module BelinvestbankApi
       end || ''
 
       begin
-        r = query_login :post, '/signin', {login: @login, password: encode_password(@password, keyLang), typeSessionKey: 0}
+        r = query_login :post, '/signin', {login: @login_name, password: encode_password(@password, keyLang), typeSessionKey: 0}
 
         if r.code == 200
           raise "Bank auth failed"
@@ -93,7 +93,7 @@ module BelinvestbankApi
     end
 
     def logout
-        query :get, '/logout'
+      query :get, '/logout'
     end
 
     def fetch_accounts
@@ -125,13 +125,7 @@ module BelinvestbankApi
 
     private
 
-    def cookies(url)
-      @cookies
-    end
-
-    def set_cookies(url, cookies)
-      @cookies = cookies
-    end
+    attr_accessor :cookies
 
     def query_common(base_url, method, path, body = nil)
       begin
@@ -139,12 +133,12 @@ module BelinvestbankApi
           url: base_url + path,
           headers: HEADERS.merge(referrer: @referrer),
           payload: body,
-          cookies: cookies(base_url)
+          cookies: cookies
 
-        set_cookies(base_url, r.cookie_jar)
+        self.cookies = r.cookie_jar
         @referrer = r.net_http_res.uri
       rescue RestClient::Exception => e
-        set_cookies(base_url, e.response.cookie_jar) if e.response and e.response.cookies
+        self.cookies = e.response.cookie_jar if e.response and e.response.cookies
         raise e
       end
       r
@@ -182,5 +176,3 @@ module BelinvestbankApi
   end
 
 end
-
-
