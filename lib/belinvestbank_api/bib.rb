@@ -6,7 +6,6 @@ require 'nokogiri'
 
 require_relative 'bib_parse'
 
-
 module BelinvestbankApi
   HEADERS = {
     accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',

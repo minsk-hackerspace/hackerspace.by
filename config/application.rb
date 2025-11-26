@@ -23,7 +23,6 @@ module Hspace
       ignore: %w[
         bp_create.rb
         belinvestbank_api/bib_parse.rb
-        belinvestbank_api/bib_test.rb
       ]
     )
 
