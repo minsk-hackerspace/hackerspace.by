@@ -6,7 +6,7 @@ class Belinvestbank
   def self.fetch_balance
     return nil if Setting['bib_login'].blank? || Setting['bib_password'].blank?
 
-    bib = BelinvestbankApi::Bib.new
+    bib = BelinvestbankApi::Bib.new(Setting.bib_options)
     balance_accounts = Setting['bib_balanceAccounts'].split(' ')
     accounts = nil
     begin

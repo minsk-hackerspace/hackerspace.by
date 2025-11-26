@@ -15,14 +15,13 @@ module BelinvestbankApi
   }
 
   class Bib
-    def initialize(base_url = Setting['bib_baseURL'], login_base_url = Setting['bib_loginBaseURL'],
-                   login_name = Setting['bib_login'], password = Setting['bib_password'])
-      @base_url = base_url
+    def initialize(options = {})
+      @base_url = options[:base_url]
       @base_url = @base_url[0..-2] if @base_url[-1] == '/'
-      @login_base_url = login_base_url
+      @login_base_url = options[:login_base_url]
       @login_base_url = @login_base_url[0..-2] if @login_base_url[-1] == '/'
-      @login_name = login_name
-      @password = password
+      @login_name = options[:login_name]
+      @password = options[:password]
       @cookies = {}
       @referrer = nil
       RestClient.log = STDERR

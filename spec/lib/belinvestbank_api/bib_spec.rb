@@ -3,7 +3,7 @@ require 'rails_helper'
 require_relative "../../../lib/belinvestbank_api/bib_parse.rb"
 
 describe BelinvestbankApi::Bib do
-  let(:bib) { described_class.new }
+  let(:bib) { described_class.new Setting.bib_options }
 
   describe '.initialize' do
     it 'returns valid Bib instance' do

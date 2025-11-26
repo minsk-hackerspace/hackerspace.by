@@ -16,7 +16,7 @@ RSpec.describe Belinvestbank, type: :model do
       allow(Setting).to receive(:[]).with('bib_login').and_return('user')
       allow(Setting).to receive(:[]).with('bib_password').and_return('pass')
       allow(Setting).to receive(:[]).with('bib_baseURL').and_return('http://example.com')
-      allow(Setting).to receive(:[]).with(:bib_loginBaseURL).and_return('http://login.example.com')
+      allow(Setting).to receive(:[]).with('bib_loginBaseURL').and_return('http://login.example.com')
       allow(Setting).to receive(:[]).with('bib_balanceAccounts').and_return('BY50BLBB30150102386174001001 BY57BLBB31350102386174001001')
       allow(BelinvestbankApi::Bib).to receive(:new).and_return(bib_api)
       allow(bib_api).to receive(:login)
