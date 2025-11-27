@@ -34,4 +34,13 @@ class Setting < ApplicationRecord
     s.value = value
     s.save
   end
+
+  def self.bib_options
+    {
+      base_url: Setting['bib_baseURL'],
+      login_base_url: Setting['bib_loginBaseURL'],
+      login_name: Setting['bib_login'],
+      password: Setting['bib_password']
+    }
+  end
 end

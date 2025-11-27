@@ -34,12 +34,7 @@ class BankTransaction < ApplicationRecord
   scope :inpayments, -> { where('plus > 0') }
 
   def self.get_transactions(from = (Time.now - 45.days).strftime('%d.%m.%Y'), to = Time.now.strftime('%d.%m.%Y'))
-    login = Setting['bib_login']
-    password = Setting['bib_password']
-    base_url = Setting['bib_baseURL']
-    login_base_url = Setting['bib_loginBaseURL']
-
-    bib = BelinvestbankApi::Bib.new(base_url, login_base_url, login, password)
+    bib = BelinvestbankApi::Bib.new(Setting.bib_options)
     accounts = nil
     bib.login
     account_numbers = %w[BY50BLBB30150102386174001001 BY57BLBB31350102386174001001]

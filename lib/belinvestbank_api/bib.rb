@@ -4,6 +4,7 @@
 require 'rest-client'
 require 'nokogiri'
 
+require_relative 'bib_parse'
 
 module BelinvestbankApi
   HEADERS = {
@@ -14,14 +15,13 @@ module BelinvestbankApi
   }
 
   class Bib
-
-    def initialize(base_url, login_base_url, login, password)
-      @base_url = base_url
+    def initialize(options = {})
+      @base_url = options[:base_url]
       @base_url = @base_url[0..-2] if @base_url[-1] == '/'
-      @login_base_url = login_base_url
+      @login_base_url = options[:login_base_url]
       @login_base_url = @login_base_url[0..-2] if @login_base_url[-1] == '/'
-      @login = login
-      @password = password
+      @login_name = options[:login_name]
+      @password = options[:password]
       @cookies = {}
       @referrer = nil
       RestClient.log = STDERR
@@ -47,16 +47,12 @@ module BelinvestbankApi
 
       doc = Nokogiri::HTML(r.body)
 
-      keyLang = ''
-      doc.css('script').each do |data|
-        if data.to_s =~ /keyLang":\[([^\]]+)/ then
-          str = $1
-          keyLang = str.split(',').map {|e| e.to_i}
-        end
-      end
+      keyLang = doc.css('script').find do |data|
+        Belinvestbankapi::Parse::keyLang(data)
+      end || ''
 
       begin
-        r = query_login :post, '/signin', {login: @login, password: encode_password(@password, keyLang), typeSessionKey: 0}
+        r = query_login :post, '/signin', {login: @login_name, password: encode_password(@password, keyLang), typeSessionKey: 0}
 
         if r.code == 200
           raise "Bank auth failed"
@@ -96,7 +92,7 @@ module BelinvestbankApi
     end
 
     def logout
-        query :get, '/logout'
+      query :get, '/logout'
     end
 
     def fetch_accounts
@@ -128,13 +124,7 @@ module BelinvestbankApi
 
     private
 
-    def cookies(url)
-      @cookies
-    end
-
-    def set_cookies(url, cookies)
-      @cookies = cookies
-    end
+    attr_accessor :cookies
 
     def query_common(base_url, method, path, body = nil)
       begin
@@ -142,12 +132,12 @@ module BelinvestbankApi
           url: base_url + path,
           headers: HEADERS.merge(referrer: @referrer),
           payload: body,
-          cookies: cookies(base_url)
+          cookies: cookies
 
-        set_cookies(base_url, r.cookie_jar)
+        self.cookies = r.cookie_jar
         @referrer = r.net_http_res.uri
       rescue RestClient::Exception => e
-        set_cookies(base_url, e.response.cookie_jar) if e.response and e.response.cookies
+        self.cookies = e.response.cookie_jar if e.response and e.response.cookies
         raise e
       end
       r
@@ -185,5 +175,3 @@ module BelinvestbankApi
   end
 
 end
-
-

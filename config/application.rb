@@ -19,7 +19,12 @@ module Hspace
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.autoload_lib(ignore: %w(bp_create.rb))
+    config.autoload_lib(
+      ignore: %w[
+        bp_create.rb
+        belinvestbank_api/bib_parse.rb
+      ]
+    )
 
     config.time_zone = 'Minsk'
     config.i18n.default_locale = :ru
