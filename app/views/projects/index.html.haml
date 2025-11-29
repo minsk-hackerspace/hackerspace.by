@@ -7,7 +7,7 @@
         %h2
           = link_to project.name_with_id, project_path(project)
         %p
-          = link_to image_tag(project.photo.url(:medium), class: 'left-block img-fluid'), project_path(project)
+          = link_to image_tag(project.photo.variant(:medium), class: 'left-block img-fluid'), project_path(project)
         %p
           %em
             Статус:
