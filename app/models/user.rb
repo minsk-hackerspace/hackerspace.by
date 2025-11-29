@@ -124,26 +124,13 @@ class User < ApplicationRecord
   belongs_to :guarantor1, class_name: 'User', optional: true
   belongs_to :guarantor2, class_name: 'User', optional: true
 
-  # TODO remove after ActiveStorage data migration
-  has_attached_file :photo,
-                    styles: {
-                      original: '600x600>',
-                      medium: '200x200#',
-                      thumb: '60x60'
-                    },
-                    default_url: 'default_hacker_avatar_60x60.png'
-
-  validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}
-  validates_attachment :photo
-  # , size: { in: 0..3.megabytes }
-
-  # TODO uncomment after ActiveStorage data migration
-  # has_one_attached :photo do |attachable|
-  #   attachable.variant :original, resize_to_limit: [600, 600], preprocessed: true
-  #   attachable.variant :medium, resize_to_limit: [200, 200], preprocessed: true
-  #   attachable.variant :thumb, resize_to_limit: [60, 60], preprocessed: true
-  # end
-  # validates :photo, content_type: ['image/png', 'image/jpeg'], size: { less_than: 3.megabytes }, if: -> { photo.attached? }
+  # TODO  default_url: 'default_hacker_avatar_60x60.png'
+  has_one_attached :photo do |attachable|
+    attachable.variant :original, resize_to_limit: [600, 600], preprocessed: true
+    attachable.variant :medium, resize_to_limit: [200, 200], preprocessed: true
+    attachable.variant :thumb, resize_to_limit: [60, 60], preprocessed: true
+  end
+  validates :photo, content_type: ['image/png', 'image/jpeg'], size: { less_than: 3.megabytes }, if: -> { photo.attached? }
 
   validates :email, presence: true, uniqueness: true, length: { maximum: 255 }
   validate :validate_guarantors
