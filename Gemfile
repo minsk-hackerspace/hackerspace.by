@@ -48,6 +48,10 @@ gem 'domain_name'
 # gem 'capistrano-rails', group: :development
 
 gem 'paperclip'
+
+gem 'active_storage_validations'
+gem "image_processing", "~> 1.2"
+
 gem 'responders'
 gem 'sanitize'
 gem 'redcarpet'

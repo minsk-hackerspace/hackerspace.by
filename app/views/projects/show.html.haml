@@ -6,7 +6,7 @@
     = "Статус: #{@project.project_status}"
   .lead
     = markup2html @project.short_desc, @project.markup_type
-    =image_tag @project.photo.url(:original), class: 'center-block img-fluid'
+    =image_tag @project.photo.variant(:original), class: 'center-block img-fluid'
 
 .row
   = markup2html @project.full_desc, @project.markup_type

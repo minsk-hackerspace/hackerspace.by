@@ -5,7 +5,7 @@
       = news.title
     %p
       = link_to(url, target: '_blank', rel: 'no-follow', title: strip_tags(news.short_desc)) do
-        = image_tag(image_path(news.photo.url(:thumb)), class: "img-fluid center",
+        = image_tag(news.photo.variant(resize_to_limit: [200, 200]), class: "img-fluid center",
           style: "float:left", alt: strip_tags(news.short_desc) )
     %p
       = news.short_desc.html_safe

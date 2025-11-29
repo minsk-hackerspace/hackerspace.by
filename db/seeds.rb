@@ -89,6 +89,16 @@ unless Rails.env.production?
                  photo: File.open(Dir['public/images/*.jpg'].sample))
   end
 
+  7.times do
+    Thank.create!(name: Faker::Commerce.product_name,
+                  short_desc: Faker::Lorem.paragraph(sentence_count: rand(5..12)),
+                  full_desc: Faker::Lorem.paragraph(sentence_count: rand(7..20)),
+                  user: User.all.sample,
+                  public: true,
+                  markup_type: 'html',
+                  photo: File.open(Dir['public/images/*.jpg'].sample))
+  end
+
   Device.create(name: 'device1', password: '111111')
   Device.create(name: 'device2', password: '111111')
 

@@ -38,7 +38,8 @@ module ApplicationHelper
 
   def og_page_image
     if action_name == 'show' && og_dynamic_pages_map.keys.include?(controller_name)
-      image_url(instance_variable_get("@#{controller_name.singularize}")&.send(:photo)&.url(:original))
+      # image_url(instance_variable_get("@#{controller_name.singularize}")&.send(:photo)&.url(:original))
+      image_url(url_for(instance_variable_get("@#{controller_name.singularize}")&.send(:photo)&.variant(:original)))
     else
       image_url('/images/logo_site.svg')
     end
