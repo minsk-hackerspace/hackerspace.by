@@ -22,6 +22,7 @@
 /.idea
 *.swp
 .DS_Store
+storage/
 
 /public/system
 
