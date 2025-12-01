@@ -86,7 +86,8 @@ task :deploy do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
-    command "ln -s #{fetch(:shared_path)}/system/ #{fetch(:current_path)}/public/system"
+    command "rm -rf ./public/system/"
+    command "ln -s #{fetch(:shared_path)}/system ./public/system"
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
