@@ -124,6 +124,7 @@ class User < ApplicationRecord
   belongs_to :guarantor1, class_name: 'User', optional: true
   belongs_to :guarantor2, class_name: 'User', optional: true
 
+  # TODO remove after ActiveStorage data migration
   has_attached_file :photo,
                     styles: {
                       original: '600x600>',
@@ -135,6 +136,14 @@ class User < ApplicationRecord
   validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}
   validates_attachment :photo
   # , size: { in: 0..3.megabytes }
+
+  # TODO uncomment after ActiveStorage data migration
+  # has_one_attached :photo do |attachable|
+  #   attachable.variant :original, resize_to_limit: [600, 600], preprocessed: true
+  #   attachable.variant :medium, resize_to_limit: [200, 200], preprocessed: true
+  #   attachable.variant :thumb, resize_to_limit: [60, 60], preprocessed: true
+  # end
+  # validates :photo, content_type: ['image/png', 'image/jpeg'], size: { less_than: 3.megabytes }, if: -> { photo.attached? }
 
   validates :email, presence: true, uniqueness: true, length: { maximum: 255 }
   validate :validate_guarantors
@@ -208,12 +217,11 @@ class User < ApplicationRecord
   end
 
   def avatar_url(style)
-    if photo?
-      photo.url(style)
+    if photo.present?
+      photo.variant(style)
     else
       hash = Digest::MD5.hexdigest(email.to_s.downcase)
-      geometry = User.new.photo.styles[style].try(:geometry)
-      size = geometry ? geometry.split('x').first : ''
+      size =  style == :thumb ? '60' : '200'
 
       "https://gravatar.com/avatar/#{hash}?d=robohash&size=#{size}"
     end

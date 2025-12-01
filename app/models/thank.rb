@@ -29,6 +29,7 @@ class Thank < ApplicationRecord
 
   belongs_to :user
 
+  # TODO remove after ActiveStorage data migration
   has_attached_file :photo,
                     styles: {
                       original: '600x600>',
@@ -38,7 +39,17 @@ class Thank < ApplicationRecord
                     default_url: 'default.png'
 
   validates_attachment_content_type :photo, content_type: %r{\Aimage/.*\Z}
-  validates_attachment :photo, presence: true, size: { in: 0..3.megabytes }
+  validates_attachment :photo, presence: true
+  #, size: { in: 0..3.megabytes }
+
+  # TODO uncomment after ActiveStorage data migration
+  # has_one_attached :photo do |attachable|
+  #   attachable.variant :original, resize_to_limit: [600, 600], preprocessed: true
+  #   attachable.variant :medium, resize_to_limit: [400, 400], preprocessed: true
+  #   attachable.variant :thumb, resize_to_limit: [200, 200], preprocessed: true
+  # end
+  # validates :photo, content_type: ['image/png', 'image/jpeg'],  if: -> { photo.attached? }
+
 
   validates :name, uniqueness: true
   validates :name, :short_desc, presence: true
