@@ -86,6 +86,7 @@ task :deploy do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
+    command "ln -s #{fetch(:shared_path)}/system/ #{fetch(:current_path)}/public/system"
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
@@ -97,7 +98,7 @@ task :deploy do
       # command "cp -f #{fetch(:current_path)}/config/services/* /home/#{fetch(:user)}/.config/systemd/user"
       # command %{systemctl --user start gollum}
       # command "rm -rf #{fetch(:current_path)}/public/system/"
-      command "ln -s #{fetch(:shared_path)}/system/ #{fetch(:current_path)}/public/system"
+
       invoke :'whenever:update'
       invoke :restart
     end
