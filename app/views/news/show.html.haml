@@ -3,7 +3,11 @@
 
 .row
   .col-lg-12
-    = image_tag @news.photo.variant(resize_to_limit: [200, 200]), class: 'float-start news img-fluid'
+    - if @news.photo.attached?
+      = image_tag(@news.photo.variant(resize_to_limit: [200, 200]), class: 'float-start news img-fluid')
+    - else
+      = image_tag(image_url('/images/default.png'), class: 'float-start news img-fluid')
+
     %i= I18n.l(@news.created_at, format: :long)
     = markup2html @news.description, @news.markup_type
 
