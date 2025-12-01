@@ -47,8 +47,6 @@ gem 'domain_name'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'paperclip'
-
 gem 'active_storage_validations'
 gem "image_processing", "~> 1.2"
 
