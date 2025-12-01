@@ -283,6 +283,7 @@ GEM
     net-smtp (0.5.1)
       net-protocol
     netrc (0.11.0)
+    newrelic_rpm (9.23.0)
     next_rails (1.4.6)
       rainbow (>= 3)
     nio4r (2.7.5)
@@ -568,6 +569,7 @@ DEPENDENCIES
   letter_opener
   listen
   mina (~> 1.2)
+  newrelic_rpm
   next_rails
   paperclip
   pg
