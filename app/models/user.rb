@@ -214,6 +214,10 @@ class User < ApplicationRecord
     end
   end
 
+  def telegram_username_link
+    "https://t.me/#{telegram_username}"
+  end
+
   def monthly_payment_amount
     s = tariff&.monthly_price
     s.nil? ? 0 : s

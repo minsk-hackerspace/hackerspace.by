@@ -74,6 +74,14 @@ describe User, type: :model  do
     end
   end
 
+  describe '.telegram_username_link' do
+    let(:user) { create :user, telegram_username: "@test" }
+    it 'should not to include @' do
+      user.validate
+      expect(user.telegram_username_link).to eq("https://t.me/#{user.telegram_username}")
+    end
+  end
+
   describe '#last_payment' do
     let(:user) { create :user }
     let!(:first_payment) { create :payment, paid_at: DateTime.parse('12:00 21-05-2018'), user: user }

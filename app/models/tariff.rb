@@ -34,6 +34,6 @@ class Tariff < ApplicationRecord
   end
 
   def self.default_tariff
-    Tariff.find_by(ref_name: 'full')
+    @@default_tariff ||= Tariff.find_by(ref_name: 'full')
   end
 end

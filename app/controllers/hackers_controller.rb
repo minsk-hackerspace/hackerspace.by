@@ -6,7 +6,7 @@ class HackersController < ApplicationController
 
   def index
     @active_users = ActiveUsersQuery.perform(index_params)
-    @non_active_users = User.where.not(id: @active_users.map(&:id))
+    @non_active_users = User.includes(:payments, :tariff).where.not(id: @active_users.map(&:id))
     respond_to do |format|
       format.html
       format.csv do
