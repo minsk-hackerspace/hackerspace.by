@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 if ENV['simplecov'] == 'true'
   SimpleCov.start 'rails'
 end
