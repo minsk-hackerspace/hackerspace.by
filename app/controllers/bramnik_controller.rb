@@ -4,7 +4,7 @@ class BramnikController < ActionController::API
   before_action :authenticate_token!
 
   def index
-    @users = User.all.map do |u|
+    @users = User.includes(:nfc_keys, :tariff).all.map do |u|
       { id: u.id, name: u.full_name, paid_until: u.paid_until, access_allowed: u.access_allowed?,
         nfc_keys: u.nfc_keys.pluck(:body) }
     end
