@@ -1,12 +1,7 @@
-if ENV['simplecov'] == 'true'
-  require 'simplecov'
-  SimpleCov.start 'rails'
+require 'spec_helper'
 
-  require 'simplecov-cobertura'
-  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-    SimpleCov::Formatter::CoberturaFormatter,
-    SimpleCov::Formatter::HTMLFormatter
-  ])
+if ENV['simplecov'] == 'true'
+  SimpleCov.start 'rails'
 end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
@@ -16,7 +11,6 @@ require_relative '../config/environment'
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 
 require 'rspec/rails'
-require 'spec_helper'
 require 'devise'
 require 'shoulda/matchers'
 require 'factory_bot_rails'
