@@ -28,6 +28,7 @@ set :shared_files, fetch(:shared_files, []).push(
   'config/database.yml', 'config/secrets.yml', 'config/credentials.yml.enc', 'config/master.key', 'config/newrelic.yml'
 )
 set :shared_dirs, fetch(:shared_dirs, []).push('log', 'storage')
+set :keep_releases, 10
 
 # Optional settings:
 #   set :forward_agent, true     # SSH forward_agent.
