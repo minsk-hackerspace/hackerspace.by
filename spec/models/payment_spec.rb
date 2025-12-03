@@ -56,8 +56,8 @@ RSpec.describe Payment, type: :model do
   end
 
   describe ".user_ids" do
-    let!(:user) { create :user}
-    let!(:user2) { create :user}
+    let!(:user) { create :user }
+    let!(:user2) { create :user }
 
     before do
       create(:payment, user: user)
@@ -66,7 +66,7 @@ RSpec.describe Payment, type: :model do
       create(:payment)
     end
 
-    xit 'return uniq array of ids' do
+    it 'return uniq array of ids' do
       expect(Payment.user_ids).to eq([user.id, user2.id])
     end
   end
@@ -75,12 +75,51 @@ RSpec.describe Payment, type: :model do
     let(:suspended_user) { create :user, :suspended }
 
     it 'does unsuspend user' do
-      expect{create(:payment, user: suspended_user)}.to change{suspended_user.account_suspended}.from(true).to(false)
+      expect { create(:payment, user: suspended_user) }.to change { suspended_user.account_suspended }.from(true).to(false)
     end
 
     it 'does NOT unsuspend banned user' do
       suspended_user.account_banned = true
-      expect{create(:payment, user: suspended_user)}.to_not change{suspended_user.account_suspended}
+      expect { create(:payment, user: suspended_user) }.to_not change { suspended_user.account_suspended }
+    end
+  end
+
+  describe '.set_paid_until_to_user' do
+    let(:user) { create :user, paid_until: nil }
+    let(:payment) { create(:payment, user: user) }
+
+    context 'with user' do
+      it 'sets payment end_date to user.paid_until' do
+        payment = create(:payment, user: user)
+
+        expect(payment.end_date).to eq(user.paid_until)
+      end
+
+      it 'sets payment end_date to user.paid_until instead of default nil value' do
+        user = create :user, paid_until: nil
+        payment = build(:payment, user: user)
+
+        expect(user.paid_until).to eq(nil)
+        expect { payment.save }.to change { user.paid_until }.from(nil).to(payment.end_date)
+      end
+
+      it 'sets latest payment end_date to user.paid_until' do
+        payment2 = create(:payment, user: user, end_date: Time.now + 1.days )
+        payment3 = create(:payment, user: user, end_date: Time.now + 300.days )
+
+        expect(user.paid_until).to eq(payment3.end_date)
+        expect(user.paid_until).to_not eq(payment2.end_date)
+      end
+    end
+
+    context 'without user' do
+      it 'does not set payment end_date to user.paid_until' do
+        payment = build(:payment, user: nil)
+        expect(payment).to_not receive(:set_paid_until_to_user)
+        payment.save
+
+        expect(payment.reload.user&.paid_until).to eq(nil)
+      end
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_29_143416) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_03_100233) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.integer "blob_id", null: false
     t.datetime "created_at", precision: nil, null: false
@@ -246,6 +246,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_143416) do
     t.datetime "last_seen_in_hackerspace", precision: nil
     t.datetime "last_sign_in_at", precision: nil
     t.string "last_sign_in_ip"
+    t.date "paid_until"
     t.string "photo_content_type"
     t.string "photo_file_name"
     t.integer "photo_file_size"
