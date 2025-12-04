@@ -43,6 +43,7 @@ class Payment < ApplicationRecord
   validates :description, presence: true, if: proc { |p| p.payment_form == 'natural' }
 
   after_save :set_user_as_unsuspended
+  after_commit :set_paid_until_to_user, if: :user_id?
 
   def self.user_ids
     distinct.pluck(:user_id).compact
@@ -79,5 +80,9 @@ class Payment < ApplicationRecord
 
     # Unsuspend user if he paid for more than two weeks (by one or more transactions.)
     user.unsuspend! if end_date - start_date + 1 >= PAID_DAYS_FOR_UNSUSPEND
+  end
+
+  def set_paid_until_to_user
+    user.update_columns(paid_until: end_date)
   end
 end

@@ -21,6 +21,7 @@
 #  last_seen_in_hackerspace :datetime
 #  last_sign_in_at          :datetime
 #  last_sign_in_ip          :string
+#  paid_until               :date
 #  photo_content_type       :string
 #  photo_file_name          :string
 #  photo_file_size          :integer
@@ -183,11 +184,6 @@ class User < ApplicationRecord
 
   def first_payment_after_last_suspend
     payments.where('start_date >= ?', suspended_changed_at.to_date).order(start_date: :asc).first
-  end
-
-  # last day with valid payment for this user
-  def paid_until
-    last_payment&.end_date
   end
 
   def full_name
