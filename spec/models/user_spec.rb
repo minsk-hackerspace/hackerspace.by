@@ -233,4 +233,49 @@ describe User, type: :model  do
       end
     end
   end
+
+  describe '#update_bepaid_bill' do
+    let(:user) { create :user }
+    let(:tariff) { create :tariff }
+
+    it 'invokes update_bepaid_bill on create' do
+      new_user = build :user
+      expect(new_user).to receive(:update_bepaid_bill)
+      new_user.save
+    end
+
+    describe "on update" do
+      context 'when tariff was changed ' do
+        it 'invokes update_bepaid_bill' do
+          user.tariff_id = tariff.id
+
+          expect(user).to receive(:update_bepaid_bill)
+          user.save
+        end
+      end
+
+      context 'when tariff was not changed ' do
+        it 'not invokes update_bepaid_bill' do
+          expect(user).to_not receive(:update_bepaid_bill)
+          user.save
+        end
+      end
+
+      context 'when account_banned was changed ' do
+        it 'invokes update_bepaid_bill' do
+          user.account_banned = true
+
+          expect(user).to receive(:update_bepaid_bill)
+          user.save
+        end
+      end
+
+      context 'when account_banned was not changed ' do
+        it 'not invokes update_bepaid_bill' do
+          expect(user).to_not receive(:update_bepaid_bill)
+          user.save
+        end
+      end
+    end
+  end
 end

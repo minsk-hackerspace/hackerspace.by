@@ -150,13 +150,15 @@ class User < ApplicationRecord
       .where('suspended_changed_at > ?', Time.now - 1.day)
   }
 
-  after_save :update_bepaid_bill, :set_as_suspended
+  after_save :set_as_suspended
   before_save :set_tariff_changed_at
   before_validation :normalize_tg_nickname
   after_initialize :set_default_tariff, if: :new_record?
   after_initialize :set_password, if: :new_record?
   validate :tariff_changes, on: :update
 
+  after_create :update_bepaid_bill
+  after_update :update_bepaid_bill, if: -> { tariff_id_previously_changed? || account_banned_previously_changed? }
   attr_accessor :updating_by
 
   # Return all users with fee expires after provided duration
