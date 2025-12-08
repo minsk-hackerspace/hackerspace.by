@@ -577,7 +577,6 @@ DEPENDENCIES
   next_rails
   pg
   pry
-  psych (~> 5.2)
   puma
   rack-proxy
   rails (~> 8.1.1)

@@ -65,7 +65,6 @@ gem 'font-awesome-rails'
 
 gem 'telegram-bot-ruby'
 
-gem 'psych', '~> 5.2'
 gem 'csv'
 
 gem 'newrelic_rpm'
