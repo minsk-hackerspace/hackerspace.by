@@ -74,8 +74,8 @@ Rails.application.configure do
     port: 465,
     domain: 'hackerspace.by',
 #    authentication: 'plain',
-    enable_starttls_auto: true,
-    tls: true
+    enable_starttls_auto: true
+    # tls: true
   }
   config.action_mailer.default_url_options = { :host => 'hackerspace.by' }
 
