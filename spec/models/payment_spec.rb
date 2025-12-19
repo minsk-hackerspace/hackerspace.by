@@ -122,4 +122,43 @@ RSpec.describe Payment, type: :model do
       end
     end
   end
+
+  describe ".set_user_as_unsuspended" do
+    let(:user) { create :user, paid_until: nil }
+    let(:payment_1) { create(:payment, user: user, start_date: Time.now - 50.days, end_date: Time.now - 30.days) }
+
+    before do
+      allow(Setting).to receive(:[]).with('tgToken').and_return('fake_token')
+      allow(Setting).to receive(:[]).with('tgChatIds').and_return('12345 67890')
+      allow(Setting).to receive(:[]).with('mailer_from').and_return('info@hackerspace.by')
+      allow(Setting).to receive(:[]).with('mailer_user').and_return(nil)
+    end
+
+    it 'sets user as unsuspended' do
+      user
+      payment_1
+      user.suspend!
+
+      payment_2 = build(:payment, user: user)
+
+      expect { payment_2.save }.to change { user.account_suspended }.from(true).to(false)
+      expect(user.paid_until).to eq(payment_2.end_date)
+    end
+
+    it 'sets user as unsuspended with notification and correct paid_until date' do
+      user
+      payment_1
+      user.suspend!
+
+      payment_2 = build(:payment, user: user)
+
+      expect(NotificationsMailer).to receive(:with).with(user: user)
+      expect(TelegramNotifier).to receive(:new)
+
+      payment_2.save
+
+      expect(user.paid_until).to eq(payment_2.end_date)
+      expect(user.paid_until).to_not eq(payment_1.end_date)
+    end
+  end
 end
