@@ -42,8 +42,8 @@ class Payment < ApplicationRecord
   validates :end_date, presence: true, if: proc { |p| p.payment_type == 'membership' }
   validates :description, presence: true, if: proc { |p| p.payment_form == 'natural' }
 
-  after_save :set_user_as_unsuspended
   after_commit :set_paid_until_to_user, if: :user_id?
+  after_commit :set_user_as_unsuspended
 
   def self.user_ids
     distinct.pluck(:user_id).compact
