@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe HackersHelper, type: :helper do
   let(:hacker) { create :user }
 
-  describe ".row_class" do
+  describe "#row_class" do
     context 'without payment' do
       let(:user) { create :user }
 

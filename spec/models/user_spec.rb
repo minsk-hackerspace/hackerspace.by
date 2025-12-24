@@ -55,9 +55,9 @@
 require 'rails_helper'
 
 describe User, type: :model  do
-  describe "relations and validations" do
-    let(:user) { create :user }
+  let(:user) { create :user }
 
+  describe "relations and validations" do
     it { should validate_presence_of(:email) }
     it { should validate_length_of(:email).is_at_most(255) }
 
@@ -83,7 +83,6 @@ describe User, type: :model  do
   end
 
   describe '#last_payment' do
-    let(:user) { create :user }
     let!(:first_payment) { create :payment, paid_at: DateTime.parse('12:00 21-05-2018'), user: user }
     let!(:second_payment) { create :payment, paid_at: DateTime.parse('13:00 21-06-2018'), user: user }
 
@@ -179,7 +178,6 @@ describe User, type: :model  do
   end
 
   describe "tariff changes logic" do
-    let(:user) { create :user }
     let(:admin) { create :admin_user }
     let(:tariff) { create :tariff }
 
@@ -275,6 +273,34 @@ describe User, type: :model  do
           expect(user).to_not receive(:update_bepaid_bill)
           user.save
         end
+      end
+    end
+  end
+
+  describe '#avatar_url' do
+    it 'returns default thumb avatar_url' do
+      expect(user.avatar_url(:thumb)).to match("https:\/\/gravatar.com\/avatar\/.*?d=robohash&size=60")
+    end
+
+    it 'returns default medium avatar_url' do
+      expect(user.avatar_url(:medium)).to match("https:\/\/gravatar.com\/avatar\/.*?d=robohash&size=200")
+    end
+
+    context 'with uploaded photo' do
+      before do
+        user.photo.attach(
+          io: File.open(Rails.root.join("spec/support/image.jpg")),
+          filename: "avatar.png",
+          content_type: "image/png"
+        )
+      end
+
+      it 'returns variant object with photo' do
+        avatar_url = user.avatar_url(:thumb)
+
+        expect(avatar_url.filename.to_s).to eq(user.photo.variant(:thumb).filename.to_s)
+        expect(avatar_url.variation.transformations).to eq(user.photo.variant(:thumb).variation.transformations)
+        expect(avatar_url).to be_a(ActiveStorage::VariantWithRecord)
       end
     end
   end
