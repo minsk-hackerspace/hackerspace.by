@@ -35,7 +35,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'cancancan'
 gem 'devise'
 gem 'devise-i18n'
-gem 'bootstrap', '~> 5.1.0'
+gem 'bootstrap', '~> 5.3.3'
 gem 'haml'
 gem 'haml-rails'
 gem 'rest-client'
