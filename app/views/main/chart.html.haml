@@ -9,9 +9,13 @@
 = column_chart @paid_users
 
 %hr
-= link_to 'За месяц', chart_path(start: Time.now - 1.month, end: Time.now), class: 'btn btn-info'
-= link_to 'За три месяца', chart_path(start: Time.now - 3.month, end: Time.now), class: 'btn btn-info'
-= link_to 'За все время', chart_path, class: 'btn btn-info'
+= link_to 'За 1 месяц', chart_path(start: Time.now - 1.month, end: Time.now, range: '1month'), class: 'btn ' + (params[:range] == '1month' ? 'btn-success':'btn-info ')
+= link_to 'За 3 месяца', chart_path(start: Time.now - 3.month, end: Time.now, range: '3months'), class: 'btn ' + (params[:range] == '3months' ? 'btn-success':'btn-info ')
+= link_to 'За 6 месяцев', chart_path(start: Time.now - 6.month, end: Time.now, range: '6months'), class: 'btn ' + (params[:range] == '6months' ? 'btn-success':'btn-info ')
+= link_to 'За 1 год', chart_path(start: Time.now - 12.month, end: Time.now, range: '1year'), class: 'btn ' + (params[:range] == '1year' ? 'btn-success':'btn-info')
+= link_to 'За 3 года', chart_path(start: Time.now - 36.month, end: Time.now, range: '3years'), class: 'btn ' + (params[:range] == '3years' ? 'btn-success':'btn-info')
+= link_to 'За 5 лет', chart_path(start: Time.now - 60.month, end: Time.now, range: '5years'), class: 'btn ' + (params[:range] == '5years' ? 'btn-success':'btn-info')
+= link_to 'За все время', chart_path(range: 'All'), class: 'btn ' + (params[:range] == 'All' ? 'btn-success':'btn-info')
 
 %h2.mt-3#expenses Список расходов
 
