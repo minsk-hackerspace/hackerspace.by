@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe HackersController, type: :controller do
   let(:user) { FactoryBot.create(:user) }
+  let(:mac) { create :mac }
 
   context 'Logged in user' do
     before do
@@ -57,8 +58,6 @@ RSpec.describe HackersController, type: :controller do
     end
 
     describe "DELETE #remove_mac" do
-      let(:mac) { create :mac }
-
       before do
         user.macs << mac
       end
@@ -81,8 +80,6 @@ RSpec.describe HackersController, type: :controller do
     end
 
     describe "GET #find_by_mac" do
-      let(:mac) { create :mac }
-
       before do
         user.macs << mac
       end
@@ -95,6 +92,22 @@ RSpec.describe HackersController, type: :controller do
       it "returns redirect to edit user page" do
         process :find_by_mac, params: { mac: mac.address }
         expect(response).to have_http_status(:success)
+      end
+    end
+
+    describe "POST #detected_at_hackerspace" do
+      let(:user) { create :user, macs: [mac] }
+
+      it "returns success" do
+        process :detected_at_hackerspace, params: { id: user.id, mac: user.macs.first.address }, method: :post
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns not found when mac address is wrong" do
+        process :detected_at_hackerspace, params: { id: user.id }, method: :post
+
+        expect(response).to have_http_status(:not_found)
       end
     end
   end
@@ -136,12 +149,18 @@ RSpec.describe HackersController, type: :controller do
     end
 
     describe "DELETE #remove_mac" do
-      let(:mac) { create :mac }
-
       it "returns redirect to edit user page" do
         process :remove_mac, params: {id: user.id, mac_id: mac.id}
 
         expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    describe "POST #detected_at_hackerspace" do
+      it "returns not found" do
+        process :detected_at_hackerspace, params: { }, method: :post
+
+        expect(response).to have_http_status(:not_found)
       end
     end
 
