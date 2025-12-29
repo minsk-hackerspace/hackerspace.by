@@ -66,6 +66,18 @@ describe MainController, type: :controller do
 
         expect(response).to be_successful
       end
+
+      it "returns http success for default chart range" do
+        get :chart
+
+        expect(response).to be_successful
+      end
+
+      it "returns http success for 'All' range" do
+        get :chart, params: { range: 'All' }
+
+        expect(response).to be_successful
+      end
     end
 
     describe "GET 'spaceapi'" do

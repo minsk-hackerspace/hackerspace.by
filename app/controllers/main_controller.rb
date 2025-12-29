@@ -19,9 +19,17 @@ class MainController < ApplicationController
   def contacts; end
 
   def chart
-    start_date = params[:start].try(:to_date) || Balance.first&.created_at&.to_date || Date.new(2017, 1, 1)
+    # Default date range: last 6 months.
+    start_date = if params[:range] == 'All'
+                   Date.new(2017, 1, 1)
+                 elsif params[:start].present?
+                   params[:start].try(:to_date)
+                 else
+                   (Time.now - 6.months).to_date
+                 end
     end_date = params[:end].try(:to_date) || Time.now.to_date
     end_date += 1.day - 1.second
+    params[:range] = '6months' if params[:range].blank?
 
     @graph = Balance.graph(start_date, end_date)
 
