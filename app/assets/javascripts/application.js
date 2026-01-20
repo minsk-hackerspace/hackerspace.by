@@ -10,8 +10,8 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require Chart.bundle
 //= require chartkick
+//= require Chart.bundle
 //= require jquery3
 //= require rails-ujs
 //= require popper

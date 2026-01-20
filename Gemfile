@@ -6,9 +6,12 @@ gem 'rails', '~> 8.1.2'
 gem 'rails-i18n'
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma'
-# Use SCSS for stylesheets
-gem 'sassc-rails'
-gem 'sassc'#, '= 2.1.0'
+# # Use SCSS for stylesheets
+gem "dartsass-sprockets"
+
+# TODO migrate to 'propshaft'
+# gem "propshaft"
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
 # Use CoffeeScript for .coffee assets and views
