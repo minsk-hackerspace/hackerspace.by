@@ -25,6 +25,7 @@
   .form-group.mandatory
     = f.label 'Изображение, до 3 МБ'
     = f.file_field :photo
+  = render partial: 'shared/photo_preview', locals: { form_object: @thank }
 
   .form-group
     = f.submit 'Сохранить', class: 'btn btn-primary'

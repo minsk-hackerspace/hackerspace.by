@@ -66,6 +66,18 @@ img.no-shadow {
   border-radius: 0px;
 }
 
+.image {
+  width: 400px;
+  height: auto;
+}
+
+.image-container {
+  width: 400px;
+  height: auto;
+  background-image: url("image-placeholder.svg");
+  background-repeat: no-repeat;
+}
+
 .hsopen-unknown {
   box-shadow: 0px 0px 6px 3px grey;
 }

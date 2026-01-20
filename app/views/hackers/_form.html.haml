@@ -23,6 +23,7 @@
       .form-group.mandatory
         = f.label :photo, 'Изображение, до 3 МБ'
         = f.file_field :photo
+      = render partial: 'shared/photo_preview', locals: { form_object: @user }
 
       .form-group
         = f.label 'Рекомендатели:'

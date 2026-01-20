@@ -1,0 +1,5 @@
+%div.image-container
+  - if form_object.photo.attached?
+    = image_tag form_object.photo, data: { previews_target: "preview" }, class: "image"
+  - else
+    = image_tag "", data: { previews_target: "preview" }, class: "image"
