@@ -77,7 +77,7 @@ module Admin
          (transaction[:id].present? && EripTransaction.where(transaction_id: transaction[:id]).exists?)
 
         respond_to do |format|
-          format.json { render json: {}, status: :unprocessable_entity }
+          format.any { render json: {}, status: :unprocessable_entity }
         end
         return
       end
@@ -141,12 +141,12 @@ module Admin
 
       respond_to do |format|
         if @erip_transaction.save
-          format.json { render :show, status: :created, location: admin_erip_transaction_url(@erip_transaction) }
+          format.any { render :show, status: :created, location: admin_erip_transaction_url(@erip_transaction) }
           unless @erip_transaction.user.nil? || (@erip_transaction.status != 'successful')
             NotificationsMailer.with(transaction: @erip_transaction).notify_about_payment.deliver_later
           end
         else
-          format.json { render json: @erip_transaction.errors, status: :unprocessable_entity }
+          format.any { render json: @erip_transaction.errors, status: :unprocessable_entity }
         end
       end
     end
