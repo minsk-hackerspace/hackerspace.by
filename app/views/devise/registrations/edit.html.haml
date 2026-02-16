@@ -1,7 +1,7 @@
 %h2
   Изменить профиль #{current_user.email}
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-  = devise_error_messages!
+  = render "devise/shared/error_messages", resource: resource
   .form-group
     = f.label :email
     %br/
@@ -14,6 +14,11 @@
     %i (оставьте пустым, если не хотите менять)
     %br/
     = f.password_field :password, autocomplete: "off", class: 'form-control'
+    - if @minimum_password_length
+      %p
+        %em
+          = @minimum_password_length
+          characters minimum
   .form-group
     = f.label :password_confirmation, 'Еще раз'
     %br/
