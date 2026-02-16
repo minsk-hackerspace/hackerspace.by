@@ -8,10 +8,10 @@
     = f.label :password
     = f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: 'Password'
     - if @minimum_password_length
-    %p
-      %em
-        = @minimum_password_length
-        characters minimum
+      %p
+        %em
+          = @minimum_password_length
+          characters minimum
   .form-group
     = f.label :password_confirmation
     = f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', placeholder: 'Password again'
