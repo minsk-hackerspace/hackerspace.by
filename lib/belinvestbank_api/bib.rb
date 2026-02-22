@@ -47,9 +47,12 @@ module BelinvestbankApi
 
       doc = Nokogiri::HTML(r.body)
 
-      keyLang = doc.css('script').find do |data|
-        Belinvestbankapi::Parse::keyLang(data)
-      end || ''
+      keyLang = ""
+      doc.css('script').each do |data|
+        if data.to_s =~ /keyLang":\[([^\]]+)/
+          keyLang = BelinvestbankApi::Parse::keyLang(data.to_s)
+        end
+      end
 
       begin
         r = query_login :post, '/signin', {login: @login_name, password: encode_password(@password, keyLang), typeSessionKey: 0}
