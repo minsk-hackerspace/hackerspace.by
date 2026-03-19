@@ -1,5 +1,5 @@
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version
-FROM ruby:3.4.7
+FROM ruby:3.4.9
 
 # Rails app lives here
 WORKDIR /rails
