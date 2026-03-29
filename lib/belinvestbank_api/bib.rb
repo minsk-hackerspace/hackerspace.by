@@ -65,7 +65,7 @@ module BelinvestbankApi
 
           if e.http_headers[:location] == '/signin'
             r = query_login :get, e.http_headers[:location]
-            raise e unless r.body.include?('showDialog')
+            raise e unless r.body.include?('confirmation_close_session')
             begin
               puts "Close old session"
               r = query_login :post, '/confirmationCloseSession'
