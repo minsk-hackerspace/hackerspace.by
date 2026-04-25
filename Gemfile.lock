@@ -170,7 +170,7 @@ GEM
       dry-inflector (~> 1.0)
       dry-logic (~> 1.4)
       zeitwerk (~> 2.6)
-    erb (6.0.2)
+    erb (6.0.4)
     erubi (1.13.1)
     eventmachine (1.2.7)
     execjs (2.10.0)
