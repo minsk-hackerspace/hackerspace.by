@@ -1,4 +1,4 @@
-# Make sure RUBY_VERSION matches the Ruby version in .ruby-version
+# Make sure RUBY_VERSION matches the one in Gemfile
 FROM ruby:3.4.9
 
 # Rails app lives here
