@@ -10,6 +10,7 @@ THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 KEYPATH="$THISDIR/deploy_key"
 
 echo [x] Setup SSH...
+mkdir -p ~/.ssh
 echo -e "Host hackerspace.by\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 echo Adding key to SSH agent...
 echo "$SSH_PRIVATE_KEY" > "$KEYPATH"
