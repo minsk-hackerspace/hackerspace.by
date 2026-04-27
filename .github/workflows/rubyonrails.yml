@@ -2,9 +2,7 @@
 # provided by a third-party and are governed by separate terms of service,
 # privacy policy, and support documentation.
 #
-# This workflow will install a prebuilt Ruby version, install dependencies, and
-# run tests and linters.
-name: "Ruby on Rails CI"
+name: "Lint & Test"
 on:
   push:
     branches: [ "master" ]

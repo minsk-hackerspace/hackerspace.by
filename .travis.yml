@@ -28,9 +28,9 @@ jobs:
         - bundle exec bundle-audit check --update
         - bundle exec brakeman -z
 
-    - stage: deploy
-      if: branch = master
-      script: skip
-      deploy:
-        - provider: script
-          script: .cicd/travis_deploy.sh
+#    - stage: deploy
+#      if: branch = master
+#      script: skip
+#      deploy:
+#        - provider: script
+#          script: .cicd/travis_deploy.sh
