@@ -3,6 +3,33 @@ require 'open3'
 
 class WgConfig < ApplicationRecord
 
+  DEFAULT_SETTINGS = {
+    'wgServerEndpoint' => {
+      description: 'WireGuard server endpoint (in format <IP>:<port>)',
+      value: 'localhost:1234'
+    },
+    'wgServerPublicKey' => {
+      description: 'WireGuard server public key',
+      value: ''
+    },
+    'wgFirstClientAddress' => {
+      description: 'WireGuard first client address',
+      value: '10.129.0.2'
+    },
+    'wgLastClientAddress' => {
+      description: 'WireGuard last client address',
+      value: '10.129.255.254'
+    },
+    'wgNetmask' => {
+      description: 'WireGuard netmask for virtual network',
+      value: '255.255.0.0'
+    },
+    'wgAllowedIPs' => {
+      description: 'WireGuard AllowedIPs client configuration parameter',
+      value: '10.129.0.0/16, 192.168.128.0/24'
+    }
+  }.freeze
+
   belongs_to :user
 
   validates :name, presence: true
@@ -11,6 +38,15 @@ class WgConfig < ApplicationRecord
   validates :name, uniqueness: { scope: :user_id }
 
   before_validation :generate_keys!, on: :create, if: -> { privatekey.blank? }
+
+  def self.ensure_default_settings!
+    DEFAULT_SETTINGS.each do |key, attributes|
+      Setting.find_or_create_by!(key: key) do |setting|
+        setting.description = attributes[:description]
+        setting.value = attributes[:value]
+      end
+    end
+  end
 
   def generate_keys!
     self.privatekey = gen_privatekey

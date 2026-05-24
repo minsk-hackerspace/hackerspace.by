@@ -10,41 +10,10 @@ class CreateWgConfigs < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    Setting.create(key: 'wgServerEndpoint',
-                   description: 'WireGuard server endpoint (in format <IP>:<port>)',
-                   value: 'localhost:1234')
-
-    Setting.create(key: 'wgServerPublicKey',
-                   description: 'WireGuard server public key',
-                   value: '')
-
-    Setting.create(key: 'wgFirstClientAddress',
-                   description: 'WireGuard first client address',
-                   value: '10.129.0.2')
-
-    Setting.create(key: 'wgLastClientAddress',
-                   description: 'WireGuard last client address',
-                   value: '10.129.255.254')
-
-    Setting.create(key: 'wgNetmask',
-                   description: 'WireGuard netmask for virtual network',
-                   value: '255.255.0.0')
-
-    Setting.create(key: 'wgAllowedIPs',
-                   description: 'WireGuard AllowedIPs client configuration parameter',
-                   value: '10.129.0.0/16, 192.168.128.0/24')
-
-    say 'Run `rails wg_configs:generate_defaults` after installing WireGuard tools to create per-user configs.'
+    say 'Run `rails wg_configs:ensure_settings wg_configs:generate_defaults` after installing WireGuard tools.'
   end
 
   def down
-    Setting.where(key: 'wgServerEndpoint').delete_all
-    Setting.where(key: 'wgServerPublicKey').delete_all
-    Setting.where(key: 'wgFirstClientAddress').delete_all
-    Setting.where(key: 'wgLastClientAddress').delete_all
-    Setting.where(key: 'wgNetmask').delete_all
-    Setting.where(key: 'wgAllowedIPs').delete_all
-
     drop_table :wg_configs
   end
 end
