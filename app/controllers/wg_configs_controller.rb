@@ -8,6 +8,10 @@ class WgConfigsController < ApplicationController
     @wgconfig = @user.wg_configs.new(wg_config_params)
 
     if @wgconfig.save
+      return send_data @wgconfig.to_s,
+        filename: "wg-hackerspace-#{@wgconfig.name}.conf",
+        type: "text/plain" if @wgconfig.privatekey.present?
+
       redirect_to edit_user_path(@user, anchor: 'wg-configs'), notice: "Конфигурация WireGuard создана успешно"
     else
       redirect_to edit_user_path(@user),
@@ -25,7 +29,7 @@ class WgConfigsController < ApplicationController
     wg = @user.wg_configs.find_by(id: params[:id])
 
     if wg
-      send_data wg.to_s, filename: "wg-hackerspace-#{wg.name}.conf", type: "text/plain"
+      redirect_to user_path(@user), alert: "Приватный ключ WireGuard не хранится на сервере. Создайте новую конфигурацию, чтобы скачать клиентский файл."
     else
       redirect_to user_path(@user), alert: "Конфигурация WireGuard не найдена"
     end
@@ -50,7 +54,8 @@ class WgConfigsController < ApplicationController
 
   def wg_config_params
     params.require(:wg_config).permit(
-      :name
+      :name,
+      :publickey
     )
   end
 

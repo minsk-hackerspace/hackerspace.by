@@ -281,7 +281,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_03_100233) do
   create_table "wg_configs", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name", null: false
-    t.string "privatekey", null: false
     t.string "publickey", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"

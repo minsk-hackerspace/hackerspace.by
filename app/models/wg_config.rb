@@ -2,6 +2,7 @@ require 'ipaddr'
 require 'open3'
 
 class WgConfig < ApplicationRecord
+  attr_reader :privatekey
 
   DEFAULT_SETTINGS = {
     'wgServerEndpoint' => {
@@ -33,11 +34,10 @@ class WgConfig < ApplicationRecord
   belongs_to :user
 
   validates :name, presence: true
-  validates :privatekey, presence: true
   validates :publickey, presence: true
   validates :name, uniqueness: { scope: :user_id }
 
-  before_validation :generate_keys!, on: :create, if: -> { privatekey.blank? }
+  before_validation :generate_keys!, on: :create, if: -> { publickey.blank? }
 
   def self.ensure_default_settings!
     DEFAULT_SETTINGS.each do |key, attributes|
@@ -49,8 +49,7 @@ class WgConfig < ApplicationRecord
   end
 
   def generate_keys!
-    self.privatekey = gen_privatekey
-    self.publickey = gen_publickey(self.privatekey)
+    @privatekey, self.publickey = gen_keypair
   end
 
   def addresses(as_networks=true)
@@ -68,11 +67,13 @@ class WgConfig < ApplicationRecord
     "#{ip}/#{IPAddr.new(Setting['wgNetmask']).to_i.to_s(2).count('1')}"
   end
 
-  def to_s
+  def to_s(private_key = privatekey)
+    raise "WireGuard private key is not stored; generate a new client configuration" if private_key.blank?
+
     lines = []
     lines << "# WireGuard config #{name}"
     lines << '[Interface]'
-    lines << "PrivateKey = #{privatekey}"
+    lines << "PrivateKey = #{private_key}"
     lines << "Address = #{self.addresses}"
     lines << ''
     lines << '[Peer]'
@@ -95,22 +96,13 @@ class WgConfig < ApplicationRecord
 
   private
 
-  def gen_privatekey
-    key, status = Open3.capture2("wg", "genkey")
-    raise "Failed to generate WireGuard private key" unless status.success?
+  def gen_keypair
+    output, status = Open3.capture2(Rails.root.join('bin/wg-keypair').to_s)
+    raise "Failed to generate WireGuard key pair" unless status.success?
 
-    key.strip
-  end
+    private_key, public_key = output.lines.map(&:strip)
+    raise "Failed to generate WireGuard key pair" if private_key.blank? || public_key.blank?
 
-  def gen_publickey(private_key)
-    stdout_str = ''
-    Open3.popen2("wg", "pubkey") do |stdin, stdout, wait_thr|
-      stdin.print(private_key)
-      stdin.close
-      stdout_str = stdout.gets
-      raise "Failed to generate WireGuard public key" unless wait_thr.value.success?
-    end
-
-    stdout_str.strip
+    [private_key, public_key]
   end
 end

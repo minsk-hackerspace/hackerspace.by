@@ -83,5 +83,5 @@
         .wg_config.row
           .col-lg-3
             = wg.name
-          .col-lg-2
-            = link_to 'Скачать', user_wg_export_path(@user, wg), method: :post
+          .col-lg-7
+            %code= wg.publickey

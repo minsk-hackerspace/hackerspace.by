@@ -2,7 +2,6 @@ class CreateWgConfigs < ActiveRecord::Migration[7.0]
   def up
     create_table :wg_configs do |t|
       t.string :name, null: false
-      t.string :privatekey, null: false
       t.string :publickey, null: false
 
       t.belongs_to :user, foreign_key: true
