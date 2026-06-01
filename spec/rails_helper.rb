@@ -73,7 +73,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     # Skip Safeguards for /test and test.sqlite paths in DATABASE_URL
-    DatabaseCleaner.url_allowlist = [ %r{/test(\.sqlite3?)?$} ]
+    DatabaseCleaner.url_allowlist = [ %r{/test(\.sqlite3?)?$}, nil ]
 
     DatabaseCleaner.clean_with(:truncation)
   end
