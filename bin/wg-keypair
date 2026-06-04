@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+private_key="$(wg genkey)"
+public_key="$(printf '%s' "${private_key}" | wg pubkey)"
+
+printf '%s\n%s\n' "${private_key}" "${public_key}"
