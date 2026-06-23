@@ -120,7 +120,7 @@ GEM
     comma (4.9.0)
       activesupport (>= 4.2.0)
       csv (>= 3.3)
-    concurrent-ruby (1.3.6)
+    concurrent-ruby (1.3.7)
     connection_pool (3.0.2)
     crass (1.0.6)
     csv (3.3.5)
