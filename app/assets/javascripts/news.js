@@ -1,7 +1,7 @@
 document.addEventListener("turbolinks:load", () => {
 
   if ($('#news_markup_type').val() == "html")
-    TinyMCERails.initialize('default', {});
+    TinyMCERails.initialize('default', {license_key: 'gpl'});
 
   $('#news_markup_type').on("change", (e) => {
     var selector = e.target;
@@ -11,7 +11,7 @@ document.addEventListener("turbolinks:load", () => {
         tinymce.activeEditor.hide();
     } else {
       if (tinymce.get(0) == null)
-        TinyMCERails.initialize('default', {});
+        TinyMCERails.initialize('default', {license_key: 'gpl'});
 
       tinymce.activeEditor.show();
     }
