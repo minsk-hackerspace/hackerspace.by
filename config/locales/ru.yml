@@ -308,6 +308,7 @@ ru:
     telegram_username: Telegram
     github_username: Github
     public_ssh_keys: Public SSH keys
+    wg_configs: Конфигурации WireGuard
     last_payment_ended_at: Оплачено по
     last_seen_in_hackerspace: Видели в ХС
     learner: Курсант
