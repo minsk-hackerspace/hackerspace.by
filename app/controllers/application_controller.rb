@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
 
   before_action :set_default_request_format
 
+  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+
   def set_default_request_format
     request.format = :html unless params[:format]
   end
@@ -74,5 +76,11 @@ class ApplicationController < ActionController::Base
 
   def event_status
     @event.value == 'on' ? Hspace::OPENED : Hspace::CLOSED
+  end
+
+  protected
+
+  def render_not_found
+    render file: 'public/404.html', status: 404, layout: false
   end
 end
