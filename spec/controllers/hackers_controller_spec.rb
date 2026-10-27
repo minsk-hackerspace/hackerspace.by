@@ -63,7 +63,9 @@ RSpec.describe HackersController, type: :controller do
       end
 
       it 'returns 404 for wrong mac id' do
-        expect { process :remove_mac, params: {id: user.id, mac_id: 123334} }.to raise_error(ActiveRecord::RecordNotFound)
+        process :remove_mac, params: {id: user.id, mac_id: 123334}
+
+        expect(response).to have_http_status(:not_found)
       end
 
       it "returns redirect to edit user page" do
