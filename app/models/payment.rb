@@ -46,7 +46,7 @@ class Payment < ApplicationRecord
   after_commit :set_user_as_unsuspended
 
   def self.user_ids
-    distinct.pluck(:user_id).compact
+    where.not(user_id: nil).pluck(:user_id).to_set
   end
 
   private
