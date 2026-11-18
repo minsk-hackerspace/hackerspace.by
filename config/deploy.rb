@@ -1,9 +1,36 @@
-require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
 # require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
 require 'mina/rvm' # for rvm support. (http://rvm.io)
 require './config/deploy/mina-whenever/tasks.rb'
+
+# --- fix for bundler deprecations ---
+# https://github.com/mina-deploy/mina/issues/714
+#
+# The fix is to override `bundle:install` task with updated syntax.
+# The original task source is here:
+#
+# https://github.com/mina-deploy/mina/blob/dc9deda3d678eb4702bc020b1ddd5a7d3456834b/tasks/mina/bundler.rb
+
+# Clean up old task
+Rake::Task['bundle:install'].clear
+
+namespace :bundle do
+  # desc is for the task list `mina --tasks`
+  desc '(hack) Install gem dependencies using Bundler.'
+  task :install do
+    # comment is printed during task run
+    comment '(hack) Install gem dependencies using Bundler.'
+    # 'deployment' mode fails if lock file is out of sync and
+    # installs gems into local 'vendor/bundle'
+    command %(#{fetch(:bundle_bin)} config set --local deployment 'true')
+    command %(#{fetch(:bundle_bin)} config set --local without '#{fetch(:bundle_withouts)}')
+    command %(#{fetch(:bundle_bin)} config set --local path '#{fetch(:bundle_path)}')
+    command %(#{fetch(:bundle_bin)} install)
+  end
+end
+# /---
+
 
 # Basic settings:
 #   domain       - The hostname to SSH to.
