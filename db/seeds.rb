@@ -12,6 +12,8 @@ unless Rails.env.production?
   Setting.create(key: 'bib_password', value: '', description: 'Password for Belinvestbank')
   Setting.create(key: 'bramnikBotName', value: 'BramnikBot', description: 'Name of the Bramnik Telegram bot')
 
+  WgConfig.ensure_default_settings!
+
   remote_tariff = Tariff.create(
     ref_name: 'remote',
     name: 'Remote',
@@ -209,4 +211,3 @@ unless Rails.env.production?
   )
 
 end
-

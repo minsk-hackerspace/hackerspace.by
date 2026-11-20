@@ -54,6 +54,8 @@ class Ability
 
     can %i[ssh_keys detected_at_hackerspace find_by_mac useful], User
 
+    can [:export_peers], WgConfig
+
     if user.present?
       can :chart, :main
       can :image, :uploader
@@ -62,6 +64,7 @@ class Ability
       can :manage, Mac, user_id: user.id
       can :manage, NfcKey, user_id: user.id
       can :manage, PublicSshKey, user_id: user.id
+      can :manage, WgConfig, user_id: user.id
 
       can :read, Device
       can :add, Event
