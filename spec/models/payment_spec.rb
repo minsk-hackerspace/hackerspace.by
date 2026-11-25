@@ -66,8 +66,8 @@ RSpec.describe Payment, type: :model do
       create(:payment)
     end
 
-    it 'return uniq array of ids' do
-      expect(Payment.user_ids).to eq([user.id, user2.id])
+    it 'return uniq set of ids' do
+      expect(Payment.user_ids).to eq([user.id, user2.id].to_set)
     end
   end
 
